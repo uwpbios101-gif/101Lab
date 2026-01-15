@@ -609,13 +609,6 @@
 </head>
 
 <body>
-    <nav class="bios-nav">
-        <div class="bios-nav-inner">
-            <a href="../index.html" class="bios-home">BIOS101</a>
-            <button class="bios-toggle" aria-label="Toggle menu">☰</button>
-            <div class="bios-menus" id="biosMenus"></div>
-        </div>
-    </nav>
 
     <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 20px;">
         <h1>Metric Conversion Tool</h1>
@@ -1287,40 +1280,7 @@
             }
         }
     </script>
-    <script>
-        (function () {
-            function initNav() {
-                var labs = [{ "folder": "bios101-learning", "title": "Metacognition" }, { "folder": "01_Science_of_Biology", "title": "Scientific Process" }, { "folder": "02_Eukaryotes", "title": "Eukaryotes" }, { "folder": "03_Carbohydrates", "title": "Carbohydrates" }, { "folder": "04_Proteins", "title": "Proteins" }, { "folder": "05_Lipids", "title": "Lipids" }, { "folder": "06_Photosynthetic_Pigments", "title": "Photosynthesis" }, { "folder": "07_Nucleic Acids", "title": "Nucleic Acids" }, { "folder": "08_Mitosis", "title": "Mitosis" }, { "folder": "09_Meiosis", "title": "Meiosis" }, { "folder": "10_Genetics", "title": "Genetics" }];
-                var menus = document.getElementById('biosMenus');
-                var path = location.pathname;
-                if (!menus) return;
-                labs.forEach(function (lab) {
-                    var m = document.createElement('div');
-                    m.className = 'bios-menu';
-                    var b = document.createElement('button');
-                    b.className = 'bios-trigger';
-                    b.textContent = lab.title;
-                    if (path.indexOf(lab.folder) !== -1) b.classList.add('active');
-                    var d = document.createElement('div');
-                    d.className = 'bios-dropdown';
-                    var bp = '../../' + lab.folder;
-                    d.innerHTML = '<a href="' + bp + '/index.html">Overview</a><a href="' + bp + '/prelab/prelab.html">Pre-Lab</a><a href="' + bp + '/during_lab/in-lab.html">In-Lab</a><a href="' + bp + '/postlab/postlab.html">Post-Lab</a><a href="' + bp + '/advanced/optional.html">Optional</a>';
-                    m.appendChild(b);
-                    m.appendChild(d);
-                    menus.appendChild(m);
-                });
-                var t = document.querySelector('.bios-toggle');
-                if (t) t.onclick = function () {
-                    menus.classList.toggle('open');
-                };
-            }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initNav);
-            } else {
-                initNav();
-            }
-        })();
-    </script>
+
 </body>
 
 </html>
