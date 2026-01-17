@@ -193,14 +193,22 @@
             margin-top: 15px;
             padding-top: 15px;
             border-top: 2px solid var(--uwp-light-grey);
-            opacity: 0.3;
-            pointer-events: none;
-            transition: all 0.3s ease;
+        }
+
+        .question-body {
+            transition: opacity 0.3s ease;
         }
         
-        .question-content.unlocked {
+        .question-content:not(.unlocked) .question-body {
+            opacity: 0.6;
+            pointer-events: none;
+            filter: grayscale(80%);
+        }
+
+        .question-content.unlocked .question-body {
             opacity: 1;
             pointer-events: all;
+            filter: none;
         }
         
         .question-text {
@@ -254,84 +262,149 @@
             text-align: center;
             font-weight: 600;
         }
+
+        .wide-input {
+            flex: 1;
+            padding: 8px;
+        }
         
+        /* --- TRAIN TRACK SPECIFIC STYLES (IMPORTED) --- */
         .train-track-container {
             background: var(--uwp-cream);
-            padding: 15px;
+            padding: 20px;
             border-radius: 6px;
             margin-top: 15px;
             border: 2px solid var(--uwp-grey);
         }
-        
-        .train-track {
+
+        .step-label {
+            font-weight: bold;
+            color: var(--uw-blue);
+            margin: 15px 0 5px 0;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .train-track-model {
             display: flex;
             align-items: center;
-            gap: 5px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 10px 0;
+            overflow-x: auto;
+            padding: 10px 0;
+            transition: all 0.3s ease;
+            position: relative;
+            width: 100%;
         }
-        
-        .track-cell {
+
+        .cell {
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            min-width: 100px;
+            min-width: 140px;
+            position: relative;
+            transition: all 0.3s ease;
         }
-        
+
+        .track-line {
+            width: 100%;
+            height: 4px;
+            background-color: var(--uwp-black);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+        .cell:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--uwp-black);
+            z-index: 1;
+        }
+
+        .cell.no-border::after { display: none; }
+
         .numerator, .denominator {
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 8px;
-            gap: 4px;
-        }
-        
-        .fraction-bar {
+            align-items: center;
+            padding: 15px 10px;
+            z-index: 2;
+            height: 60px;
             width: 100%;
-            height: 2px;
-            background: #000;
-            margin: 2px 0;
         }
-        
+
         .unit-box {
-            padding: 4px 8px;
-            border: 2px solid var(--uwp-grey);
-            border-radius: 3px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-            background: white;
-            color: #000;
-        }
-        
-        .unit-box:hover {
-            background: var(--goldenrod);
-        }
-        
-        .unit-box.cancelled {
-            text-decoration: line-through;
-            text-decoration-thickness: 3px;
-            text-decoration-color: var(--danger);
-            opacity: 0.5;
-        }
-        
-        .equals {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin: 0 8px;
-            color: #000;
-        }
-        
-        .exponent-input {
-            width: 40px;
+            width: 60px;
             padding: 4px;
             text-align: center;
             border: 2px solid var(--uwp-grey);
             border-radius: 3px;
-            font-size: 0.9em;
+            font-size: 0.95em;
+            font-weight: 600;
             color: #000;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+            margin-left: 5px;
         }
+
+        .unit-box:hover { background: var(--goldenrod); }
+        .unit-box.cancelled {
+            text-decoration: line-through;
+            text-decoration-thickness: 3px;
+            text-decoration-color: var(--danger);
+            opacity: 0.6;
+        }
+
+        .val-input { width: 70px; padding: 5px; text-align: center; border: 2px solid var(--uwp-grey); border-radius: 4px; font-weight: bold;}
+        .fixed-one { font-size: 1.4em; font-weight: bold; color: var(--uwp-grey); margin-right: 5px; }
+
+        .scientific-group {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2px;
+            border-radius: 4px;
+        }
+        .base-ten { font-size: 1.2em; font-weight: bold; margin-right: 2px; }
+        .exponent-input { width: 45px; padding: 2px; text-align: center; border: 2px solid var(--uwp-grey); border-radius: 3px; }
+
+        .track-connector { font-size: 2em; color: var(--uwp-grey); text-align: center; margin: 5px 0; }
+        .equals-sign { font-size: 2em; padding: 0 10px; color: var(--uwp-black); font-weight: bold; }
+
+        /* Step 3 & Results */
+        .step3-container {
+            background-color: white;
+            border-radius: 6px;
+            padding: 15px;
+            border: 1px solid var(--uwp-light-grey);
+            margin-top: 15px;
+        }
+        
+        .step3-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-check-setup { background: var(--uw-blue); color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.9em; }
+        .btn-check-setup:hover { background: #0c455e; }
+
+        .btn-check-final { background: var(--goldenrod); color: black; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.9em; }
+        .btn-check-final:hover { background: #e0a320; }
+
+        .feedback-msg { margin-top: 8px; font-weight: bold; font-size: 0.95em; min-height: 20px; }
+        .correct { border-color: var(--success) !important; background-color: #eafaf1 !important; }
+        .incorrect { border-color: var(--danger) !important; background-color: #fdedec !important; }
+
+        /* --- END TRAIN TRACK STYLES --- */
         
         .submit-btn {
             background: var(--uwp-green);
@@ -419,10 +492,19 @@
         
         .unlock-message {
             color: var(--uwp-green);
-            font-size: 0.85em;
-            font-style: italic;
-            margin-top: 8px;
-            font-weight: 600;
+            font-size: 0.9em;
+            margin-top: 15px;
+            font-weight: 700;
+            display: block; /* Always display initially */
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        /* Hide message when unlocked */
+        .question-content.unlocked .unlock-message {
+            display: none;
         }
         
         .progress-bar {
@@ -470,7 +552,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧠 Metacognitive Learning Assessment</h1>
+            <h1>Metacognitive Learning Assessment</h1>
             <p>BIOS101 - Know What You Know: A Journey in Self-Awareness</p>
         </div>
         
@@ -556,14 +638,14 @@
             {
                 id: 6,
                 text: "Convert: 75 ml to L (Express in exponential form using scientific notation)",
-                subtitle: "Use the train track method - click units to cancel them",
+                subtitle: "Use the interactive train track tool below. Click units to cancel them.",
                 type: "conversion_prefix",
                 points: 1
             },
             {
                 id: 7,
                 text: "Convert: 1.3 mm to µm",
-                subtitle: "Use the train track method for below-base to below-base conversion",
+                subtitle: "Use the interactive train track tool below (2 steps). Click units to cancel them.",
                 type: "conversion_below",
                 points: 1
             },
@@ -576,7 +658,7 @@
             {
                 id: 9,
                 text: "Name 3 markings you expect to see on a prepared microscope slide",
-                type: "short",
+                type: "three_items",
                 points: 1
             },
             {
@@ -587,7 +669,7 @@
             },
             {
                 id: 11,
-                text: "If 83 of your cheek cells fit across a 5 mm field of view, what is the approximate size of one cell?",
+                text: "If 91 of your cheek cells fit across a 5 mm field of view, what is the approximate size of one cell?",
                 subtitle: "Convert final answer to µm",
                 type: "field_diameter",
                 points: 1
@@ -602,6 +684,9 @@
             questions.forEach(q => {
                 const card = document.createElement('div');
                 card.className = 'question-card';
+                if(q.type === 'conversion_prefix' || q.type === 'conversion_below') {
+                    card.setAttribute('data-q-type', q.type);
+                }
                 
                 let contentHTML = '';
                 
@@ -634,68 +719,164 @@
                         </div>
                     `;
                 } else if (q.type === 'conversion_prefix') {
+                    // Q6: 75 ml to L (One Step / Easy Mode)
                     contentHTML = `
-                        <div class="train-track-container">
-                            <p style="font-weight: 600; margin-bottom: 10px; color: #000;">Step 1: Set up & cancel units</p>
-                            <div class="train-track">
-                                <div class="track-cell">
+                        <div class="train-track-container" id="q6-container">
+                            <div class="step-label">Step 1: Set up Units & Powers</div>
+                            <div class="train-track-model">
+                                <div class="cell">
+                                    <div class="track-line"></div>
                                     <div class="numerator">
-                                        <input type="text" class="answer-input small-input" placeholder="75" value="75" readonly>
-                                        <span class="unit-box" data-q="${q.id}" data-pos="start">ml</span>
+                                        <input type="text" class="val-input" id="q6-start-val" value="75" readonly>
+                                        <input type="text" class="unit-box" id="q6-start-unit" value="ml" readonly>
                                     </div>
+                                    <div class="denominator"></div>
                                 </div>
-                                <span class="equals">×</span>
-                                <div class="track-cell">
+                                <div class="cell">
+                                    <div class="track-line"></div>
                                     <div class="numerator">
-                                        <span style="font-weight: bold; color: #000;">1</span>
-                                        <input type="text" class="unit-box" data-q="${q.id}" data-pos="n1" placeholder="Unit" style="width: 50px;">
+                                        <span class="fixed-one">1</span>
+                                        <input type="text" class="unit-box" id="q6-unit-n1" value="L" readonly>
                                     </div>
-                                    <div class="fraction-bar"></div>
                                     <div class="denominator">
-                                        <span style="font-weight: bold; color: #000;">10</span>
-                                        <sup><input type="number" class="exponent-input" placeholder="?" data-q="${q.id}" data-pos="exp1"></sup>
-                                        <input type="text" class="unit-box" data-q="${q.id}" data-pos="d1" placeholder="Unit" style="width: 50px;">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">10</span>
+                                            <input type="number" class="exponent-input" id="q6-exp-d1" placeholder="?">
+                                        </div>
+                                        <input type="text" class="unit-box" id="q6-unit-d1" placeholder="Unit">
                                     </div>
                                 </div>
-                                <span class="equals">=</span>
+                                <div class="cell no-border"><span class="equals-sign">=</span></div>
                             </div>
-                            <p style="font-weight: 600; margin: 15px 0 10px 0; color: #000;">Step 2: Result</p>
-                            <div class="input-row" style="justify-content: center;">
-                                <input type="text" class="answer-input" style="width: 120px;" placeholder="e.g., 7.5e-2">
-                                <span class="label-text">L</span>
+                            
+                            <div class="track-connector">⬇</div>
+
+                            <div class="step-label">Step 2: Move Denominators Up, Flip Signs</div>
+                            <div class="train-track-model">
+                                <div class="cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <input type="text" class="val-input" value="75" readonly>
+                                    </div>
+                                    <div class="denominator"></div>
+                                </div>
+                                <div class="cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">x 10</span>
+                                            <input type="number" class="exponent-input" id="q6-exp-flip-1" placeholder="?">
+                                        </div>
+                                        <input type="text" class="unit-box" id="q6-unit-flip-1" placeholder="Unit">
+                                    </div>
+                                    <div class="denominator"></div>
+                                </div>
+                            </div>
+
+                            <div class="step3-container">
+                                <div class="step3-actions">
+                                    <button class="btn-check-setup" onclick="checkQ6('setup')">1. Verify Setup & Signs</button>
+                                    <button class="btn-check-final" onclick="checkQ6('final')">2. Check Final Answer</button>
+                                </div>
+                                <div class="input-row">
+                                    <label class="label-text">Final Answer (Sci Notation):</label>
+                                    <input type="text" class="answer-input" id="q6-final-ans" style="width: 150px;" placeholder="e.g., 7.5e-2">
+                                    <span class="label-text">L</span>
+                                </div>
+                                <div id="q6-feedback" class="feedback-msg"></div>
                             </div>
                         </div>
                     `;
                 } else if (q.type === 'conversion_below') {
+                    // Q7: 1.3 mm to µm (Two Steps / Hard Mode)
                     contentHTML = `
-                        <div class="train-track-container">
-                            <p style="font-weight: 600; margin-bottom: 10px; color: #000;">Step 1: Set up & cancel units</p>
-                            <div class="train-track">
-                                <div class="track-cell">
+                        <div class="train-track-container" id="q7-container">
+                            <div class="step-label">Step 1: Set up Units & Powers</div>
+                            <div class="train-track-model">
+                                <div class="cell">
+                                    <div class="track-line"></div>
                                     <div class="numerator">
-                                        <input type="text" class="answer-input small-input" placeholder="1.3" value="1.3" readonly>
-                                        <span class="unit-box" data-q="${q.id}" data-pos="start">mm</span>
+                                        <input type="text" class="val-input" id="q7-start-val" value="1.3" readonly>
+                                        <input type="text" class="unit-box" id="q7-start-unit" value="mm" readonly>
                                     </div>
+                                    <div class="denominator"></div>
                                 </div>
-                                <span class="equals">×</span>
-                                <div class="track-cell">
+                                <div class="cell">
+                                    <div class="track-line"></div>
                                     <div class="numerator">
-                                        <span style="font-weight: bold; color: #000;">10</span>
-                                        <sup><input type="number" class="exponent-input" placeholder="?" data-q="${q.id}" data-pos="exp1"></sup>
-                                        <input type="text" class="unit-box" data-q="${q.id}" data-pos="n1" placeholder="Unit" style="width: 50px;">
+                                        <span class="fixed-one">1</span>
+                                        <input type="text" class="unit-box" id="q7-unit-n1" placeholder="Unit">
                                     </div>
-                                    <div class="fraction-bar"></div>
                                     <div class="denominator">
-                                        <span style="font-weight: bold; color: #000;">1</span>
-                                        <input type="text" class="unit-box" data-q="${q.id}" data-pos="d1" placeholder="Unit" style="width: 50px;">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">10</span>
+                                            <input type="number" class="exponent-input" id="q7-exp-d1" placeholder="?">
+                                        </div>
+                                        <input type="text" class="unit-box" id="q7-unit-d1" placeholder="Unit">
                                     </div>
                                 </div>
-                                <span class="equals">=</span>
+                                <div class="cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <span class="fixed-one">1</span>
+                                        <input type="text" class="unit-box" id="q7-unit-n2" placeholder="Unit">
+                                    </div>
+                                    <div class="denominator">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">10</span>
+                                            <input type="number" class="exponent-input" id="q7-exp-d2" placeholder="?">
+                                        </div>
+                                        <input type="text" class="unit-box" id="q7-unit-d2" placeholder="Unit">
+                                    </div>
+                                </div>
+                                <div class="cell no-border"><span class="equals-sign">=</span></div>
                             </div>
-                            <p style="font-weight: 600; margin: 15px 0 10px 0; color: #000;">Step 2: Result</p>
-                            <div class="input-row" style="justify-content: center;">
-                                <input type="text" class="answer-input" style="width: 120px;" placeholder="e.g., 1.3e3">
-                                <span class="label-text">µm</span>
+                            
+                            <div class="track-connector">⬇</div>
+
+                            <div class="step-label">Step 2: Move Denominators Up, Flip Signs</div>
+                            <div class="train-track-model">
+                                <div class="cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <input type="text" class="val-input" value="1.3" readonly>
+                                    </div>
+                                    <div class="denominator"></div>
+                                </div>
+                                <div class="cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">x 10</span>
+                                            <input type="number" class="exponent-input" id="q7-exp-flip-1" placeholder="?">
+                                        </div>
+                                    </div>
+                                    <div class="denominator"></div>
+                                </div>
+                                <div class="cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">x 10</span>
+                                            <input type="number" class="exponent-input" id="q7-exp-flip-2" placeholder="?">
+                                        </div>
+                                        <input type="text" class="unit-box" id="q7-unit-flip-2" placeholder="Unit">
+                                    </div>
+                                    <div class="denominator"></div>
+                                </div>
+                            </div>
+
+                            <div class="step3-container">
+                                <div class="step3-actions">
+                                    <button class="btn-check-setup" onclick="checkQ7('setup')">1. Verify Setup & Signs</button>
+                                    <button class="btn-check-final" onclick="checkQ7('final')">2. Check Final Answer</button>
+                                </div>
+                                <div class="input-row">
+                                    <label class="label-text">Final Answer (Sci Notation):</label>
+                                    <input type="text" class="answer-input" id="q7-final-ans" style="width: 150px;" placeholder="e.g., 1.3e3">
+                                    <span class="label-text">µm</span>
+                                </div>
+                                <div id="q7-feedback" class="feedback-msg"></div>
                             </div>
                         </div>
                     `;
@@ -704,18 +885,18 @@
                         <div style="margin-top: 10px;">
                             <div class="input-row">
                                 <label class="label-text" style="min-width: 180px;">Independent Variable:</label>
-                                <input type="text" class="answer-input small-input" placeholder="c.s./l.s./x.s./w.m.">
+                                <input type="text" class="answer-input wide-input" placeholder="">
                             </div>
                             <div class="input-row">
                                 <label class="label-text" style="min-width: 180px;">Dependent Variable:</label>
-                                <input type="text" class="answer-input small-input" placeholder="c.s./l.s./x.s./w.m.">
+                                <input type="text" class="answer-input wide-input" placeholder="">
                             </div>
                             <div class="input-row">
                                 <label class="label-text" style="min-width: 180px;">Control Variable:</label>
-                                <input type="text" class="answer-input small-input" placeholder="c.s./l.s./x.s./w.m.">
+                                <input type="text" class="answer-input wide-input" placeholder="">
                             </div>
                             <p style="margin-top: 8px; font-size: 0.85em; color: var(--uwp-grey); font-style: italic;">
-                                Acceptable abbreviations: c.s. (categorical/subject), l.s. (level/stage), x.s. (experimental/setup), w.m. (weight/measure)
+                                Acceptable answers: What did they maniplate? What did they measure? What did they keep the same?
                             </p>
                         </div>
                     `;
@@ -726,22 +907,22 @@
                             <p style="font-weight: 600; margin-bottom: 8px; color: #000;">Step 1: Identify values</p>
                             <div class="input-row">
                                 <label class="label-text">Field Diameter (FD):</label>
-                                <input type="text" class="answer-input small-input" placeholder="5">
+                                <input type="text" class="answer-input small-input" placeholder="">
                                 <span class="label-text">mm</span>
                             </div>
                             <div class="input-row">
                                 <label class="label-text">Number (N):</label>
-                                <input type="text" class="answer-input small-input" placeholder="83">
+                                <input type="text" class="answer-input small-input" placeholder="">
                                 <span class="label-text">cells</span>
                             </div>
                             <p style="font-weight: 600; margin: 12px 0 8px 0; color: #000;">Step 2: Calculate</p>
                             <div class="input-row">
                                 <label class="label-text">Size =</label>
-                                <input type="text" class="answer-input small-input" placeholder="FD">
+                                <input type="text" class="answer-input small-input" placeholder="">
                                 <span class="label-text">/</span>
-                                <input type="text" class="answer-input small-input" placeholder="N">
+                                <input type="text" class="answer-input small-input" placeholder="">
                                 <span class="label-text">=</span>
-                                <input type="text" class="answer-input small-input" placeholder="Result">
+                                <input type="text" class="answer-input small-input" placeholder="">
                                 <span class="label-text">mm</span>
                             </div>
                             <p style="font-weight: 600; margin: 12px 0 8px 0; color: #000;">Step 3: Convert to µm</p>
@@ -749,6 +930,14 @@
                                 <input type="text" class="answer-input" style="width: 150px;" placeholder="Final answer">
                                 <span class="label-text">µm</span>
                             </div>
+                        </div>
+                    `;
+                } else if (q.type === 'three_items') {
+                    contentHTML = `
+                        <div class="input-row">
+                            <input type="text" class="answer-input small-input" placeholder="1">
+                            <input type="text" class="answer-input small-input" placeholder="2">
+                            <input type="text" class="answer-input small-input" placeholder="3">
                         </div>
                     `;
                 } else {
@@ -776,11 +965,13 @@
                         </div>
                     </div>
                     <div class="question-content" id="content-${q.id}">
-                        <div class="question-text">
-                            <strong>${q.text}</strong>
-                            ${q.subtitle ? `<br><em style="font-size: 0.9em; color: var(--uwp-grey);">${q.subtitle}</em>` : ''}
+                        <div class="question-body">
+                            <div class="question-text">
+                                <strong>${q.text}</strong>
+                                ${q.subtitle ? `<br><em style="font-size: 0.9em; color: var(--uwp-grey);">${q.subtitle}</em>` : ''}
+                            </div>
+                            ${contentHTML}
                         </div>
-                        ${contentHTML}
                         <div class="unlock-message">⬆️ Select your confidence level above to unlock this question</div>
                     </div>
                 `;
@@ -788,7 +979,7 @@
             });
             
             attachConfidenceListeners();
-            attachUnitCancellation();
+            setupUnitCancellation();
         }
         
         function attachConfidenceListeners() {
@@ -817,25 +1008,212 @@
             });
         }
         
-        function attachUnitCancellation() {
+        // --- NEW: Unit Cancellation Logic from TrainTrackCode.html ---
+        function setupUnitCancellation() {
             document.querySelectorAll('.unit-box').forEach(box => {
-                box.addEventListener('click', function() {
-                    if (this.readOnly || !this.dataset.q) return;
+                // Remove old listeners to prevent duplicates if recalled
+                box.replaceWith(box.cloneNode(true));
+            });
+            
+            // Re-select fresh DOM elements
+            const unitBoxes = document.querySelectorAll('.unit-box');
+            
+            unitBoxes.forEach(box => {
+                box.addEventListener('click', function () {
+                    if (this.readOnly && this.value === "") return; // Allow interaction if it has value (like 'ml' in Q6 start)
                     
-                    const qId = this.dataset.q;
-                    const allBoxes = document.querySelectorAll(`.unit-box[data-q="${qId}"]`);
-                    const thisValue = this.value.trim().toLowerCase();
+                    const currentCard = this.closest('.question-card');
+                    if(!currentCard) return; // safety check
                     
-                    if (!thisValue) return;
+                    const thisUnit = this.value.trim();
+                    if(thisUnit === "") return;
+
+                    const isNumerator = this.closest('.numerator') !== null;
+                    const allCells = Array.from(currentCard.querySelectorAll('.train-track-model')[0].querySelectorAll('.cell'));
+                    const currentCell = this.closest('.cell');
+                    const currentIndex = allCells.indexOf(currentCell);
                     
-                    allBoxes.forEach(otherBox => {
-                        if (otherBox !== this && otherBox.value.trim().toLowerCase() === thisValue) {
-                            this.classList.toggle('cancelled');
-                            otherBox.classList.toggle('cancelled');
+                    let matchingUnit = null;
+
+                    if (isNumerator) {
+                        // Look in next cell for matching denominator (Diagonal Down)
+                        if (currentIndex < allCells.length - 1) {
+                            const nextCell = allCells[currentIndex + 1];
+                            const denominatorUnits = nextCell.querySelectorAll('.denominator .unit-box');
+                            denominatorUnits.forEach(denomBox => {
+                                if (denomBox.value.trim() === thisUnit) {
+                                    matchingUnit = denomBox;
+                                }
+                            });
                         }
-                    });
+                    } else {
+                        // Look in previous cell for matching numerator (Diagonal Up)
+                        if (currentIndex > 0) {
+                            const prevCell = allCells[currentIndex - 1];
+                            const numeratorUnits = prevCell.querySelectorAll('.numerator .unit-box');
+                            numeratorUnits.forEach(numBox => {
+                                if (numBox.value.trim() === thisUnit) {
+                                    matchingUnit = numBox;
+                                }
+                            });
+                        }
+                    }
+
+                    if (matchingUnit) {
+                        this.classList.toggle('cancelled');
+                        matchingUnit.classList.toggle('cancelled');
+                    }
                 });
             });
+        }
+
+        // --- Q6 LOGIC (Level 1: 75 ml to L) ---
+        // Target: 75 * 10^-3
+        let q6Solution = 7.5e-2; // 0.075
+
+        window.checkQ6 = function(mode) {
+            const feedback = document.getElementById('q6-feedback');
+            feedback.textContent = "";
+            feedback.className = "feedback-msg";
+            
+            // Elements
+            const uStart = document.getElementById('q6-start-unit'); // ml
+            const uD1 = document.getElementById('q6-unit-d1'); // should be ml
+            const uN1 = document.getElementById('q6-unit-n1'); // L
+            const expD1 = document.getElementById('q6-exp-d1'); // should be 3 (1000ml = 1L)
+            const expFlip = document.getElementById('q6-exp-flip-1');
+            const unitFlip = document.getElementById('q6-unit-flip-1');
+            
+            if (mode === 'setup') {
+                // 1. Check Cancellation (ml must be cancelled)
+                if (!uStart.classList.contains('cancelled') || !uD1.classList.contains('cancelled')) {
+                    feedback.textContent = "Step 1 Error: You must cancel the 'ml' units diagonally!";
+                    feedback.style.color = "var(--danger)";
+                    return;
+                }
+                
+                // 2. Check Unit Entry
+                if (uD1.value.trim() !== 'ml') {
+                    feedback.textContent = "Step 1 Error: Unit in denominator must match start unit to cancel.";
+                    uD1.classList.add('incorrect'); return;
+                } else uD1.classList.remove('incorrect');
+
+                // 3. Check Exponent (1 L = 10^3 ml)
+                if (expD1.value.trim() !== '3') {
+                    feedback.textContent = "Step 1 Error: How many ml in a L? (Hint: milli = 10^3 relative to base inverse)";
+                    expD1.classList.add('incorrect'); return;
+                } else expD1.classList.remove('incorrect');
+
+                // 4. Check Rewrite (Flip Sign)
+                if (expFlip.value.trim() !== '-3') {
+                    feedback.textContent = "Step 2 Error: When moving 10^3 up, the sign must flip!";
+                    expFlip.classList.add('incorrect'); return;
+                } else expFlip.classList.remove('incorrect');
+
+                // 5. Check Rewrite Unit
+                if (unitFlip.value.trim() !== 'L') {
+                    feedback.textContent = "Step 2 Error: The remaining unit should be L.";
+                    unitFlip.classList.add('incorrect'); return;
+                } else unitFlip.classList.remove('incorrect');
+
+                feedback.textContent = "✅ Setup Correct! Now calculate the final value.";
+                feedback.style.color = "var(--success)";
+            } 
+            
+            if (mode === 'final') {
+                const finalAns = document.getElementById('q6-final-ans');
+                const val = parseFloat(finalAns.value);
+                // Check if close to 0.075
+                if (Math.abs(val - 0.075) < 0.0001) {
+                    feedback.textContent = "✅ Correct! 7.5e-2 L (or 0.075 L)";
+                    feedback.style.color = "var(--success)";
+                    finalAns.classList.add('correct');
+                    finalAns.classList.remove('incorrect');
+                } else {
+                    feedback.textContent = "❌ Incorrect calculation. Try: 75 x 10^-3";
+                    feedback.style.color = "var(--danger)";
+                    finalAns.classList.add('incorrect');
+                }
+            }
+        }
+
+        // --- Q7 LOGIC (Level 3: 1.3 mm to µm) ---
+        // Path: mm -> m -> µm
+        // 1.3 * (1 m / 10^3 mm) * (1 µm / 10^-6 m)
+        // Rewrite: 1.3 * 10^-3 * 10^6 = 1.3 * 10^3
+        
+        window.checkQ7 = function(mode) {
+            const feedback = document.getElementById('q7-feedback');
+            feedback.textContent = "";
+            feedback.className = "feedback-msg";
+
+            // Elements
+            const uStart = document.getElementById('q7-start-unit'); // mm
+            const uN1 = document.getElementById('q7-unit-n1'); // m
+            const uD1 = document.getElementById('q7-unit-d1'); // mm
+            const expD1 = document.getElementById('q7-exp-d1'); // 3 (1m = 10^3mm)
+            
+            const uN2 = document.getElementById('q7-unit-n2'); // µm
+            const uD2 = document.getElementById('q7-unit-d2'); // m
+            const expD2 = document.getElementById('q7-exp-d2'); // -6 (1µm = 10^-6m)
+
+            const expFlip1 = document.getElementById('q7-exp-flip-1');
+            const expFlip2 = document.getElementById('q7-exp-flip-2');
+            const unitFlip = document.getElementById('q7-unit-flip-2'); // µm
+
+            if (mode === 'setup') {
+                // 1. Check Cancellations
+                // mm cancels with D1
+                const mmCancelled = uStart.classList.contains('cancelled') && uD1.classList.contains('cancelled');
+                // m (N1) cancels with D2
+                const mCancelled = uN1.classList.contains('cancelled') && uD2.classList.contains('cancelled');
+
+                if (!mmCancelled || !mCancelled) {
+                    feedback.textContent = "Step 1 Error: Cancel units diagonally! (mm with mm, m with m)";
+                    feedback.style.color = "var(--danger)";
+                    return;
+                }
+
+                // 2. Check Units
+                if(uD1.value !== 'mm') { uD1.classList.add('incorrect'); feedback.textContent="Check Unit D1"; return; } uD1.classList.remove('incorrect');
+                if(uN1.value !== 'm') { uN1.classList.add('incorrect'); feedback.textContent="Check Unit N1 (go to base)"; return; } uN1.classList.remove('incorrect');
+                if(uD2.value !== 'm') { uD2.classList.add('incorrect'); feedback.textContent="Check Unit D2"; return; } uD2.classList.remove('incorrect');
+                if(uN2.value !== 'µm') { uN2.classList.add('incorrect'); feedback.textContent="Check Unit N2 (target)"; return; } uN2.classList.remove('incorrect');
+
+                // 3. Check Exponents
+                // 1 m = 10^3 mm
+                if(expD1.value !== '3') { expD1.classList.add('incorrect'); feedback.textContent="Step 1: 1 m = 10^3 mm"; return; } expD1.classList.remove('incorrect');
+                // 1 µm = 10^-6 m
+                if(expD2.value !== '-6') { expD2.classList.add('incorrect'); feedback.textContent="Step 1: 1 µm = 10^-6 m"; return; } expD2.classList.remove('incorrect');
+
+                // 4. Check Rewrite (Flips)
+                // 3 becomes -3
+                if(expFlip1.value !== '-3') { expFlip1.classList.add('incorrect'); feedback.textContent="Step 2: Flip sign of first exponent"; return; } expFlip1.classList.remove('incorrect');
+                // -6 becomes 6
+                if(expFlip2.value !== '6') { expFlip2.classList.add('incorrect'); feedback.textContent="Step 2: Flip sign of second exponent"; return; } expFlip2.classList.remove('incorrect');
+
+                // 5. Final unit
+                if(unitFlip.value !== 'µm') { unitFlip.classList.add('incorrect'); feedback.textContent="Step 2: Missing target unit"; return; } unitFlip.classList.remove('incorrect');
+
+                feedback.textContent = "✅ Setup Correct!";
+                feedback.style.color = "var(--success)";
+            }
+
+            if (mode === 'final') {
+                const finalAns = document.getElementById('q7-final-ans');
+                const val = parseFloat(finalAns.value);
+                // 1.3 * 10^-3 * 10^6 = 1.3 * 10^3 = 1300
+                if (Math.abs(val - 1300) < 1) {
+                    feedback.textContent = "✅ Correct! 1.3e3 µm";
+                    feedback.style.color = "var(--success)";
+                    finalAns.classList.add('correct');
+                    finalAns.classList.remove('incorrect');
+                } else {
+                    feedback.textContent = "❌ Incorrect. Hint: Add exponents (-3 + 6 = ?)";
+                    feedback.style.color = "var(--danger)";
+                    finalAns.classList.add('incorrect');
+                }
+            }
         }
         
         function updateProgress() {
