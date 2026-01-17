@@ -351,6 +351,7 @@
             align-items: center;
             width: 100%;
             border: 1px solid #cbd5e1;
+            overflow-x: auto;
         }
 
         .step-label {
@@ -370,7 +371,8 @@
             padding: 10px;
             position: relative;
             width: 100%;
-            overflow-x: auto;
+            min-width: 600px;
+            /* Ensure scrolling for small screens */
         }
 
         .track-connector {
@@ -461,12 +463,21 @@
         }
 
         .exponent-input {
-            width: 40px;
+            width: 45px;
             height: 30px;
             font-size: 0.9em;
             margin-bottom: 12px;
             border: 2px solid #94a3b8;
             text-align: center;
+        }
+
+        .rewrite-input {
+            margin-bottom: 0;
+        }
+        
+        .rewrite-unit-input {
+            width: 60px;
+            margin-left: 8px;
         }
 
         .equals-sign {
@@ -550,6 +561,11 @@
             color: #0c4a6e;
             margin-left: 2px;
             min-width: 200px;
+        }
+        
+        .answer-display-exponent {
+            font-size: 0.9em;
+            vertical-align: super;
         }
 
         @media (max-width:1100px) {
@@ -669,8 +685,7 @@
                         <div class="track-wrapper">
                             <div class="step-label">Step 1: Set up Units & Powers</div>
                             <p style="font-size:0.85em; margin:2px 0 8px 0; color:#555;">
-                                <i>Apply: The unit you're converting <b>from</b> in the denominator and the unit you're
-                                    converting <b>to</b> in the numerator. Click units to cancel.</i>
+                                <i>Step 1: Convert <b>mm</b> &rarr; <b>meters</b> &rarr; <b>µm</b>. Set up units to cancel diagonally.</i>
                             </p>
 
                             <div class="train-track-model">
@@ -703,12 +718,30 @@
                                     </div>
                                 </div>
 
+                                <div class="tt-cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <span class="fixed-one">1</span>
+                                        <input type="text" id="track-n2-unit" class="unit-input unit-box"
+                                            placeholder="Unit">
+                                    </div>
+                                    <div class="denominator">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">10</span>
+                                            <input type="number" id="track-d2-exp" class="exponent-input"
+                                                placeholder="?">
+                                        </div>
+                                        <input type="text" id="track-d2-unit" class="unit-input unit-box"
+                                            placeholder="Unit">
+                                    </div>
+                                </div>
+
                                 <div class="tt-cell no-border"><span class="equals-sign">=</span></div>
                             </div>
 
                             <div class="track-connector">⬇</div>
 
-                            <div class="step-label">Step 2: Move Denominator Up & Flip Sign</div>
+                            <div class="step-label">Step 2: Move Denominators Up & Flip Signs</div>
                             <div class="train-track-model">
                                 <div class="tt-cell">
                                     <div class="track-line"></div>
@@ -724,7 +757,19 @@
                                     <div class="numerator">
                                         <div class="scientific-group">
                                             <span class="base-ten">x 10</span>
-                                            <input type="number" id="track-flip-exp"
+                                            <input type="number" id="track-flip-1-exp"
+                                                class="exponent-input rewrite-input" placeholder="?">
+                                        </div>
+                                    </div>
+                                    <div class="denominator"></div>
+                                </div>
+
+                                <div class="tt-cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">x 10</span>
+                                            <input type="number" id="track-flip-2-exp"
                                                 class="exponent-input rewrite-input" placeholder="?">
                                         </div>
                                         <input type="text" id="track-flip-unit" class="unit-input rewrite-unit-input"
@@ -784,9 +829,7 @@
             { label: 'Anabaena (filament)', type: 'anabaena', size: 5, dim: 'Length', question: 'What is the length of one Anabaena cell?' },
             { label: 'Hydra', type: 'hydra', size: 1200, dim: 'Length', question: 'What is the length of a Hydra body (excluding tentacles)?' },
             { label: 'Onion Cells', type: 'onion', size: 250, dim: 'Width', question: 'What is the width of an onion cell?' },
-            // ADDED Human Cheek Cell 
             { label: 'Human Cheek Cell', type: 'cheek', size: 60, dim: 'Diameter', question: 'What is the diameter of a human cheek cell?' },
-            // UPDATED Paramecium description 
             { label: 'Paramecium', type: 'paramecium', size: 250, dim: 'Length', question: 'What is the length of a paramecium?' },
             { label: 'Stentor', type: 'stentor', size: 800, dim: 'Length', question: 'What is the length of a Stentor?' }
         ];
@@ -812,7 +855,7 @@
         const $ = id => document.getElementById(id);
         const sceneLayer = $('sceneLayer'), tokensLayer = $('tokensLayer'), rulerLayer = $('rulerLayer');
 
-        // --- TRAIN TRACK LOGIC ---
+        // --- UPDATED TRAIN TRACK LOGIC FOR 2-STEP ---
         function setupUnitCancellation() {
             document.querySelectorAll('.unit-box').forEach(box => {
                 box.replaceWith(box.cloneNode(true));
@@ -827,13 +870,16 @@
                     const currentCell = this.closest('.tt-cell');
                     const currentIndex = allCells.indexOf(currentCell);
                     let matchingUnit = null;
+                    
                     if (isNumerator) {
+                        // Numerator looks in NEXT cell's denominator
                         if (currentIndex < allCells.length - 1) {
                             const nextCell = allCells[currentIndex + 1];
                             const denomBox = nextCell.querySelector('.denominator .unit-box');
                             if (denomBox && denomBox.value.trim() === thisUnit) matchingUnit = denomBox;
                         }
                     } else {
+                        // Denominator looks in PREVIOUS cell's numerator
                         if (currentIndex > 0) {
                             const prevCell = allCells[currentIndex - 1];
                             const numBox = prevCell.querySelector('.numerator .unit-box');
@@ -856,72 +902,126 @@
             $('track-start-val').value = state.calculatedSizeMM;
             $('track-rewrite-val').value = state.calculatedSizeMM;
 
+            // Clear all inputs
             $('track-n1-unit').value = '';
             $('track-d1-exp').value = '';
             $('track-d1-unit').value = '';
-            $('track-flip-exp').value = '';
+            
+            $('track-n2-unit').value = '';
+            $('track-d2-exp').value = '';
+            $('track-d2-unit').value = '';
+
+            $('track-flip-1-exp').value = '';
+            $('track-flip-2-exp').value = '';
             $('track-flip-unit').value = '';
+            
             $('ans-sci').value = '';
             $('ans-dec').value = '';
+            
             document.querySelectorAll('.cancelled').forEach(el => el.classList.remove('cancelled'));
             document.querySelectorAll('.correct').forEach(el => el.classList.remove('correct'));
             document.querySelectorAll('.incorrect').forEach(el => el.classList.remove('incorrect'));
             $('track-step2-answer-box').style.display = 'none';
             $('track-feedback').textContent = '';
+            
             setupUnitCancellation();
         }
 
         $('btnVerifySetup').onclick = () => {
             const feedback = $('track-feedback');
             feedback.textContent = "";
-            const startUnit = $('track-start-unit');
-            const n1Unit = $('track-n1-unit');
-            const d1Unit = $('track-d1-unit');
+            const startUnit = $('track-start-unit'); // mm
+            
+            // Step 1 Check (mm -> m)
+            const n1Unit = $('track-n1-unit'); // m
+            const d1Unit = $('track-d1-unit'); // mm
+            const expD1 = parseFloat($('track-d1-exp').value);
 
-            if (n1Unit.value.trim() !== 'µm') {
+            // Step 2 Check (m -> µm)
+            const n2Unit = $('track-n2-unit'); // µm
+            const d2Unit = $('track-d2-unit'); // m
+            const expD2 = parseFloat($('track-d2-exp').value);
+
+            // Rewrites
+            const flip1 = parseFloat($('track-flip-1-exp').value);
+            const flip2 = parseFloat($('track-flip-2-exp').value);
+            const flipUnit = $('track-flip-unit');
+
+            // --- VALIDATION LOGIC ---
+
+            // 1. Units Logic (mm -> m -> µm)
+            if (n1Unit.value.trim() !== 'm') {
                 n1Unit.classList.add('incorrect');
-                feedback.textContent = "Step 1: Convert TO micrometers (µm) in the numerator.";
-                feedback.style.color = "#e74c3c";
-                return;
+                feedback.textContent = "Step 1 (Cell 1): Convert TO base unit 'm' in the numerator.";
+                feedback.style.color = "#e74c3c"; return;
             } else n1Unit.classList.remove('incorrect');
 
             if (d1Unit.value.trim() !== 'mm') {
                 d1Unit.classList.add('incorrect');
-                feedback.textContent = "Step 1: Convert FROM millimeters (mm) in the denominator.";
-                feedback.style.color = "#e74c3c";
-                return;
+                feedback.textContent = "Step 1 (Cell 1): Convert FROM 'mm' in the denominator.";
+                feedback.style.color = "#e74c3c"; return;
             } else d1Unit.classList.remove('incorrect');
 
+            if (n2Unit.value.trim() !== 'µm') {
+                n2Unit.classList.add('incorrect');
+                feedback.textContent = "Step 1 (Cell 2): Convert TO 'µm' in the numerator.";
+                feedback.style.color = "#e74c3c"; return;
+            } else n2Unit.classList.remove('incorrect');
+
+            if (d2Unit.value.trim() !== 'm') {
+                d2Unit.classList.add('incorrect');
+                feedback.textContent = "Step 1 (Cell 2): Convert FROM 'm' in the denominator.";
+                feedback.style.color = "#e74c3c"; return;
+            } else d2Unit.classList.remove('incorrect');
+
+            // 2. Cancellation Check
             if (!startUnit.classList.contains('cancelled') || !d1Unit.classList.contains('cancelled')) {
-                feedback.textContent = "Step 1: Click 'mm' in both places to cancel the units!";
-                feedback.style.color = "#e74c3c";
-                return;
+                feedback.textContent = "Step 1: Cancel 'mm' diagonally (Start Unit ↔ Denom 1).";
+                feedback.style.color = "#e74c3c"; return;
+            }
+            if (!n1Unit.classList.contains('cancelled') || !d2Unit.classList.contains('cancelled')) {
+                feedback.textContent = "Step 1: Cancel 'm' diagonally (Num 1 ↔ Denom 2).";
+                feedback.style.color = "#e74c3c"; return;
             }
 
-            const expD1 = parseFloat($('track-d1-exp').value);
-            if (expD1 !== -3) {
+            // 3. Exponent Check (Inverse Definitions)
+            // 1 m = 10^3 mm
+            if (expD1 !== 3) {
                 $('track-d1-exp').classList.add('incorrect');
-                feedback.textContent = "Step 1: 1 µm = 10^-3 mm. Check your exponent.";
-                feedback.style.color = "#e74c3c";
-                return;
+                feedback.textContent = "Step 1 (Cell 1): 1 m = 10^3 mm. Check exponent.";
+                feedback.style.color = "#e74c3c"; return;
             } else $('track-d1-exp').classList.remove('incorrect');
 
-            const expFlip = parseFloat($('track-flip-exp').value);
-            if (expFlip !== 3) {
-                $('track-flip-exp').classList.add('incorrect');
-                feedback.textContent = "Step 2: When moving -3 up, flip the sign to positive 3.";
-                feedback.style.color = "#e74c3c";
-                return;
-            } else $('track-flip-exp').classList.remove('incorrect');
+            // 1 µm = 10^-6 m (Required because Numerator is fixed to 1)
+            // User sees: 1 µm / 10^? m
+            if (expD2 !== -6) {
+                $('track-d2-exp').classList.add('incorrect');
+                feedback.textContent = "Step 1 (Cell 2): 1 µm = 10^-6 m. Check exponent.";
+                feedback.style.color = "#e74c3c"; return;
+            } else $('track-d2-exp').classList.remove('incorrect');
 
-            if ($('track-flip-unit').value.trim() !== 'µm') {
-                $('track-flip-unit').classList.add('incorrect');
+            // 4. Rewrite (Flip) Check
+            if (flip1 !== -3) {
+                $('track-flip-1-exp').classList.add('incorrect');
+                feedback.textContent = "Step 2: Flip the first exponent sign (3 → -3).";
+                feedback.style.color = "#e74c3c"; return;
+            } else $('track-flip-1-exp').classList.remove('incorrect');
+
+            if (flip2 !== 6) {
+                $('track-flip-2-exp').classList.add('incorrect');
+                feedback.textContent = "Step 2: Flip the second exponent sign (-6 → 6).";
+                feedback.style.color = "#e74c3c"; return;
+            } else $('track-flip-2-exp').classList.remove('incorrect');
+
+            if (flipUnit.value.trim() !== 'µm') {
+                flipUnit.classList.add('incorrect');
                 feedback.textContent = "Step 2: Don't forget the final unit (µm).";
-                feedback.style.color = "#e74c3c";
-                return;
-            } else $('track-flip-unit').classList.remove('incorrect');
+                feedback.style.color = "#e74c3c"; return;
+            } else flipUnit.classList.remove('incorrect');
 
+            // Success
             $('track-step2-val').textContent = state.calculatedSizeMM.toFixed(4);
+            // Combined exponent displayed conceptually: 10^(-3) * 10^(6) = 10^3
             $('track-step2-exp').textContent = "3";
             $('track-step2-unit').textContent = "µm";
             $('track-step2-answer-box').style.display = 'flex';
@@ -943,6 +1043,7 @@
                 const val = parseFloat(input.value);
                 if (isNaN(val)) return false;
                 const diff = Math.abs(val - expectedUM);
+                // Allow 1% error or very small absolute error
                 if (diff < (expectedUM * 0.01) || diff < 0.001) {
                     input.classList.add('correct'); input.classList.remove('incorrect'); return true;
                 } else {
