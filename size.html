@@ -577,6 +577,65 @@
                 max-width: 640px;
             }
         }
+
+        /* --- NEW REFERENCE TABLE STYLES --- */
+        .tables-container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .table-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table-wrapper h4 {
+            margin: 0 0 10px 0;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .ref-table {
+            border-collapse: collapse;
+            font-size: 0.85em;
+            width: auto;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .ref-table th, .ref-table td {
+            border: 1px solid #bdc3c7;
+            padding: 6px 10px;
+            text-align: center;
+        }
+
+        /* Middle column (equals sign) styling */
+        .ref-table th:nth-child(2), 
+        .ref-table td:nth-child(2) {
+            width: 1%;
+            white-space: nowrap;
+            padding: 6px 4px;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+
+        /* THEME 1: DIRECT (BLUE) */
+        .theme-blue h4 { color: #2c3e50; }
+        .theme-blue.ref-table th { background-color: #2c3e50; color: white; border-color: #2c3e50; }
+        .theme-blue.ref-table tr:nth-child(even) { background-color: #eaf2f8; }
+        .theme-blue.ref-table { border: 2px solid #2c3e50; }
+
+        /* THEME 2: INVERSE (GREEN) */
+        .theme-green h4 { color: #27ae60; }
+        .theme-green.ref-table th { background-color: #27ae60; color: white; border-color: #27ae60; }
+        .theme-green.ref-table tr:nth-child(even) { background-color: #e9f7ef; }
+        .theme-green.ref-table { border: 2px solid #27ae60; }
     </style>
 </head>
 
@@ -591,7 +650,7 @@
         </header>
 
         <div class="layout">
-            <main class="panel" style="padding-bottom:0;">
+            <main class="panel" style="padding-bottom:15px;">
                 <div id="playArea">
                     <div id="questionBanner" class="question-banner">
                         <div class="question-row">
@@ -630,7 +689,108 @@
                             (N): <strong id="placedCount"
                                 style="color:#000000; font-size:18px; border-bottom:2px solid black;">0</strong></div>
                     </div>
-                </div>
+
+                    <div class="tables-container">
+                        
+                        <div class="table-wrapper theme-blue">
+                            <h4>Direct Conversion</h4>
+                            <table class="ref-table theme-blue">
+                                <thead>
+                                    <tr>
+                                        <th>Prefix</th>
+                                        <th></th> <th>Equivalent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1 kilo</td>
+                                        <td>=</td>
+                                        <td>10<sup>3</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 Base</td>
+                                        <td>=</td>
+                                        <td>10<sup>0</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 deci</td>
+                                        <td>=</td>
+                                        <td>10<sup>-1</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 centi</td>
+                                        <td>=</td>
+                                        <td>10<sup>-2</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 milli</td>
+                                        <td>=</td>
+                                        <td>10<sup>-3</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 micro</td>
+                                        <td>=</td>
+                                        <td>10<sup>-6</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 nano</td>
+                                        <td>=</td>
+                                        <td>10<sup>-9</sup> (m, g, l)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table-wrapper theme-green">
+                            <h4>Inverse Conversion</h4>
+                            <table class="ref-table theme-green">
+                                <thead>
+                                    <tr>
+                                        <th>Base</th>
+                                        <th></th> <th>Equivalent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>-3</sup> kilo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>0</sup> Base</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>1</sup> deci</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>2</sup> centi</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>3</sup> milli</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>6</sup> micro</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>9</sup> nano</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
             </main>
 
             <aside class="sidebar">
