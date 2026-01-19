@@ -17,6 +17,7 @@
             --prairie-fire: #FF4500;
             --success: #10b981;
             --danger: #dc2626;
+            --incorrect-purple: #8b5cf6;
         }
         
         * {
@@ -268,6 +269,32 @@
             padding: 8px;
         }
         
+        /* Answer checking styles */
+        .answer-correct {
+            border-color: var(--success) !important;
+            background-color: rgba(16, 185, 129, 0.05) !important;
+        }
+        
+        .answer-incorrect {
+            border-color: var(--incorrect-purple) !important;
+            background-color: rgba(139, 92, 246, 0.05) !important;
+        }
+        
+        .feedback-message {
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 6px;
+            min-height: 20px;
+        }
+        
+        .feedback-correct {
+            color: var(--success);
+        }
+        
+        .feedback-incorrect {
+            color: var(--incorrect-purple);
+        }
+        
         /* --- TRAIN TRACK SPECIFIC STYLES (IMPORTED) --- */
         .train-track-container {
             background: var(--uwp-cream);
@@ -495,14 +522,13 @@
             font-size: 0.9em;
             margin-top: 15px;
             font-weight: 700;
-            display: block; /* Always display initially */
+            display: block;
             text-align: center;
             background: rgba(255, 255, 255, 0.8);
             padding: 8px;
             border-radius: 4px;
         }
         
-        /* Hide message when unlocked */
         .question-content.unlocked .unlock-message {
             display: none;
         }
@@ -546,6 +572,13 @@
         .label-text {
             font-weight: 600;
             color: #000;
+        }
+        
+        .input-with-feedback {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin: 8px 0;
         }
     </style>
 </head>
@@ -676,6 +709,64 @@
             }
         ];
 
+        // Correct answers database (simplified for demo)
+        const correctAnswers = {
+            1: {
+                type: 'twopart',
+                answers: ['Answer depends on station', 'Answer depends on station']
+            },
+            2: {
+                type: 'truefalse',
+                correct: 'true',
+                correction: ''
+            },
+            3: {
+                type: 'truefalse',
+                correct: 'false',
+                correction: 'Prokaryotes do NOT have a membrane-bound nucleus.'
+            },
+            4: {
+                type: 'truefalse',
+                correct: 'true',
+                correction: ''
+            },
+            5: {
+                type: 'truefalse',
+                correct: 'false',
+                correction: 'A qualitative characteristic is descriptive, not based on measurements.'
+            },
+            6: {
+                type: 'conversion_prefix',
+                correct: '7.5e-2'
+            },
+            7: {
+                type: 'conversion_below',
+                correct: '1.3e3'
+            },
+            8: {
+                type: 'experiment',
+                independent: 'protein',
+                dependent: 'weight',
+                control: 'breed'
+            },
+            9: {
+                type: 'three_items',
+                items: ['circle', 'label', 'cover slip', 'specimen name', 'date', 'stain']
+            },
+            10: {
+                type: 'short',
+                prefix: 'pseudo',
+                suffix: 'science',
+                prefixDef: 'false',
+                suffixDef: 'knowledge'
+            },
+            11: {
+                type: 'field_diameter',
+                answer: '55',
+                range: [50, 60]
+            }
+        };
+
         let confidenceSelections = {};
         
         function renderQuestions() {
@@ -692,34 +783,36 @@
                 
                 if (q.type === 'twopart') {
                     contentHTML = `
-                        <div class="input-row">
+                        <div class="input-with-feedback">
                             <label class="label-text">A:</label>
-                            <input type="text" class="answer-input" style="width: 45%;" placeholder="Answer A">
+                            <input type="text" class="answer-input" style="width: 45%;" placeholder="Answer A (select confidence first)" disabled>
+                            <div class="feedback-message" data-for="q${q.id}-a"></div>
                         </div>
-                        <div class="input-row">
+                        <div class="input-with-feedback">
                             <label class="label-text">B:</label>
-                            <input type="text" class="answer-input" style="width: 45%;" placeholder="Answer B">
+                            <input type="text" class="answer-input" style="width: 45%;" placeholder="Answer B (select confidence first)" disabled>
+                            <div class="feedback-message" data-for="q${q.id}-b"></div>
                         </div>
                     `;
                 } else if (q.type === 'truefalse') {
                     contentHTML = `
                         <div class="radio-group">
                             <label class="radio-label">
-                                <input type="radio" name="q${q.id}" value="true">
+                                <input type="radio" name="q${q.id}" value="true" disabled>
                                 TRUE
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="q${q.id}" value="false">
+                                <input type="radio" name="q${q.id}" value="false" disabled>
                                 FALSE
                             </label>
                         </div>
                         <div style="margin-top: 10px;">
                             <label class="label-text">If FALSE, write the corrected statement:</label>
-                            <textarea class="answer-input" placeholder="Correction (if needed)..." rows="2"></textarea>
+                            <textarea class="answer-input" placeholder="Correction (if needed)..." rows="2" disabled></textarea>
+                            <div class="feedback-message" data-for="q${q.id}-correction"></div>
                         </div>
                     `;
                 } else if (q.type === 'conversion_prefix') {
-                    // Q6: 75 ml to L (One Step / Easy Mode)
                     contentHTML = `
                         <div class="train-track-container" id="q6-container">
                             <div class="step-label">Step 1: Set up Units & Powers</div>
@@ -741,9 +834,9 @@
                                     <div class="denominator">
                                         <div class="scientific-group">
                                             <span class="base-ten">10</span>
-                                            <input type="number" class="exponent-input" id="q6-exp-d1" placeholder="?">
+                                            <input type="number" class="exponent-input" id="q6-exp-d1" placeholder="?" disabled>
                                         </div>
-                                        <input type="text" class="unit-box" id="q6-unit-d1" placeholder="Unit">
+                                        <input type="text" class="unit-box" id="q6-unit-d1" placeholder="Unit" disabled>
                                     </div>
                                 </div>
                                 <div class="cell no-border"><span class="equals-sign">=</span></div>
@@ -765,9 +858,9 @@
                                     <div class="numerator">
                                         <div class="scientific-group">
                                             <span class="base-ten">x 10</span>
-                                            <input type="number" class="exponent-input" id="q6-exp-flip-1" placeholder="?">
+                                            <input type="number" class="exponent-input" id="q6-exp-flip-1" placeholder="?" disabled>
                                         </div>
-                                        <input type="text" class="unit-box" id="q6-unit-flip-1" placeholder="Unit">
+                                        <input type="text" class="unit-box" id="q6-unit-flip-1" placeholder="Unit" disabled>
                                     </div>
                                     <div class="denominator"></div>
                                 </div>
@@ -775,12 +868,12 @@
 
                             <div class="step3-container">
                                 <div class="step3-actions">
-                                    <button class="btn-check-setup" onclick="checkQ6('setup')">1. Verify Setup & Signs</button>
-                                    <button class="btn-check-final" onclick="checkQ6('final')">2. Check Final Answer</button>
+                                    <button class="btn-check-setup" onclick="checkQ6('setup')" disabled>1. Verify Setup & Signs</button>
+                                    <button class="btn-check-final" onclick="checkQ6('final')" disabled>2. Check Final Answer</button>
                                 </div>
                                 <div class="input-row">
                                     <label class="label-text">Final Answer (Sci Notation):</label>
-                                    <input type="text" class="answer-input" id="q6-final-ans" style="width: 150px;" placeholder="format 4.4e-2">
+                                    <input type="text" class="answer-input" id="q6-final-ans" style="width: 150px;" placeholder="format 4.4e-2" disabled>
                                     <span class="label-text">L</span>
                                 </div>
                                 <div id="q6-feedback" class="feedback-msg"></div>
@@ -788,7 +881,6 @@
                         </div>
                     `;
                 } else if (q.type === 'conversion_below') {
-                    // Q7: 1.3 mm to µm (Two Steps / Hard Mode)
                     contentHTML = `
                         <div class="train-track-container" id="q7-container">
                             <div class="step-label">Step 1: Set up Units & Powers</div>
@@ -805,28 +897,28 @@
                                     <div class="track-line"></div>
                                     <div class="numerator">
                                         <span class="fixed-one">1</span>
-                                        <input type="text" class="unit-box" id="q7-unit-n1" placeholder="Unit">
+                                        <input type="text" class="unit-box" id="q7-unit-n1" placeholder="Unit" disabled>
                                     </div>
                                     <div class="denominator">
                                         <div class="scientific-group">
                                             <span class="base-ten">10</span>
-                                            <input type="number" class="exponent-input" id="q7-exp-d1" placeholder="?">
+                                            <input type="number" class="exponent-input" id="q7-exp-d1" placeholder="?" disabled>
                                         </div>
-                                        <input type="text" class="unit-box" id="q7-unit-d1" placeholder="Unit">
+                                        <input type="text" class="unit-box" id="q7-unit-d1" placeholder="Unit" disabled>
                                     </div>
                                 </div>
                                 <div class="cell">
                                     <div class="track-line"></div>
                                     <div class="numerator">
                                         <span class="fixed-one">1</span>
-                                        <input type="text" class="unit-box" id="q7-unit-n2" placeholder="Unit">
+                                        <input type="text" class="unit-box" id="q7-unit-n2" placeholder="Unit" disabled>
                                     </div>
                                     <div class="denominator">
                                         <div class="scientific-group">
                                             <span class="base-ten">10</span>
-                                            <input type="number" class="exponent-input" id="q7-exp-d2" placeholder="?">
+                                            <input type="number" class="exponent-input" id="q7-exp-d2" placeholder="?" disabled>
                                         </div>
-                                        <input type="text" class="unit-box" id="q7-unit-d2" placeholder="Unit">
+                                        <input type="text" class="unit-box" id="q7-unit-d2" placeholder="Unit" disabled>
                                     </div>
                                 </div>
                                 <div class="cell no-border"><span class="equals-sign">=</span></div>
@@ -848,7 +940,7 @@
                                     <div class="numerator">
                                         <div class="scientific-group">
                                             <span class="base-ten">x 10</span>
-                                            <input type="number" class="exponent-input" id="q7-exp-flip-1" placeholder="?">
+                                            <input type="number" class="exponent-input" id="q7-exp-flip-1" placeholder="?" disabled>
                                         </div>
                                     </div>
                                     <div class="denominator"></div>
@@ -858,9 +950,9 @@
                                     <div class="numerator">
                                         <div class="scientific-group">
                                             <span class="base-ten">x 10</span>
-                                            <input type="number" class="exponent-input" id="q7-exp-flip-2" placeholder="?">
+                                            <input type="number" class="exponent-input" id="q7-exp-flip-2" placeholder="?" disabled>
                                         </div>
-                                        <input type="text" class="unit-box" id="q7-unit-flip-2" placeholder="Unit">
+                                        <input type="text" class="unit-box" id="q7-unit-flip-2" placeholder="Unit" disabled>
                                     </div>
                                     <div class="denominator"></div>
                                 </div>
@@ -868,12 +960,12 @@
 
                             <div class="step3-container">
                                 <div class="step3-actions">
-                                    <button class="btn-check-setup" onclick="checkQ7('setup')">1. Verify Setup & Signs</button>
-                                    <button class="btn-check-final" onclick="checkQ7('final')">2. Check Final Answer</button>
+                                    <button class="btn-check-setup" onclick="checkQ7('setup')" disabled>1. Verify Setup & Signs</button>
+                                    <button class="btn-check-final" onclick="checkQ7('final')" disabled>2. Check Final Answer</button>
                                 </div>
                                 <div class="input-row">
                                     <label class="label-text">Final Answer (Sci Notation):</label>
-                                    <input type="text" class="answer-input" id="q7-final-ans" style="width: 150px;" placeholder="format 4.4e-4">
+                                    <input type="text" class="answer-input" id="q7-final-ans" style="width: 150px;" placeholder="format 4.4e-4" disabled>
                                     <span class="label-text">µm</span>
                                 </div>
                                 <div id="q7-feedback" class="feedback-msg"></div>
@@ -883,17 +975,20 @@
                 } else if (q.type === 'experiment') {
                     contentHTML = `
                         <div style="margin-top: 10px;">
-                            <div class="input-row">
+                            <div class="input-with-feedback">
                                 <label class="label-text" style="min-width: 180px;">Independent Variable:</label>
-                                <input type="text" class="answer-input wide-input" placeholder="">
+                                <input type="text" class="answer-input wide-input" placeholder="(select confidence first)" disabled>
+                                <div class="feedback-message" data-for="q${q.id}-independent"></div>
                             </div>
-                            <div class="input-row">
+                            <div class="input-with-feedback">
                                 <label class="label-text" style="min-width: 180px;">Dependent Variable:</label>
-                                <input type="text" class="answer-input wide-input" placeholder="">
+                                <input type="text" class="answer-input wide-input" placeholder="(select confidence first)" disabled>
+                                <div class="feedback-message" data-for="q${q.id}-dependent"></div>
                             </div>
-                            <div class="input-row">
+                            <div class="input-with-feedback">
                                 <label class="label-text" style="min-width: 180px;">Control Variable:</label>
-                                <input type="text" class="answer-input wide-input" placeholder="">
+                                <input type="text" class="answer-input wide-input" placeholder="(select confidence first)" disabled>
+                                <div class="feedback-message" data-for="q${q.id}-control"></div>
                             </div>
                             <p style="margin-top: 8px; font-size: 0.85em; color: var(--uwp-grey); font-style: italic;">
                                 Acceptable answers: What did they maniplate? What did they measure? What did they keep the same?
@@ -905,43 +1000,69 @@
                         <div class="formula-display">Size = Field Diameter / Number</div>
                         <div style="margin-top: 15px;">
                             <p style="font-weight: 600; margin-bottom: 8px; color: #000;">Step 1: Identify values</p>
-                            <div class="input-row">
-                                <label class="label-text">Field Diameter (FD):</label>
-                                <input type="text" class="answer-input small-input" placeholder="">
-                                <span class="label-text">mm</span>
+                            <div class="input-with-feedback">
+                                <div class="input-row">
+                                    <label class="label-text">Field Diameter (FD):</label>
+                                    <input type="text" class="answer-input small-input" placeholder="" disabled>
+                                    <span class="label-text">mm</span>
+                                </div>
+                                <div class="feedback-message" data-for="q${q.id}-fd"></div>
                             </div>
-                            <div class="input-row">
-                                <label class="label-text">Number (N):</label>
-                                <input type="text" class="answer-input small-input" placeholder="">
-                                <span class="label-text">cells</span>
+                            <div class="input-with-feedback">
+                                <div class="input-row">
+                                    <label class="label-text">Number (N):</label>
+                                    <input type="text" class="answer-input small-input" placeholder="" disabled>
+                                    <span class="label-text">cells</span>
+                                </div>
+                                <div class="feedback-message" data-for="q${q.id}-n"></div>
                             </div>
                             <p style="font-weight: 600; margin: 12px 0 8px 0; color: #000;">Step 2: Calculate</p>
-                            <div class="input-row">
-                                <label class="label-text">Size =</label>
-                                <input type="text" class="answer-input small-input" placeholder="">
-                                <span class="label-text">/</span>
-                                <input type="text" class="answer-input small-input" placeholder="">
-                                <span class="label-text">=</span>
-                                <input type="text" class="answer-input small-input" placeholder="">
-                                <span class="label-text">mm</span>
+                            <div class="input-with-feedback">
+                                <div class="input-row">
+                                    <label class="label-text">Size =</label>
+                                    <input type="text" class="answer-input small-input" placeholder="" disabled>
+                                    <span class="label-text">/</span>
+                                    <input type="text" class="answer-input small-input" placeholder="" disabled>
+                                    <span class="label-text">=</span>
+                                    <input type="text" class="answer-input small-input" placeholder="" disabled>
+                                    <span class="label-text">mm</span>
+                                </div>
+                                <div class="feedback-message" data-for="q${q.id}-calc"></div>
                             </div>
                             <p style="font-weight: 600; margin: 12px 0 8px 0; color: #000;">Step 3: Convert to µm</p>
-                            <div class="input-row">
-                                <input type="text" class="answer-input" style="width: 150px;" placeholder="Final answer">
-                                <span class="label-text">µm</span>
+                            <div class="input-with-feedback">
+                                <div class="input-row">
+                                    <input type="text" class="answer-input" style="width: 150px;" placeholder="Final answer" disabled>
+                                    <span class="label-text">µm</span>
+                                </div>
+                                <div class="feedback-message" data-for="q${q.id}-final"></div>
                             </div>
                         </div>
                     `;
                 } else if (q.type === 'three_items') {
                     contentHTML = `
                         <div class="input-row">
-                            <input type="text" class="answer-input small-input" placeholder="1">
-                            <input type="text" class="answer-input small-input" placeholder="2">
-                            <input type="text" class="answer-input small-input" placeholder="3">
+                            <div class="input-with-feedback">
+                                <input type="text" class="answer-input small-input" placeholder="1 (select confidence first)" disabled>
+                                <div class="feedback-message" data-for="q${q.id}-item1"></div>
+                            </div>
+                            <div class="input-with-feedback">
+                                <input type="text" class="answer-input small-input" placeholder="2 (select confidence first)" disabled>
+                                <div class="feedback-message" data-for="q${q.id}-item2"></div>
+                            </div>
+                            <div class="input-with-feedback">
+                                <input type="text" class="answer-input small-input" placeholder="3 (select confidence first)" disabled>
+                                <div class="feedback-message" data-for="q${q.id}-item3"></div>
+                            </div>
                         </div>
                     `;
                 } else {
-                    contentHTML = `<textarea class="answer-input" placeholder="Your answer here..." rows="3"></textarea>`;
+                    contentHTML = `
+                        <div class="input-with-feedback">
+                            <textarea class="answer-input" placeholder="Your answer here... (select confidence first)" rows="3" disabled></textarea>
+                            <div class="feedback-message" data-for="q${q.id}"></div>
+                        </div>
+                    `;
                 }
                 
                 card.innerHTML = `
@@ -1003,27 +1124,213 @@
                     const required = document.getElementById(`required-${questionId}`);
                     required.style.display = 'none';
                     
+                    // Enable all inputs in this question
+                    const inputs = content.querySelectorAll('input:not([readonly]), textarea, select, button');
+                    inputs.forEach(input => {
+                        input.disabled = false;
+                        // Remove placeholder text about confidence
+                        if (input.placeholder && input.placeholder.includes('select confidence')) {
+                            input.placeholder = input.placeholder.replace('(select confidence first)', '');
+                        }
+                    });
+                    
                     updateProgress();
+                    
+                    // Attach answer check listeners to this question's inputs
+                    attachAnswerCheckListenersForQuestion(questionId);
                 });
             });
         }
         
-        // --- NEW: Unit Cancellation Logic from TrainTrackCode.html ---
+        function attachAnswerCheckListenersForQuestion(questionId) {
+            const questionCard = document.querySelector(`#content-${questionId}`);
+            
+            // Text inputs and textareas
+            questionCard.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(input => {
+                input.addEventListener('blur', function() {
+                    checkAnswer(questionId, this);
+                });
+            });
+            
+            // Radio buttons
+            questionCard.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    checkAnswer(questionId, this);
+                });
+            });
+            
+            // Special case for Q6 and Q7 check buttons
+            if (questionId == 6 || questionId == 7) {
+                const checkButtons = questionCard.querySelectorAll('.btn-check-setup, .btn-check-final');
+                checkButtons.forEach(btn => {
+                    btn.disabled = false;
+                });
+            }
+        }
+        
+        function checkAnswer(questionId, inputElement) {
+            const question = questions.find(q => q.id == questionId);
+            const correct = correctAnswers[questionId];
+            
+            if (!correct || !question) return;
+            
+            // Find the feedback element for this input
+            let feedbackEl = inputElement.parentNode.querySelector('.feedback-message');
+            if (!feedbackEl) {
+                // Look for a nearby feedback element
+                feedbackEl = document.querySelector(`[data-for="q${questionId}"]`);
+            }
+            
+            switch(question.type) {
+                case 'twopart':
+                    checkTwoPart(questionId, inputElement, feedbackEl);
+                    break;
+                    
+                case 'truefalse':
+                    checkTrueFalse(questionId, inputElement, feedbackEl);
+                    break;
+                    
+                case 'short':
+                    checkShortAnswer(questionId, inputElement, feedbackEl);
+                    break;
+                    
+                case 'three_items':
+                    checkThreeItems(questionId, inputElement, feedbackEl);
+                    break;
+                    
+                case 'experiment':
+                    checkExperiment(questionId, inputElement, feedbackEl);
+                    break;
+                    
+                case 'field_diameter':
+                    checkFieldDiameter(questionId, inputElement, feedbackEl);
+                    break;
+                    
+                // Q6 & Q7 already have their own checking functions
+            }
+        }
+        
+        function checkTwoPart(questionId, input, feedback) {
+            const inputs = document.querySelectorAll(`#content-${questionId} .answer-input`);
+            const index = Array.from(inputs).indexOf(input);
+            
+            // Simple check: any non-empty answer is accepted for demo
+            const isCorrect = input.value.trim().length > 0;
+            updateFeedback(input, feedback, isCorrect, 
+                isCorrect ? '✓ Answer recorded' : '✗ Please provide an answer');
+        }
+        
+        function checkTrueFalse(questionId, input, feedback) {
+            const correct = correctAnswers[questionId];
+            
+            if (input.type === 'radio') {
+                const selectedValue = input.value;
+                const isCorrect = selectedValue === correct.correct;
+                
+                updateFeedback(input, feedback, isCorrect,
+                    isCorrect ? '✓ Correct selection' : '✗ Review the concept');
+                    
+                // If false was selected, check if correction is provided
+                if (selectedValue === 'false') {
+                    const correctionInput = document.querySelector(`#content-${questionId} textarea`);
+                    if (correctionInput && correctionInput.value.trim().length > 0) {
+                        updateFeedback(correctionInput, null, true, '');
+                    }
+                }
+            } else if (input.type === 'textarea') {
+                const hasCorrection = input.value.trim().length > 10;
+                updateFeedback(input, feedback, hasCorrection,
+                    hasCorrection ? '✓ Good correction' : '✗ Provide more detail if false');
+            }
+        }
+        
+        function checkShortAnswer(questionId, input, feedback) {
+            const answer = input.value.trim().toLowerCase();
+            const correct = correctAnswers[questionId];
+            
+            // Check for keywords
+            const hasPrefix = answer.includes('pseudo') || answer.includes('false');
+            const hasSuffix = answer.includes('science') || answer.includes('knowledge');
+            const isCorrect = hasPrefix && hasSuffix;
+            
+            updateFeedback(input, feedback, isCorrect,
+                isCorrect ? '✓ Contains key elements' : '✗ Identify prefix and suffix');
+        }
+        
+        function checkThreeItems(questionId, input, feedback) {
+            const correct = correctAnswers[questionId];
+            const userValue = input.value.trim().toLowerCase();
+            
+            // Check if answer matches any of the expected items
+            const isMatch = correct.items.some(item => 
+                userValue.includes(item.toLowerCase()) || 
+                item.toLowerCase().includes(userValue)
+            );
+            
+            const isCorrect = isMatch && userValue.length > 0;
+            updateFeedback(input, feedback, isCorrect,
+                isCorrect ? '✓ Acceptable item' : '✗ Think about slide markings');
+        }
+        
+        function checkExperiment(questionId, input, feedback) {
+            const correct = correctAnswers[questionId];
+            const inputs = document.querySelectorAll(`#content-${questionId} .answer-input`);
+            const index = Array.from(inputs).indexOf(input);
+            
+            let keyword = '';
+            if (index === 0) keyword = correct.independent;
+            else if (index === 1) keyword = correct.dependent;
+            else if (index === 2) keyword = correct.control;
+            
+            const userAnswer = input.value.trim().toLowerCase();
+            const isCorrect = userAnswer.includes(keyword) && userAnswer.length > 0;
+            
+            updateFeedback(input, feedback, isCorrect,
+                isCorrect ? '✓ Correct variable type' : '✗ Review variable definitions');
+        }
+        
+        function checkFieldDiameter(questionId, input, feedback) {
+            const inputs = document.querySelectorAll(`#content-${questionId} .answer-input`);
+            const isFinalAnswer = input === inputs[inputs.length - 1];
+            
+            if (isFinalAnswer) {
+                const userValue = parseFloat(input.value);
+                const correct = correctAnswers[questionId];
+                const isInRange = userValue >= correct.range[0] && userValue <= correct.range[1];
+                
+                updateFeedback(input, feedback, isInRange,
+                    isInRange ? '✓ Correct range' : '✗ Check calculation: 5mm ÷ 91 cells × 1000');
+            } else {
+                // For intermediate inputs, just check if filled
+                const isCorrect = input.value.trim().length > 0;
+                updateFeedback(input, feedback, isCorrect, '');
+            }
+        }
+        
+        function updateFeedback(element, feedbackEl, isCorrect, message) {
+            element.classList.remove('answer-correct', 'answer-incorrect');
+            element.classList.add(isCorrect ? 'answer-correct' : 'answer-incorrect');
+            
+            if (feedbackEl && message) {
+                feedbackEl.textContent = message;
+                feedbackEl.className = `feedback-message feedback-${isCorrect ? 'correct' : 'incorrect'}`;
+            }
+        }
+        
+        // --- Unit Cancellation Logic ---
         function setupUnitCancellation() {
             document.querySelectorAll('.unit-box').forEach(box => {
-                // Remove old listeners to prevent duplicates if recalled
                 box.replaceWith(box.cloneNode(true));
             });
             
-            // Re-select fresh DOM elements
             const unitBoxes = document.querySelectorAll('.unit-box');
             
             unitBoxes.forEach(box => {
                 box.addEventListener('click', function () {
-                    if (this.readOnly && this.value === "") return; // Allow interaction if it has value (like 'ml' in Q6 start)
+                    if (this.readOnly && this.value === "") return;
                     
                     const currentCard = this.closest('.question-card');
-                    if(!currentCard) return; // safety check
+                    if(!currentCard) return;
                     
                     const thisUnit = this.value.trim();
                     if(thisUnit === "") return;
@@ -1036,7 +1343,6 @@
                     let matchingUnit = null;
 
                     if (isNumerator) {
-                        // Look in next cell for matching denominator (Diagonal Down)
                         if (currentIndex < allCells.length - 1) {
                             const nextCell = allCells[currentIndex + 1];
                             const denominatorUnits = nextCell.querySelectorAll('.denominator .unit-box');
@@ -1047,7 +1353,6 @@
                             });
                         }
                     } else {
-                        // Look in previous cell for matching numerator (Diagonal Up)
                         if (currentIndex > 0) {
                             const prevCell = allCells[currentIndex - 1];
                             const numeratorUnits = prevCell.querySelectorAll('.numerator .unit-box');
@@ -1067,50 +1372,43 @@
             });
         }
 
-        // --- Q6 LOGIC (Level 1: 75 ml to L) ---
-        // Target: 75 * 10^-3
-        let q6Solution = 7.5e-2; // 0.075
+        // --- Q6 LOGIC ---
+        let q6Solution = 7.5e-2;
 
         window.checkQ6 = function(mode) {
             const feedback = document.getElementById('q6-feedback');
             feedback.textContent = "";
             feedback.className = "feedback-msg";
             
-            // Elements
-            const uStart = document.getElementById('q6-start-unit'); // ml
-            const uD1 = document.getElementById('q6-unit-d1'); // should be ml
-            const uN1 = document.getElementById('q6-unit-n1'); // L
-            const expD1 = document.getElementById('q6-exp-d1'); // should be 3 (1000ml = 1L)
+            const uStart = document.getElementById('q6-start-unit');
+            const uD1 = document.getElementById('q6-unit-d1');
+            const uN1 = document.getElementById('q6-unit-n1');
+            const expD1 = document.getElementById('q6-exp-d1');
             const expFlip = document.getElementById('q6-exp-flip-1');
             const unitFlip = document.getElementById('q6-unit-flip-1');
             
             if (mode === 'setup') {
-                // 1. Check Cancellation (ml must be cancelled)
                 if (!uStart.classList.contains('cancelled') || !uD1.classList.contains('cancelled')) {
                     feedback.textContent = "Step 1 Error: You must cancel the 'ml' units diagonally!";
                     feedback.style.color = "var(--danger)";
                     return;
                 }
                 
-                // 2. Check Unit Entry
                 if (uD1.value.trim() !== 'ml') {
                     feedback.textContent = "Step 1 Error: Unit in denominator must match start unit to cancel.";
                     uD1.classList.add('incorrect'); return;
                 } else uD1.classList.remove('incorrect');
 
-                // 3. Check Exponent (1 L = 10^3 ml)
                 if (expD1.value.trim() !== '3') {
                     feedback.textContent = "Step 1 Error: How many ml in a L? (Hint: milli = 10^3 relative to base inverse)";
                     expD1.classList.add('incorrect'); return;
                 } else expD1.classList.remove('incorrect');
 
-                // 4. Check Rewrite (Flip Sign)
                 if (expFlip.value.trim() !== '-3') {
                     feedback.textContent = "Step 2 Error: When moving 10^3 up, the sign must flip!";
                     expFlip.classList.add('incorrect'); return;
                 } else expFlip.classList.remove('incorrect');
 
-                // 5. Check Rewrite Unit
                 if (unitFlip.value.trim() !== 'L') {
                     feedback.textContent = "Step 2 Error: The remaining unit should be L.";
                     unitFlip.classList.add('incorrect'); return;
@@ -1123,7 +1421,6 @@
             if (mode === 'final') {
                 const finalAns = document.getElementById('q6-final-ans');
                 const val = parseFloat(finalAns.value);
-                // Check if close to 0.075
                 if (Math.abs(val - 0.075) < 0.0001) {
                     feedback.textContent = "✅ Correct! 7.5e-2 L (or 0.075 L)";
                     feedback.style.color = "var(--success)";
@@ -1137,35 +1434,27 @@
             }
         }
 
-        // --- Q7 LOGIC (Level 3: 1.3 mm to µm) ---
-        // Path: mm -> m -> µm
-        // 1.3 * (1 m / 10^3 mm) * (1 µm / 10^-6 m)
-        // Rewrite: 1.3 * 10^-3 * 10^6 = 1.3 * 10^3
-        
+        // --- Q7 LOGIC ---
         window.checkQ7 = function(mode) {
             const feedback = document.getElementById('q7-feedback');
             feedback.textContent = "";
             feedback.className = "feedback-msg";
 
-            // Elements
-            const uStart = document.getElementById('q7-start-unit'); // mm
-            const uN1 = document.getElementById('q7-unit-n1'); // m
-            const uD1 = document.getElementById('q7-unit-d1'); // mm
-            const expD1 = document.getElementById('q7-exp-d1'); // 3 (1m = 10^3mm)
+            const uStart = document.getElementById('q7-start-unit');
+            const uN1 = document.getElementById('q7-unit-n1');
+            const uD1 = document.getElementById('q7-unit-d1');
+            const expD1 = document.getElementById('q7-exp-d1');
             
-            const uN2 = document.getElementById('q7-unit-n2'); // µm
-            const uD2 = document.getElementById('q7-unit-d2'); // m
-            const expD2 = document.getElementById('q7-exp-d2'); // -6 (1µm = 10^-6m)
+            const uN2 = document.getElementById('q7-unit-n2');
+            const uD2 = document.getElementById('q7-unit-d2');
+            const expD2 = document.getElementById('q7-exp-d2');
 
             const expFlip1 = document.getElementById('q7-exp-flip-1');
             const expFlip2 = document.getElementById('q7-exp-flip-2');
-            const unitFlip = document.getElementById('q7-unit-flip-2'); // µm
+            const unitFlip = document.getElementById('q7-unit-flip-2');
 
             if (mode === 'setup') {
-                // 1. Check Cancellations
-                // mm cancels with D1
                 const mmCancelled = uStart.classList.contains('cancelled') && uD1.classList.contains('cancelled');
-                // m (N1) cancels with D2
                 const mCancelled = uN1.classList.contains('cancelled') && uD2.classList.contains('cancelled');
 
                 if (!mmCancelled || !mCancelled) {
@@ -1174,25 +1463,17 @@
                     return;
                 }
 
-                // 2. Check Units
                 if(uD1.value !== 'mm') { uD1.classList.add('incorrect'); feedback.textContent="Check Unit D1"; return; } uD1.classList.remove('incorrect');
                 if(uN1.value !== 'm') { uN1.classList.add('incorrect'); feedback.textContent="Check Unit N1 (go to base)"; return; } uN1.classList.remove('incorrect');
                 if(uD2.value !== 'm') { uD2.classList.add('incorrect'); feedback.textContent="Check Unit D2"; return; } uD2.classList.remove('incorrect');
                 if(uN2.value !== 'µm') { uN2.classList.add('incorrect'); feedback.textContent="Check Unit N2 (target)"; return; } uN2.classList.remove('incorrect');
 
-                // 3. Check Exponents
-                // 1 m = 10^3 mm
                 if(expD1.value !== '3') { expD1.classList.add('incorrect'); feedback.textContent="Step 1: 1 m = 10^3 mm"; return; } expD1.classList.remove('incorrect');
-                // 1 µm = 10^-6 m
                 if(expD2.value !== '-6') { expD2.classList.add('incorrect'); feedback.textContent="Step 1: 1 µm = 10^-6 m"; return; } expD2.classList.remove('incorrect');
 
-                // 4. Check Rewrite (Flips)
-                // 3 becomes -3
                 if(expFlip1.value !== '-3') { expFlip1.classList.add('incorrect'); feedback.textContent="Step 2: Flip sign of first exponent"; return; } expFlip1.classList.remove('incorrect');
-                // -6 becomes 6
                 if(expFlip2.value !== '6') { expFlip2.classList.add('incorrect'); feedback.textContent="Step 2: Flip sign of second exponent"; return; } expFlip2.classList.remove('incorrect');
 
-                // 5. Final unit
                 if(unitFlip.value !== 'µm') { unitFlip.classList.add('incorrect'); feedback.textContent="Step 2: Missing target unit"; return; } unitFlip.classList.remove('incorrect');
 
                 feedback.textContent = "✅ Setup Correct!";
@@ -1202,7 +1483,6 @@
             if (mode === 'final') {
                 const finalAns = document.getElementById('q7-final-ans');
                 const val = parseFloat(finalAns.value);
-                // 1.3 * 10^-3 * 10^6 = 1.3 * 10^3 = 1300
                 if (Math.abs(val - 1300) < 1) {
                     feedback.textContent = "✅ Correct! 1.3e3 µm";
                     feedback.style.color = "var(--success)";
