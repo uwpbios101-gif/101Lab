@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOS 101 Lab - University of Wisconsin-Parkside</title>
+    <style>
+        /* UWP Brand Colors & Variables */
+        :root {
+            --uwp-green: #00693c; /* Parkside Green PMS 349 */
+            --uwp-black: #000000;
+            --uwp-dark-gray: #333333;
+            --uwp-light-gray: #f4f4f4;
+            --uwp-white: #ffffff;
+            --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* General Reset & Typography */
+        body {
+            font-family: var(--font-primary);
+            color: var(--uwp-dark-gray);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background-color: var(--uwp-light-gray);
+        }
+
+        h1, h2, h3 {
+            color: var(--uwp-green);
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-weight: 700; }
+        h2 { border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Header Styling (Sacrosanct) */
+        header {
+            background-color: var(--uwp-green);
+            color: var(--uwp-white);
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-inner.nav-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-inner.nav-links a {
+            color: var(--uwp-white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .header-inner.nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        /* Section Cards */
+        .card {
+            background: var(--uwp-white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--uwp-green);
+        }
+
+        /* Intro Section */
+        .intro-banner {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .alert-box {
+            background-color: #e8f5e9;
+            border-left: 5px solid var(--uwp-green);
+            padding: 15px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        /* Grid for Content */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--uwp-dark-gray);
+            color: var(--uwp-white);
+            margin-top: 40px;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-inner.nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner nav-links">
+            <a href="01_Science_of_Biology/prelab/prelabreadings.html">Prelab Readings</a>
+            <a href="01_Science_of_Biology/microscpy/MicroscopeMastery.html">Microscopy</a>
+            <a href="01_Science_of_Biology/prelab/traintrack.html">Metric Conversion Practice</a>
+            <a href="01_Science_of_Biology/prelab/prelabreadings.html">Metric Conversion Homework</a>
+            <a href="01_Science_of_Biology/prelab/size.html">Size</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="card intro-banner">
+            <h1>BIOS 101 Lab</h1>
+            <p class="lead">Welcome to the 2007 Professional Development BIOS 101 Lab.</p>
+            <div class="alert-box">
+                <p><strong>Required:</strong> Attending the full lab session is mandatory.</p>
+                <p><strong>Start Times:</strong> 2:00 PM (Tues/Thur) & 9:00 AM (Wed) — Be in your seat sharp!</p>
+            </div>
+        </section>
+
+        <div class="content-grid">
+            <section class="card">
+                <h2>Required Materials</h2>
+                <p>Enter the room prepared to complete the Lab in the time allotted. Please bring:</p>
+                <ul>
+                    <li><strong>Lab Manual:</strong> Must be in a 3-ring binder.</li>
+                    <li><strong>Textbook:</strong> Campbell Biology (12th Edition).</li>
+                    <li><strong>Electronic Device(s):</strong> Required for lab work.</li>
+                    <li><strong>Writing Utensils:</strong> Colored pencils or crayons (No pens).</li>
+                </ul>
+            </section>
+
+            <section class="card">
+                <h2>Daily Laboratory Flow</h2>
+                <ol>
+                    <li><strong>Arrival:</strong> Put backpack/coat in the closet or side cabinets.</li>
+                    <li><strong>Hygiene:</strong> Wash hands for at least 20-30 seconds.</li>
+                    <li><strong>Preparation:</strong> Grab supplies for the day.</li>
+                    <li><strong>Assessment:</strong> Take the Weekly Quiz.</li>
+                    <li><strong>Work:</strong> Begin exercises for the day.</li>
+                    <li><strong>Equipment:</strong> Check out your assigned microscope (no sharing). Set up with millimeter ruler on stage.</li>
+                </ol>
+                <p><em>Note: Stop all activities at 4:20 PM (Tues/Thur) or 11:20 AM (Wed) to start Metric conversions.</em></p>
+            </section>
+
+            <section class="card">
+                <h2>Policies & Pre-Lab</h2>
+                <h3>Missed Labs</h3>
+                <ul>
+                    <li><strong>Contact Instructor ASAP:</strong> If life happens, email immediately.</li>
+                    <li><strong>Make-up Policy:</strong> You generally cannot make up missed labs.</li>
+                    <li><strong>Schedule:</strong> Try to schedule a meeting day during the <em>same week</em> (See pg 4 of Lab Manual).</li>
+                </ul>
+                <h3>Pre-Lab Work (Paramount!)</h3>
+                <ul>
+                    <li>Answer as many Lab Manual questions as possible before arrival.</li>
+                    <li>Attempt the week's worksheet prior to your lab session.</li>
+                </ul>
+            </section>
+
+            <section class="card">
+                <h2>Grading & Exams</h2>
+                <h3>Written Quizzes</h3>
+                <ul>
+                    <li><strong>Total:</strong> 6 written quizzes.</li>
+                    <li><strong>Format:</strong> In Lab | 1 Attempt | 5 Minutes.</li>
+                    <li><strong>Content:</strong> 10 questions (10 points). 
+                        <ul>
+                            <li>Includes Fill in the blanks, True/False, Multiple choice, etc.</li>
+                            <li>9 questions from the <em>previous</em> lab.</li>
+                            <li>2 questions from the <em>current</em> week's lab.</li>
+                            <li>Includes 2 practical questions.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h3>Exams</h3>
+                <ul>
+                    <li><strong>1st Exam:</strong> Labs 1 through 5.</li>
+                    <li><strong>2nd Exam:</strong> Labs 6 through 10.</li>
+                    <li><strong>Details:</strong> 125 Points | 125 Questions (40 practical). Typically 1 hour.</li>
+                </ul>
+            </section>
+        </div>
+
+        <section class="card">
+            <h2>Week 1 Agenda</h2>
+            <p>Welcome to the first week! Here is what we will cover:</p>
+            <ul>
+                <li><strong>Introduction:</strong> Course overview and expectations.</li>
+                <li><strong>Metric System:</strong> All about conversions!</li>
+                <li><strong>Measurements:</strong>
+                    <ul>
+                        <li>Measure your desk.</li>
+                        <li>Determine diameter of the field of view.</li>
+                    </ul>
+                </li>
+                <li><strong>Microscopy:</strong>
+                    <ul>
+                        <li>View and count <em>Anabaena</em> cells.</li>
+                        <li>Prepare, view, and count cheek cells.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; University of Wisconsin-Parkside | BIOS 101 Lab</p>
+    </footer>
+
+</body>
+</html>
