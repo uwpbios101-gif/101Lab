@@ -1,0 +1,2226 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Size Calculator – Biological Accuracy Update</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            /* UWP BRAND COLORS */
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --uwp-green: #006F51;
+            --uwp-gray: #555555;
+            --accent: var(--uwp-green);
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #d97706;
+            --border-color: #000000;
+            font-family: "Open Sans", "Segoe UI", sans-serif;
+            --max-width: 1600px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: #222;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+        }
+
+        header {
+            margin-bottom: 20px;
+            border-bottom: 4px solid var(--uwp-green);
+            padding-bottom: 15px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: "Montserrat", sans-serif;
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            color: var(--uwp-green);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .goals-container {
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border-left: 6px solid var(--uwp-green);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            display: inline-block;
+            margin: 0 auto;
+            font-size: 16px;
+            color: #333;
+            max-width: 800px;
+        }
+
+        .goals-title {
+            font-weight: 800;
+            color: var(--uwp-green);
+            display: inline-block;
+            margin-right: 5px;
+            text-transform: uppercase;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 20px;
+            align-items: start;
+            margin-top: 15px;
+        }
+
+        .panel {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #cbd5e1;
+            border-top: 4px solid var(--uwp-green);
+        }
+
+        .question-banner {
+            background: #f1f5f9;
+            color: #000;
+            border: 2px solid #cbd5e1;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 15px;
+        }
+
+        .question-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .answer-feedback-box {
+            font-size: 18px;
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 2px solid transparent;
+            display: none;
+            margin-top: 6px;
+            font-family: 'Times New Roman', serif;
+            color: #000000;
+            background: #ffffff;
+        }
+
+        .answer-feedback-box.correct {
+            background-color: #dcfce7;
+            color: #14532d;
+            border-color: #166534;
+        }
+
+        .answer-feedback-box.incorrect {
+            background-color: #fee2e2;
+            color: #7f1d1d;
+            border-color: #991b1b;
+        }
+
+        svg {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin: 0 auto;
+            display: block;
+            user-select: none;
+            background: #fff;
+            border: 2px solid #333;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #e2e8f0;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 15px;
+            border: 1px solid #94a3b8;
+            color: #1e293b;
+            margin-top: 15px;
+        }
+
+        .info-bar strong {
+            color: var(--uwp-green);
+            font-weight: 800;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .controls-group {
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 18px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls-group h3 {
+            margin: 0 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--uwp-green);
+            font-size: 18px;
+            color: #111;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-weight: 800;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border-radius: 4px;
+            border: 2px solid #94a3b8;
+            font-family: monospace;
+            font-size: 20px;
+            text-align: center;
+            color: #000;
+            background: #fff;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--uwp-green);
+            box-shadow: 0 0 0 3px rgba(0, 111, 81, 0.2);
+        }
+
+        input[type="text"].valid {
+            border-color: var(--success);
+            background: #f0fdf4;
+            color: #000;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            background: var(--uwp-green);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 15px;
+            font-family: "Open Sans", sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn:hover:not(:disabled) {
+            background-color: #00523C;
+        }
+
+        .btn.mini {
+            padding: 6px 14px;
+            font-size: 13px;
+        }
+
+        .btn.secondary {
+            background: #64748b;
+            color: #fff;
+        }
+
+        .btn.secondary:hover:not(:disabled) {
+            background: #475569;
+        }
+
+        .btn.auto-fit {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #cbd5e1;
+            color: #64748b;
+        }
+
+        /* === UWP PARKSIDE BUTTON PALETTE === */
+        .btn.micro {
+            padding: 9px 16px;
+            font-size: 14px;
+            line-height: 1.25;
+            border-radius: 6px;
+            text-transform: none;
+            font-weight: 700;
+            box-shadow: none;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .btn.micro:not(.btn-clear) {
+            font-size: 18px;
+            padding: 6px 14px;
+        }
+
+        /* ADD — official green */
+        .btn-add {
+            background: #016836;
+            color: #ffffff;
+            border: 2px solid #00502F;
+        }
+
+        .btn-add:hover {
+            background: #00502F;
+        }
+
+        /* REMOVE — warm grey tone */
+        .btn-remove {
+            background: #d81b60;
+            color: #ffffff;
+            border: 2px solid #ff6b8b;
+        }
+
+        .btn-remove:hover {
+            background: #3f3d39;
+        }
+
+        /* ROTATE — UW Blue */
+        .btn-rotate {
+            background: #105877;
+            color: #ffffff;
+            border: 2px solid #0D466E;
+        }
+
+        .btn-rotate:hover {
+            background: #0D466E;
+        }
+
+        /* AUTO-FIT — neutral outline (white background with green border) */
+        .btn-auto {
+            background: #ffffff;
+            color: #016836;
+            border: 2px solid #016836;
+        }
+
+        .btn-auto:hover {
+            background: #F0F0F0;
+            color: #00502F;
+        }
+
+        /* CLEAR — golden accent */
+        .btn-clear {
+            background: #FABA31;
+            color: #21272A;
+            border: 2px solid #C99327;
+        }
+
+        .btn-clear:hover {
+            background: #E0A920;
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .formula-stage {
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            margin: 10px 0;
+            background: #f8fafc;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 8px;
+            color: #000 !important;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .status.warning {
+            background: #fff7ed;
+            border-left: 4px solid #f97316;
+        }
+
+        .status.danger {
+            background: #fee2e2;
+            color: #991b1b !important;
+        }
+
+        .sn-input-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            flex-wrap: wrap;
+        }
+
+        .sn-input-container span {
+            font-family: 'Times New Roman', serif;
+            font-size: 22px;
+            color: #333;
+        }
+
+        input.sn-mantissa {
+            width: 80px;
+            font-weight: 800;
+        }
+
+        input.sn-denom {
+            width: 100px;
+        }
+
+        /* TRAIN TRACK STYLES */
+        .track-wrapper {
+            background-color: #ffffff;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            overflow-x: auto;
+        }
+
+        .step-label {
+            align-self: flex-start;
+            font-weight: 800;
+            color: var(--uwp-green);
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .train-track-model {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding: 10px;
+            position: relative;
+            width: 100%;
+            min-width: 600px;
+            /* Ensure scrolling for small screens */
+        }
+
+        .track-connector {
+            font-size: 2em;
+            color: #94a3b8;
+            margin: 5px 0;
+        }
+
+        .tt-cell {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-width: 120px;
+            position: relative;
+        }
+
+        .track-line {
+            width: 100%;
+            height: 3px;
+            background-color: #334155;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+        .tt-cell:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: #334155;
+            z-index: 1;
+        }
+
+        .tt-cell.no-border::after {
+            display: none;
+        }
+
+        .numerator,
+        .denominator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 5px;
+            z-index: 2;
+            height: 50px;
+            width: 100%;
+        }
+
+        .val-input {
+            width: 100px;
+            padding: 2px;
+            font-size: 16px;
+        }
+
+        .unit-input {
+            width: 50px;
+            padding: 2px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .unit-box:hover {
+            background-color: #ffeaa7;
+        }
+
+        .fixed-one {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #555;
+            margin-right: 5px;
+        }
+
+        .scientific-group {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .base-ten {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-right: 2px;
+        }
+
+        .exponent-input {
+            width: 45px;
+            height: 30px;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+            border: 2px solid #94a3b8;
+            text-align: center;
+        }
+
+        .rewrite-input {
+            margin-bottom: 0;
+        }
+
+        .rewrite-unit-input {
+            width: 60px;
+            margin-left: 8px;
+        }
+
+        .equals-sign {
+            font-size: 2em;
+            color: #334155;
+            padding: 0 10px;
+        }
+
+        .cancelled {
+            text-decoration: line-through;
+            text-decoration-thickness: 3px;
+            text-decoration-color: var(--danger);
+            opacity: 0.6;
+        }
+
+        .step3-container {
+            background-color: #f8fafc;
+            border-radius: 4px;
+            padding: 15px;
+            border: 1px solid #cbd5e1;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-calc {
+            background-color: #10b981;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-check {
+            background-color: var(--accent);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-calc:disabled,
+        .btn-check:disabled {
+            background-color: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .result-row {
+            margin-bottom: 12px;
+            width: 100%;
+        }
+
+        .result-label {
+            display: block;
+            font-size: 0.9em;
+            color: #475569;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .answer-input {
+            width: 250px;
+            text-align: left;
+            font-size: 12px;
+            padding: 2px;
+        }
+
+        .answer-display-box {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 15px;
+            background-color: #e0f2fe;
+            border-radius: 4px;
+            border: 2px solid #0ea5e9;
+            font-size: 1em;
+            font-weight: bold;
+            color: #0c4a6e;
+            margin-left: 2px;
+            min-width: 200px;
+        }
+
+        .answer-display-exponent {
+            font-size: 0.9em;
+            vertical-align: super;
+        }
+
+        @media (max-width:1100px) {
+            .layout {
+                grid-template-columns: 1fr
+            }
+
+            svg {
+                max-width: 640px;
+            }
+        }
+
+        /* --- NEW REFERENCE TABLE STYLES --- */
+        .tables-container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .table-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table-wrapper h4 {
+            margin: 0 0 10px 0;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .ref-table {
+            border-collapse: collapse;
+            font-size: 0.85em;
+            width: auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .ref-table th,
+        .ref-table td {
+            border: 1px solid #bdc3c7;
+            padding: 6px 10px;
+            text-align: center;
+        }
+
+        /* Middle column (equals sign) styling */
+        .ref-table th:nth-child(2),
+        .ref-table td:nth-child(2) {
+            width: 1%;
+            white-space: nowrap;
+            padding: 6px 4px;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+
+        /* THEME 1: DIRECT (BLUE) */
+        .theme-blue h4 {
+            color: #2c3e50;
+        }
+
+        .theme-blue.ref-table th {
+            background-color: #2c3e50;
+            color: white;
+            border-color: #2c3e50;
+        }
+
+        .theme-blue.ref-table tr:nth-child(even) {
+            background-color: #eaf2f8;
+        }
+
+        .theme-blue.ref-table {
+            border: 2px solid #2c3e50;
+        }
+
+        /* THEME 2: INVERSE (GREEN) */
+        .theme-green h4 {
+            color: #27ae60;
+        }
+
+        .theme-green.ref-table th {
+            background-color: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .theme-green.ref-table tr:nth-child(even) {
+            background-color: #e9f7ef;
+        }
+
+        .theme-green.ref-table {
+            border: 2px solid #27ae60;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Size Calculator – Scientific Notation</h1>
+            <div class="goals-container">
+                <span class="goals-title">Goals:</span>
+                <span class="goals-list" id="goalsText">1) Apply the Formula. 2) Master Scientific Notation.</span>
+            </div>
+        </header>
+
+        <div class="layout">
+            <main class="panel" style="padding-bottom:15px;">
+                <div id="playArea">
+                    <div id="questionBanner" class="question-banner">
+                        <div class="question-row">
+                            <button id="newBtn" class="btn secondary mini">New Scenario</button>
+                            <span id="questionText">Loading Question...</span>
+                        </div>
+                        <span id="finalAnswerBox" class="answer-feedback-box"></span>
+                    </div>
+
+                    <div id="microInfoBox" class="micro-info"
+                        style="background:#f0fdf4; padding:8px; border-radius:4px; border:1px solid #cbd5e1; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong>Microscope Specs:</strong> <span id="magDetails"></span>
+                        </div>
+                        <!-- New counter added here -->
+                        <div style="font-size:14px; font-weight:bold; color:#334155;">
+                            Items Aligned (N):
+                            <strong id="placedCount"
+                                style="color:#000000; font-size:18px; border-bottom:2px solid black; margin-left:5px;">0</strong>
+                        </div>
+                    </div>
+
+                    <svg id="fovSvg" viewBox="170 0 410 420" role="img"
+                        aria-label="Field of view with draggable organisms and ruler">
+                        <defs>
+                            <filter id="shadow">
+                                <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.2" />
+                            </filter>
+                        </defs>
+                        <rect width="750" height="420" fill="#fafafa" id="svgBg" />
+                        <g id="sceneLayer"></g>
+                        <g id="tokensLayer"></g>
+                        <g id="rulerLayer"></g>
+                    </svg>
+
+                    <div class="row" style="padding:12px 0;">
+                        <button id="addTokenBtn" class="btn micro btn-add" data-tooltip="Add organism">+</button>
+                        <button id="removeTokenBtn" class="btn micro btn-remove"
+                            data-tooltip="Remove organism">−</button>
+                        <button id="rotateBtn" class="btn micro btn-rotate" title="Rotate specimen">🔄 Rotate</button>
+                        <button id="autoFitBtn" class="btn micro btn-auto" title="Auto-fit to field of view">↔️
+                            Auto-fit</button>
+                        <button id="clearBtn" class="btn micro btn-clear" title="Clear all items">Clear</button>
+                    </div>
+
+                    <div class="tables-container">
+
+                        <div class="table-wrapper theme-blue">
+                            <h4>Direct Conversion</h4>
+                            <table class="ref-table theme-blue">
+                                <thead>
+                                    <tr>
+                                        <th>Prefix</th>
+                                        <th></th>
+                                        <th>Equivalent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1 kilo</td>
+                                        <td>=</td>
+                                        <td>10<sup>3</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 Base</td>
+                                        <td>=</td>
+                                        <td>10<sup>0</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 deci</td>
+                                        <td>=</td>
+                                        <td>10<sup>-1</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 centi</td>
+                                        <td>=</td>
+                                        <td>10<sup>-2</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 milli</td>
+                                        <td>=</td>
+                                        <td>10<sup>-3</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 micro</td>
+                                        <td>=</td>
+                                        <td>10<sup>-6</sup> (m, g, l)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 nano</td>
+                                        <td>=</td>
+                                        <td>10<sup>-9</sup> (m, g, l)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table-wrapper theme-green">
+                            <h4>Inverse Conversion</h4>
+                            <table class="ref-table theme-green">
+                                <thead>
+                                    <tr>
+                                        <th>Base</th>
+                                        <th></th>
+                                        <th>Equivalent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>-3</sup> kilo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>0</sup> Base</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>1</sup> deci</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>2</sup> centi</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>3</sup> milli</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>6</sup> micro</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 (m, g, l)</td>
+                                        <td>=</td>
+                                        <td>10<sup>9</sup> nano</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="sidebar">
+                <div class="controls-group">
+                    <h3>1. Study the Size Formula</h3>
+                    <div class="status warning" style="padding:6px;">
+                        <strong style="color:#000000" id="learnFormulaText">Size = Field Diameter / Number</strong>
+                    </div>
+                </div>
+
+                <div class="controls-group">
+                    <h3>2. Abbreviate The Formula</h3>
+                    <div class="formula-stage" id="stage3">
+                        <div class="formula-label" id="symbolicInstruction">Type "S = FD / N"</div>
+                        <input type="text" id="symbFormula" placeholder="" style="width:100%" />
+                    </div>
+                </div>
+
+                <div class="controls-group">
+                    <h3 id="calcHeader">3. Calculate Size</h3>
+
+                    <div class="sn-input-container">
+                        <span id="calcSymbol">S = </span>
+                        <input type="text" id="calcDMan" placeholder="Dia" class="sn-mantissa" disabled>
+                        <span style="font-size:18px; font-family:'Times New Roman', serif; margin:0 4px;">mm</span>
+                        <span style="font-size:24px; margin:0 6px;">/</span>
+                        <input type="text" id="calcN" placeholder="N" class="sn-denom" disabled>
+                        <span style="font-size:24px; margin:0 6px;">=</span>
+                        <input type="text" id="userCalcResult" placeholder="Result"
+                            style="width:120px; text-align:center; font-family:monospace; font-size:14px; border:2px solid #334155; border-radius:4px;"
+                            disabled>
+                        <span style="font-size:18px; font-family:'Times New Roman', serif; margin:0 4px;">mm</span>
+                    </div>
+
+                    <button id="calculateBtn" class="btn" style="margin-top:8px;width:100%;" disabled>Check
+                        Calculation</button>
+                    <div id="calcError" class="status danger" style="display:none;"></div>
+                    <div id="sizeResult"
+                        style="margin-top:10px; font-weight:700; font-size:16px; display:none; background:#ecfccb; padding:8px; border-radius:4px; border:2px solid #166534; text-align:center; color:#14532d;">
+                        Correct! Now convert to µm below.
+                    </div>
+                </div>
+
+                <div class="controls-group">
+                    <h3>4. Convert mm to µm</h3>
+                    <div id="conversionOverlay" style="position:relative;">
+                        <div id="trackDisableOverlay"
+                            style="position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(255,255,255,0.8); z-index:10; display:flex; justify-content:center; align-items:center; color:#555; font-weight:bold; backdrop-filter: blur(2px);">
+                            Complete Step 3 to unlock
+                        </div>
+
+                        <div class="track-wrapper">
+                            <div class="step-label">Step 1: Set up Units & Powers</div>
+                            <p style="font-size:0.85em; margin:2px 0 8px 0; color:#555;">
+                                <i>Step 1: Convert <b>mm</b> &rarr; <b>meters</b> &rarr; <b>µm</b>. Set up units to
+                                    cancel diagonally.</i>
+                            </p>
+
+                            <div class="train-track-model">
+                                <div class="tt-cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <input type="text" id="track-start-val" class="val-input" readonly
+                                            placeholder="?">
+                                        <input type="text" id="track-start-unit" class="unit-input unit-box" readonly
+                                            value="mm">
+                                    </div>
+                                    <div class="denominator"></div>
+                                </div>
+
+                                <div class="tt-cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <span class="fixed-one">1</span>
+                                        <input type="text" id="track-n1-unit" class="unit-input unit-box"
+                                            placeholder="Unit">
+                                    </div>
+                                    <div class="denominator">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">10</span>
+                                            <input type="number" id="track-d1-exp" class="exponent-input"
+                                                placeholder="?">
+                                        </div>
+                                        <input type="text" id="track-d1-unit" class="unit-input unit-box"
+                                            placeholder="Unit">
+                                    </div>
+                                </div>
+
+                                <div class="tt-cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <span class="fixed-one">1</span>
+                                        <input type="text" id="track-n2-unit" class="unit-input unit-box"
+                                            placeholder="Unit">
+                                    </div>
+                                    <div class="denominator">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">10</span>
+                                            <input type="number" id="track-d2-exp" class="exponent-input"
+                                                placeholder="?">
+                                        </div>
+                                        <input type="text" id="track-d2-unit" class="unit-input unit-box"
+                                            placeholder="Unit">
+                                    </div>
+                                </div>
+
+                                <div class="tt-cell no-border"><span class="equals-sign">=</span></div>
+                            </div>
+
+                            <div class="track-connector">⬇</div>
+
+                            <div class="step-label">Step 2: Move Denominators Up & Flip Signs</div>
+                            <div class="train-track-model">
+                                <div class="tt-cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <input type="text" id="track-rewrite-val" class="val-input" readonly
+                                            placeholder="Start">
+                                    </div>
+                                    <div class="denominator"></div>
+                                </div>
+
+                                <div class="tt-cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">x 10</span>
+                                            <input type="number" id="track-flip-1-exp"
+                                                class="exponent-input rewrite-input" placeholder="?">
+                                        </div>
+                                    </div>
+                                    <div class="denominator"></div>
+                                </div>
+
+                                <div class="tt-cell">
+                                    <div class="track-line"></div>
+                                    <div class="numerator">
+                                        <div class="scientific-group">
+                                            <span class="base-ten">x 10</span>
+                                            <input type="number" id="track-flip-2-exp"
+                                                class="exponent-input rewrite-input" placeholder="?">
+                                        </div>
+                                        <input type="text" id="track-flip-unit" class="unit-input rewrite-unit-input"
+                                            placeholder="Unit">
+                                    </div>
+                                    <div class="denominator"></div>
+                                </div>
+
+                                <div class="tt-cell no-border"><span class="equals-sign">=</span></div>
+                                <div id="track-step2-answer-box" class="answer-display-box">
+                                    <span id="track-step2-val"></span>
+                                    <span class="base-ten"> × 10<sup id="track-step2-exp"
+                                            class="answer-display-exponent"></sup></span>
+                                    <span id="track-step2-unit" style="margin-left:4px; color:#e67e22;"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step3-container">
+                            <div class="step3-buttons">
+                                <button id="btnVerifySetup" class="btn-calc" disabled>1. Verify Setup</button>
+                                <button id="btnCheckAnswer" class="btn-check" disabled>2. Check Answer</button>
+                            </div>
+                            <div class="result-row">
+                                <label class="result-label">Calculated (Scientific):</label>
+                                <div class="result-input-wrapper">
+                                    <input type="text" id="ans-sci" class="answer-input" placeholder="e.g. 1.5e3">
+                                    <span class="final-unit-label">µm</span>
+                                </div>
+                            </div>
+                            <div class="result-row">
+                                <label class="result-label">Calculated (Decimal):</label>
+                                <div class="result-input-wrapper">
+                                    <input type="text" id="ans-dec" class="answer-input" placeholder="e.g. 1500">
+                                    <span class="final-unit-label">µm</span>
+                                </div>
+                            </div>
+                            <div id="track-feedback"
+                                style="margin-top:5px;font-size:0.9em;font-weight:bold;min-height:20px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls-group">
+                    <h3>5. Submit</h3>
+                    <button id="submitBtn" class="btn" style="width:100%;background:#059669;" disabled>Submit Final
+                        Answer</button>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        // --- CORE DATA WITH BIOLOGICAL ACCURACY ---
+        const ANABAENA_CELLS = 45;
+        const MICRO_SCENARIOS = [
+            { label: 'Anabaena (filament)', type: 'anabaena', size: 5, dim: 'Length', question: 'What is the length of one Anabaena cell?' },
+            { label: 'Hydra', type: 'hydra', size: 1200, dim: 'Length', question: 'What is the length of a Hydra body (excluding tentacles)?' },
+            { label: 'Onion Cells', type: 'onion', size: 250, dim: 'Width', question: 'What is the width of an onion cell?' },
+            { label: 'Human Cheek Cell', type: 'cheek', size: 60, dim: 'Diameter', question: 'What is the diameter of a human cheek cell?' },
+            { label: 'Paramecium', type: 'paramecium', size: 250, dim: 'Length', question: 'What is the length of a paramecium?' },
+            { label: 'Stentor', type: 'stentor', size: 800, dim: 'Length', question: 'What is the length of a Stentor?' }
+        ];
+
+        // MAGNIFICATION DATA
+        const MAGNIFICATIONS = [
+            { total: 40, d_real_um: 4550, d_real_mm: 4.55, d_math_um: 5000, d_math_mm: 5.0 },
+            { total: 100, d_real_um: 1800, d_real_mm: 1.8, d_math_um: 2000, d_math_mm: 2.0 },
+            { total: 400, d_real_um: 450, d_real_mm: 0.45, d_math_um: 500, d_math_mm: 0.5 }
+        ];
+
+        let state = {
+            scenario: null,
+            magInfo: null,
+            diameter: 0,
+            lastSelected: null,
+            calculatedSizeMM: 0,
+            placedN: 0,
+            dimensionSymbol: 'S',
+            trackVerified: false
+        };
+
+        const $ = id => document.getElementById(id);
+        const sceneLayer = $('sceneLayer'), tokensLayer = $('tokensLayer'), rulerLayer = $('rulerLayer');
+
+        // --- UPDATED TRAIN TRACK LOGIC FOR 2-STEP ---
+        function setupUnitCancellation() {
+            document.querySelectorAll('.unit-box').forEach(box => {
+                box.replaceWith(box.cloneNode(true));
+            });
+            const unitBoxes = document.querySelectorAll('.unit-box');
+            unitBoxes.forEach(box => {
+                box.addEventListener('click', function () {
+                    if (this.value.trim() === "") return;
+                    const thisUnit = this.value.trim();
+                    const isNumerator = this.closest('.numerator') !== null;
+                    const allCells = Array.from(document.querySelectorAll('.train-track-model')[0].querySelectorAll('.tt-cell'));
+                    const currentCell = this.closest('.tt-cell');
+                    const currentIndex = allCells.indexOf(currentCell);
+                    let matchingUnit = null;
+
+                    if (isNumerator) {
+                        // Numerator looks in NEXT cell's denominator
+                        if (currentIndex < allCells.length - 1) {
+                            const nextCell = allCells[currentIndex + 1];
+                            const denomBox = nextCell.querySelector('.denominator .unit-box');
+                            if (denomBox && denomBox.value.trim() === thisUnit) matchingUnit = denomBox;
+                        }
+                    } else {
+                        // Denominator looks in PREVIOUS cell's numerator
+                        if (currentIndex > 0) {
+                            const prevCell = allCells[currentIndex - 1];
+                            const numBox = prevCell.querySelector('.numerator .unit-box');
+                            if (numBox && numBox.value.trim() === thisUnit) matchingUnit = numBox;
+                        }
+                    }
+                    if (matchingUnit) {
+                        this.classList.toggle('cancelled');
+                        matchingUnit.classList.toggle('cancelled');
+                    }
+                });
+            });
+        }
+
+        function initTrainTrack() {
+            $('trackDisableOverlay').style.display = 'none';
+            $('btnVerifySetup').disabled = false;
+
+            // This now uses the exact 3-sig-fig value stored in state
+            $('track-start-val').value = state.calculatedSizeMM;
+            $('track-rewrite-val').value = state.calculatedSizeMM;
+
+            // Clear all inputs
+            $('track-n1-unit').value = '';
+            $('track-d1-exp').value = '';
+            $('track-d1-unit').value = '';
+
+            $('track-n2-unit').value = '';
+            $('track-d2-exp').value = '';
+            $('track-d2-unit').value = '';
+
+            $('track-flip-1-exp').value = '';
+            $('track-flip-2-exp').value = '';
+            $('track-flip-unit').value = '';
+
+            $('ans-sci').value = '';
+            $('ans-dec').value = '';
+
+            document.querySelectorAll('.cancelled').forEach(el => el.classList.remove('cancelled'));
+            document.querySelectorAll('.correct').forEach(el => el.classList.remove('correct'));
+            document.querySelectorAll('.incorrect').forEach(el => el.classList.remove('incorrect'));
+            $('track-step2-answer-box').style.display = 'none';
+            $('track-feedback').textContent = '';
+
+            setupUnitCancellation();
+        }
+
+        $('btnVerifySetup').onclick = () => {
+            const feedback = $('track-feedback');
+            feedback.textContent = "";
+            const startUnit = $('track-start-unit'); // mm
+
+            // Step 1 Check (mm -> m)
+            const n1Unit = $('track-n1-unit'); // m
+            const d1Unit = $('track-d1-unit'); // mm
+            const expD1 = parseFloat($('track-d1-exp').value);
+
+            // Step 2 Check (m -> µm)
+            const n2Unit = $('track-n2-unit'); // µm
+            const d2Unit = $('track-d2-unit'); // m
+            const expD2 = parseFloat($('track-d2-exp').value);
+
+            // Rewrites
+            const flip1 = parseFloat($('track-flip-1-exp').value);
+            const flip2 = parseFloat($('track-flip-2-exp').value);
+            const flipUnit = $('track-flip-unit');
+
+            // --- VALIDATION LOGIC ---
+
+            // 1. Units Logic (mm -> m -> µm)
+            if (n1Unit.value.trim() !== 'm') {
+                n1Unit.classList.add('incorrect');
+                feedback.textContent = "Step 1 (Cell 1): Convert TO base unit 'm' in the numerator.";
+                feedback.style.color = "#e74c3c"; return;
+            } else n1Unit.classList.remove('incorrect');
+
+            if (d1Unit.value.trim() !== 'mm') {
+                d1Unit.classList.add('incorrect');
+                feedback.textContent = "Step 1 (Cell 1): Convert FROM 'mm' in the denominator.";
+                feedback.style.color = "#e74c3c"; return;
+            } else d1Unit.classList.remove('incorrect');
+
+            if (n2Unit.value.trim() !== 'µm') {
+                n2Unit.classList.add('incorrect');
+                feedback.textContent = "Step 1 (Cell 2): Convert TO 'µm' in the numerator.";
+                feedback.style.color = "#e74c3c"; return;
+            } else n2Unit.classList.remove('incorrect');
+
+            if (d2Unit.value.trim() !== 'm') {
+                d2Unit.classList.add('incorrect');
+                feedback.textContent = "Step 1 (Cell 2): Convert FROM 'm' in the denominator.";
+                feedback.style.color = "#e74c3c"; return;
+            } else d2Unit.classList.remove('incorrect');
+
+            // 2. Cancellation Check
+            if (!startUnit.classList.contains('cancelled') || !d1Unit.classList.contains('cancelled')) {
+                feedback.textContent = "Step 1: Cancel 'mm' diagonally (Start Unit ↔ Denom 1).";
+                feedback.style.color = "#e74c3c"; return;
+            }
+            if (!n1Unit.classList.contains('cancelled') || !d2Unit.classList.contains('cancelled')) {
+                feedback.textContent = "Step 1: Cancel 'm' diagonally (Num 1 ↔ Denom 2).";
+                feedback.style.color = "#e74c3c"; return;
+            }
+
+            // 3. Exponent Check (Inverse Definitions)
+            // 1 m = 10^3 mm
+            if (expD1 !== 3) {
+                $('track-d1-exp').classList.add('incorrect');
+                feedback.textContent = "Step 1 (Cell 1): 1 m = 10^3 mm. Check exponent.";
+                feedback.style.color = "#e74c3c"; return;
+            } else $('track-d1-exp').classList.remove('incorrect');
+
+            // 1 µm = 10^-6 m (Required because Numerator is fixed to 1)
+            // User sees: 1 µm / 10^? m
+            if (expD2 !== -6) {
+                $('track-d2-exp').classList.add('incorrect');
+                feedback.textContent = "Step 1 (Cell 2): 1 µm = 10^-6 m. Check exponent.";
+                feedback.style.color = "#e74c3c"; return;
+            } else $('track-d2-exp').classList.remove('incorrect');
+
+            // 4. Rewrite (Flip) Check
+            if (flip1 !== -3) {
+                $('track-flip-1-exp').classList.add('incorrect');
+                feedback.textContent = "Step 2: Flip the first exponent sign (3 → -3).";
+                feedback.style.color = "#e74c3c"; return;
+            } else $('track-flip-1-exp').classList.remove('incorrect');
+
+            if (flip2 !== 6) {
+                $('track-flip-2-exp').classList.add('incorrect');
+                feedback.textContent = "Step 2: Flip the second exponent sign (-6 → 6).";
+                feedback.style.color = "#e74c3c"; return;
+            } else $('track-flip-2-exp').classList.remove('incorrect');
+
+            if (flipUnit.value.trim() !== 'µm') {
+                flipUnit.classList.add('incorrect');
+                feedback.textContent = "Step 2: Don't forget the final unit (µm).";
+                feedback.style.color = "#e74c3c"; return;
+            } else flipUnit.classList.remove('incorrect');
+
+            // Success
+            $('track-step2-val').textContent = state.calculatedSizeMM.toFixed(4);
+            // Combined exponent displayed conceptually: 10^(-3) * 10^(6) = 10^3
+            $('track-step2-exp').textContent = "3";
+            $('track-step2-unit').textContent = "µm";
+            $('track-step2-answer-box').style.display = 'flex';
+
+            feedback.textContent = "✅ Setup verified! Solve Step 3.";
+            feedback.style.color = "#27ae60";
+            $('btnCheckAnswer').disabled = false;
+            state.trackVerified = true;
+        };
+
+        $('btnCheckAnswer').onclick = () => {
+            if (!state.trackVerified) { alert("Verify setup first."); return; }
+            const status = $('track-feedback');
+            const sciInput = $('ans-sci');
+            const decInput = $('ans-dec');
+            const expectedUM = state.calculatedSizeMM * 1000;
+
+            const check = (input) => {
+                const val = parseFloat(input.value);
+                if (isNaN(val)) return false;
+                const diff = Math.abs(val - expectedUM);
+                // Allow 1% error or very small absolute error
+                if (diff < (expectedUM * 0.01) || diff < 0.001) {
+                    input.classList.add('correct'); input.classList.remove('incorrect'); return true;
+                } else {
+                    input.classList.add('incorrect'); input.classList.remove('correct'); return false;
+                }
+            };
+
+            const sciOk = check(sciInput);
+            const decOk = check(decInput);
+
+            if (sciOk && decOk) {
+                status.textContent = "✅ Both Correct! Click Submit.";
+                status.style.color = "#27ae60";
+                $('submitBtn').disabled = false;
+                const finalStr = `${(expectedUM).toFixed(1)} µm`;
+                const finalSci = `${(expectedUM).toExponential(2)} µm`;
+                $('finalAnswerBox').innerHTML = `Answer: ${finalSci} (${finalStr})`;
+            } else {
+                status.textContent = "❌ Incorrect or Incomplete";
+                status.style.color = "#e74c3c";
+            }
+        };
+
+        // --- APP LOGIC ---
+        function formatSN(num) {
+            if (num === 0) return '0';
+            const sign = Math.sign(num);
+            const absNum = Math.abs(num);
+            const exponent = Math.floor(Math.log10(absNum));
+            let mantissa = absNum / Math.pow(10, exponent);
+            let mantissaStr = mantissa.toFixed(3).replace(/(\.0+|0+)$/, '');
+            if (mantissaStr.indexOf('.') === -1) mantissaStr += ".0";
+            return `${sign < 0 ? '-' : ''}${mantissaStr} &times; 10<sup>${exponent}</sup>`;
+        }
+
+        function newScenario() {
+            resetUI();
+            setupMicro();
+            initialSpawn();
+        }
+
+        function checkItemSize(organismSize, fieldDiameter, scenarioType) {
+            let objectLength = organismSize;
+            if (scenarioType === 'anabaena') { objectLength = organismSize * ANABAENA_CELLS; }
+            if (scenarioType === 'hydra' && fieldDiameter !== 4550) return 'too_large';
+            if (objectLength / fieldDiameter > 1.5) return 'too_large';
+            if (objectLength / fieldDiameter < 0.02) return 'too_small';
+            return 'ok';
+        }
+
+        function displayWarning(type, diameter) {
+            const mag = MAGNIFICATIONS.find(m => m.d_real_um === diameter);
+            // Change the unit to mm and use the millimeter value from the magnification data
+            const d_val = mag.d_math_mm;
+            const unit = 'mm';
+            const itemName = state.scenario.label;
+            let message = '';
+
+            if (type === 'too_large') {
+                // Updated message to show mm
+                message = `🛑 **${itemName} too large!** The Field Diameter is ${d_val} ${unit}. You need to use a larger diameter (lower magnification).`;
+                $('questionBanner').style.backgroundColor = '#fee2e2';
+            } else if (type === 'too_small') {
+                // Updated message to show mm
+                message = `🤏 **${itemName} too small!** The Field Diameter is ${d_val} ${unit}. You need to use a smaller diameter (higher magnification).`;
+                $('questionBanner').style.backgroundColor = '#fff7ed';
+            }
+
+            $('questionText').innerHTML = message;
+            $('finalAnswerBox').style.display = 'none';
+            $('addTokenBtn').disabled = true;
+            $('autoFitBtn').disabled = true;
+            $('removeTokenBtn').disabled = true;
+            $('rotateBtn').disabled = true;
+        }
+
+        function clearWarning() {
+            $('addTokenBtn').disabled = false;
+            $('autoFitBtn').disabled = false;
+            $('removeTokenBtn').disabled = false;
+            $('rotateBtn').disabled = false;
+            if (state.scenario) { $('questionText').textContent = state.scenario.question; }
+            $('questionBanner').style.backgroundColor = '#f1f5f9';
+        }
+
+        function setupMicro() {
+            const m = MAGNIFICATIONS[Math.floor(Math.random() * MAGNIFICATIONS.length)];
+            const s = MICRO_SCENARIOS[Math.floor(Math.random() * MICRO_SCENARIOS.length)];
+            state.scenario = s;
+            state.magInfo = m;
+            state.diameter = m.d_real_um;
+
+            const dim = s.dim || 'Size';
+            const symbol = dim.charAt(0);
+            state.dimensionSymbol = symbol;
+
+            $('goalsText').textContent = `1) Apply the ${dim} Formula. 2) Master Scientific Notation.`;
+            $('learnFormulaText').innerHTML = `${dim} = Field Diameter / Number`;
+            $('symbolicInstruction').textContent = `Type "${symbol} = FD / N" in the box below`;
+            $('symbFormula').placeholder = ``;
+
+            $('calcHeader').innerHTML = `3. Calculate ${dim}`;
+            $('calcSymbol').textContent = `${symbol} = `;
+            $('magDetails').innerHTML = `Total Mag: <strong>${m.total}×</strong> (Field Diameter: ${m.d_math_mm} mm)`;
+
+            clearWarning();
+            const sizeCheck = checkItemSize(s.size, state.diameter, s.type);
+            if (sizeCheck !== 'ok') { displayWarning(sizeCheck, m.d_real_um); }
+
+            drawMicroBackground();
+            drawRuler();
+        }
+
+        function drawRuler() {
+            rulerLayer.innerHTML = '';
+            rulerLayer.style.pointerEvents = 'none';
+            if (state.magInfo.total !== 40) return;
+            rulerLayer.style.pointerEvents = 'all';
+            rulerLayer.style.cursor = 'grab';
+
+            const visualDiameterPX = 360;
+            const realDiameterMM = state.magInfo.d_real_mm;
+            const pxPerMM = visualDiameterPX / realDiameterMM;
+            const maxDrawMM = state.magInfo.d_math_mm;
+            const rulerDrawWidth = maxDrawMM * pxPerMM;
+
+            const baseLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            baseLine.setAttribute('x1', 0); baseLine.setAttribute('y1', 0);
+            baseLine.setAttribute('x2', rulerDrawWidth); baseLine.setAttribute('y2', 0);
+            baseLine.setAttribute('stroke', '#000000'); baseLine.setAttribute('stroke-width', 2);
+            rulerLayer.appendChild(baseLine);
+
+            for (let mm = 0; mm <= maxDrawMM; mm++) {
+                const x = mm * pxPerMM;
+                const majorTick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                majorTick.setAttribute('x1', x); majorTick.setAttribute('y1', 0);
+                majorTick.setAttribute('x2', x); majorTick.setAttribute('y2', 15);
+                majorTick.setAttribute('stroke', '#000000'); majorTick.setAttribute('stroke-width', 2);
+                rulerLayer.appendChild(majorTick);
+
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', x); label.setAttribute('y', 28);
+                label.setAttribute('fill', '#000'); label.setAttribute('font-size', '12px');
+                label.setAttribute('text-anchor', 'middle');
+                label.textContent = mm;
+                rulerLayer.appendChild(label);
+
+                if (mm < maxDrawMM) {
+                    for (let i = 1; i < 10; i++) {
+                        const minorX = x + (i / 10 * pxPerMM);
+                        const minorTick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                        minorTick.setAttribute('x1', minorX); minorTick.setAttribute('y1', 0);
+                        minorTick.setAttribute('x2', minorX); minorTick.setAttribute('y2', 8);
+                        minorTick.setAttribute('stroke', '#000000'); minorTick.setAttribute('stroke-width', 1);
+                        rulerLayer.appendChild(minorTick);
+                    }
+                }
+            }
+            const initialX = 375 - (visualDiameterPX / 2);
+            const initialY = 210 + 10;
+            rulerLayer.setAttribute('transform', `translate(${initialX}, ${initialY})`);
+            rulerLayer.addEventListener('pointerdown', startRulerDrag);
+        }
+
+        // --- RENDER FUNCTIONS FOR BIOLOGICAL ACCURACY ---
+        function addToken(suppressRegister) {
+            const sizeCheck = checkItemSize(state.scenario.size, state.diameter, state.scenario.type);
+            if (sizeCheck !== 'ok') return null;
+
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.style.cursor = 'grab';
+            g.dataset.rotation = 0;
+
+            const pxPerUm = 360 / state.magInfo.d_real_um;
+            let baseSize = 20;
+            let scale;
+
+            // SCALING LOGIC
+            if (state.scenario.type === 'anabaena') {
+                const anabaenaLengthUM = state.scenario.size * ANABAENA_CELLS;
+                baseSize = 490;
+                scale = (anabaenaLengthUM * pxPerUm) / baseSize;
+            } else if (state.scenario.type === 'hydra') {
+                baseSize = 40;
+                scale = (state.scenario.size * pxPerUm) / baseSize;
+            } else if (state.scenario.type === 'stentor') {
+                baseSize = 100;
+                scale = (state.scenario.size * pxPerUm) / baseSize;
+            } else if (state.scenario.type === 'paramecium') {
+                baseSize = 100;
+                scale = (state.scenario.size * pxPerUm) / baseSize;
+            } else if (state.scenario.type === 'onion') {
+                baseSize = 160;
+                scale = (state.scenario.size * pxPerUm) / baseSize;
+            } else if (state.scenario.type === 'cheek') {
+                baseSize = 85;
+                scale = (state.scenario.size * pxPerUm) / baseSize;
+            } else {
+                baseSize = 20;
+                scale = (state.scenario.size * pxPerUm) / baseSize;
+            }
+
+            // RENDERING LOGIC
+            if (state.scenario.type === 'anabaena') {
+                g.dataset.val = ANABAENA_CELLS;
+                const fil = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                let len = ANABAENA_CELLS;
+                for (let i = 0; i < len; i++) {
+                    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    const cx = (i * 10) - ((len - 1) * 5);
+                    const yOff = Math.sin(i * 0.15) * 5;
+                    c.setAttribute('cx', cx); c.setAttribute('cy', yOff);
+                    // Heterocysts are typically larger and paler
+                    if (i % 10 === 0) {
+                        c.setAttribute('r', 8);
+                        c.setAttribute('fill', '#fde047'); // Yellowish heterocyst
+                    } else {
+                        c.setAttribute('r', 6);
+                        c.setAttribute('fill', '#5CA904'); // Cyan/Blue-Green
+                    }
+                    c.setAttribute('stroke', '#2D5A27'); c.setAttribute('stroke-width', 1.5);
+                    fil.appendChild(c);
+                }
+                fil.setAttribute('transform', `scale(${scale})`);
+                g.appendChild(fil);
+            }
+            else if (state.scenario.type === 'hydra') {
+                g.dataset.val = 1;
+
+                const newBaseLength = 220;
+                const sizeMultiplier = 3.5;
+                scale = ((state.scenario.size * pxPerUm) / newBaseLength) * sizeMultiplier;
+
+                const uid = Math.random().toString(36).substr(2, 9);
+                const bodyGradId = `hBodyGrad_${uid}`;
+                const tentGradId = `hTentGrad_${uid}`;
+
+                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                const bodyGrad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+                bodyGrad.setAttribute('id', bodyGradId);
+                bodyGrad.setAttribute('x1', '0%'); bodyGrad.setAttribute('y1', '0%');
+                bodyGrad.setAttribute('x2', '100%'); bodyGrad.setAttribute('y2', '0%');
+                const bStops = [
+                    { off: '0%', col: '#ff9999', op: 1 },
+                    { off: '40%', col: '#ef4444', op: 1 },
+                    { off: '100%', col: '#991b1b', op: 1 }
+                ];
+                bStops.forEach(s => {
+                    const stop = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                    stop.setAttribute('offset', s.off); stop.setAttribute('stop-color', s.col); stop.setAttribute('stop-opacity', s.op);
+                    bodyGrad.appendChild(stop);
+                });
+
+                const tentGrad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+                tentGrad.setAttribute('id', tentGradId);
+                tentGrad.setAttribute('x1', '100%'); tentGrad.setAttribute('y1', '0%');
+                tentGrad.setAttribute('x2', '0%'); tentGrad.setAttribute('y2', '0%');
+                const tStops = [
+                    { off: '0%', col: '#ff9999', op: 0.1 },
+                    { off: '100%', col: '#ff9999', op: 0.7 }
+                ];
+                tStops.forEach(s => {
+                    const stop = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                    stop.setAttribute('offset', s.off); stop.setAttribute('stop-color', s.col); stop.setAttribute('stop-opacity', s.op);
+                    tentGrad.appendChild(stop);
+                });
+                defs.appendChild(bodyGrad);
+                defs.appendChild(tentGrad);
+                g.appendChild(defs);
+
+                const grp = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                grp.setAttribute('transform', `scale(${scale}) translate(-100, -25)`);
+
+                // -- Basal Disk --
+                const disk = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+                disk.setAttribute('cx', 15); disk.setAttribute('cy', 30);
+                disk.setAttribute('rx', 5); disk.setAttribute('ry', 12);
+                disk.setAttribute('fill', '#7f1d1d'); disk.setAttribute('opacity', '0.8');
+                grp.appendChild(disk);
+
+                // -- SEAMLESS INTEGRATED BODY AND BUD --
+                const body = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                // The Path now includes the bud outgrowth as a single continuous line
+                body.setAttribute('d',
+                    'M 15,18 ' +                   // Base top
+                    'Q 45,12 75,20 ' +             // Start of body
+                    'C 90,-25 180,-55 115,18 ' +       // THE BUD: Curved outward and back into body
+                    'Q 120,-20 115,20 ' +           // Rest of neck
+                    'L 190,25 ' +                  // To mouth
+                    'Q 185,30 190,35 ' +           // Mouth curve
+                    'L 150,45 ' +                  // Bottom Neck
+                    'Q 110,35 80,45 ' +            // Bottom wiggle
+                    'Q 50,55 15,42 ' +             // Back to base
+                    'Z'
+                );
+                body.setAttribute('fill', `url(#${bodyGradId})`);
+                body.setAttribute('stroke', '#991b1b');
+                body.setAttribute('stroke-width', '0.5');
+                grp.appendChild(body);
+
+                // -- BUD TENTACLES (Positioned at the tip of the integrated bump) --
+                const budTentGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                // These are placed at the peak of the bud curve (approx 105, 10)
+                const btData = [
+                    'M135,-26 Q145,-43 155,-32',
+                    'M130,-24 Q120,-40 115,-29'
+                ];
+                btData.forEach(d => {
+                    const bt = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    bt.setAttribute('d', d);
+                    bt.setAttribute('stroke', '#f87171'); bt.setAttribute('fill', 'none');
+                    bt.setAttribute('stroke-width', '1'); bt.setAttribute('stroke-opacity', '0.7');
+                    budTentGroup.appendChild(bt);
+                });
+                grp.appendChild(budTentGroup);
+
+                // -- Main Tentacles --
+                const tentGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                tentGroup.setAttribute('stroke', `url(#${tentGradId})`);
+                tentGroup.setAttribute('fill', 'none');
+                tentGroup.setAttribute('stroke-linecap', 'round');
+
+                const tentaclesData = [
+                    { d: 'M190,25 Q230,0 260,10', w: 3, op: 0.5 },
+                    { d: 'M192,28 Q240,20 280,25', w: 3, op: 0.6 },
+                    { d: 'M190,30 Q220,50 250,80', w: 3, op: 0.4 },
+                    { d: 'M188,32 Q210,60 230,90', w: 3, op: 0.3 },
+                    { d: 'M188,26 Q200,10 190,-20', w: 3, op: 0.4 }
+                ];
+
+                tentaclesData.forEach(t => {
+                    const tp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    tp.setAttribute('d', t.d);
+                    tp.setAttribute('stroke-width', t.w);
+                    tp.setAttribute('stroke-opacity', t.op);
+                    tentGroup.appendChild(tp);
+                });
+                grp.appendChild(tentGroup);
+
+                g.appendChild(grp);
+            }
+            else if (state.scenario.type === 'onion') {
+                g.dataset.val = 1;
+                const cell = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                // Irregular onion cell wall (realistic plant cell outline)
+                const wall = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                wall.setAttribute('d', 'M-75,-25 L-35,-42 L15,-40 L70,-32 L82,-5 L65,42 L20,48 L-30,38 L-72,18 L-78,-2 Z');
+                wall.setAttribute('fill', '#fff7ed');
+                wall.setAttribute('stroke', '#7c2d12');
+                wall.setAttribute('stroke-width', 4);
+                cell.appendChild(wall);
+                // Central Vacuole
+                const vac = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                vac.setAttribute('x', -70); vac.setAttribute('y', -30);
+                vac.setAttribute('width', 120); vac.setAttribute('height', 60);
+                vac.setAttribute('fill', '#ffffff'); vac.setAttribute('opacity', '0.7');
+                cell.appendChild(vac);
+                // Nucleus pushed to side
+                const nuc = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                nuc.setAttribute('cx', 60); nuc.setAttribute('cy', 0); nuc.setAttribute('r', 8);
+                nuc.setAttribute('fill', '#b91c1c');
+                cell.appendChild(nuc);
+                cell.setAttribute('transform', `scale(${scale})`);
+                g.appendChild(cell);
+            }
+            else if (state.scenario.type === 'cheek') {
+                // Human Cheek Cell: Irregular squamous, central nucleus
+                g.dataset.val = 1;
+                const cell = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                // Irregular path
+                const membrane = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                // "Fried egg" shape
+                membrane.setAttribute('d', 'M-30,-20 Q-20,-35 0,-30 Q25,-35 30,-15 Q35,5 20,20 Q0,35 -20,25 Q-35,10 -30,-20 Z');
+                membrane.setAttribute('fill', '#e0f2fe'); // Light blue stain (Methylene Blue common)
+                membrane.setAttribute('stroke', '#3b82f6');
+                membrane.setAttribute('stroke-width', 1);
+                membrane.setAttribute('opacity', '0.6'); // Thin/transparent
+                cell.appendChild(membrane);
+
+                // Central Nucleus (distinct dark blue)
+                const nucleus = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                nucleus.setAttribute('cx', 0); nucleus.setAttribute('cy', 0);
+                nucleus.setAttribute('r', 5);
+                nucleus.setAttribute('fill', '#1e3a8a');
+                cell.appendChild(nucleus);
+
+                // Granules
+                for (let i = 0; i < 5; i++) {
+                    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    const rx = (Math.random() * 40) - 20;
+                    const ry = (Math.random() * 40) - 20;
+                    dot.setAttribute('cx', rx); dot.setAttribute('cy', ry); dot.setAttribute('r', 0.5);
+                    dot.setAttribute('fill', '#1e40af');
+                    cell.appendChild(dot);
+                }
+
+                cell.setAttribute('transform', `scale(${scale})`);
+                g.appendChild(cell);
+            }
+            else if (state.scenario.type === 'paramecium') {
+                // Slipper shaped protist
+                g.dataset.val = 1;
+                const para = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+                // Cilia - more numerous, longer, and much thinner
+                for (let i = 0; i < 40; i++) {
+                    const angle = (i / 40) * Math.PI * 2;
+                    const baseX = Math.cos(angle) * 50;
+                    const baseY = Math.sin(angle) * 20;
+                    const endX = Math.cos(angle) * 58;
+                    const endY = Math.sin(angle) * 26;
+
+                    const cilium = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    cilium.setAttribute('x1', baseX);
+                    cilium.setAttribute('y1', baseY);
+                    cilium.setAttribute('x2', endX);
+                    cilium.setAttribute('y2', endY);
+                    cilium.setAttribute('stroke', '#94a3b8');
+                    cilium.setAttribute('stroke-width', 0.5);
+                    cilium.setAttribute('stroke-linecap', 'round');
+                    para.appendChild(cilium);
+                }
+
+                // Gradient definition for pink body
+                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'radialGradient');
+                const gradId = `paramGrad-${Math.random().toString(36).substr(2, 9)}`;
+                gradient.setAttribute('id', gradId);
+                const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                stop1.setAttribute('offset', '0%');
+                stop1.setAttribute('stop-color', '#ffc9d9');
+                const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                stop2.setAttribute('offset', '100%');
+                stop2.setAttribute('stop-color', '#ff9db8');
+                gradient.appendChild(stop1);
+                gradient.appendChild(stop2);
+                defs.appendChild(gradient);
+                para.appendChild(defs);
+
+                // Body with gradient
+                const body = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                body.setAttribute('d', 'M-45,0 C-45,-15 -20,-20 0,-20 C30,-20 50,-10 50,0 C50,15 20,20 0,20 C-20,20 -45,15 -45,0 Z');
+                body.setAttribute('fill', `url(#${gradId})`);
+                body.setAttribute('stroke', '#64748b');
+                body.setAttribute('stroke-width', 1);
+                para.appendChild(body);
+
+                // Oral Groove
+                const groove = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                groove.setAttribute('d', 'M-10,0 Q0,5 10,0');
+                groove.setAttribute('fill', 'none');
+                groove.setAttribute('stroke', '#475569');
+                groove.setAttribute('transform', 'translate(34,-8) rotate(-10)');
+                para.appendChild(groove);
+
+                // Contractile Vacuoles (star-like)
+                const v1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                v1.setAttribute('cx', -30);
+                v1.setAttribute('cy', 0);
+                v1.setAttribute('r', 4);
+                v1.setAttribute('fill', '#f1f5f9');
+                para.appendChild(v1);
+
+                const v2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                v2.setAttribute('cx', 30);
+                v2.setAttribute('cy', 0);
+                v2.setAttribute('r', 4);
+                v2.setAttribute('fill', '#f1f5f9');
+                para.appendChild(v2);
+
+                // Deep pinkish-reddish nucleus (macronucleus - kidney shaped)
+                const nucleus = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+                nucleus.setAttribute('cx', -10);
+                nucleus.setAttribute('cy', 0);
+                nucleus.setAttribute('rx', 12);
+                nucleus.setAttribute('ry', 6);
+                nucleus.setAttribute('fill', '#c2185b');
+                nucleus.setAttribute('stroke', '#880e4f');
+                nucleus.setAttribute('stroke-width', 0.5);
+                para.appendChild(nucleus);
+
+                // Small micronucleus
+                const microNuc = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                microNuc.setAttribute('cx', -15);
+                microNuc.setAttribute('cy', -8);
+                microNuc.setAttribute('r', 2);
+                microNuc.setAttribute('fill', '#880e4f');
+                para.appendChild(microNuc);
+
+                para.setAttribute('transform', `scale(${scale})`);
+                g.appendChild(para);
+            }
+            else if (state.scenario.type === 'stentor') {
+                g.dataset.val = 1;
+                g.dataset.rotation = 90;
+                const st = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+                // Gradient for cytoplasmic color (blue-green → olive → yellow-green)
+                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+                grad.setAttribute('id', 'stentorGrad');
+                grad.setAttribute('x1', '0');
+                grad.setAttribute('y1', '-50');
+                grad.setAttribute('x2', '0');
+                grad.setAttribute('y2', '50');
+
+                const s1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                s1.setAttribute('offset', '0%');
+                s1.setAttribute('stop-color', '#1f7a6b'); // deep blue-green (peristome)
+
+                const s2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                s2.setAttribute('offset', '55%');
+                s2.setAttribute('stop-color', '#4fae8f'); // mid cytoplasm
+
+                const s3 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                s3.setAttribute('offset', '100%');
+                s3.setAttribute('stop-color', '#9dd9a3'); // pale basal end
+
+                grad.appendChild(s1);
+                grad.appendChild(s2);
+                grad.appendChild(s3);
+                defs.appendChild(grad);
+                st.appendChild(defs);
+
+                // Trumpet Body with gradient
+                const body = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                body.setAttribute('d', 'M-22,-38 Q-18,-42 -8,-44 Q2,-46 12,-44 Q20,-42 22,-38 Q18,-28 14,-18 Q12,-8 10,2 Q8,12 6,20 Q4,28 2,34 Q0,38 -2,34 Q-4,28 -6,20 Q-8,12 -10,2 Q-12,-8 -14,-18 Q-18,-28 -22,-38 Z');
+                body.setAttribute('fill', 'url(#stentorGrad)');
+                body.setAttribute('stroke', '#134e4a');
+                body.setAttribute('stroke-width', 1);
+                st.appendChild(body);
+
+                // Longitudinal striations (subtle)
+                for (let i = -12; i <= 12; i += 6) {
+                    const stria = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    stria.setAttribute('d', `M${i},-38 Q${i},-10 ${i * 0.3},30`);
+                    stria.setAttribute('fill', 'none');
+                    stria.setAttribute('stroke', '#164e63');
+                    stria.setAttribute('stroke-width', 0.3);
+                    stria.setAttribute('opacity', '0.4');
+                    st.appendChild(stria);
+                }
+
+                // Peristome ciliary ring (emphasized)
+                for (let i = -18; i <= 18; i += 3) {
+                    const cil = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    cil.setAttribute('x1', i);
+                    cil.setAttribute('y1', -42);
+                    cil.setAttribute('x2', i + (Math.random() * 2 - 1));
+                    cil.setAttribute('y2', -50);
+                    cil.setAttribute('stroke', '#bfdbfe');
+                    cil.setAttribute('stroke-width', 1.2);
+                    st.appendChild(cil);
+                }
+
+                // Macronucleus (moniliform/beaded chain - visible as discrete nodes)
+                const macroGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                const beadPositions = [
+                    { x: -6, y: -32 },
+                    { x: -8, y: -22 },
+                    { x: -6, y: -12 },
+                    { x: -4, y: -2 },
+                    { x: -6, y: 8 },
+                    { x: -3, y: 18 },
+                    { x: -1, y: 28 },
+                ];
+
+                beadPositions.forEach(pos => {
+                    const bead = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+                    bead.setAttribute('cx', pos.x);
+                    bead.setAttribute('cy', pos.y);
+                    bead.setAttribute('rx', 3);
+                    bead.setAttribute('ry', 2.5);
+                    bead.setAttribute('fill', '#065f46'); // dark green matching the cytoplasm
+                    bead.setAttribute('opacity', '0.7');
+                    macroGroup.appendChild(bead);
+                });
+                st.appendChild(macroGroup);
+
+                // Contractile vacuole (refractile, near oral end)
+                const cv = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                cv.setAttribute('cx', 10);
+                cv.setAttribute('cy', -18);
+                cv.setAttribute('r', 4);
+                cv.setAttribute('fill', '#e0f2fe');
+                cv.setAttribute('opacity', '0.6');
+                cv.setAttribute('stroke', '#93c5fd');
+                cv.setAttribute('stroke-width', 0.5);
+                st.appendChild(cv);
+                st.setAttribute('transform', `scale(${scale})`);
+                g.appendChild(st);
+            }
+            else {
+                // Fallback
+                g.dataset.val = 1;
+                const el = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+                el.setAttribute('rx', 10); el.setAttribute('ry', 6);
+                el.setAttribute('fill', '#93c5fd');
+                el.setAttribute('transform', `scale(${scale})`);
+                g.appendChild(el);
+            }
+
+            const hit = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            hit.setAttribute('r', 25); hit.setAttribute('fill', 'transparent');
+            g.appendChild(hit);
+
+            tokensLayer.appendChild(g);
+            if (!suppressRegister) {
+                registerToken(g);
+                const isTop = Math.random() > 0.5;
+                const safeY = isTop ? (Math.random() * 100 + 50) : (Math.random() * 100 + 270);
+                const safeX = (Math.random() * 350) + 200;
+                const rot = g.dataset.rotation || 0;
+                g.setAttribute('transform', `translate(${safeX},${safeY}) rotate(${rot})`);
+                updateCount();
+            } else {
+                registerToken(g);
+            }
+            return g;
+        }
+
+        function initialSpawn() {
+            if (state.scenario.type === 'hydra') {
+                const count = state.magInfo.total === 40 ? 2 : 1;
+                for (let i = 0; i < count; i++) {
+                    addToken(false);
+                }
+                return;
+            }
+            const visualDiameter = 360;
+            const targetPixels = visualDiameter * 1.1;
+            let currentWidth = 0;
+            let safety = 0;
+            while (currentWidth < targetPixels && safety < 50) {
+                const t = addToken(true);
+                if (!t) break;
+                let itemLengthUM = state.scenario.size;
+                if (state.scenario.type === 'anabaena') itemLengthUM *= ANABAENA_CELLS;
+                const pxPerUm = 360 / state.diameter;
+                const width = itemLengthUM * pxPerUm;
+                currentWidth += width;
+                safety++;
+            }
+            randomizePositions();
+            updateCount();
+        }
+
+        function randomizePositions() {
+            Array.from(tokensLayer.children).forEach(t => {
+                const cx = 375, cy = 210;
+                const angle = Math.random() * 6.28;
+                const r = Math.random() * 100;
+                const x = cx + Math.cos(angle) * r;
+                const y = cy + Math.sin(angle) * r;
+                const rot = t.dataset.rotation || 0;
+                t.setAttribute('transform', `translate(${x},${y}) rotate(${rot})`);
+            });
+        }
+
+        function drawMicroBackground() {
+            sceneLayer.innerHTML = '';
+            const cx = 375, cy = 210, r = 180;
+            const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', r);
+            c.setAttribute('fill', '#fff'); c.setAttribute('stroke', '#000000'); c.setAttribute('stroke-width', 4);
+            sceneLayer.appendChild(c);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', cx - r); line.setAttribute('y1', cy);
+            line.setAttribute('x2', cx + r); line.setAttribute('y2', cy);
+            line.setAttribute('stroke', '#cbd5e1'); line.setAttribute('stroke-dasharray', '6,4');
+            sceneLayer.appendChild(line);
+        }
+
+        // --- DRAG LOGIC ---
+        let dragged = null;
+        function registerToken(g) { g.addEventListener('pointerdown', startDrag); }
+
+        function startDrag(e) {
+            const el = e.currentTarget;
+            const isRuler = el.id === 'rulerLayer';
+            let currentX = 0, currentY = 0;
+            const currentTf = el.getAttribute('transform');
+            if (currentTf) {
+                const parts = /translate\(([^,]+),([^)]+)\)/.exec(currentTf);
+                if (parts) { currentX = parseFloat(parts[1]); currentY = parseFloat(parts[2]); }
+            }
+            dragged = { el: el, startX_client: e.clientX, startY_client: e.clientY, startX_svg: currentX, startY_svg: currentY, isRuler: isRuler };
+            state.lastSelected = el;
+            el.style.cursor = 'grabbing';
+            if (!isRuler) el.parentNode.appendChild(el);
+            document.addEventListener('pointermove', onMove);
+            document.addEventListener('pointerup', onUp);
+        }
+        function startRulerDrag(e) { e.stopPropagation(); startDrag(e); }
+
+        function onMove(e) {
+            if (!dragged) return;
+            const svgRect = $('fovSvg').getBoundingClientRect();
+            const scale = 410 / svgRect.width;
+            const dx_total = (e.clientX - dragged.startX_client) * scale;
+            const dy_total = (e.clientY - dragged.startY_client) * scale;
+            const nx = dragged.startX_svg + dx_total;
+            const ny = dragged.startY_svg + dy_total;
+            if (dragged.isRuler) {
+                dragged.el.setAttribute('transform', `translate(${nx},${ny})`);
+            } else {
+                const rot = dragged.el.dataset.rotation || 0;
+                dragged.el.setAttribute('transform', `translate(${nx},${ny}) rotate(${rot})`);
+            }
+        }
+
+        function onUp(e) {
+            if (dragged) {
+                dragged.el.style.cursor = 'grab';
+                dragged = null;
+                document.removeEventListener('pointermove', onMove);
+                document.removeEventListener('pointerup', onUp);
+                updateCount();
+            }
+        }
+
+        $('rotateBtn').onclick = () => {
+            if (state.lastSelected && state.lastSelected.id !== 'rulerLayer') {
+                let cur = parseFloat(state.lastSelected.dataset.rotation || 0);
+                cur += 45;
+                state.lastSelected.dataset.rotation = cur;
+                const tf = state.lastSelected.getAttribute('transform');
+                const tParts = /translate\(([^)]+)\)/.exec(tf);
+                if (tParts) state.lastSelected.setAttribute('transform', `translate(${tParts[1]}) rotate(${cur})`);
+            }
+        };
+
+        function updateCount() {
+            let fractionalCount = 0;
+            const tokens = Array.from(tokensLayer.children);
+            const cy = 210, FOV_RADIUS = 180, FOV_CENTER_X = 375;
+            const FOV_LEFT = FOV_CENTER_X - FOV_RADIUS;
+            const FOV_RIGHT = FOV_CENTER_X + FOV_RADIUS;
+            const pxPerUm = 360 / state.diameter;
+
+            tokens.forEach(t => {
+                const tf = t.getAttribute('transform');
+                const parts = /translate\(([^,]+),([^)]+)\)/.exec(tf);
+                if (!parts) return;
+                const x_center = parseFloat(parts[1]);
+                const y_center = parseFloat(parts[2]);
+                if (Math.abs(y_center - cy) < 20) {
+                    let n_units_per_token = parseInt(t.dataset.val);
+                    let item_size_um = state.scenario.size;
+                    if (state.scenario.type === 'anabaena') item_size_um *= ANABAENA_CELLS;
+                    const W_item = item_size_um * pxPerUm;
+                    const x_item_left = x_center - W_item / 2;
+                    const x_item_right = x_center + W_item / 2;
+                    const overlap_start = Math.max(x_item_left, FOV_LEFT);
+                    const overlap_end = Math.min(x_item_right, FOV_RIGHT);
+                    const visibleLength = overlap_end - overlap_start;
+                    if (visibleLength > 0 && W_item > 0) {
+                        const fractionVisible = visibleLength / W_item;
+                        fractionalCount += (n_units_per_token * fractionVisible);
+                    }
+                }
+            });
+            const displayCount = fractionalCount.toFixed(2);
+            $('placedCount').textContent = displayCount;
+            state.placedN = fractionalCount;
+            $('sizeResult').style.display = 'none';
+            $('calcError').style.display = 'none';
+            $('finalAnswerBox').style.display = 'none';
+            $('trackDisableOverlay').style.display = 'flex';
+        }
+
+        $('autoFitBtn').onclick = () => {
+            const tokens = Array.from(tokensLayer.children);
+            if (!tokens.length) return;
+            const startX = 375 - 180;
+            const endX = 375 + 180;
+            let curX = startX + 10;
+            const pxPerUm = 360 / state.diameter;
+            tokens.forEach(t => {
+                let itemLengthUM = state.scenario.size;
+                if (state.scenario.type === 'anabaena') itemLengthUM *= ANABAENA_CELLS;
+                const width = itemLengthUM * pxPerUm;
+                const halfWidth = width / 2;
+                const tokenCenter = curX + halfWidth;
+                if (tokenCenter + halfWidth > endX) return;
+                t.setAttribute('transform', `translate(${tokenCenter}, 210) rotate(0)`);
+                t.dataset.rotation = 0;
+                curX += (width + 5);
+            });
+            updateCount();
+        };
+
+        $('addTokenBtn').onclick = () => addToken(false);
+        $('removeTokenBtn').onclick = () => { if (tokensLayer.lastChild) tokensLayer.lastChild.remove(); updateCount(); };
+        $('clearBtn').onclick = () => { tokensLayer.innerHTML = ''; updateCount(); };
+        $('newBtn').onclick = newScenario;
+
+        function resetUI() {
+            tokensLayer.innerHTML = '';
+            $('symbFormula').value = '';
+            $('calcDMan').value = ''; $('calcN').value = ''; $('userCalcResult').value = '';
+            $('calcDMan').disabled = true; $('calcN').disabled = true; $('userCalcResult').disabled = true;
+            $('calculateBtn').disabled = true; $('submitBtn').disabled = true;
+            $('trackDisableOverlay').style.display = 'flex';
+            $('btnVerifySetup').disabled = true; $('btnCheckAnswer').disabled = true;
+            $('sizeResult').style.display = 'none';
+            $('calcError').style.display = 'none';
+            $('finalAnswerBox').style.display = 'none';
+            rulerLayer.innerHTML = '';
+            $('symbFormula').classList.remove('valid');
+            state.calculatedSizeMM = 0;
+            state.placedN = 0;
+            state.trackVerified = false;
+        }
+
+        $('symbFormula').oninput = e => {
+            const val = e.target.value.toUpperCase().replace(/\s/g, '');
+            const validStart = ['S', 'L', 'W', 'D'].some(char => val.startsWith(char));
+            if (validStart && val.includes('=') && val.includes('D') && val.includes('N') && val.includes('/')) {
+                e.target.classList.add('valid');
+                $('calcDMan').disabled = false; $('calcN').disabled = false; $('userCalcResult').disabled = false;
+                $('calculateBtn').disabled = false;
+            } else {
+                e.target.classList.remove('valid');
+                $('calcDMan').disabled = true; $('calcN').disabled = true; $('userCalcResult').disabled = true;
+                $('calculateBtn').disabled = true;
+            }
+        };
+
+        $('calculateBtn').onclick = () => {
+            const uMan = $('calcDMan').value.trim();
+            const uN = $('calcN').value.trim();
+            const uResult = $('userCalcResult').value.trim();
+            const realN = state.placedN;
+            const correctDiaMM = state.magInfo.d_math_mm;
+            let errorMsg = "";
+
+            const uNFloat = parseFloat(uN);
+            const n_tolerance = Math.max(realN * 0.05, 0.1);
+            if (isNaN(uNFloat) || Math.abs(uNFloat - realN) > n_tolerance) {
+                errorMsg = `Number error: You aligned ${realN.toFixed(2)} items. Enter this value.`;
+            }
+
+            const uDiaFloat = parseFloat(uMan);
+            if (isNaN(uDiaFloat) || Math.abs(uDiaFloat - correctDiaMM) > 0.05) {
+                errorMsg = `Diameter error: The field diameter is ${state.magInfo.d_real_mm}mm, but you must enter the ROUNDED value (${correctDiaMM}mm).`;
+            }
+
+            if (realN < 0.01) errorMsg = "Please align items on the diameter line first.";
+
+            if (errorMsg) {
+                $('calcError').textContent = errorMsg;
+                $('calcError').style.display = 'block';
+                $('sizeResult').style.display = 'none';
+                return;
+            }
+
+            // Calculate raw size
+            const rawSize = correctDiaMM / realN;
+
+            // Round to 3 significant figures
+            const sigFigSize = parseFloat(rawSize.toPrecision(3));
+
+            const uResultFloat = parseFloat(uResult);
+
+            // Check if user input matches the 3 significant figure value
+            const calcDiff = Math.abs(uResultFloat - sigFigSize);
+
+            if (isNaN(uResultFloat) || calcDiff > (sigFigSize * 0.01)) {
+                errorMsg = `Math error: ${correctDiaMM} / ${uNFloat} = ${rawSize.toFixed(5)}...\nPlease round to 3 significant figures: ${sigFigSize}`;
+                $('calcError').textContent = errorMsg;
+                $('calcError').style.display = 'block';
+                $('sizeResult').style.display = 'none';
+                return;
+            }
+
+            $('calcError').style.display = 'none';
+
+            // Save the rounded value to state for the next step
+            state.calculatedSizeMM = sigFigSize;
+
+            $('sizeResult').textContent = `Correct! Result rounded to 3 sig figs: ${sigFigSize}`;
+            $('sizeResult').style.display = 'block';
+            initTrainTrack();
+        };
+
+        $('submitBtn').onclick = () => {
+            const answerBox = $('finalAnswerBox');
+            answerBox.className = 'answer-feedback-box correct';
+
+            // 1) The mm value (Fixed to 3 decimal places)
+            const valMM = state.calculatedSizeMM.toFixed(3);
+
+            // 2) The exponential form (e.g. 1.50e+3)
+            const expectedUM = state.calculatedSizeMM * 1000;
+            const finalSci = expectedUM.toExponential(2);
+
+            // 3) The decimal form (e.g. 1500.0)
+            const finalDec = expectedUM.toFixed(1);
+
+            // Displaying all three in the green box
+            answerBox.innerHTML = `Answer: ${valMM} mm | ${finalSci} µm | ${finalDec} µm`;
+            answerBox.style.display = 'block';
+        };
+
+        newScenario();
+    </script>
+</body>
+
+</html>
