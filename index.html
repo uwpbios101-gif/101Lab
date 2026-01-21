@@ -7,7 +7,7 @@
     <title>Hit the Ground Running</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Anton&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap"
         rel="stylesheet">
 
     <style>
@@ -23,40 +23,34 @@
 
         body {
             margin: 0;
-            font-family: "Open Sans", sans-serif;
+            font-family: "Open Sans", system-ui, sans-serif;
             background: var(--white);
             color: var(--near-black);
             line-height: 1.6;
         }
 
-        /* ===== Simple Header Bar ===== */
+        /* ===== Simple Stable Header ===== */
         header {
             background: var(--parkside-green);
             border-bottom: 3px solid var(--goldenrod);
         }
 
         .header-inner {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 12px 20px;
             display: flex;
             align-items: center;
-            gap: 20px;
-        }
-
-        .site-title {
-            color: var(--white);
-            font-weight: 700;
-            font-size: 1.2rem;
-            text-decoration: none;
-            margin-right: auto;
+            flex-wrap: wrap;
+            gap: 18px;
         }
 
         .nav-links a {
             color: var(--white);
             text-decoration: none;
             font-weight: 600;
-            margin-left: 16px;
+            font-size: 0.95rem;
+            white-space: nowrap;
         }
 
         .nav-links a:hover {
@@ -65,40 +59,43 @@
 
         /* ===== Main Content ===== */
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
         h1 {
-            font-family: "Anton", sans-serif;
+            font-family: "Inter", system-ui, sans-serif;
+            font-weight: 700;
+            font-size: 2.2rem;
             color: var(--parkside-green);
-            font-size: 2.4rem;
             border-bottom: 3px solid var(--goldenrod);
-            padding-bottom: 8px;
+            padding-bottom: 10px;
+            letter-spacing: -0.5px;
         }
 
         .section {
             background: var(--white-birch);
             border: 1px solid var(--cool-grey);
-            padding: 20px;
-            margin-top: 24px;
+            padding: 22px;
+            margin-top: 28px;
         }
 
         h2 {
             margin-top: 0;
             color: var(--parkside-green);
+            font-weight: 700;
         }
 
         ul {
-            padding-left: 0;
             list-style: none;
+            padding-left: 0;
         }
 
         li {
             margin-bottom: 12px;
-            border-bottom: 1px solid var(--cool-grey);
             padding-bottom: 10px;
+            border-bottom: 1px solid var(--cool-grey);
         }
 
         li:last-child {
@@ -119,16 +116,14 @@
 
 <body>
 
-    <!-- Simple Header -->
+    <!-- Header Bar -->
     <header>
-        <div class="header-inner">
-            <a href="../index.html" class="site-title">Pre-Lab</a>
-            <nav class="nav-links">
-                <a href="../index.html">Home</a>
-                <a href="Metric.html">Metrics</a>
-                <a href="traintrack.html">Conversions</a>
-                <a href="../microscpy/MicroscopeMastery.html">Microscopy</a>
-            </nav>
+        <div class="header-inner nav-links">
+            <a href="01_Science_of_Biology/prelab/prelabreadings.html">Prelab Readings</a>
+            <a href="01_Science_of_Biology/microscpy/MicroscopeMastery.html">Microscopy</a>
+            <a href="01_Science_of_Biology/prelab/traintrack.html">Metric Conversion Practice</a>
+            <a href="01_Science_of_Biology/prelab/prelabreadings.html">Metric Conversion Homework</a>
+            <a href="01_Science_of_Biology/prelab/size.html">Size</a>
         </div>
     </header>
 
@@ -139,7 +134,7 @@
             <h2>What to Complete Before Lab</h2>
             <ul>
                 <li>
-                    <a href="01_Science_of_Biology/prelab/PreLabReadings.html" target="_blank">
+                    <a href="01_Science_of_Biology/prelab/prelabreadings.html" target="_blank">
                         Textbook & Lab Manual Readings + Questions
                     </a>
                 </li>
@@ -149,9 +144,8 @@
         <section class="section">
             <h2>Skills to Develop</h2>
             <ul>
-                <li><a href="Metric.html" target="_blank">Metric Prefixes & Place Value</a></li>
-                <li><a href="traintrack.html" target="_blank">Metric Conversions</a></li>
-                <li><a href="../microscpy/MicroscopeMastery.html" target="_blank">Microscopy</a></li>
+                <li><a href="01_Science_of_Biology/prelab/traintrack.html" target="_blank">Metric Conversions</a></li>
+                <li><a href="01_Science_of_Biology/microscpy/MicroscopeMastery.html" target="_blank">Microscopy</a></li>
             </ul>
         </section>
     </main>
