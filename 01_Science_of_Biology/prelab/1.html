@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metric Conversion - Variable Difficulty</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
 
     <style>
         /* ==============================
@@ -61,7 +63,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0; /* Changed from 20px to 0 to accommodate full-width header */
+            padding: 0;
+            /* Changed from 20px to 0 to accommodate full-width header */
             margin: 0;
             background-color: #f4f7f9;
         }
@@ -253,8 +256,13 @@
             margin: 0;
         }
 
-        .val-input { width: 70px; }
-        .unit-input { width: 60px; }
+        .val-input {
+            width: 70px;
+        }
+
+        .unit-input {
+            width: 60px;
+        }
 
         .fixed-one {
             font-size: 1.5em;
@@ -291,7 +299,9 @@
             border: 2px solid #95a5a6;
         }
 
-        .rewrite-input { margin-bottom: 0; }
+        .rewrite-input {
+            margin-bottom: 0;
+        }
 
         .equals-sign {
             font-size: 2.5em;
@@ -457,12 +467,32 @@
             transform: scale(0.98);
         }
 
-        .btn-new { background-color: #f1c40f; color: #333; }
-        .btn-new:hover { background-color: #f39c12; }
-        .btn-calc { background-color: #2ecc71; color: white; }
-        .btn-calc:hover { background-color: #27ae60; }
-        .btn-check { background-color: #3498db; color: white; }
-        .btn-check:hover { background-color: #2980b9; }
+        .btn-new {
+            background-color: #f1c40f;
+            color: #333;
+        }
+
+        .btn-new:hover {
+            background-color: #f39c12;
+        }
+
+        .btn-calc {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .btn-calc:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-check {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-check:hover {
+            background-color: #2980b9;
+        }
 
         .status-msg {
             font-weight: bold;
@@ -505,9 +535,19 @@
             min-width: 180px;
         }
 
-        .answer-display-value { margin-right: 5px; }
-        .answer-display-exponent { font-size: 0.9em; vertical-align: super; }
-        .answer-display-unit { margin-left: 8px; color: #e67e22; }
+        .answer-display-value {
+            margin-right: 5px;
+        }
+
+        .answer-display-exponent {
+            font-size: 0.9em;
+            vertical-align: super;
+        }
+
+        .answer-display-unit {
+            margin-left: 8px;
+            color: #e67e22;
+        }
     </style>
 </head>
 
@@ -631,8 +671,8 @@
                                     <input type="number" id="exp-flip-1" class="exponent-input rewrite-input"
                                         placeholder="?">
                                 </div>
-                                <input type="text" id="unit-flip-1" class="unit-input rewrite-unit-input" placeholder="Unit"
-                                    style="display: none;">
+                                <input type="text" id="unit-flip-1" class="unit-input rewrite-unit-input"
+                                    placeholder="Unit" style="display: none;">
                             </div>
                             <div class="denominator"></div>
                         </div>
@@ -645,8 +685,8 @@
                                     <input type="number" id="exp-flip-2" class="exponent-input rewrite-input"
                                         placeholder="?">
                                 </div>
-                                <input type="text" id="unit-flip-2" class="unit-input rewrite-unit-input" placeholder="Unit"
-                                    style="display: none;">
+                                <input type="text" id="unit-flip-2" class="unit-input rewrite-unit-input"
+                                    placeholder="Unit" style="display: none;">
                             </div>
                             <div class="denominator"></div>
                         </div>
@@ -696,8 +736,9 @@
                     <h3 style="margin: 0 0 5px 0; color:#2c3e50; font-size:1em;">Metric Prefixes</h3>
 
                     <h4 style="margin:10px 0 5px 0; color:#34495e;">Direct Conversion Table</h4>
-                    <p style="font-size:0.9em; color:#555;">Purpose: Shows how each metric prefix relates to the base units
-                        (m, g, l).</p>
+                    <p style="font-size:0.9em; color:#555;">Purpose: Shows how each metric prefix relates to the base
+                        units
+                        (m, g, L).</p>
 
                     <table class="ref-table">
                         <thead>
@@ -711,43 +752,43 @@
                             <tr>
                                 <td>1 kilo</td>
                                 <td>=</td>
-                                <td>10<sup>3</sup> (m, g, l)</td>
+                                <td>10<sup>3</sup> (m, g, L)</td>
                             </tr>
                             <tr>
                                 <td>1 Base</td>
                                 <td>=</td>
-                                <td>10<sup>0</sup> (m, g, l)</td>
+                                <td>10<sup>0</sup> (m, g, L)</td>
                             </tr>
                             <tr>
                                 <td>1 deci</td>
                                 <td>=</td>
-                                <td>10<sup>-1</sup> (m, g, l)</td>
+                                <td>10<sup>-1</sup> (m, g, L)</td>
                             </tr>
                             <tr>
                                 <td>1 centi</td>
                                 <td>=</td>
-                                <td>10<sup>-2</sup> (m, g, l)</td>
+                                <td>10<sup>-2</sup> (m, g, L)</td>
                             </tr>
                             <tr>
                                 <td>1 milli</td>
                                 <td>=</td>
-                                <td>10<sup>-3</sup> (m, g, l)</td>
+                                <td>10<sup>-3</sup> (m, g, L)</td>
                             </tr>
                             <tr>
                                 <td>1 micro</td>
                                 <td>=</td>
-                                <td>10<sup>-6</sup> (m, g, l)</td>
+                                <td>10<sup>-6</sup> (m, g, L)</td>
                             </tr>
                             <tr>
                                 <td>1 nano</td>
                                 <td>=</td>
-                                <td>10<sup>-9</sup> (m, g, l)</td>
+                                <td>10<sup>-9</sup> (m, g, L)</td>
                             </tr>
                         </tbody>
                     </table>
 
                     <h4 style="margin:15px 0 5px 0; color:#34495e;">Inverse Conversion Table</h4>
-                    <p style="font-size:0.9em; color:#555;">Purpose: Shows how the base units (m, g, l) relate to each
+                    <p style="font-size:0.9em; color:#555;">Purpose: Shows how the base units (m, g, L) relate to each
                         metric prefix.</p>
 
                     <table class="ref-table">
@@ -760,37 +801,37 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1 (m, g, l)</td>
+                                <td>1 (m, g, L)</td>
                                 <td>=</td>
                                 <td>10<sup>-3</sup> kilo</td>
                             </tr>
                             <tr>
-                                <td>1 (m, g, l)</td>
+                                <td>1 (m, g, L)</td>
                                 <td>=</td>
                                 <td>10<sup>0</sup> Base</td>
                             </tr>
                             <tr>
-                                <td>1 (m, g, l)</td>
+                                <td>1 (m, g, L)</td>
                                 <td>=</td>
                                 <td>10<sup>1</sup> deci</td>
                             </tr>
                             <tr>
-                                <td>1 (m, g, l)</td>
+                                <td>1 (m, g, L)</td>
                                 <td>=</td>
                                 <td>10<sup>2</sup> centi</td>
                             </tr>
                             <tr>
-                                <td>1 (m, g, l)</td>
+                                <td>1 (m, g, L)</td>
                                 <td>=</td>
                                 <td>10<sup>3</sup> milli</td>
                             </tr>
                             <tr>
-                                <td>1 (m, g, l)</td>
+                                <td>1 (m, g, L)</td>
                                 <td>=</td>
                                 <td>10<sup>6</sup> micro</td>
                             </tr>
                             <tr>
-                                <td>1 (m, g, l)</td>
+                                <td>1 (m, g, L)</td>
                                 <td>=</td>
                                 <td>10<sup>9</sup> nano</td>
                             </tr>
