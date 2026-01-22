@@ -203,12 +203,27 @@
             border-color: var(--accent-gold);
         }
 
+        /* Base card header styling (keep this) */
         .card-header {
             background: var(--primary-blue);
             color: white;
             padding: 1.5rem;
             text-align: center;
         }
+
+        /* Alternating card header colors */
+        .learning-card:nth-child(3n+1) .card-header {
+            background-color: #016836;
+        }
+
+        .learning-card:nth-child(3n+2) .card-header {
+            background-color: #084298;
+        }
+
+        .learning-card:nth-child(3n+3) .card-header {
+            background-color: #198754;
+        }
+
 
         .card-header h3 {
             font-size: 1.8rem;
@@ -1418,7 +1433,6 @@
             <div class="modules-grid">
                 <div class="module-card">
                     <div class="card-header">
-                        <span class="card-icon">📐</span>
                         <h3>Microscope Set Up</h3>
                         <p>Interactive Video Demo</p>
                     </div>
@@ -1439,7 +1453,6 @@
 
                 <div class="module-card">
                     <div class="card-header">
-                        <span class="card-icon">📐</span>
                         <h3>Microscope Mastery</h3>
                         <p>Core Concepts & Interactive Demos</p>
                     </div>
@@ -1460,7 +1473,6 @@
 
                 <div class="module-card">
                     <div class="card-header">
-                        <span class="card-icon">🔍</span>
                         <h3>Magnification Mastery</h3>
                         <p>Calculate Total Magnification</p>
                     </div>
@@ -1482,7 +1494,6 @@
 
                 <div class="module-card">
                     <div class="card-header">
-                        <span class="card-icon">📏</span>
                         <h3>Field Diameter Lab</h3>
                         <p>Measure • Calculate • Estimate • Memorize</p>
                     </div>
@@ -1503,7 +1514,6 @@
 
                 <div class="module-card">
                     <div class="card-header">
-                        <span class="card-icon">🔬</span>
                         <h3>Microscope Anatomy</h3>
                         <p>Structure & Function</p>
                     </div>
@@ -1524,7 +1534,6 @@
 
                 <div class="module-card">
                     <div class="card-header">
-                        <span class="card-icon">📚</span>
                         <h3>Quick Reference Guide</h3>
                         <p>Essential Formulas & Values</p>
                     </div>
