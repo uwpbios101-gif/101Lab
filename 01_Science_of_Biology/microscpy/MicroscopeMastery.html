@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -1271,113 +1271,146 @@
             }
         }
     </style>
-<style>
-.bios-nav {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: #016836;
-  border-bottom: 2px solid #FFD100;
-}
-.bios-nav-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 4px 8px;
-}
-.bios-home {
-  color: white;
-  font-weight: 700;
-  text-decoration: none;
-  letter-spacing: .5px;
-}
-.bios-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-.bios-menus {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.bios-menu { position: relative; }
-.bios-trigger {
-  background: none;
-  border: none;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 2px 4px;
-}
-.bios-trigger.active {
-  border-bottom: 2px solid #FFD100;
-}
-.bios-dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-  border: 1px solid #ccc;
-  min-width: 160px;
-  z-index: 1001;
-}
-.bios-dropdown a {
-  display: block;
-  padding: 6px 10px;
-  color: #212721;
-  text-decoration: none;
-}
-.bios-dropdown a:hover {
-  background: #EFECE2;
-}
-.bios-menu:hover .bios-dropdown,
-.bios-menu:focus-within .bios-dropdown {
-  display: block;
-}
-@media (max-width: 768px) {
-  .bios-toggle { display: block; }
-  .bios-menus {
-    display: none;
-    flex-direction: column;
-    background: #016836;
-    width: 100%;
-  }
-  .bios-menus.open { display: flex; }
-  .bios-dropdown {
-    position: static;
-    border: none;
-  }
-}
-</style>
+    <style>
+        .bios-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #016836;
+            border-bottom: 2px solid #FFD100;
+        }
+
+        .bios-nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 8px;
+        }
+
+        .bios-nav-inner a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .bios-nav-inner a:visited {
+            color: white;
+        }
+
+        .bios-nav-inner a:hover {
+            color: #FFD100;
+        }
+
+        .bios-home {
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: .5px;
+        }
+
+        .bios-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .bios-menus {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .bios-menu {
+            position: relative;
+        }
+
+        .bios-trigger {
+            background: none;
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 2px 4px;
+        }
+
+        .bios-trigger.active {
+            border-bottom: 2px solid #FFD100;
+        }
+
+        .bios-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #ccc;
+            min-width: 160px;
+            z-index: 1001;
+        }
+
+        .bios-dropdown a {
+            display: block;
+            padding: 6px 10px;
+            color: #212721;
+            text-decoration: none;
+        }
+
+        .bios-dropdown a:hover {
+            background: #EFECE2;
+        }
+
+        .bios-menu:hover .bios-dropdown,
+        .bios-menu:focus-within .bios-dropdown {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .bios-toggle {
+                display: block;
+            }
+
+            .bios-menus {
+                display: none;
+                flex-direction: column;
+                background: #016836;
+                width: 100%;
+            }
+
+            .bios-menus.open {
+                display: flex;
+            }
+
+            .bios-dropdown {
+                position: static;
+                border: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
-<nav class="bios-nav">
-  <div class="bios-nav-inner">
-    <a href="../index.html" class="bios-home">BIOS101</a>
-    <button class="bios-toggle" aria-label="Toggle menu">â˜°</button>
-    <div class="bios-menus" id="biosMenus"></div>
-  </div>
-</nav>
+    <nav class="bios-nav">
+        <div class="bios-nav-inner">
+            <a href="Index.html">Week 1</a>
+            <a href="01_Science_of_Biology/prelab/prelabreadings.html">Prelab Readings</a>
+            <a href="01_Science_of_Biology/microscpy/MicroscopeMastery.html">Microscopy</a>
+            <a href="01_Science_of_Biology/prelab/traintrack.html">Metric Conversion Practice</a>
+            <a href="01_Science_of_Biology/prelab/traintrackhomework.html">Metric Conversion Homework</a>
+            <a href="01_Science_of_Biology/prelab/size.html">Size Practice</a>
+            <button class="bios-toggle" aria-label="Toggle menu">BIOS101</button>
+            <div class="bios-menus" id="biosMenus"></div>
+        </div>
+    </nav>
     <canvas id="confetti-canvas"></canvas>
 
     <div id="landing-page">
-        <div class="landing-nav">
-            <button class="back-button-external" onclick="exitToExternal()">
-                ← Back to Lab Index
-            </button>
-        </div>
 
         <section class="hero-section">
             <div class="hero-row">
-                <span class="microscope-icon">🔬</span>
                 <div class="hero-content">
                     <h1>Microscope Mastery Hub</h1>
                     <p>Your comprehensive guide to mastering microscope concepts through interactive learning,
@@ -2136,7 +2169,8 @@
 
                 <div id="fd-step-measure" class="fd-card fd-hidden">
                     <h3>Step 1: Direct Diameter Measurement of the Low Power Magnification (LPM) (4x) lens</h3>
-                    <p>The <strong>Scanning Lens (4x)</strong> is the only lens with a field diameter (a straight line passing from side to side through the center of thec circle) large enough to measure
+                    <p>The <strong>Scanning Lens (4x)</strong> is the only lens with a field diameter (a straight line
+                        passing from side to side through the center of thec circle) large enough to measure
                         with a physical ruler.</p>
 
                     <div style="margin: 2rem 0;">
@@ -2178,20 +2212,24 @@
                     <h2>Step 2: Calculating High Power Diameters</h2>
 
                     <div style="background: #fff3cd; border: 1px solid #ffeeba; padding: 1rem; margin-bottom: 1rem;">
-                       <p><strong>Teaching Point:</strong> Remember the thre (3) objective lenses? The Low Power objective lens that provides 4x Magnification; and the two High Power objective lenses that provide 10x & 40x Magnification.</p>
-                       <p>The 4x lens provides Low Power Magnificaiont   (LPM)</p>
-                       <p>The 10x lens provides High Power Magnificaiont (HPM)<<sub>(10x)</sub></p>
-                       <p>The 40x lens provides High Power Magnificaiont (HPM)<<sub>(40x)</sub></p>
-                        
-                       
+                        <p><strong>Teaching Point:</strong> Remember the thre (3) objective lenses? The Low Power
+                            objective lens that provides 4x Magnification; and the two High Power objective lenses that
+                            provide 10x & 40x Magnification.</p>
+                        <p>The 4x lens provides Low Power Magnificaiont (LPM)</p>
+                        <p>The 10x lens provides High Power Magnificaiont (HPM)<<sub>(10x)</sub></p>
+                        <p>The 40x lens provides High Power Magnificaiont (HPM)<<sub>(40x)</sub></p>
+
+
                         In this calculation, the 4x lens is your <strong>Low Power
                             magnification<(LPM) lenses </strong>.
-                        Both the 10x lens AND the 40x lens are considered <strong>High Power magnification(HPM) lenses</strong> relative to
-                        the 4x.
+                                Both the 10x lens AND the 40x lens are considered <strong>High Power magnification(HPM)
+                                    lenses</strong> relative to
+                                the 4x.
                     </div>
 
                     <h3>Part A: The 10x Objective lens</h3>
-                    <p>Our goal is to determine (calculate) the diameter for the 10x lens. Let's use a simple formula</p>
+                    <p>Our goal is to determine (calculate) the diameter for the 10x lens. Let's use a simple formula
+                    </p>
 
                     <div class="formula-builder">
                         <p><strong>1. Build the Formula:</strong></p>
@@ -2388,7 +2426,8 @@
 
                     <div id="fd-est-calc-area" class="fd-hidden" style="margin-top: 2rem;">
                         <p><strong>2. Calculate:</strong></p>
-                        <p>Based on the image above, about <strong>92</strong> cells organized in a filament fit across the diameter (0.5mm).
+                        <p>Based on the image above, about <strong>92</strong> cells organized in a filament fit across
+                            the diameter (0.5mm).
                         </p>
                         <div class="formula-container">
                             Length = 0.5mm / 92
@@ -2513,7 +2552,8 @@
             </div>
 
             <div style="text-align: center; margin-top: 2rem;">
-                <button class="btn" onclick="window.location.href='../prelab/prelab.html'">Back to Pre-Lab Modules</button>
+                <button class="btn" onclick="window.location.href='../prelab/prelab.html'">Back to Pre-Lab
+                    Modules</button>
             </div>
         </div>
     </div>
@@ -3251,38 +3291,6 @@
             }
         };
     </script>
-<script>
-(function() {
-  function initNav() {
-    var labs = [{"folder":"bios101-learning","title":"Metacognition"},{"folder":"01_Science_of_Biology","title":"Scientific Process"},{"folder":"02_Eukaryotes","title":"Eukaryotes"},{"folder":"03_Carbohydrates","title":"Carbohydrates"},{"folder":"04_Proteins","title":"Proteins"},{"folder":"05_Lipids","title":"Lipids"},{"folder":"06_Photosynthetic_Pigments","title":"Photosynthesis"},{"folder":"07_Nucleic Acids","title":"Nucleic Acids"},{"folder":"08_Mitosis","title":"Mitosis"},{"folder":"09_Meiosis","title":"Meiosis"},{"folder":"10_Genetics","title":"Genetics"}];
-    var menus = document.getElementById('biosMenus');
-    var path = location.pathname;
-    if (!menus) return;
-    labs.forEach(function(lab) {
-      var m = document.createElement('div');
-      m.className = 'bios-menu';
-      var b = document.createElement('button');
-      b.className = 'bios-trigger';
-      b.textContent = lab.title;
-      if (path.indexOf(lab.folder) !== -1) b.classList.add('active');
-      var d = document.createElement('div');
-      d.className = 'bios-dropdown';
-      var bp = '../../' + lab.folder;
-      d.innerHTML = '<a href="' + bp + '/index.html">Overview</a><a href="' + bp + '/prelab/prelab.html">Pre-Lab</a><a href="' + bp + '/during_lab/in-lab.html">In-Lab</a><a href="' + bp + '/postlab/postlab.html">Post-Lab</a><a href="' + bp + '/advanced/optional.html">Optional</a>';
-      m.appendChild(b);
-      m.appendChild(d);
-      menus.appendChild(m);
-    });
-    var t = document.querySelector('.bios-toggle');
-    if (t) t.onclick = function() { menus.classList.toggle('open'); };
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initNav);
-  } else {
-    initNav();
-  }
-})();
-</script>
 </body>
 
 </html>
