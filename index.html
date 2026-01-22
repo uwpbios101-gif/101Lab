@@ -4,184 +4,441 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hit the Ground Running</title>
+    <title>Hit the Ground Running | UW-Parkside Biology Lab</title>
 
     <!-- Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap"
         rel="stylesheet">
 
     <style>
         :root {
             --parkside-green: #016836;
+            --parkside-green-dark: #014d27;
             --near-black: #212721;
             --warm-grey: #54534A;
             --cool-grey: #DBD9D6;
             --goldenrod: #FABA31;
             --white-birch: #EFECE2;
             --white: #FFFFFF;
+            --border-radius: 6px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
             font-family: "Open Sans", system-ui, sans-serif;
             background: var(--white);
             color: var(--near-black);
-            line-height: 1.6;
+            line-height: 1.4;
+            font-size: 0.9rem;
         }
 
-        /* ===== Simple Stable Header ===== */
+        /* ===== Compact Header ===== */
         header {
             background: var(--parkside-green);
             border-bottom: 3px solid var(--goldenrod);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
         }
 
         .header-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 12px 20px;
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 18px;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--goldenrod);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            font-weight: 700;
+            color: var(--parkside-green);
+            font-size: 0.85rem;
+        }
+
+        .logo-text {
+            color: var(--white);
+            font-family: "Inter", sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: -0.2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
         }
 
         .nav-links a {
             color: var(--white);
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
+            padding: 4px 6px;
             white-space: nowrap;
+            border-radius: 3px;
         }
 
         .nav-links a:hover {
-            text-decoration: underline;
+            background: rgba(255,255,255,0.1);
         }
 
         /* ===== Main Content ===== */
         .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px 16px 30px;
         }
 
-        h1 {
+        /* Page Title */
+        .page-title {
             font-family: "Inter", system-ui, sans-serif;
             font-weight: 700;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             color: var(--parkside-green);
-            border-bottom: 3px solid var(--goldenrod);
-            padding-bottom: 10px;
-            letter-spacing: -0.5px;
+            margin: 0 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--goldenrod);
         }
 
+        .page-subtitle {
+            font-size: 0.95rem;
+            color: var(--warm-grey);
+            margin: 0 0 24px 0;
+            font-weight: 500;
+        }
+
+        /* Section Cards */
         .section {
-            background: var(--white-birch);
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 18px 20px;
+            margin-bottom: 16px;
             border: 1px solid var(--cool-grey);
-            padding: 22px;
-            margin-top: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .section-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--goldenrod);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+            font-size: 0.9rem;
+            flex-shrink: 0;
         }
 
         h2 {
-            margin-top: 0;
+            margin: 0;
             color: var(--parkside-green);
-            font-weight: 700;
+            font-family: "Inter", sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            line-height: 1.2;
         }
 
-        ul {
+        /* Task List */
+        .task-list {
             list-style: none;
             padding-left: 0;
+            margin: 0;
         }
 
-        li {
-            margin-bottom: 12px;
-            padding-bottom: 10px;
+        .task-item {
+            padding: 12px 0;
             border-bottom: 1px solid var(--cool-grey);
+            display: flex;
+            flex-direction: column;
         }
 
-        li:last-child {
+        .task-item:last-child {
             border-bottom: none;
+            padding-bottom: 0;
         }
 
-        a {
+        .task-item:first-child {
+            padding-top: 0;
+        }
+
+        .task-link {
+            display: inline-flex;
+            align-items: center;
             color: var(--parkside-green);
             font-weight: 600;
+            font-size: 0.95rem;
             text-decoration: none;
+            margin-bottom: 4px;
         }
 
-        a:hover {
+        .task-link:hover {
+            color: var(--parkside-green-dark);
             text-decoration: underline;
+        }
+
+        .task-link::after {
+            content: '↗';
+            margin-left: 4px;
+            font-size: 0.85em;
+            opacity: 0.7;
+        }
+
+        .task-description {
+            font-size: 0.85rem;
+            color: var(--warm-grey);
+            line-height: 1.3;
+            margin: 0 0 4px 0;
+        }
+
+        .task-meta {
+            display: flex;
+            align-items: center;
+            margin-top: 2px;
+            font-size: 0.8rem;
+        }
+
+        .task-points {
+            background: var(--goldenrod);
+            color: var(--parkside-green-dark);
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .task-due {
+            color: var(--warm-grey);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--near-black);
+            color: var(--cool-grey);
+            padding: 20px 16px;
+            margin-top: 30px;
+            border-top: 2px solid var(--goldenrod);
+        }
+
+        .footer-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .footer-logo {
+            color: var(--white);
+            font-family: "Inter", sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+
+        .footer-text {
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.3;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                gap: 10px;
+                padding: 8px 0;
+            }
+            
+            .nav-links {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .container {
+                padding: 16px 12px 24px;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+                margin-bottom: 8px;
+            }
+            
+            .page-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 16px;
+            }
+            
+            .section {
+                padding: 14px 16px;
+                margin-bottom: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links a {
+                font-size: 0.8rem;
+                padding: 3px 4px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+                margin-bottom: 10px;
+            }
+            
+            .section-icon {
+                margin-right: 0;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Header Bar -->
+    <!-- Compact Header -->
     <header>
-        <div class="header-inner nav-links">
-            <a href="01_Science_of_Biology/prelab/prelabreadings.html">Prelab Readings</a>
-            <a href="01_Science_of_Biology/microscpy/MicroscopeMastery.html">Microscopy</a>
-            <a href="01_Science_of_Biology/prelab/traintrack.html">Metric Conversion Practice</a>
-            <a href="01_Science_of_Biology/prelab/traintrackhomework.html">Metric Conversion Homework</a>
-            <a href="01_Science_of_Biology/prelab/size.html">Size Practice</a>
+        <div class="header-container">
+            <div class="header-inner">
+                <div class="logo-container">
+                    <div class="logo-icon">BIO</div>
+                    <div class="logo-text">UW-Parkside Biology Lab</div>
+                </div>
+                <nav class="nav-links">
+                    <a href="01_Science_of_Biology/prelab/prelabreadings.html">Prelab Readings</a>
+                    <a href="01_Science_of_Biology/microscpy/MicroscopeMastery.html">Microscopy</a>
+                    <a href="01_Science_of_Biology/prelab/traintrack.html">Metric Conversion Practice</a>
+                    <a href="01_Science_of_Biology/prelab/traintrackhomework.html">Metric Conversion Homework</a>
+                    <a href="01_Science_of_Biology/prelab/size.html">Size Practice</a>
+                </nav>
+            </div>
         </div>
     </header>
 
     <main class="container">
-        <h1>Hit the Ground Running</h1>
+        <h1 class="page-title">Hit the Ground Running</h1>
+        <p class="page-subtitle">Essential preparations for Biology Lab 1</p>
 
+        <!-- Before Lab Readings Section -->
         <section class="section">
-            <h2>What to Complete Before Lab - Readings</h2>
-            <ul>
-                <li>
-                    <a href="01_Science_of_Biology/prelab/prelabreadings.html" target="_blank">
+            <div class="section-header">
+                <div class="section-icon">📚</div>
+                <h2>What to Complete Before Lab - Readings</h2>
+            </div>
+            <ul class="task-list">
+                <li class="task-item">
+                    <a href="01_Science_of_Biology/prelab/prelabreadings.html" target="_blank" class="task-link">
                         Textbook & Lab Manual Readings
                     </a>
-                    <div style="font-size:0.9em; color:#54534A; margin-top:4px;">
-                        Study the pages in the textbook. Read and answer the questions in the lab manual.
+                    <p class="task-description">Study textbook pages. Read and answer lab manual questions.</p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Skills to Sharpen Section -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">⚡</div>
+                <h2>Skills to Sharpen Prior to Lab</h2>
+            </div>
+            <ul class="task-list">
+                <li class="task-item">
+                    <a href="01_Science_of_Biology/prelab/traintrack.html" target="_blank" class="task-link">
+                        Metric Conversion Practice
+                    </a>
+                    <p class="task-description">Practice to improve speed and accuracy with metric conversions.</p>
+                </li>
+                <li class="task-item">
+                    <a href="01_Science_of_Biology/microscpy/MicroscopeMastery.html" target="_blank" class="task-link">
+                        Microscopy Skills
+                    </a>
+                    <p class="task-description">Practice microscope handling and component identification.</p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Homework Section -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h2>Homework to Turn-in for Points</h2>
+            </div>
+            <ul class="task-list">
+                <li class="task-item">
+                    <a href="01_Science_of_Biology/prelab/traintrackhomework.html" target="_blank" class="task-link">
+                        Metric Conversion Homework
+                    </a>
+                    <div class="task-meta">
+                        <span class="task-points">+5 Points</span>
+                        <span class="task-due">Due at start of Lab 1</span>
+                    </div>
+                </li>
+                <li class="task-item">
+                    <div class="task-link">Lab Manual Questions</div>
+                    <div class="task-meta">
+                        <span class="task-due">Due at start of Lab 1</span>
                     </div>
                 </li>
             </ul>
         </section>
 
+        <!-- Week 1 Section -->
         <section class="section">
-            <h2>Skills to Sharpen Prior to Lab</h2>
-            <ul>
-                <li>
-                    <a href="01_Science_of_Biology/prelab/traintrack.html" target="_blank">
-                        Metric Conversion Practice
+            <div class="section-header">
+                <div class="section-icon">🧪</div>
+                <h2>Taking Your Seat (Week 1)</h2>
+            </div>
+            <ul class="task-list">
+                <li class="task-item">
+                    <a href="01_Science_of_Biology/inlab/seated.html" target="_blank" class="task-link">
+                        Ready Set Go-Time
                     </a>
-                    <div style="font-size:0.9em; color:#54534A; margin-top:4px;">
-                        Practice regularly to improve speed, accuracy, and confidence with conversions.
-                    </div>
+                    <p class="task-description">Access assigned seat and initial lab instructions for Week 1.</p>
                 </li>
-                <li>
-                    <a href="01_Science_of_Biology/microscpy/MicroscopeMastery.html" target="_blank">
-                        Microscopy
-                    </a>
-                    <div style="font-size:0.9em; color:#54534A; margin-top:4px;">
-                        Practice microscope handling, component identification, and field diameter concepts before lab.
-                    </div>
-                </li>
-            </ul>
-        </section>
-        <section class="section">
-            <h2>Homework to Turn-in for Points at the beginning of Lab 1</h2>
-            <ul>
-                <li><a href="01_Science_of_Biology/prelab/traintrackhomework.html" target="_blank">Metric Conversion (5
-                        Point Extra Credit)</a></li>
-                <li> Manual Questions</li>
-            </ul>
-        </section>
-        <section class="section">
-            <h2>Taking your seat (Week1)</h2>
-            <ul>
-                <li><a href="01_Science_of_Biology/inlab/seated.html" target="_blank">Ready Set Go-Time</a></li>
             </ul>
         </section>
     </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">UW-Parkside Biology Department</div>
+            <p class="footer-text">Complete all required tasks before your lab session for optimal preparation.</p>
+        </div>
+    </footer>
 
 </body>
 
