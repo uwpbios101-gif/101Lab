@@ -205,20 +205,26 @@
             transform: translateY(-2px);
         }
 
-        #back-10, #back-5 {
+        #back-10,
+        #back-5 {
             background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
         }
 
-        #back-10:hover, #back-5:hover {
+        #back-10:hover,
+        #back-5:hover {
             background: linear-gradient(135deg, #1976D2 0%, #1565c0 100%);
             transform: translateY(-2px);
         }
 
-        #forward-5, #forward-10, #next-question-btn {
+        #forward-5,
+        #forward-10,
+        #next-question-btn {
             background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
         }
 
-        #forward-5:hover, #forward-10:hover, #next-question-btn:hover {
+        #forward-5:hover,
+        #forward-10:hover,
+        #next-question-btn:hover {
             background: linear-gradient(135deg, #F57C00 0%, #EF6C00 100%);
             transform: translateY(-2px);
         }
@@ -442,8 +448,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .feedback-title {
@@ -544,6 +555,7 @@
                 opacity: 0;
                 transform: translateY(-20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -599,7 +611,8 @@
                 padding: 15px;
             }
 
-            .video-section, .quiz-section {
+            .video-section,
+            .quiz-section {
                 min-width: 100%;
             }
 
@@ -619,7 +632,9 @@
                 padding: 15px;
             }
 
-            .header-left, .header-center, .header-right {
+            .header-left,
+            .header-center,
+            .header-right {
                 text-align: center;
                 width: 100%;
             }
@@ -637,13 +652,17 @@
             border-bottom: 2px solid #FFD100;
         }
 
-        .bios-nav-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 4px 8px;
+        .bios-nav-inner a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .bios-nav-inner a:visited {
+            color: white;
+        }
+
+        .bios-nav-inner a:hover {
+            color: #FFD100;
         }
 
         .bios-home {
@@ -739,7 +758,12 @@
 <body>
     <nav class="bios-nav">
         <div class="bios-nav-inner">
-            <a href="../index.html" class="bios-home">BIOS101</a>
+            <a href="Index.html">Week 1</a>
+            <a href="01_Science_of_Biology/prelab/prelabreadings.html">Prelab Readings</a>
+            <a href="01_Science_of_Biology/microscpy/MicroscopeMastery.html">Microscopy</a>
+            <a href="01_Science_of_Biology/prelab/traintrack.html">Metric Conversion Practice</a>
+            <a href="01_Science_of_Biology/prelab/traintrackhomework.html">Metric Conversion Homework</a>
+            <a href="01_Science_of_Biology/prelab/size.html">Size Practice</a>
             <button class="bios-toggle" aria-label="Toggle menu">☰</button>
             <div class="bios-menus" id="biosMenus"></div>
         </div>
@@ -815,7 +839,8 @@
                             <strong>Score:</strong> <span id="score-display">0</span> / <span id="total-points">0</span>
                         </div>
                         <div>
-                            <strong>Questions:</strong> <span id="questions-answered">0</span> / <span id="total-questions">0</span>
+                            <strong>Questions:</strong> <span id="questions-answered">0</span> / <span
+                                id="total-questions">0</span>
                         </div>
                         <div>
                             <strong>Progress:</strong> <span id="quiz-progress-percent">0%</span>
@@ -845,21 +870,24 @@
 
                 <div id="question-type" class="question-type">Multiple Choice</div>
 
-                <div class="question-text" id="question-text">Question will appear here when video reaches a question timestamp...</div>
+                <div class="question-text" id="question-text">Question will appear here when video reaches a question
+                    timestamp...</div>
 
                 <div class="options-container" id="options-container">
                     <!-- Options will be inserted here -->
                 </div>
 
                 <div id="short-answer-container" style="display: none;">
-                    <input type="text" class="fill-in-input" id="short-answer-input" placeholder="Type your answer here...">
+                    <input type="text" class="fill-in-input" id="short-answer-input"
+                        placeholder="Type your answer here...">
                     <div style="font-size: 0.9rem; color: #b0b0b0; margin-top: 5px;">
                         <i class="fas fa-lightbulb"></i> For multiple parts, separate with semicolons (;)
                     </div>
                 </div>
 
                 <button class="submit-btn" id="submit-btn" style="display: none;">Submit Answer</button>
-                <button class="submit-btn" id="continue-btn" style="display: none; background-color: #2196F3;">Continue Video</button>
+                <button class="submit-btn" id="continue-btn" style="display: none; background-color: #2196F3;">Continue
+                    Video</button>
 
                 <div class="feedback-container" id="feedback-container">
                     <div class="feedback-title" id="feedback-title"></div>
@@ -871,7 +899,7 @@
                     <div class="percentage-score" id="percentage-score">0%</div>
                     <p>Final Score: <span id="final-score">0</span> / <span id="max-score">0</span></p>
                     <p id="performance-message" style="font-size: 1.2rem; margin: 15px 0;"></p>
-                    
+
                     <div class="summary-buttons">
                         <button onclick="location.reload()" class="summary-btn restart">
                             <i class="fas fa-redo"></i> Restart Training
@@ -995,7 +1023,7 @@
             totalQuestionsDisplay.textContent = quizData.length;
             totalPoints = quizData.reduce((sum, q) => sum + q.points, 0);
             totalPointsDisplay.textContent = totalPoints;
-            
+
             updateProgress();
             createQuestionMarkers();
 
@@ -1031,7 +1059,7 @@
 
         function createQuestionMarkers() {
             questionMarkersContainer.innerHTML = '';
-            
+
             quizData.forEach((question, index) => {
                 if (videoElement.duration) {
                     const position = (question.timeInSeconds / videoElement.duration) * 100;
@@ -1040,16 +1068,16 @@
                     marker.style.left = `${position}%`;
                     marker.title = `Question ${question.id} at ${question.timestamp}`;
                     marker.dataset.index = index;
-                    
+
                     marker.addEventListener('click', () => {
                         videoElement.currentTime = question.timeInSeconds;
                         videoElement.play();
                     });
-                    
+
                     questionMarkersContainer.appendChild(marker);
                 }
             });
-            
+
             updateQuestionMarkers();
         }
 
@@ -1075,7 +1103,7 @@
             const answeredCount = quizData.filter(q => q.answered).length;
             questionsAnsweredDisplay.textContent = answeredCount;
             scoreDisplay.textContent = score;
-            
+
             const progressPercent = Math.round((answeredCount / quizData.length) * 100);
             quizProgressPercent.textContent = `${progressPercent}%`;
         }
@@ -1084,7 +1112,7 @@
             if (quizActive) return;
 
             const currentTime = videoElement.currentTime;
-            
+
             const nextQuestion = quizData.find(q =>
                 !q.answered &&
                 currentTime >= q.timeInSeconds - 0.5 &&
@@ -1130,7 +1158,7 @@
             question.options.forEach((option, index) => {
                 const optionElement = document.createElement('div');
                 optionElement.className = 'option';
-                
+
                 optionElement.innerHTML = `
                     <div class="option-label">${optionLabels[index]}</div>
                     <div class="option-text">${option}</div>
@@ -1138,11 +1166,11 @@
 
                 optionElement.addEventListener('click', () => {
                     if (question.answered) return;
-                    
+
                     document.querySelectorAll('.option').forEach(opt => {
                         opt.classList.remove('selected');
                     });
-                    
+
                     optionElement.classList.add('selected');
                     optionElement.dataset.selected = optionLabels[index];
                 });
@@ -1217,8 +1245,8 @@
             feedbackTitle.textContent = isCorrect ?
                 `✓ Correct! (${question.points} point${question.points > 1 ? 's' : ''} earned)` :
                 `✗ Incorrect`;
-                
-            explanationText.textContent = question.explanation || 
+
+            explanationText.textContent = question.explanation ||
                 (isCorrect ? 'Well done!' : `The correct answer is: ${getCorrectAnswerText(question)}`);
             feedbackContainer.classList.add('show');
         }
@@ -1250,10 +1278,10 @@
             quizSummary.classList.add('show');
             finalScore.textContent = score;
             maxScore.textContent = totalPoints;
-            
+
             const percentage = Math.round((score / totalPoints) * 100);
             percentageScore.textContent = `${percentage}%`;
-            
+
             if (percentage >= 90) {
                 percentageScore.style.color = '#4CAF50';
                 performanceMessage.textContent = 'Excellent! You\'ve mastered microscope setup!';
@@ -1365,38 +1393,6 @@
         });
 
         window.addEventListener('DOMContentLoaded', initTraining);
-    </script>
-    <script>
-        (function () {
-            function initNav() {
-                var labs = [{ "folder": "bios101-learning", "title": "Metacognition" }, { "folder": "01_Science_of_Biology", "title": "Scientific Process" }, { "folder": "02_Eukaryotes", "title": "Eukaryotes" }, { "folder": "03_Carbohydrates", "title": "Carbohydrates" }, { "folder": "04_Proteins", "title": "Proteins" }, { "folder": "05_Lipids", "title": "Lipids" }, { "folder": "06_Photosynthetic_Pigments", "title": "Photosynthesis" }, { "folder": "07_Nucleic Acids", "title": "Nucleic Acids" }, { "folder": "08_Mitosis", "title": "Mitosis" }, { "folder": "09_Meiosis", "title": "Meiosis" }, { "folder": "10_Genetics", "title": "Genetics" }];
-                var menus = document.getElementById('biosMenus');
-                var path = location.pathname;
-                if (!menus) return;
-                labs.forEach(function (lab) {
-                    var m = document.createElement('div');
-                    m.className = 'bios-menu';
-                    var b = document.createElement('button');
-                    b.className = 'bios-trigger';
-                    b.textContent = lab.title;
-                    if (path.indexOf(lab.folder) !== -1) b.classList.add('active');
-                    var d = document.createElement('div');
-                    d.className = 'bios-dropdown';
-                    var bp = '../../' + lab.folder;
-                    d.innerHTML = '<a href="' + bp + '/index.html">Overview</a><a href="' + bp + '/prelab/prelab.html">Pre-Lab</a><a href="' + bp + '/during_lab/in-lab.html">In-Lab</a><a href="' + bp + '/postlab/postlab.html">Post-Lab</a><a href="' + bp + '/advanced/optional.html">Optional</a>';
-                    m.appendChild(b);
-                    m.appendChild(d);
-                    menus.appendChild(m);
-                });
-                var t = document.querySelector('.bios-toggle');
-                if (t) t.onclick = function () { menus.classList.toggle('open'); };
-            }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initNav);
-            } else {
-                initNav();
-            }
-        })();
     </script>
 </body>
 
