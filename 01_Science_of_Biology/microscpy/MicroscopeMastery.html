@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Microscope Mastery Hub - Complete Learning System</title>
     <style>
-        /* ===== ROOT & GLOBAL ===== */
+                /* ===== ROOT & GLOBAL ===== */
         :root {
             --primary-blue: #004b87;
             --primary-dark: #003d6b;
@@ -32,6 +32,45 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
+        }
+
+        /* ===== MICROSCOPE MASTERY HEADING STYLES ===== */
+        .microscope-mastery-title {
+            text-align: center;
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .microscope-mastery-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        .microscope-mastery-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #333;
+            max-width: 700px;
+            margin: 2rem auto 3rem;
+            opacity: 0.9;
+        }
+
+        /* ===== NAVIGATION BUTTONS ===== */
+        .landing-nav {
+            padding: 1rem 2rem;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 10;
         }
 
         /* ===== NAVIGATION BUTTONS ===== */
@@ -1156,18 +1195,18 @@
 
         /* ===== FOOTER ===== */
         .footer {
-            background: var(--primary-blue);
+            background: #016836;
             color: white;
             text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
+            padding: 1rem;
+            margin-top: 1rem;
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
         }
 
         .footer p {
             opacity: 0.9;
-            max-width: 700px;
+            max-width: 400px;
             margin: 0 auto 1rem;
         }
 
@@ -1479,8 +1518,7 @@
         </section>
 
         <footer class="footer">
-            <p>Developed for BIOS101 Microscopy Lab • uwp,edu</p>
-            <p>© 2026 Microscope Mastery Hub. All rights reserved.</p>
+            <p>Developed for BIOS101 Microscopy Lab • uwp.edu | © 2026 Microscope Mastery Hub. All rights reserved.</p>
         </footer>
     </div>
 
