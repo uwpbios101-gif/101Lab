@@ -6,17 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Microscope Mastery Hub - Complete Learning System</title>
     <style>
-                /* ===== ROOT & GLOBAL ===== */
+        /* ===== ROOT & GLOBAL ===== */
+        /* ===== ROOT & GLOBAL (UWP Brand Compliant) ===== */
         :root {
-            --primary-blue: #004b87;
-            --primary-dark: #003d6b;
-            --accent-gold: #ffc845;
-            --accent-dark: #e6b33e;
-            --success: #2e7d32;
+            /* UW-Parkside Official Colors */
+            --parkside-green: #016836;
+            /* Primary brand color */
+            --parkside-black: #212722;
+            /* Official black */
+
+            /* Admissions' Complementary Colors */
+            --uw-blue: #105877;
+            /* Secondary blue */
+            --goldenrod: #FABA31;
+            /* Accent gold */
+            --warm-grey: #54534A;
+            /* Text/neutral */
+            --cool-grey: #DBD9D6;
+            /* Light background */
+            --white-birch: #EFECE2;
+            /* Off-white background */
+
+            /* Semantic Variables (using brand colors) */
+            --primary: var(--parkside-green);
+            /* Use green as primary */
+            --primary-dark: #00502f;
+            /* Parkside Dark Green */
+            --accent: var(--goldenrod);
+            /* Use official goldenrod */
+            --accent-dark: #e0a800;
+            /* Darker goldenrod for contrast */
+            --success: #016836;
+            /* Use official green for success */
             --error: #c62828;
-            --bg-light: #f5f5f5;
+            /* Keep red for errors (not in palette) */
+            --bg-light: var(--white-birch);
+            /* Use brand off-white */
             --white: #ffffff;
-            --card-shadow: 0 10px 30px rgba(0, 75, 135, 0.1);
+
+            /* Shadows using brand colors */
+            --card-shadow: 0 10px 30px rgba(1, 104, 54, 0.1);
+            /* Parkside green tint */
             --transition: all 0.3s ease;
         }
 
@@ -28,8 +58,11 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            color: #333;
+            /* Use neutral brand background instead of blue gradient */
+            background: var(--white-birch);
+            /* Single color for brand compliance */
+            color: var(--parkside-black);
+            /* Use official black for text */
             line-height: 1.6;
             min-height: 100vh;
         }
@@ -171,7 +204,7 @@
         .card-header {
             background: var(--primary-blue);
             color: white;
-            padding: 1.5rem;
+            padding: 1.25rem;
             text-align: center;
         }
 
@@ -191,7 +224,7 @@
 
 
         .card-header h3 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
 
@@ -233,7 +266,7 @@
         }
 
         .btn {
-            background: var(--primary-blue);
+            background: var(--parkside-green);
             color: white;
             border: none;
             padding: 1rem 2rem;
@@ -1226,13 +1259,6 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .hero-section h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-section {
-                padding: 3rem 1rem;
-            }
 
             .modules-grid {
                 grid-template-columns: 1fr;
@@ -1257,7 +1283,7 @@
             top: 0;
             z-index: 1000;
             background: #016836;
-            border-bottom: 2px solid #FFD100;
+            border-bottom: 2px solid #FABA31;
         }
 
         .bios-nav-inner {
