@@ -1,1 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Metric Conversions - UWP</title>
+    <style>
+        /* --- UWP Color Palette --- */
+        :root {
+            --uwp-green: #007a33;
+            --uwp-gold: #ffd100;
+            --uwp-dark-green: #005a26;
+            --uwp-black: #000000;
+            --uwp-white: #ffffff;
+            --uwp-light-gray: #f4f4f4;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--uwp-white);
+            color: var(--uwp-black);
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--uwp-green);
+            border-bottom: 4px solid var(--uwp-gold);
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .nav-links a {
+            color: var(--uwp-white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 5px 10px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--uwp-dark-green);
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
+        }
+
+        .question-box {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #eee;
+            border-left: 5px solid var(--uwp-green);
+        }
+
+        .question-title {
+            color: var(--uwp-dark-green);
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+
+        .checkbox-group {
+            margin: 10px 0;
+            font-size: 0.85em;
+            color: #333;
+            line-height: 1.8;
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .checkbox-item {
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        .answer-area {
+            display: flex;
+            gap: 20px;
+            align-items: flex-end;
+            margin-top: 15px;
+        }
+
+        .work-space {
+            flex: 1;
+            height: 80px;
+            border-bottom: 1px solid #ccc;
+            position: relative;
+        }
+
+        .work-space::before {
+            content: "Show work here";
+            position: absolute;
+            top: 0;
+            font-size: 0.75em;
+            color: #999;
+        }
+
+        .final-answer-box {
+            width: 250px;
+            height: 80px;
+            border: 2px dashed var(--uwp-black);
+            background: var(--uwp-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .conversion-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .conversion-table th {
+            padding: 10px;
+            background-color: var(--uwp-green);
+            color: white;
+            border: 1px solid var(--uwp-dark-green);
+        }
+
+        .conversion-table td {
+            padding: 8px;
+            border: 1px solid #dcdcdc;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner nav-links">
+            <a href="#">Home</a>
+            <a href="#">Prelab Readings</a>
+            <a href="#">Microscopy</a>
+            <a href="#">Practice</a>
+            <a href="#">Homework</a>
+        </div>
+    </header>
+
+    <div class="content-wrapper">
+
+        <div
+            style="background-color: #007a33; color: #ffffff; padding: 30px; text-align: center; border-bottom: 5px solid #ffd100;">
+            <h2 style="margin: 0; font-size: 2.2em;">Pre‑Lab Metric Conversions (For Advanced Students)</h2>
+            <p style="font-size: 1.2em; color: #ffd100; margin-top: 10px;">You've got this, Ranger! Every challenge
+                strengthens your neural connections.</p>
+        </div>
+
+        <div style="background-color: #f0f4f0; padding: 25px; border-bottom: 1px solid #c5e1c5;">
+            <h2 style="color: #005a26; margin-top: 0; border-left: 5px solid #005a26; padding-left: 15px;">How This Step
+                by Step Metric Conversion Process Encodes it for Future Retrieval</h2>
+            <p style="line-height: 1.6; color: #333;">This Step by Step process is structured around a
+                <strong>four-stage metacognitive learning cycle</strong> designed to physically alter your neural
+                pathways for long-term retention:</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+                <div style="background: white; padding: 15px; border-radius: 5px; border-top: 3px solid #005a26;">
+                    <strong>1. Encoding:</strong> Creating initial faint neural trails via exposure.
+                </div>
+                <div style="background: white; padding: 15px; border-radius: 5px; border-top: 3px solid #005a26;">
+                    <strong>2. Retrieval:</strong> Strengthening trails by answering without help.
+                </div>
+                <div style="background: white; padding: 15px; border-radius: 5px; border-top: 3px solid #005a26;">
+                    <strong>3. Calibration:</strong> Pinpointing exactly what you don't know yet.
+                </div>
+                <div style="background: white; padding: 15px; border-radius: 5px; border-top: 3px solid #005a26;">
+                    <strong>4. Consolidation:</strong> Cementing knowledge by linking concepts to lab.
+                </div>
+            </div>
+        </div>
+
+        <div style="background-color: #eef6ff; padding: 25px; border-bottom: 1px solid #d0e3f7;">
+            <h2 style="color: #005a26; margin-top: 0; border-left: 5px solid #005a26; padding-left: 15px;">Overcoming
+                the "Metric Angst"</h2>
+            <p style="line-height: 1.6; color: #333;">The Science of <strong>"Desirable Difficulty":</strong>
+                Neurobiology tells us that learning is deepest when it requires effort. If you struggle to recall an
+                answer or set up a track, <em>that is a good sign.</em> That cognitive struggle signals your brain to
+                reinforce that specific memory pathway. Do not fear the gap in your knowledge; identifying it is the
+                first step to filling it.</p>
+        </div>
+
+        <div style="padding: 25px; background-color: #ffffff;">
+            <div
+                style="background-color: #005a26; color: white; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+                <h2 style="margin: 0; font-size: 1.8em;">Grading Rubric / Penalties:</h2>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li style="font-size: 1.2em;">Type of conversion not selected: -0.25 pts</li>
+                    <li style="font-size: 1.2em;">Missing units or unit cancellation: -0.25 pts</li>
+                    <li style="font-size: 1.2em;">Incorrect exponent or calculation: -0.25 pts</li>
+                </ul>
+            </div>
+        </div>
+
+        <details style="margin-bottom: 30px; border: 1px solid #007a33; border-radius: 5px; background-color: #f0f8ff;">
+            <summary style="padding: 10px; cursor: pointer; color: #005a26; font-family: Arial, Helvetica, sans-serif;">
+                <span style="color: #000000;">Click to View Metric Conversion Tables</span>
+            </summary>
+
+            <div
+                style="background: #fff3cd; border: 2px solid #ffc107; padding: 15px; margin: 15px; border-radius: 5px;">
+                <h4 style="margin: 0 0 10px 0; color: #856404; font-family: Arial, Helvetica, sans-serif;">
+                    🔍 How to Read Your Problem vs. The Tables
+                </h4>
+                <p style="margin: 5px 0; color: #856404; line-height: 1.6;">
+                    <strong>Your problem uses abbreviations, but the tables use full prefix names:</strong>
+                </p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                    <div style="background: white; padding: 8px; border-left: 3px solid #007a33;">
+                        <strong>Problem says:</strong> km, m, cm, mm, μm, nm
+                    </div>
+                    <div style="background: white; padding: 8px; border-left: 3px solid #007a33;">
+                        <strong>Table says:</strong> kilo, base, centi, milli, micro, nano
+                    </div>
+                </div>
+                <p style="margin: 10px 0 5px 0; color: #856404;">
+                    <strong>Example:</strong> If your problem says "cm" → Look for "<span
+                        style="background: #ffeb3b; padding: 2px 4px;">centi</span>" in the tables
+                </p>
+            </div>
+
+            <div style="padding: 15px; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+                <div style="flex: 1; min-width: 350px; max-width: 450px;">
+                    <h4
+                        style="margin:10px 0 10px 0; color:#005a26; text-align: center; font-family: Arial, Helvetica, sans-serif;">
+                        Direct Conversion Table</h4>
+                    <table
+                        style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <caption style="caption-side: top; padding: 8px; font-weight: bold; color: #005a26;">Prefix
+                            to Base</caption>
+                        <thead>
+                            <tr style="background-color: #007a33; color: white;">
+                                <th style="padding: 10px; text-align: left; border: 1px solid #005a26;">Prefix</th>
+                                <th style="padding: 10px; text-align: center; border: 1px solid #005a26; width: 40px;">
+                                    =</th>
+                                <th style="padding: 10px; text-align: left; border: 1px solid #005a26;">Equivalent
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 kilo (e.g. 1 km)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>3</sup> (m, g, L)</td>
+                            </tr>
+                            <tr style="background-color: #ffffff;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 Base (e.g. 1 m)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>0</sup> (m, g, L)</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 deci (e.g. 1 dm)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>-1</sup> (m, g, L)</td>
+                            </tr>
+                            <tr style="background-color: #ffffff;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 centi (e.g. 1 cm)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>-2</sup> (m, g, L)</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 milli (e.g. 1 mm)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>-3</sup> (m, g, L)</td>
+                            </tr>
+                            <tr style="background-color: #ffffff;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 micro (e.g. 1 &#181;m)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>-6</sup> (m, g, L)</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 nano (e.g. 1 nm)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>-9</sup> (m, g, L)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="flex: 1; min-width: 350px; max-width: 450px;">
+                    <h4
+                        style="margin:10px 0 10px 0; color:#005a26; text-align: center; font-family: Arial, Helvetica, sans-serif;">
+                        Inverse Conversion Table</h4>
+                    <table
+                        style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <caption style="caption-side: top; padding: 8px; font-weight: bold; color: #005a26;">Base to
+                            Prefix</caption>
+                        <thead>
+                            <tr style="background-color: #007a33; color: white;">
+                                <th style="padding: 10px; text-align: left; border: 1px solid #005a26;">Base</th>
+                                <th style="padding: 10px; text-align: center; border: 1px solid #005a26; width: 40px;">
+                                    =</th>
+                                <th style="padding: 10px; text-align: left; border: 1px solid #005a26;">Equivalent
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 (m, g, L) (e.g. 1m or 1g or
+                                    1L)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>-3</sup> kilo</td>
+                            </tr>
+                            <tr style="background-color: #ffffff;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 (m, g, L) (e.g. 1m or 1g or
+                                    1L)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>0</sup> Base</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 (m, g, L) (e.g. 1m or 1g or
+                                    1L)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>1</sup> deci</td>
+                            </tr>
+                            <tr style="background-color: #ffffff;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 (m, g, L) (e.g. 1m or 1g or
+                                    1L)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>2</sup> centi</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 (m, g, L) (e.g. 1m or 1g or
+                                    1L)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>3</sup> milli</td>
+                            </tr>
+                            <tr style="background-color: #ffffff;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 (m, g, L) (e.g. 1m or 1g or
+                                    1L)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>6</sup> micro</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">1 (m, g, L) (e.g. 1m or 1g or
+                                    1L)</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc; text-align: center;">=</td>
+                                <td style="padding: 8px; border: 1px solid #dcdcdc;">10<sup>9</sup> nano</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </details>
+
+        <template id="types">
+            <div class="checkbox-group">
+                <strong>Select type of conversion:</strong><br>
+                <span class="checkbox-item">☐ Base to below base</span>
+                <span class="checkbox-item">☐ Below base to base</span>
+                <span class="checkbox-item">☐ Base to above base</span>
+                <span class="checkbox-item">☐ Above base to base</span>
+                <span class="checkbox-item">☐ Above base to below base</span>
+                <span class="checkbox-item">☐ Below base to above base</span>
+                <span class="checkbox-item">☐ Below base to below base</span>
+            </div>
+        </template>
+
+        <div class="question-box">
+            <div class="question-title">1. Convert 4.3 meters (m) into Kilometers (km)</div>
+            <div class="checkbox-group">
+                <strong>Select type of conversion:</strong><br>
+                <span class="checkbox-item">☐ Base to below base</span>
+                <span class="checkbox-item">☐ Below base to base</span>
+                <span class="checkbox-item">☐ Base to above base</span>
+                <span class="checkbox-item">☐ Above base to base</span>
+                <span class="checkbox-item">☐ Above base to below base</span>
+                <span class="checkbox-item">☐ Below base to above base</span>
+                <span class="checkbox-item">☐ Below base to below base</span>
+            </div>
+            <div class="answer-area">
+                <div class="work-space"></div>
+                <div class="final-answer-box">Final Answer</div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title">2. Convert 67.5 nanometers (nm) into micrometers (&micro;m)</div>
+            <div class="checkbox-group">
+                <span class="checkbox-item">☐ Base to below base</span>
+                <span class="checkbox-item">☐ Below base to base</span>
+                <span class="checkbox-item">☐ Base to above base</span>
+                <span class="checkbox-item">☐ Above base to base</span>
+                <span class="checkbox-item">☐ Above base to below base</span>
+                <span class="checkbox-item">☐ Below base to above base</span>
+                <span class="checkbox-item">☐ Below base to below base</span>
+            </div>
+            <div class="answer-area">
+                <div class="work-space"></div>
+                <div class="final-answer-box"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title">3. Convert 4.6 milligrams (mg) into micrograms (&micro;g)</div>
+            <div class="checkbox-group">
+                <span class="checkbox-item">☐ Base to below base</span>
+                <span class="checkbox-item">☐ Below base to base</span>
+                <span class="checkbox-item">☐ Base to above base</span>
+                <span class="checkbox-item">☐ Above base to base</span>
+                <span class="checkbox-item">☐ Above base to below base</span>
+                <span class="checkbox-item">☐ Below base to above base</span>
+                <span class="checkbox-item">☐ Below base to below base</span>
+            </div>
+            <div class="answer-area">
+                <div class="work-space"></div>
+                <div class="final-answer-box"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title">4. Convert 1.8 kilograms (kg) into milligrams (mg)</div>
+            <div class="checkbox-group">
+                <span class="checkbox-item">☐ Base to below base</span>
+                <span class="checkbox-item">☐ Below base to base</span>
+                <span class="checkbox-item">☐ Base to above base</span>
+                <span class="checkbox-item">☐ Above base to base</span>
+                <span class="checkbox-item">☐ Above base to below base</span>
+                <span class="checkbox-item">☐ Below base to above base</span>
+                <span class="checkbox-item">☐ Below base to below base</span>
+            </div>
+            <div class="answer-area">
+                <div class="work-space"></div>
+                <div class="final-answer-box"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title">5. Convert 5.9 centimeters (cm) into nanometers (nm)</div>
+            <div class="checkbox-group">
+                <span class="checkbox-item">☐ Base to below base</span>
+                <span class="checkbox-item">☐ Below base to base</span>
+                <span class="checkbox-item">☐ Base to above base</span>
+                <span class="checkbox-item">☐ Above base to base</span>
+                <span class="checkbox-item">☐ Above base to below base</span>
+                <span class="checkbox-item">☐ Below base to above base</span>
+                <span class="checkbox-item">☐ Below base to below base</span>
+            </div>
+            <div class="answer-area">
+                <div class="work-space"></div>
+                <div class="final-answer-box"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title">6. Convert 0.005 micrometers (&micro;m) into millimeters (mm)</div>
+            <div class="checkbox-group">
+                <span class="checkbox-item">☐ Base to below base</span>
+                <span class="checkbox-item">☐ Below base to base</span>
+                <span class="checkbox-item">☐ Base to above base</span>
+                <span class="checkbox-item">☐ Above base to base</span>
+                <span class="checkbox-item">☐ Above base to below base</span>
+                <span class="checkbox-item">☐ Below base to above base</span>
+                <span class="checkbox-item">☐ Below base to below base</span>
+            </div>
+            <div class="answer-area">
+                <div class="work-space"></div>
+                <div class="final-answer-box"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title">7. Convert 227.8 micrometers (&micro;m) into centimeters (cm)</div>
+            <div class="checkbox-group">
+                <span class="checkbox-item">☐ Base to below base</span>
+                <span class="checkbox-item">☐ Below base to base</span>
+                <span class="checkbox-item">☐ Base to above base</span>
+                <span class="checkbox-item">☐ Above base to base</span>
+                <span class="checkbox-item">☐ Above base to below base</span>
+                <span class="checkbox-item">☐ Below base to above base</span>
+                <span class="checkbox-item">☐ Below base to below base</span>
+            </div>
+            <div class="answer-area">
+                <div class="work-space"></div>
+                <div class="final-answer-box"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title">8. Convert 3.5 liters (L) into milliliters (mL)</div>
+            <div class="checkbox-group">
+                <span class="checkbox-item">☐ Base to below base</span>
+                <span class="checkbox-item">☐ Below base to base</span>
+                <span class="checkbox-item">☐ Base to above base</span>
+                <span class="checkbox-item">☐ Above base to base</span>
+                <span class="checkbox-item">☐ Above base to below base</span>
+                <span class="checkbox-item">☐ Below base to above base</span>
+                <span class="checkbox-item">☐ Below base to below base</span>
+            </div>
+            <div class="answer-area">
+                <div class="work-space"></div>
+                <div class="final-answer-box"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title">9. Convert 450 micrometers (&micro;m) into millimeters (mm)</div>
+            <div class="checkbox-group">
+                <span class="checkbox-item">☐ Base to below base</span>
+                <span class="checkbox-item">☐ Below base to base</span>
+                <span class="checkbox-item">☐ Base to above base</span>
+                <span class="checkbox-item">☐ Above base to base</span>
+                <span class="checkbox-item">☐ Above base to below base</span>
+                <span class="checkbox-item">☐ Below base to above base</span>
+                <span class="checkbox-item">☐ Below base to below base</span>
+            </div>
+            <div class="answer-area">
+                <div class="work-space"></div>
+                <div class="final-answer-box"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title">10. Convert 4.7 &times; 10<sup>11</sup> nanograms (ng) into grams (g)</div>
+            <div class="checkbox-group">
+                <span class="checkbox-item">☐ Base to below base</span>
+                <span class="checkbox-item">☐ Below base to base</span>
+                <span class="checkbox-item">☐ Base to above base</span>
+                <span class="checkbox-item">☐ Above base to base</span>
+                <span class="checkbox-item">☐ Above base to below base</span>
+                <span class="checkbox-item">☐ Below base to above base</span>
+                <span class="checkbox-item">☐ Below base to below base</span>
+            </div>
+            <div class="answer-area">
+                <div class="work-space"></div>
+                <div class="final-answer-box"></div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
