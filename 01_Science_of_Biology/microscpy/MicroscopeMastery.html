@@ -106,12 +106,6 @@
             z-index: 10;
         }
 
-        .back-button-external:hover {
-            background: var(--parkside-green);
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 75, 135, 0.2);
-        }
-
         /* ===== MODULE SELECTION ===== */
         .modules-section {
             padding: 3rem 1rem;
@@ -1377,7 +1371,12 @@
             <h3 class="microscope-mastery-title">Microscope Mastery Hub</h3>
             <p class="microscope-mastery-subtitle">Your comprehensive guide to mastering microscope concepts through
                 interactive learning, simulations, and hands-on practice. Navigate through each of the 6 tools below</p>
-            <h3 class="section-title">Choose Your Learning Path</h3>
+            <div style="text-align: center; margin: 2rem 0 3rem 0;">
+                <button class="btn btn-accent" onclick="scrollToModules()"
+                    style="background: var(--goldenrod); color: var(--parkside-green); padding: 1rem 2rem; font-size: 1.1rem;">
+                    Access Each Learning Module ↓
+                </button>
+            </div>
             <div class="modules-grid">
                 <div class="module-card">
                     <div class="card-header">
