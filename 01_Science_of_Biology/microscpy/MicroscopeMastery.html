@@ -1579,367 +1579,369 @@
                         <h3>Interactive Demo: Magnification & Pixelation</h3>
                         <p>Slide to increase magnification of the cheek cell below:</p>
                         <input type="range" min="10" max="100" value="10" class="slider" id="magSlider">
-                        <div class="demo-display" id="magDisplay">
+                        <div class="demo-display" id="magDisplay"
+                            style="position: relative; overflow: visible; min-height: 250px;">
                             <div id="magImage"
-                                style="width: 50px; height: 50px; background-color: #ffb6c1; border-radius: 50%; border: 2px solid #ff6b6b;">
+                                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; background-color: #ffb6c1; border-radius: 50%; border: 2px solid #ff6b6b; transition: all 0.3s ease;">
                             </div>
                         </div>
-                        <p><strong>Current Size: <span id="magValue">100</span>%</strong></p>
-                        <p style="margin-top: 1rem; color: #666;">Notice: The object gets BIGGER, but details don't
-                            necessarily get clearer.</p>
                     </div>
-
-                    <div class="question-box">
-                        <h3>Quick Check: Understanding Magnification</h3>
-                        <p><strong>If your eyepiece is 10x and your objective lens is 40x, what is the total
-                                magnification?</strong></p>
-                        <div class="option" onclick="checkAnswer(this, false, 'mag1')">A) 50x (10 + 40)</div>
-                        <div class="option" onclick="checkAnswer(this, true, 'mag1')">B) 400x (10 × 40)</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'mag1')">C) 30x (40 - 10)</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'mag1')">D) 4x (40 ÷ 10)</div>
-                        <div class="feedback" id="feedback-mag1"></div>
-                    </div>
-
-                    <div class="question-box">
-                        <h3>Application Question</h3>
-                        <p><strong>You're looking at a cell that's actually 0.01mm wide. Under 400x magnification, how
-                                wide does it appear?</strong></p>
-                        <div class="option" onclick="checkAnswer(this, false, 'mag2')">A) 0.4mm</div>
-                        <div class="option" onclick="checkAnswer(this, true, 'mag2')">B) 4mm</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'mag2')">C) 40mm</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'mag2')">D) 0.04mm</div>
-                        <div class="feedback" id="feedback-mag2"></div>
-                    </div>
-
-                    <button class="btn" id="btn-mag" onclick="completeModule('magnification')" disabled>Continue to
-                        Resolution →</button>
+                    <p><strong>Current Size: <span id="magValue">100</span>%</strong></p>
+                    <p style="margin-top: 1rem; color: #666;">Notice: The object gets BIGGER, but details don't
+                        necessarily get clearer.</p>
                 </div>
 
-                <div class="module" id="module-resolution">
-                    <h2>Concept 2: Resolution</h2>
-
-                    <div class="concept-box">
-                        <h3>Definition</h3>
-                        <p><strong>Resolution</strong> is the ability to distinguish two separate points as distinct
-                            from each other. It's about DETAIL and CLARITY, not size.</p>
-                        <p style="margin-top: 1rem;"><strong>Key Point:</strong> Better resolution = Can see finer
-                            details</p>
-                    </div>
-
-                    <div class="analogy-box">
-                        <h3>Real-World Analogy: TV Screen Pixels</h3>
-                        <p>Imagine watching a movie on two TVs of the same size:</p>
-                        <ul style="margin-left: 2rem; margin-top: 1rem;">
-                            <li><strong>720p TV:</strong> Lower resolution - you might see pixelation, blurry edges</li>
-                            <li><strong>4K TV:</strong> Higher resolution - crystal clear, sharp details</li>
-                        </ul>
-                    </div>
-
-                    <div class="interactive-demo">
-                        <h3>Interactive Demo: Resolution vs. Magnification</h3>
-                        <div class="image-comparison">
-                            <div class="comparison-item">
-                                <h4>High Magnification<br>Low Resolution</h4>
-                                <div style="font-size: 4rem; filter: blur(5px); margin: 1rem;">👁️</div>
-                                <p>BIG but BLURRY</p>
-                            </div>
-                            <div class="comparison-item">
-                                <h4>High Magnification<br>High Resolution</h4>
-                                <div style="font-size: 4rem; margin: 1rem;">👁️</div>
-                                <p>BIG and CLEAR</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="question-box">
-                        <h3>Quick Check: Understanding Resolution</h3>
-                        <p><strong>Two bacteria are very close together. Which statement is TRUE?</strong></p>
-                        <div class="option" onclick="checkAnswer(this, false, 'res1')">A) Higher magnification will
-                            always let you see them as separate</div>
-                        <div class="option" onclick="checkAnswer(this, true, 'res1')">B) Better resolution is needed to
-                            see them as separate cells</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'res1')">C) Magnification and resolution
-                            are the same thing</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'res1')">D) Neither magnification nor
-                            resolution affects what you see</div>
-                        <div class="feedback" id="feedback-res1"></div>
-                    </div>
-
-                    <div class="question-box">
-                        <h3>Critical Thinking Question</h3>
-                        <p><strong>You have two microscopes, both at 400x magnification. Microscope A cost $200,
-                                Microscope B cost $2000. When viewing the same sample, Microscope B shows much clearer
-                                details. What's the most likely explanation?</strong></p>
-                        <div class="option" onclick="checkAnswer(this, false, 'res2')">A) Microscope B has higher
-                            magnification</div>
-                        <div class="option" onclick="checkAnswer(this, true, 'res2')">B) Microscope B has better
-                            resolution (higher quality optics)</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'res2')">C) Microscope B uses more light
-                        </div>
-                        <div class="option" onclick="checkAnswer(this, false, 'res2')">D) The samples are different
-                        </div>
-                        <div class="feedback" id="feedback-res2"></div>
-                    </div>
-
-                    <button class="btn" id="btn-res" onclick="completeModule('resolution')" disabled>Continue to
-                        Contrast →</button>
+                <div class="question-box">
+                    <h3>Quick Check: Understanding Magnification</h3>
+                    <p><strong>If your eyepiece is 10x and your objective lens is 40x, what is the total
+                            magnification?</strong></p>
+                    <div class="option" onclick="checkAnswer(this, false, 'mag1')">A) 50x (10 + 40)</div>
+                    <div class="option" onclick="checkAnswer(this, true, 'mag1')">B) 400x (10 × 40)</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'mag1')">C) 30x (40 - 10)</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'mag1')">D) 4x (40 ÷ 10)</div>
+                    <div class="feedback" id="feedback-mag1"></div>
                 </div>
 
-                <div class="module" id="module-contrast">
-                    <h2>Concept 3: Contrast</h2>
-
-                    <div class="concept-box">
-                        <h3>Definition</h3>
-                        <p><strong>Contrast</strong> is the difference in light intensity or color between the specimen
-                            and its background. It makes structures visible and distinguishable.</p>
-                        <p style="margin-top: 1rem;"><strong>Key Point:</strong> Without contrast, even with perfect
-                            magnification and resolution, transparent organisms (like bacteria) are almost invisible
-                            against bright light.</p>
-                    </div>
-
-                    <div class="analogy-box">
-                        <h3>Real-World Analogy: Reading Text</h3>
-                        <p>Imagine trying to read text in these scenarios:</p>
-                        <ul style="margin-left: 2rem; margin-top: 1rem;">
-                            <li><strong>Black text on white paper:</strong> HIGH contrast - easy to read</li>
-                            <li><strong>Light gray text on white paper:</strong> LOW contrast - hard to read</li>
-                            <li><strong>White text on white paper:</strong> NO contrast - impossible to read</li>
-                        </ul>
-                        <p style="margin-top: 1rem;">In microscopy, we use <strong>stains</strong> (dyes) to color the
-                            cells.</p>
-                    </div>
-
-                    <div class="interactive-demo">
-                        <h3>Interactive Demo: Visualizing <i>Anabaena</i></h3>
-                        <p>Below is a filament of <i>Anabaena</i> (cyanobacteria). Adjust the slider to increase
-                            contrast (simulate adding a stain):</p>
-
-                        <input type="range" min="0" max="100" value="10" class="slider" id="contrastSlider">
-
-                        <div class="demo-display" id="contrastDisplay" style="background: #ffffff;">
-                            <div class="anabaena-filament" id="anabaenaStrand">
-                                <div class="ana-cell"></div>
-                                <div class="ana-cell"></div>
-                                <div class="ana-cell"></div>
-                                <div class="ana-heterocyst"></div>
-                                <div class="ana-cell"></div>
-                                <div class="ana-cell"></div>
-                                <div class="ana-cell"></div>
-                            </div>
-                        </div>
-
-                        <p><strong>Contrast Level: <span id="contrastValue">Low (Unstained)</span></strong></p>
-                    </div>
-
-                    <div class="question-box">
-                        <h3>Quick Check: Understanding Contrast</h3>
-                        <p><strong>You're viewing transparent cheek cells that are nearly invisible. What would help you
-                                see them better?</strong></p>
-                        <div class="option" onclick="checkAnswer(this, false, 'con1')">A) Increase magnification to
-                            1000x</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'con1')">B) Use a microscope with better
-                            resolution</div>
-                        <div class="option" onclick="checkAnswer(this, true, 'con1')">C) Add a stain to increase
-                            contrast</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'con1')">D) Use a brighter light source
-                        </div>
-                        <div class="feedback" id="feedback-con1"></div>
-                    </div>
-
-                    <div class="question-box">
-                        <h3>Application Question</h3>
-                        <p><strong>Which scenario demonstrates the importance of contrast?</strong></p>
-                        <div class="option" onclick="checkAnswer(this, false, 'con2')">A) A small cell appears larger at
-                            higher magnification</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'con2')">B) Two close bacteria are seen as
-                            separate with better resolution</div>
-                        <div class="option" onclick="checkAnswer(this, true, 'con2')">C) Clear cell structures become
-                            visible after adding methylene blue stain</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'con2')">D) Using a 40x objective instead
-                            of 10x objective</div>
-                        <div class="feedback" id="feedback-con2"></div>
-                    </div>
-
-                    <button class="btn" id="btn-con" onclick="completeModule('contrast')" disabled>Continue to Working
-                        Distance →</button>
+                <div class="question-box">
+                    <h3>Application Question</h3>
+                    <p><strong>You're looking at a cell that's actually 0.01mm wide. Under 400x magnification, how
+                            wide does it appear?</strong></p>
+                    <div class="option" onclick="checkAnswer(this, false, 'mag2')">A) 0.4mm</div>
+                    <div class="option" onclick="checkAnswer(this, true, 'mag2')">B) 4mm</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'mag2')">C) 40mm</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'mag2')">D) 0.04mm</div>
+                    <div class="feedback" id="feedback-mag2"></div>
                 </div>
 
-                <div class="module" id="module-working-distance">
-                    <h2>Concept 4: Working Distance</h2>
+                <button class="btn" id="btn-mag" onclick="completeModule('magnification')" disabled>Continue to
+                    Resolution →</button>
+            </div>
 
-                    <div class="concept-box">
-                        <h3>Definition</h3>
-                        <p>The <strong>working distance</strong> is the space between the slide and the
-                            <strong>objective</strong> lens when the object being viewed is in focus.
-                        </p>
-                        <p style="margin-top: 1rem;">We will often use the <strong>4X lens</strong> when we need to add
-                            a reagent like iodine to a slide since it provides the most working distance.</p>
-                    </div>
+            <div class="module" id="module-resolution">
+                <h2>Concept 2: Resolution</h2>
 
-                    <div class="analogy-box">
-                        <h3>Real-World Analogy: Parking the Car</h3>
-                        <p>Think of the objective lens like the nose of a car you are parking in a garage (the slide):
-                        </p>
-                        <ul style="margin-left: 2rem; margin-top: 1rem;">
-                            <li><strong>4x Lens:</strong> Like parking in a huge empty warehouse. You have tons of room
-                                in front of you.</li>
-                            <li><strong>100x Lens:</strong> Like parallel parking with only 1 inch of space. You are
-                                terrified of hitting the bumper!</li>
-                        </ul>
-                    </div>
-
-                    <div class="interactive-demo">
-                        <h3>Interactive Simulator: Lens Selection</h3>
-                        <p>Click the lenses to see how the physical length of the lens changes the Working Distance
-                            (Gap).</p>
-
-                        <div class="lens-controls">
-                            <button class="lens-btn" onclick="setLens(4)"><span class="dot dot-red"></span> 4x</button>
-                            <button class="lens-btn" onclick="setLens(10)"><span class="dot dot-yellow"></span>
-                                10x</button>
-                            <button class="lens-btn" onclick="setLens(40)"><span class="dot dot-blue"></span>
-                                40x</button>
-                            <button class="lens-btn" onclick="setLens(100)"><span class="dot dot-white"></span>
-                                100x</button>
-                        </div>
-
-                        <div class="demo-display wd-simulator">
-                            <div class="nosepiece"></div>
-                            <div class="objective-lens" id="objLens">
-                                <div class="color-band" id="lensBand"></div>
-                            </div>
-
-                            <div class="measurement-arrow" id="measureArrow">
-                                <div class="measurement-label" id="measureLabel">Gap: Large</div>
-                            </div>
-
-                            <div class="microscope-slide">
-                                <div class="specimen"></div>
-                            </div>
-                        </div>
-
-                        <div class="alert-box" id="lens-warning" style="display:none; text-align: left;">
-                            <strong>⚠️ CAUTION:</strong> The lens is extremely close to the specimen! Do not use the
-                            Coarse Focus knob here or you will crush the sample.
-                        </div>
-
-                        <p id="wd-observation" style="margin-top: 1rem; font-weight: bold;">Observation: The 4x lens is
-                            short, leaving plenty of room.</p>
-                    </div>
-
-                    <div class="question-box">
-                        <h3>Concept Mastery</h3>
-                        <p><strong>Circle the best choice for the following sentence:</strong></p>
-                        <p style="font-size: 1.1rem; margin: 1rem 0;">"The working distance ( increases or decreases )
-                            as the objective lens magnification increases"</p>
-
-                        <div class="option" onclick="checkAnswer(this, false, 'wd1')">A) Increases (Gets bigger)</div>
-                        <div class="option" onclick="checkAnswer(this, true, 'wd1')">B) Decreases (Gets smaller)</div>
-                        <div class="feedback" id="feedback-wd1"></div>
-                    </div>
-
-                    <button class="btn" id="btn-wd" onclick="completeModule('working-distance')" disabled>Continue to
-                        Synthesis →</button>
+                <div class="concept-box">
+                    <h3>Definition</h3>
+                    <p><strong>Resolution</strong> is the ability to distinguish two separate points as distinct
+                        from each other. It's about DETAIL and CLARITY, not size.</p>
+                    <p style="margin-top: 1rem;"><strong>Key Point:</strong> Better resolution = Can see finer
+                        details</p>
                 </div>
 
-                <div class="module" id="module-synthesis">
-                    <h2>🎓 Synthesis: Putting It All Together</h2>
-
-                    <div class="question-box">
-                        <h3>Synthesis Challenge 1</h3>
-                        <p><strong>You're viewing a specimen at 400x magnification. The image is large but blurry, and
-                                you can barely see any structures. Which TWO improvements would help most?</strong></p>
-                        <div class="option" onclick="checkAnswer(this, false, 'syn1')">A) Increase magnification further
-                        </div>
-                        <div class="option" onclick="checkAnswer(this, true, 'syn1')">B) Use a microscope with better
-                            resolution AND add a stain for contrast</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'syn1')">C) Decrease magnification</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'syn1')">D) Use a different eyepiece only
-                        </div>
-                        <div class="feedback" id="feedback-syn1"></div>
-                    </div>
-
-                    <div class="question-box">
-                        <h3>Synthesis Challenge 2</h3>
-                        <p><strong>Rank these situations from BEST to WORST for viewing cell details:</strong></p>
-                        <div class="option" onclick="checkAnswer(this, false, 'syn2')">A) High mag, Low res, High
-                            contrast → High mag, High res, Low contrast → Low mag, High res, High contrast</div>
-                        <div class="option" onclick="checkAnswer(this, true, 'syn2')">B) High mag, High res, High
-                            contrast → High mag, High res, Low contrast → Low mag, Low res, Low contrast</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'syn2')">C) High contrast, Low mag, Low
-                            res → Low contrast, High mag, High res → High contrast, High mag, Low res</div>
-                        <div class="option" onclick="checkAnswer(this, false, 'syn2')">D) They're all equally good</div>
-                        <div class="feedback" id="feedback-syn2"></div>
-                    </div>
-
-                    <button class="btn" id="btn-syn" onclick="goToFinalAssessment()" disabled>Take Final Mastery
-                        Assessment →</button>
+                <div class="analogy-box">
+                    <h3>Real-World Analogy: TV Screen Pixels</h3>
+                    <p>Imagine watching a movie on two TVs of the same size:</p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li><strong>720p TV:</strong> Lower resolution - you might see pixelation, blurry edges</li>
+                        <li><strong>4K TV:</strong> Higher resolution - crystal clear, sharp details</li>
+                    </ul>
                 </div>
 
-                <div class="module" id="module-final">
-                    <h2>Final Mastery Assessment</h2>
-                    <p style="font-size: 1.1rem; margin-bottom: 2rem;">Answer all questions to demonstrate your mastery.
+                <div class="interactive-demo">
+                    <h3>Interactive Demo: Resolution vs. Magnification</h3>
+                    <div class="image-comparison">
+                        <div class="comparison-item">
+                            <h4>High Magnification<br>Low Resolution</h4>
+                            <div style="font-size: 4rem; filter: blur(5px); margin: 1rem;">👁️</div>
+                            <p>BIG but BLURRY</p>
+                        </div>
+                        <div class="comparison-item">
+                            <h4>High Magnification<br>High Resolution</h4>
+                            <div style="font-size: 4rem; margin: 1rem;">👁️</div>
+                            <p>BIG and CLEAR</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-box">
+                    <h3>Quick Check: Understanding Resolution</h3>
+                    <p><strong>Two bacteria are very close together. Which statement is TRUE?</strong></p>
+                    <div class="option" onclick="checkAnswer(this, false, 'res1')">A) Higher magnification will
+                        always let you see them as separate</div>
+                    <div class="option" onclick="checkAnswer(this, true, 'res1')">B) Better resolution is needed to
+                        see them as separate cells</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'res1')">C) Magnification and resolution
+                        are the same thing</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'res1')">D) Neither magnification nor
+                        resolution affects what you see</div>
+                    <div class="feedback" id="feedback-res1"></div>
+                </div>
+
+                <div class="question-box">
+                    <h3>Critical Thinking Question</h3>
+                    <p><strong>You have two microscopes, both at 400x magnification. Microscope A cost $200,
+                            Microscope B cost $2000. When viewing the same sample, Microscope B shows much clearer
+                            details. What's the most likely explanation?</strong></p>
+                    <div class="option" onclick="checkAnswer(this, false, 'res2')">A) Microscope B has higher
+                        magnification</div>
+                    <div class="option" onclick="checkAnswer(this, true, 'res2')">B) Microscope B has better
+                        resolution (higher quality optics)</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'res2')">C) Microscope B uses more light
+                    </div>
+                    <div class="option" onclick="checkAnswer(this, false, 'res2')">D) The samples are different
+                    </div>
+                    <div class="feedback" id="feedback-res2"></div>
+                </div>
+
+                <button class="btn" id="btn-res" onclick="completeModule('resolution')" disabled>Continue to
+                    Contrast →</button>
+            </div>
+
+            <div class="module" id="module-contrast">
+                <h2>Concept 3: Contrast</h2>
+
+                <div class="concept-box">
+                    <h3>Definition</h3>
+                    <p><strong>Contrast</strong> is the difference in light intensity or color between the specimen
+                        and its background. It makes structures visible and distinguishable.</p>
+                    <p style="margin-top: 1rem;"><strong>Key Point:</strong> Without contrast, even with perfect
+                        magnification and resolution, transparent organisms (like bacteria) are almost invisible
+                        against bright light.</p>
+                </div>
+
+                <div class="analogy-box">
+                    <h3>Real-World Analogy: Reading Text</h3>
+                    <p>Imagine trying to read text in these scenarios:</p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li><strong>Black text on white paper:</strong> HIGH contrast - easy to read</li>
+                        <li><strong>Light gray text on white paper:</strong> LOW contrast - hard to read</li>
+                        <li><strong>White text on white paper:</strong> NO contrast - impossible to read</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">In microscopy, we use <strong>stains</strong> (dyes) to color the
+                        cells.</p>
+                </div>
+
+                <div class="interactive-demo">
+                    <h3>Interactive Demo: Visualizing <i>Anabaena</i></h3>
+                    <p>Below is a filament of <i>Anabaena</i> (cyanobacteria). Adjust the slider to increase
+                        contrast (simulate adding a stain):</p>
+
+                    <input type="range" min="0" max="100" value="10" class="slider" id="contrastSlider">
+
+                    <div class="demo-display" id="contrastDisplay" style="background: #ffffff;">
+                        <div class="anabaena-filament" id="anabaenaStrand">
+                            <div class="ana-cell"></div>
+                            <div class="ana-cell"></div>
+                            <div class="ana-cell"></div>
+                            <div class="ana-heterocyst"></div>
+                            <div class="ana-cell"></div>
+                            <div class="ana-cell"></div>
+                            <div class="ana-cell"></div>
+                        </div>
+                    </div>
+
+                    <p><strong>Contrast Level: <span id="contrastValue">Low (Unstained)</span></strong></p>
+                </div>
+
+                <div class="question-box">
+                    <h3>Quick Check: Understanding Contrast</h3>
+                    <p><strong>You're viewing transparent cheek cells that are nearly invisible. What would help you
+                            see them better?</strong></p>
+                    <div class="option" onclick="checkAnswer(this, false, 'con1')">A) Increase magnification to
+                        1000x</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'con1')">B) Use a microscope with better
+                        resolution</div>
+                    <div class="option" onclick="checkAnswer(this, true, 'con1')">C) Add a stain to increase
+                        contrast</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'con1')">D) Use a brighter light source
+                    </div>
+                    <div class="feedback" id="feedback-con1"></div>
+                </div>
+
+                <div class="question-box">
+                    <h3>Application Question</h3>
+                    <p><strong>Which scenario demonstrates the importance of contrast?</strong></p>
+                    <div class="option" onclick="checkAnswer(this, false, 'con2')">A) A small cell appears larger at
+                        higher magnification</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'con2')">B) Two close bacteria are seen as
+                        separate with better resolution</div>
+                    <div class="option" onclick="checkAnswer(this, true, 'con2')">C) Clear cell structures become
+                        visible after adding methylene blue stain</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'con2')">D) Using a 40x objective instead
+                        of 10x objective</div>
+                    <div class="feedback" id="feedback-con2"></div>
+                </div>
+
+                <button class="btn" id="btn-con" onclick="completeModule('contrast')" disabled>Continue to Working
+                    Distance →</button>
+            </div>
+
+            <div class="module" id="module-working-distance">
+                <h2>Concept 4: Working Distance</h2>
+
+                <div class="concept-box">
+                    <h3>Definition</h3>
+                    <p>The <strong>working distance</strong> is the space between the slide and the
+                        <strong>objective</strong> lens when the object being viewed is in focus.
                     </p>
-
-                    <div class="question-box">
-                        <p><strong>1. Calculate: Eyepiece = 15x, Objective = 60x. Total magnification = ?</strong></p>
-                        <div class="option" onclick="selectFinal(this, 'q1', false)">A) 75x</div>
-                        <div class="option" onclick="selectFinal(this, 'q1', true)">B) 900x</div>
-                        <div class="option" onclick="selectFinal(this, 'q1', false)">C) 45x</div>
-                        <div class="option" onclick="selectFinal(this, 'q1', false)">D) 4x</div>
-                    </div>
-
-                    <div class="question-box">
-                        <p><strong>2. What does resolution determine?</strong></p>
-                        <div class="option" onclick="selectFinal(this, 'q2', false)">A) How large objects appear</div>
-                        <div class="option" onclick="selectFinal(this, 'q2', true)">B) How much detail can be
-                            distinguished</div>
-                        <div class="option" onclick="selectFinal(this, 'q2', false)">C) How bright the image is</div>
-                    </div>
-
-                    <div class="question-box">
-                        <p><strong>3. Why do we use stains in microscopy?</strong></p>
-                        <div class="option" onclick="selectFinal(this, 'q3', false)">A) To increase magnification</div>
-                        <div class="option" onclick="selectFinal(this, 'q3', true)">B) To increase contrast and make
-                            structures visible</div>
-                    </div>
-
-                    <div class="question-box">
-                        <p><strong>4. True or False: Magnifying a blurry image will make it clearer.</strong></p>
-                        <div class="option" onclick="selectFinal(this, 'q4', true)">A) False - magnification doesn't
-                            improve clarity, that's resolution's job</div>
-                        <div class="option" onclick="selectFinal(this, 'q4', false)">B) True - higher magnification
-                            always improves clarity</div>
-                    </div>
-
-                    <div class="question-box">
-                        <p><strong>5. As magnification increases, what happens to Working Distance?</strong></p>
-                        <div class="option" onclick="selectFinal(this, 'q5', false)">A) It increases (more space)</div>
-                        <div class="option" onclick="selectFinal(this, 'q5', true)">B) It decreases (less space)</div>
-                    </div>
-
-                    <div class="question-box">
-                        <p><strong>6. Which lens provides the most working distance for adding reagents?</strong></p>
-                        <div class="option" onclick="selectFinal(this, 'q6', true)">A) 4x (Scanning)</div>
-                        <div class="option" onclick="selectFinal(this, 'q6', false)">B) 100x (Oil Immersion)</div>
-                    </div>
-
-                    <button class="btn btn-secondary" onclick="gradeFinalAssessment()">Submit Final Assessment</button>
-                    <div class="feedback" id="final-feedback"></div>
+                    <p style="margin-top: 1rem;">We will often use the <strong>4X lens</strong> when we need to add
+                        a reagent like iodine to a slide since it provides the most working distance.</p>
                 </div>
 
-                <div class="module" id="module-results">
-                    <h2>🎉 Assessment Complete!</h2>
-                    <div class="mastery-score" id="finalScore">0%</div>
-                    <div id="resultsContent"></div>
-                    <button class="btn" onclick="restartLearning()">Start Over</button>
+                <div class="analogy-box">
+                    <h3>Real-World Analogy: Parking the Car</h3>
+                    <p>Think of the objective lens like the nose of a car you are parking in a garage (the slide):
+                    </p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li><strong>4x Lens:</strong> Like parking in a huge empty warehouse. You have tons of room
+                            in front of you.</li>
+                        <li><strong>100x Lens:</strong> Like parallel parking with only 1 inch of space. You are
+                            terrified of hitting the bumper!</li>
+                    </ul>
                 </div>
+
+                <div class="interactive-demo">
+                    <h3>Interactive Simulator: Lens Selection</h3>
+                    <p>Click the lenses to see how the physical length of the lens changes the Working Distance
+                        (Gap).</p>
+
+                    <div class="lens-controls">
+                        <button class="lens-btn" onclick="setLens(4)"><span class="dot dot-red"></span> 4x</button>
+                        <button class="lens-btn" onclick="setLens(10)"><span class="dot dot-yellow"></span>
+                            10x</button>
+                        <button class="lens-btn" onclick="setLens(40)"><span class="dot dot-blue"></span>
+                            40x</button>
+                        <button class="lens-btn" onclick="setLens(100)"><span class="dot dot-white"></span>
+                            100x</button>
+                    </div>
+
+                    <div class="demo-display wd-simulator">
+                        <div class="nosepiece"></div>
+                        <div class="objective-lens" id="objLens">
+                            <div class="color-band" id="lensBand"></div>
+                        </div>
+
+                        <div class="measurement-arrow" id="measureArrow">
+                            <div class="measurement-label" id="measureLabel">Gap: Large</div>
+                        </div>
+
+                        <div class="microscope-slide">
+                            <div class="specimen"></div>
+                        </div>
+                    </div>
+
+                    <div class="alert-box" id="lens-warning" style="display:none; text-align: left;">
+                        <strong>⚠️ CAUTION:</strong> The lens is extremely close to the specimen! Do not use the
+                        Coarse Focus knob here or you will crush the sample.
+                    </div>
+
+                    <p id="wd-observation" style="margin-top: 1rem; font-weight: bold;">Observation: The 4x lens is
+                        short, leaving plenty of room.</p>
+                </div>
+
+                <div class="question-box">
+                    <h3>Concept Mastery</h3>
+                    <p><strong>Circle the best choice for the following sentence:</strong></p>
+                    <p style="font-size: 1.1rem; margin: 1rem 0;">"The working distance ( increases or decreases )
+                        as the objective lens magnification increases"</p>
+
+                    <div class="option" onclick="checkAnswer(this, false, 'wd1')">A) Increases (Gets bigger)</div>
+                    <div class="option" onclick="checkAnswer(this, true, 'wd1')">B) Decreases (Gets smaller)</div>
+                    <div class="feedback" id="feedback-wd1"></div>
+                </div>
+
+                <button class="btn" id="btn-wd" onclick="completeModule('working-distance')" disabled>Continue to
+                    Synthesis →</button>
+            </div>
+
+            <div class="module" id="module-synthesis">
+                <h2>🎓 Synthesis: Putting It All Together</h2>
+
+                <div class="question-box">
+                    <h3>Synthesis Challenge 1</h3>
+                    <p><strong>You're viewing a specimen at 400x magnification. The image is large but blurry, and
+                            you can barely see any structures. Which TWO improvements would help most?</strong></p>
+                    <div class="option" onclick="checkAnswer(this, false, 'syn1')">A) Increase magnification further
+                    </div>
+                    <div class="option" onclick="checkAnswer(this, true, 'syn1')">B) Use a microscope with better
+                        resolution AND add a stain for contrast</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'syn1')">C) Decrease magnification</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'syn1')">D) Use a different eyepiece only
+                    </div>
+                    <div class="feedback" id="feedback-syn1"></div>
+                </div>
+
+                <div class="question-box">
+                    <h3>Synthesis Challenge 2</h3>
+                    <p><strong>Rank these situations from BEST to WORST for viewing cell details:</strong></p>
+                    <div class="option" onclick="checkAnswer(this, false, 'syn2')">A) High mag, Low res, High
+                        contrast → High mag, High res, Low contrast → Low mag, High res, High contrast</div>
+                    <div class="option" onclick="checkAnswer(this, true, 'syn2')">B) High mag, High res, High
+                        contrast → High mag, High res, Low contrast → Low mag, Low res, Low contrast</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'syn2')">C) High contrast, Low mag, Low
+                        res → Low contrast, High mag, High res → High contrast, High mag, Low res</div>
+                    <div class="option" onclick="checkAnswer(this, false, 'syn2')">D) They're all equally good</div>
+                    <div class="feedback" id="feedback-syn2"></div>
+                </div>
+
+                <button class="btn" id="btn-syn" onclick="goToFinalAssessment()" disabled>Take Final Mastery
+                    Assessment →</button>
+            </div>
+
+            <div class="module" id="module-final">
+                <h2>Final Mastery Assessment</h2>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">Answer all questions to demonstrate your mastery.
+                </p>
+
+                <div class="question-box">
+                    <p><strong>1. Calculate: Eyepiece = 15x, Objective = 60x. Total magnification = ?</strong></p>
+                    <div class="option" onclick="selectFinal(this, 'q1', false)">A) 75x</div>
+                    <div class="option" onclick="selectFinal(this, 'q1', true)">B) 900x</div>
+                    <div class="option" onclick="selectFinal(this, 'q1', false)">C) 45x</div>
+                    <div class="option" onclick="selectFinal(this, 'q1', false)">D) 4x</div>
+                </div>
+
+                <div class="question-box">
+                    <p><strong>2. What does resolution determine?</strong></p>
+                    <div class="option" onclick="selectFinal(this, 'q2', false)">A) How large objects appear</div>
+                    <div class="option" onclick="selectFinal(this, 'q2', true)">B) How much detail can be
+                        distinguished</div>
+                    <div class="option" onclick="selectFinal(this, 'q2', false)">C) How bright the image is</div>
+                </div>
+
+                <div class="question-box">
+                    <p><strong>3. Why do we use stains in microscopy?</strong></p>
+                    <div class="option" onclick="selectFinal(this, 'q3', false)">A) To increase magnification</div>
+                    <div class="option" onclick="selectFinal(this, 'q3', true)">B) To increase contrast and make
+                        structures visible</div>
+                </div>
+
+                <div class="question-box">
+                    <p><strong>4. True or False: Magnifying a blurry image will make it clearer.</strong></p>
+                    <div class="option" onclick="selectFinal(this, 'q4', true)">A) False - magnification doesn't
+                        improve clarity, that's resolution's job</div>
+                    <div class="option" onclick="selectFinal(this, 'q4', false)">B) True - higher magnification
+                        always improves clarity</div>
+                </div>
+
+                <div class="question-box">
+                    <p><strong>5. As magnification increases, what happens to Working Distance?</strong></p>
+                    <div class="option" onclick="selectFinal(this, 'q5', false)">A) It increases (more space)</div>
+                    <div class="option" onclick="selectFinal(this, 'q5', true)">B) It decreases (less space)</div>
+                </div>
+
+                <div class="question-box">
+                    <p><strong>6. Which lens provides the most working distance for adding reagents?</strong></p>
+                    <div class="option" onclick="selectFinal(this, 'q6', true)">A) 4x (Scanning)</div>
+                    <div class="option" onclick="selectFinal(this, 'q6', false)">B) 100x (Oil Immersion)</div>
+                </div>
+
+                <button class="btn btn-secondary" onclick="gradeFinalAssessment()">Submit Final Assessment</button>
+                <div class="feedback" id="final-feedback"></div>
+            </div>
+
+            <div class="module" id="module-results">
+                <h2>🎉 Assessment Complete!</h2>
+                <div class="mastery-score" id="finalScore">0%</div>
+                <div id="resultsContent"></div>
+                <button class="btn" onclick="restartLearning()">Start Over</button>
             </div>
         </div>
+    </div>
 
-        <div style="text-align: center; margin: 2rem 0;">
-            <button class="btn btn-outline" onclick="returnToLanding()">← Back to All Modules</button>
-        </div>
+    <div style="text-align: center; margin: 2rem 0;">
+        <button class="btn btn-outline" onclick="returnToLanding()">← Back to All Modules</button>
+    </div>
     </div>
 
     <div id="magnification-mastery-app" class="app-container">
@@ -2576,14 +2578,21 @@
         if (magSlider) {
             magSlider.addEventListener('input', function () {
                 const value = this.value;
-                const newWidth = value * 5;
+                const scale = value / 10; // Converts slider (10-100) to scale factor (1-10)
+                const newSize = 50 * scale; // Base size (50px) multiplied by scale
+
                 if (magImage) {
-                    magImage.style.width = newWidth + 'px';
+                    magImage.style.width = newSize + 'px';
+                    magImage.style.height = newSize + 'px';
                 }
+
                 if (magValue) {
-                    magValue.textContent = value + '0';
+                    magValue.textContent = (scale * 100).toFixed(0) + '%'; // Shows as percentage
                 }
             });
+
+            // Trigger initial state
+            magSlider.dispatchEvent(new Event('input'));
         }
 
         // --- CONTRAST LOGIC ---
