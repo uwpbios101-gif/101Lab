@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metric Conversion - Variable Difficulty</title>
     <style>
-        /* ===== Simple Stable Header from index.html ===== */
+        /* UWP Compliant Header */
         header {
             background: #016836;
             border-bottom: 3px solid #FABA31;
@@ -36,8 +36,6 @@
             text-decoration: underline;
         }
 
-        /* End of header styles */
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -49,22 +47,19 @@
         }
 
         h1 {
-            color: #2c3e50;
+            color: #212721;
             margin-bottom: 20px;
         }
 
-        /* --- DIFFICULTY SELECTOR --- */
         select {
             padding: 10px;
             font-size: 1.1em;
             border-radius: 5px;
-            border: 2px solid #3498db;
+            border: 2px solid #016836;
             background-color: white;
             cursor: pointer;
         }
 
-        /* --- REFERENCE CHART STYLES --- */
-        /* --- REFERENCE CHART STYLES --- */
         .ref-table {
             width: 100%;
             border-collapse: collapse;
@@ -80,7 +75,7 @@
         }
 
         .ref-table th {
-            background-color: #34495e;
+            background-color: #016836;
             color: white;
         }
 
@@ -88,13 +83,11 @@
             background-color: #f2f2f2;
         }
 
-        /* Left-align first column of the first table (Direct Conversion Table) */
         .ref-table:first-of-type th:first-child,
         .ref-table:first-of-type td:first-child {
             text-align: left;
         }
 
-        /* --- TRAIN TRACK STYLES --- */
         .track-wrapper {
             background-color: #ffffff;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -107,7 +100,6 @@
             width: 100%;
         }
 
-        /* New header section inside track-wrapper */
         .track-header {
             width: 100%;
             display: flex;
@@ -126,7 +118,7 @@
         .problem-display {
             font-size: 1.4em;
             font-weight: bold;
-            color: #2c3e50;
+            color: #212721;
             text-align: center;
             width: 100%;
             padding: 15px;
@@ -138,7 +130,7 @@
         .step-label {
             align-self: flex-start;
             font-weight: bold;
-            color: #e67e22;
+            color: #016836;
             margin-bottom: 5px;
             font-size: 0.9em;
             text-transform: uppercase;
@@ -155,14 +147,12 @@
             width: 100%;
         }
 
-        /* Arrows between tracks */
         .track-connector {
             font-size: 2em;
             color: #bdc3c7;
             margin: 5px 0;
         }
 
-        /* --- CELL STRUCTURE --- */
         .cell {
             display: flex;
             flex-direction: column;
@@ -180,7 +170,7 @@
         .track-line {
             width: 100%;
             height: 4px;
-            background-color: #2c3e50;
+            background-color: #212721;
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -194,11 +184,10 @@
             top: 0;
             bottom: 0;
             width: 4px;
-            background-color: #2c3e50;
+            background-color: #212721;
             z-index: 1;
         }
 
-        /* Remove separators for specific cells */
         .cell.no-border::after {
             display: none;
         }
@@ -214,7 +203,6 @@
             width: 100%;
         }
 
-        /* --- INPUT STYLING --- */
         input {
             font-family: inherit;
             font-size: 1.1em;
@@ -227,7 +215,7 @@
         }
 
         input:focus {
-            border-color: #3498db;
+            border-color: #016836;
             outline: none;
         }
 
@@ -260,7 +248,6 @@
             cursor: not-allowed;
         }
 
-        /* --- DENOMINATOR SCIENTIFIC NOTATION --- */
         .scientific-group {
             display: flex;
             align-items: center;
@@ -281,19 +268,16 @@
             border: 2px solid #95a5a6;
         }
 
-        /* For the second track (rewrite) */
         .rewrite-input {
             margin-bottom: 0;
         }
 
-        /* --- RESULT AREA --- */
         .equals-sign {
             font-size: 2.5em;
-            color: #2c3e50;
+            color: #212721;
             padding: 0 15px;
         }
 
-        /* Main content wrapper with left and right columns */
         .main-content-wrapper {
             display: flex;
             align-items: flex-start;
@@ -324,7 +308,6 @@
             width: 100%;
         }
 
-        /* Instructions dropdown */
         .instructions-dropdown {
             width: 100%;
             max-width: 900px;
@@ -332,7 +315,7 @@
         }
 
         .instructions-dropdown summary {
-            background-color: #2c3e50;
+            background-color: #016836;
             color: white;
             padding: 15px;
             border-radius: 8px;
@@ -343,7 +326,7 @@
         }
 
         .instructions-dropdown summary:hover {
-            background-color: #34495e;
+            background-color: #00502f;
         }
 
         .instructions-dropdown[open] summary {
@@ -368,7 +351,6 @@
             margin-bottom: 8px;
         }
 
-        /* NEW: Step 3 with inline buttons */
         .step3-container {
             background-color: #f0f8ff;
             border-radius: 8px;
@@ -386,7 +368,7 @@
 
         .step3-title {
             margin: 0;
-            color: #2c3e50;
+            color: #212721;
             font-size: 1.2em;
         }
 
@@ -420,10 +402,9 @@
         .final-unit-label {
             margin-left: 8px;
             font-weight: bold;
-            color: #2c3e50;
+            color: #212721;
         }
 
-        /* --- FEEDBACK --- */
         .correct {
             border-color: #27ae60 !important;
             background-color: #eafaf1 !important;
@@ -434,7 +415,6 @@
             background-color: #fdedec !important;
         }
 
-        /* --- BUTTONS --- */
         .btn-container {
             display: flex;
             gap: 15px;
@@ -457,30 +437,30 @@
         }
 
         .btn-new {
-            background-color: #f1c40f;
-            color: #333;
+            background-color: #FABA31;
+            color: #212721;
         }
 
         .btn-new:hover {
-            background-color: #f39c12;
+            background-color: #e0a520;
         }
 
         .btn-calc {
-            background-color: #2ecc71;
+            background-color: #016836;
             color: white;
         }
 
         .btn-calc:hover {
-            background-color: #27ae60;
+            background-color: #00502f;
         }
 
         .btn-check {
-            background-color: #3498db;
+            background-color: #105877;
             color: white;
         }
 
         .btn-check:hover {
-            background-color: #2980b9;
+            background-color: #0d4560;
         }
 
         .status-msg {
@@ -496,7 +476,6 @@
             opacity: 0.6;
         }
 
-        /* Style for rewrite unit box */
         .rewrite-unit-input {
             width: 60px;
             margin-left: 8px;
@@ -510,7 +489,6 @@
             min-height: 24px;
         }
 
-        /* NEW: Answer box that appears after the equals sign in Step 2 */
         .answer-display-box {
             display: none;
             align-items: center;
@@ -518,10 +496,10 @@
             padding: 10px 15px;
             background-color: #e8f4f8;
             border-radius: 6px;
-            border: 2px solid #3498db;
+            border: 2px solid #105877;
             font-size: 1.1em;
             font-weight: bold;
-            color: #2c3e50;
+            color: #212721;
             margin-left: 10px;
             min-width: 180px;
         }
@@ -537,120 +515,94 @@
 
         .answer-display-unit {
             margin-left: 8px;
-            color: #e67e22;
-        }
-    </style>
-    <style>
-        .bios-nav {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: #016836;
-            border-bottom: 2px solid #FFD100;
+            color: #016836;
         }
 
-        .bios-nav-inner {
-            max-width: 1400px;
-            margin: 0 auto;
+        .tables-toggle-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 25px auto;
+        }
+
+        .tables-toggle-header {
+            background-color: #016836;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1em;
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 4px 8px;
+            transition: background-color 0.2s;
+            user-select: none;
         }
 
-        .bios-home {
-            color: white;
-            font-weight: 700;
-            text-decoration: none;
-            letter-spacing: .5px;
+        .tables-toggle-header:hover {
+            background-color: #00502f;
         }
 
-        .bios-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
+        .toggle-arrow {
+            margin-right: 10px;
+            font-size: 0.9em;
+            transition: transform 0.3s;
         }
 
-        .bios-menus {
+        .tables-toggle-header.expanded .toggle-arrow {
+            transform: rotate(90deg);
+        }
+
+        .tables-container {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .bios-menu {
-            position: relative;
-        }
-
-        .bios-trigger {
-            background: none;
-            border: none;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 2px 4px;
-        }
-
-        .bios-trigger.active {
-            border-bottom: 2px solid #FFD100;
-        }
-
-        .bios-dropdown {
+            gap: 30px;
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #bdc3c7;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            border: 1px solid #ccc;
-            min-width: 160px;
-            z-index: 1001;
         }
 
-        .bios-dropdown a {
-            display: block;
-            padding: 6px 10px;
+        .table-section {
+            flex: 1;
+        }
+
+        .table-section h3 {
+            margin: 0 0 10px 0;
             color: #212721;
-            text-decoration: none;
+            font-size: 1.1em;
+            text-align: center;
         }
 
-        .bios-dropdown a:hover {
-            background: #EFECE2;
+        .table-section p {
+            font-size: 0.85em;
+            color: #555;
+            margin: 0 0 10px 0;
+            text-align: center;
         }
 
-        .bios-menu:hover .bios-dropdown,
-        .bios-menu:focus-within .bios-dropdown {
-            display: block;
+        .table-caption {
+            font-weight: bold;
+            text-align: center;
+            padding: 5px;
+            background-color: #016836;
+            color: white;
+            border-radius: 4px 4px 0 0;
+            margin-bottom: 10px;
+            font-size: 0.9em;
         }
 
         @media (max-width: 768px) {
-            .bios-toggle {
-                display: block;
-            }
-
-            .bios-menus {
-                display: none;
+            .tables-container {
                 flex-direction: column;
-                background: #016836;
-                width: 100%;
-            }
-
-            .bios-menus.open {
-                display: flex;
-            }
-
-            .bios-dropdown {
-                position: static;
-                border: none;
+                gap: 20px;
             }
         }
     </style>
 </head>
 
 <body>
-
-    <!-- Centered Navigation Header (from index.html) -->
     <header>
         <div class="header-inner nav-links">
             <a href="../../index.html">Home</a>
@@ -666,12 +618,11 @@
         <h1>Metric Conversion Tool</h1>
     </div>
 
-    <!-- Instructions Dropdown -->
     <details class="instructions-dropdown">
         <summary>📋 Instructions (Click to Expand)</summary>
         <div class="instructions-content">
             <p><strong>Instructions: </strong><a href="https://www.youtube.com/watch?v=dCY43xLsb_I" target="_blank"
-                    style="font-size: 0.9em; text-decoration: none; color: #3498db; border: 1px solid #3498db; padding: 5px 10px; border-radius: 4px;">
+                    style="font-size: 0.9em; text-decoration: none; color: #016836; border: 1px solid #016836; padding: 5px 10px; border-radius: 4px;">
                     Watch Tutorial On Youtube
                 </a></p>
             <ul>
@@ -680,173 +631,23 @@
                 <li><strong>Step 2 (Bottom Track):</strong> Move the Exponents to the top. <span
                         style="color:#e74c3c; font-weight:bold;">Don't forget to flip the sign AND enter the FINAL
                         unit!</span></li>
-                <li><strong>Step 3:</strong> Enter your final answers in scientific and decimal notation.</li>
-                <li><strong>Step 4:</strong> Click - Verify Setup & Signs.</li>
-                <li><strong>Step 5:</strong> Click Check final answer.</li>
+                <li><strong>Step 3:</strong> Click - Verify Setup & Signs.</li>
+                <li><strong>Step 4:</strong> Enter your final answers in scientific and decimal notation and click Check Final Answer.</li>
             </ul>
         </div>
     </details>
 
-    <div class="main-content-wrapper">
-        <!-- Left Column: Steps 1-3 -->
-        <div class="left-column">
-            <!-- Steps 1 & 2 Container -->
-            <div class="track-wrapper">
-                <!-- New header section with controls and problem display -->
-                <div class="track-header">
-                    <!-- Difficulty controls at the top -->
-                    <div class="controls-group">
-                        <select id="difficulty-selector" onchange="generateProblem()">
-                            <option value="easy">Level 1: Simple (1 Step: Prefix ↔ Base)</option>
-                            <option value="medium">Level 2: Challenging 1 (2 Steps: Same Side)</option>
-                            <option value="hard">Level 3: Challenging 2 (2 Steps: Crossing Base)</option>
-                        </select>
-                        <button class="btn-new" onclick="generateProblem()">🔄 New Problem</button>
-                    </div>
-
-                    <!-- Conversion problem text below the controls -->
-                    <div class="problem-display" id="problem-text">Loading...</div>
-                </div>
-
-                <div class="step-label">Step 1: Set up Units & Powers</div>
-                <div class="train-track-model">
-
-                    <div class="cell">
-                        <div class="track-line"></div>
-                        <div class="numerator">
-                            <input type="number" id="start-val" class="val-input" readonly>
-                            <input type="text" id="start-unit" class="unit-input unit-box" readonly>
-                        </div>
-                        <div class="denominator"></div>
-                    </div>
-
-                    <div class="cell" id="step-1-cell">
-                        <div class="track-line"></div>
-                        <div class="numerator">
-                            <span class="fixed-one">1</span>
-                            <input type="text" id="unit-n1" class="unit-input unit-box" placeholder="Unit">
-                        </div>
-                        <div class="denominator">
-                            <div class="scientific-group">
-                                <span class="base-ten">10</span>
-                                <input type="number" id="exp-d1" class="exponent-input" placeholder="?">
-                            </div>
-                            <input type="text" id="unit-d1" class="unit-input unit-box" placeholder="Unit">
-                        </div>
-                    </div>
-
-                    <div class="cell" id="step-2-cell">
-                        <div class="track-line"></div>
-                        <div class="numerator">
-                            <span class="fixed-one">1</span>
-                            <input type="text" id="unit-n2" class="unit-input unit-box" readonly>
-                        </div>
-                        <div class="denominator">
-                            <div class="scientific-group">
-                                <span class="base-ten">10</span>
-                                <input type="number" id="exp-d2" class="exponent-input" placeholder="?">
-                            </div>
-                            <input type="text" id="unit-d2" class="unit-input unit-box" placeholder="Unit">
-                        </div>
-                    </div>
-
-                    <div class="cell no-border"></div>
-                </div>
-
-                <div class="track-connector">⬇</div>
-
-                <div class="step-label">Step 2: Move Denominators Up, Flip Signs, & Add Unit</div>
-                <div class="train-track-model">
-
-                    <div class="cell">
-                        <div class="track-line"></div>
-                        <div class="numerator">
-                            <input type="number" id="rewrite-val" class="val-input" placeholder="Start" readonly>
-                        </div>
-                        <div class="denominator"></div>
-                    </div>
-
-                    <div class="cell" id="rewrite-1-cell">
-                        <div class="track-line"></div>
-                        <div class="numerator">
-                            <div class="scientific-group">
-                                <span class="base-ten">x 10</span>
-                                <input type="number" id="exp-flip-1" class="exponent-input rewrite-input"
-                                    placeholder="?">
-                            </div>
-                            <!-- FIXED: Only show unit box for easy difficulty -->
-                            <input type="text" id="unit-flip-1" class="unit-input rewrite-unit-input" placeholder="Unit"
-                                style="display: none;">
-                        </div>
-                        <div class="denominator"></div>
-                    </div>
-
-                    <div class="cell" id="rewrite-2-cell">
-                        <div class="track-line"></div>
-                        <div class="numerator">
-                            <div class="scientific-group">
-                                <span class="base-ten">x 10</span>
-                                <input type="number" id="exp-flip-2" class="exponent-input rewrite-input"
-                                    placeholder="?">
-                            </div>
-                            <!-- FIXED: Only show unit box for medium/hard difficulty -->
-                            <input type="text" id="unit-flip-2" class="unit-input rewrite-unit-input" placeholder="Unit"
-                                style="display: none;">
-                        </div>
-                        <div class="denominator"></div>
-                    </div>
-
-                    <div class="cell no-border"><span class="equals-sign">=</span></div>
-                    <!-- NEW: Answer box that appears after the equals sign -->
-                    <div id="step2-answer-box" class="answer-display-box">
-                        <span id="step2-answer-value" class="answer-display-value"></span>
-                        <span class="base-ten"> × 10<sup id="step2-answer-exponent"
-                                class="answer-display-exponent"></sup></span>
-                        <span id="step2-answer-unit" class="answer-display-unit"></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 3: Solve with inline buttons -->
-            <div class="step3-container">
-                <div class="step3-header">
-                    <h3 class="step3-title">Step 3: Solve</h3>
-                    <div class="step3-buttons">
-                        <button class="btn-calc" onclick="calculateSetup()">1. Verify Setup & Signs</button>
-                        <button class="btn-check" onclick="checkStudentAnswer()">2. Check Final Answer</button>
-                    </div>
-                </div>
-
-                <div class="result-row">
-                    <label class="result-label">Calculated (Scientific):</label>
-                    <div class="result-input-wrapper">
-                        <input type="text" id="ans-sci" class="answer-input" placeholder="e.g. 1.5e5">
-                        <span class="final-unit-label target-unit-display"></span>
-                    </div>
-                </div>
-
-                <div class="result-row">
-                    <label class="result-label">Calculated (Decimal):</label>
-                    <div class="result-input-wrapper">
-                        <input type="text" id="ans-dec" class="answer-input" placeholder="e.g. 150000">
-                        <span class="final-unit-label target-unit-display"></span>
-                    </div>
-                </div>
-
-                <div id="setup-feedback" class="setup-feedback"></div>
-                <div id="check-status" class="status-msg" style="margin-top: 10px;"></div>
-            </div>
+    <div class="tables-toggle-container">
+        <div class="tables-toggle-header" id="tables-toggle">
+            <span class="toggle-arrow">▶</span>
+            <span>Click to View Metric Conversion Tables</span>
         </div>
 
-        <!-- Right Column: Metric Prefixes Tables -->
-        <div class="right-column">
-            <div class="info-box">
-                <h3 style="margin: 0 0 5px 0; color:#2c3e50; font-size:1em;">Metric Prefixes</h3>
-
-                <!-- Table 1: Direct Conversion Table -->
-                <h4 style="margin:10px 0 5px 0; color:#34495e;">Direct Conversion Table</h4>
-                <p style="font-size:0.9em; color:#555;">Purpose: Shows how each metric prefix relates to the base units
-                    (m, g, L).</p>
+        <div class="tables-container" id="tables-content">
+            <div class="table-section">
+                <div class="table-caption">Prefix to Base</div>
+                <h3>Direct Conversion Table</h3>
+                <p>Purpose: Shows how each metric prefix relates to the base units (m, g, L).</p>
 
                 <table class="ref-table">
                     <thead>
@@ -883,7 +684,7 @@
                             <td>10<sup>-3</sup> (m, g, L)</td>
                         </tr>
                         <tr>
-                            <td>1 micro (e.g. 1&micro;m or 1&micro;g or 1&micro;L)</td>
+                            <td>1 micro (e.g. 1µm or 1µg or 1µL)</td>
                             <td>=</td>
                             <td>10<sup>-6</sup> (m, g, L)</td>
                         </tr>
@@ -894,11 +695,12 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
 
-                <!-- Table 2: Inverse Conversion Table -->
-                <h4 style="margin:15px 0 5px 0; color:#34495e;">Inverse Conversion Table</h4>
-                <p style="font-size:0.9em; color:#555;">Purpose: Shows how the base units (m, g, L) relate to each
-                    metric prefix.</p>
+            <div class="table-section">
+                <div class="table-caption">Base to Prefix</div>
+                <h3>Inverse Conversion Table</h3>
+                <p>Purpose: Shows how the base units (m, g, L) relate to each metric prefix.</p>
 
                 <table class="ref-table">
                     <thead>
@@ -950,13 +752,152 @@
         </div>
     </div>
 
+    <div class="main-content-wrapper">
+        <div class="left-column">
+            <div class="track-wrapper">
+                <div class="track-header">
+                    <div class="controls-group">
+                        <select id="difficulty-selector" onchange="generateProblem()">
+                            <option value="easy">Level 1: Simple (1 Step: Prefix → Base)</option>
+                            <option value="medium">Level 2: Challenging 1 (2 Steps: Same Side)</option>
+                            <option value="hard">Level 3: Challenging 2 (2 Steps: Crossing Base)</option>
+                        </select>
+                        <button class="btn-new" onclick="generateProblem()">🔄 New Problem</button>
+                    </div>
+                    <div class="problem-display" id="problem-text">Loading...</div>
+                </div>
+
+                <div class="step-label">Step 1: Set up Units & Powers</div>
+                <div class="train-track-model">
+                    <div class="cell">
+                        <div class="track-line"></div>
+                        <div class="numerator">
+                            <input type="number" id="start-val" class="val-input" readonly>
+                            <input type="text" id="start-unit" class="unit-input unit-box" readonly>
+                        </div>
+                        <div class="denominator"></div>
+                    </div>
+
+                    <div class="cell" id="step-1-cell">
+                        <div class="track-line"></div>
+                        <div class="numerator">
+                            <span class="fixed-one">1</span>
+                            <input type="text" id="unit-n1" class="unit-input unit-box" placeholder="Unit">
+                        </div>
+                        <div class="denominator">
+                            <div class="scientific-group">
+                                <span class="base-ten">10</span>
+                                <input type="number" id="exp-d1" class="exponent-input" placeholder="?">
+                            </div>
+                            <input type="text" id="unit-d1" class="unit-input unit-box" placeholder="Unit">
+                        </div>
+                    </div>
+
+                    <div class="cell" id="step-2-cell">
+                        <div class="track-line"></div>
+                        <div class="numerator">
+                            <span class="fixed-one">1</span>
+                            <input type="text" id="unit-n2" class="unit-input unit-box" readonly>
+                        </div>
+                        <div class="denominator">
+                            <div class="scientific-group">
+                                <span class="base-ten">10</span>
+                                <input type="number" id="exp-d2" class="exponent-input" placeholder="?">
+                            </div>
+                            <input type="text" id="unit-d2" class="unit-input unit-box" placeholder="Unit">
+                        </div>
+                    </div>
+
+                    <div class="cell no-border"></div>
+                </div>
+
+                <div class="track-connector">⬇</div>
+
+                <div class="step-label">Step 2: Move Denominators Up, Flip Signs, & Add Unit</div>
+                <div class="train-track-model">
+                    <div class="cell">
+                        <div class="track-line"></div>
+                        <div class="numerator">
+                            <input type="number" id="rewrite-val" class="val-input" placeholder="Start" readonly>
+                        </div>
+                        <div class="denominator"></div>
+                    </div>
+
+                    <div class="cell" id="rewrite-1-cell">
+                        <div class="track-line"></div>
+                        <div class="numerator">
+                            <div class="scientific-group">
+                                <span class="base-ten">x 10</span>
+                                <input type="number" id="exp-flip-1" class="exponent-input rewrite-input"
+                                    placeholder="?">
+                            </div>
+                            <input type="text" id="unit-flip-1" class="unit-input rewrite-unit-input" placeholder="Unit"
+                                style="display: none;">
+                        </div>
+                        <div class="denominator"></div>
+                    </div>
+
+                    <div class="cell" id="rewrite-2-cell">
+                        <div class="track-line"></div>
+                        <div class="numerator">
+                            <div class="scientific-group">
+                                <span class="base-ten">x 10</span>
+                                <input type="number" id="exp-flip-2" class="exponent-input rewrite-input"
+                                    placeholder="?">
+                            </div>
+                            <input type="text" id="unit-flip-2" class="unit-input rewrite-unit-input" placeholder="Unit"
+                                style="display: none;">
+                        </div>
+                        <div class="denominator"></div>
+                    </div>
+
+                    <div class="cell no-border"><span class="equals-sign">=</span></div>
+                    <div id="step2-answer-box" class="answer-display-box">
+                        <span id="step2-answer-value" class="answer-display-value"></span>
+                        <span class="base-ten"> × 10<sup id="step2-answer-exponent"
+                                class="answer-display-exponent"></sup></span>
+                        <span id="step2-answer-unit" class="answer-display-unit"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step3-container">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
+                    <h3 class="step3-title" style="margin: 0;">Step 3:</h3>
+                    <button class="btn-calc" onclick="calculateSetup()">Verify Setup & Signs</button>
+                    <div id="setup-feedback" class="setup-feedback" style="margin: 0; min-height: unset; line-height: 1.5;"></div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <h3 class="step3-title" style="margin: 0;">Step 4:</h3>
+                    
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <span style="font-weight: 600; font-size: 0.9em; color: #212721;">Calculated (Sci):</span>
+                        <input type="text" id="ans-sci" class="answer-input" style="width: 110px;" placeholder="e.g. 1.5e5">
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <span style="font-weight: 600; font-size: 0.9em; color: #212721;">Calculated (Dec):</span>
+                        <input type="text" id="ans-dec" class="answer-input" style="width: 130px;" placeholder="e.g. 150000">
+                        <span class="final-unit-label target-unit-display"></span>
+                    </div>
+
+                    <button class="btn-check" onclick="checkStudentAnswer()">Check Final Answer</button>
+                    <div id="check-status" class="status-msg" style="margin: 0;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- DATA ---
         const prefixes = [
             { sym: 'k', exp: 3 },
-            { sym: '', exp: 0 }, // Base Unit
-            { sym: 'd', exp: -1 }, { sym: 'c', exp: -2 }, { sym: 'm', exp: -3 },
-            { sym: 'µ', exp: -6 }, { sym: 'n', exp: -9 }
+            { sym: '', exp: 0 },
+            { sym: 'd', exp: -1 },
+            { sym: 'c', exp: -2 },
+            { sym: 'm', exp: -3 },
+            { sym: 'µ', exp: -6 },
+            { sym: 'n', exp: -9 }
         ];
         const bases = ['m', 'g', 'L'];
 
@@ -964,44 +905,51 @@
         let targetUnit = "";
         let currentDifficulty = "easy";
 
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleHeader = document.getElementById('tables-toggle');
+            const tablesContent = document.getElementById('tables-content');
+
+            toggleHeader.addEventListener('click', function () {
+                if (tablesContent.style.display === 'flex') {
+                    tablesContent.style.display = 'none';
+                    toggleHeader.classList.remove('expanded');
+                } else {
+                    tablesContent.style.display = 'flex';
+                    toggleHeader.classList.add('expanded');
+                }
+            });
+
+            tablesContent.style.display = 'none';
+        });
+
         window.onload = generateProblem;
 
-        function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+        function getRandomItem(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
 
-        // --- CORRECTED: Unit cancellation with proper train-track diagonal pattern ---
         function setupUnitCancellation() {
-            // Clear any existing event listeners by removing and re-adding
             document.querySelectorAll('.unit-box').forEach(box => {
                 box.replaceWith(box.cloneNode(true));
             });
 
-            // Get all unit boxes again after cloning
             const unitBoxes = document.querySelectorAll('.unit-box');
 
             unitBoxes.forEach(box => {
                 box.addEventListener('click', function () {
-                    // Don't cancel empty units
                     if (this.value.trim() === "") return;
-
-                    // Don't cancel the target unit
                     if (this.value.trim() === targetUnit) return;
 
                     const thisUnit = this.value.trim();
                     const isNumerator = this.closest('.numerator') !== null;
                     const allCells = Array.from(document.querySelectorAll('.train-track-model')[0].querySelectorAll('.cell'));
 
-                    // Find current cell index
                     const currentCell = this.closest('.cell');
                     const currentIndex = allCells.indexOf(currentCell);
-
-                    // For train-track cancellation:
-                    // If it's a numerator, look for a matching denominator in the NEXT cell
-                    // If it's a denominator, look for a matching numerator in the PREVIOUS cell
 
                     let matchingUnit = null;
 
                     if (isNumerator) {
-                        // Look in next cell for matching denominator
                         if (currentIndex < allCells.length - 1) {
                             const nextCell = allCells[currentIndex + 1];
                             if (nextCell && !nextCell.classList.contains('hidden')) {
@@ -1015,7 +963,6 @@
                             }
                         }
                     } else {
-                        // Look in previous cell for matching numerator
                         if (currentIndex > 0) {
                             const prevCell = allCells[currentIndex - 1];
                             if (prevCell && !prevCell.classList.contains('hidden')) {
@@ -1030,7 +977,6 @@
                         }
                     }
 
-                    // If we found a matching unit, cancel both
                     if (matchingUnit) {
                         this.classList.toggle('cancelled');
                         matchingUnit.classList.toggle('cancelled');
@@ -1039,16 +985,13 @@
             });
         }
 
-        // --- GENERATE PROBLEM ---
         function generateProblem() {
             currentDifficulty = document.getElementById('difficulty-selector').value;
 
-            // Toggle visibility for Track 1 AND Track 2 cells
             const step2Cells = [document.getElementById('step-2-cell'), document.getElementById('rewrite-2-cell')];
             const unitN1 = document.getElementById('unit-n1');
             const unitN2 = document.getElementById('unit-n2');
 
-            // Clear inputs and reset answer box
             document.querySelectorAll('input').forEach(i => {
                 if (!i.readOnly && i.id !== 'unit-n2') i.value = '';
                 i.classList.remove('correct', 'incorrect', 'cancelled');
@@ -1057,22 +1000,18 @@
             document.getElementById('check-status').textContent = '';
             currentSolution = null;
 
-            // Hide the Step 2 answer box
             document.getElementById('step2-answer-box').style.display = 'none';
             document.getElementById('step2-answer-value').textContent = '';
             document.getElementById('step2-answer-exponent').textContent = '';
             document.getElementById('step2-answer-unit').textContent = '';
 
-            // Select Units
             const base = getRandomItem(bases);
             let startPre, endPre;
 
             if (currentDifficulty === 'easy') {
-                // Hide Step 2 columns in both tracks
                 step2Cells.forEach(el => el.classList.add('hidden'));
                 unitN1.readOnly = true;
 
-                // One must be base
                 const isStartBase = Math.random() > 0.5;
                 if (isStartBase) {
                     startPre = prefixes.find(p => p.exp === 0);
@@ -1083,34 +1022,29 @@
                 }
 
             } else {
-                // Show Step 2 columns in both tracks
                 step2Cells.forEach(el => el.classList.remove('hidden'));
                 unitN1.readOnly = false;
 
                 const nonBasePrefixes = prefixes.filter(p => p.exp !== 0);
 
                 if (currentDifficulty === 'medium') {
-                    // Same Sign
                     startPre = getRandomItem(nonBasePrefixes);
                     const sameSignPrefixes = nonBasePrefixes.filter(p => Math.sign(p.exp) === Math.sign(startPre.exp) && p !== startPre);
                     endPre = sameSignPrefixes.length ? getRandomItem(sameSignPrefixes) : getRandomItem(nonBasePrefixes.filter(p => p !== startPre));
                 } else {
-                    // Cross Base (Different Sign)
                     startPre = getRandomItem(nonBasePrefixes);
                     const oppSignPrefixes = nonBasePrefixes.filter(p => Math.sign(p.exp) !== Math.sign(startPre.exp));
                     endPre = getRandomItem(oppSignPrefixes);
                 }
             }
 
-            // Set Values
             const startVal = (Math.random() * 9 + 1).toFixed(1);
             const startUnitStr = startPre.sym + base;
             targetUnit = endPre.sym + base;
 
-            // UI Text
             document.getElementById('problem-text').innerHTML = `Convert <strong>${startVal} ${startUnitStr}</strong> to <strong>${targetUnit}</strong>`;
             document.getElementById('start-val').value = startVal;
-            document.getElementById('rewrite-val').value = startVal; // Auto-fill rewrite start
+            document.getElementById('rewrite-val').value = startVal;
             document.getElementById('start-unit').value = startUnitStr;
 
             if (currentDifficulty === 'easy') {
@@ -1122,34 +1056,28 @@
 
             document.querySelectorAll('.target-unit-display').forEach(el => el.textContent = targetUnit);
 
-            // FIXED: Show/hide unit boxes in rewrite step based on difficulty
             const unitFlip1 = document.getElementById('unit-flip-1');
             const unitFlip2 = document.getElementById('unit-flip-2');
 
             if (currentDifficulty === 'easy') {
-                // For easy: show unit box in rewrite-1-cell, hide in rewrite-2-cell
                 unitFlip1.style.display = 'inline-block';
                 unitFlip1.placeholder = 'Unit';
                 unitFlip2.style.display = 'none';
-                unitFlip2.value = ''; // Clear value
+                unitFlip2.value = '';
             } else {
-                // For medium/hard: hide unit box in rewrite-1-cell, show in rewrite-2-cell
                 unitFlip1.style.display = 'none';
-                unitFlip1.value = ''; // Clear value
+                unitFlip1.value = '';
                 unitFlip2.style.display = 'inline-block';
                 unitFlip2.placeholder = 'Unit';
             }
 
-            // Set up unit cancellation after generating the problem
             setupUnitCancellation();
         }
 
-        // --- CALCULATE & VERIFY SETUP ---
         function calculateSetup() {
             const feedback = document.getElementById('setup-feedback');
             feedback.textContent = "";
 
-            // 1. UNIT CANCELLATION CHECK
             let boxes = [];
             if (currentDifficulty === 'easy') {
                 boxes = [
@@ -1189,7 +1117,6 @@
                 return;
             }
 
-            // 2. EXPONENT FLIP CHECK
             const exp1 = parseFloat(document.getElementById('exp-d1').value);
             const flip1 = parseFloat(document.getElementById('exp-flip-1').value);
 
@@ -1198,7 +1125,6 @@
                 return;
             }
 
-            // Logic: The flipped exponent must be equal to -1 * original exponent
             if (flip1 !== -1 * exp1) {
                 feedback.textContent = "Step 2 Error: When moving the exponent up, you must change the sign!";
                 document.getElementById('exp-flip-1').classList.add('incorrect');
@@ -1208,9 +1134,7 @@
                 document.getElementById('exp-flip-1').classList.add('correct');
             }
 
-            // FIXED: Simplified unit check for rewrite step
             if (currentDifficulty === 'easy') {
-                // For easy: check unit-flip-1 (the only rewrite unit box)
                 const rewriteUnit1 = document.getElementById('unit-flip-1').value.trim();
                 if (rewriteUnit1 !== targetUnit) {
                     feedback.textContent = `Step 2 Error: Don't forget the unit of measure! Should be ${targetUnit}`;
@@ -1221,7 +1145,6 @@
                     document.getElementById('unit-flip-1').classList.add('correct');
                 }
             } else {
-                // For medium/hard: check unit-flip-2 only (the middle unit was already cancelled)
                 const exp2 = parseFloat(document.getElementById('exp-d2').value);
                 const flip2 = parseFloat(document.getElementById('exp-flip-2').value);
                 const rewriteUnit2 = document.getElementById('unit-flip-2').value.trim();
@@ -1252,13 +1175,11 @@
 
             let denominator = Math.pow(10, exp1);
 
-            // Check Step 2 if medium/hard
             if (currentDifficulty !== 'easy') {
                 const exp2 = parseFloat(document.getElementById('exp-d2').value);
                 denominator = denominator * Math.pow(10, exp2);
             }
 
-            // 4. FINAL CALCULATION
             const startVal = parseFloat(document.getElementById('start-val').value);
             currentSolution = startVal / denominator;
 
@@ -1266,7 +1187,6 @@
             feedback.style.color = "#27ae60";
         }
 
-        // --- CHECK FINAL ANSWER ---
         function checkStudentAnswer() {
             const status = document.getElementById('check-status');
             const sciInput = document.getElementById('ans-sci');
@@ -1277,13 +1197,11 @@
                 return;
             }
 
-            // Show the answer in the Step 2 answer box
             const step2AnswerBox = document.getElementById('step2-answer-box');
             const step2AnswerValue = document.getElementById('step2-answer-value');
             const step2AnswerExponent = document.getElementById('step2-answer-exponent');
             const step2AnswerUnit = document.getElementById('step2-answer-unit');
 
-            // Format the answer for display
             const scientific = currentSolution.toExponential(2);
             const parts = scientific.split('e');
             const coeff = parts[0];
@@ -1293,7 +1211,6 @@
             step2AnswerExponent.textContent = exponent;
             step2AnswerUnit.textContent = targetUnit;
 
-            // Show the answer box
             step2AnswerBox.style.display = 'flex';
 
             const check = (input) => {
@@ -1331,7 +1248,6 @@
             }
         }
     </script>
-
 </body>
 
 </html>
