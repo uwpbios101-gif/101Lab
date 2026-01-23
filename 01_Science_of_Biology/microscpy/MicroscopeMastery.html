@@ -933,7 +933,7 @@
             background-position: bottom;
             border-bottom: 2px solid black;
             top: 35%;
-            left: -2.35%;
+            left: -1.087%;
             width: 108.7%;
             /* No z-index needed here since wrapper handles it */
         }
@@ -942,7 +942,7 @@
         .ruler-scale::after {
             content: "";
             position: absolute;
-            left: 90.8%;
+            left: 93%;
             top: -10px;
             width: 3px;
             height: 25px;
@@ -954,7 +954,7 @@
         .ruler-scale::before {
             content: "4.6;
             position: absolute;
-            left: 90.8%;
+            left: 93%;
             top: -45px;
             color: red;
             font-weight: bold;
@@ -3228,15 +3228,15 @@
                 const mm = parseFloat(document.getElementById('fd-est-ans-mm').value);
                 const um = parseFloat(document.getElementById('fd-est-ans-um').value);
 
-                const validMM = (mm >= 0.16 && mm <= 0.17);
-                const validUM = (um >= 160 && um <= 170);
+                const validMM = (mm >= 0.0054 && mm <= 0.0055);
+                const validUM = (um >= 5.4 && um <= 5.5);
 
                 if (validMM && validUM) {
                     fdShowFeedback('fd-feedback-est-math', true, "Excellent! You are ready for the final exam.");
                     document.getElementById('fd-btn-to-exam').classList.remove('fd-hidden');
                     fdUpdateProgress(85);
                 } else {
-                    fdShowFeedback('fd-feedback-est-math', false, "Math check: 0.5 divided by 3. Then multiply by 1000 for µm.");
+                    fdShowFeedback('fd-feedback-est-math', false, "Math check: 0.5 divided by 92. Then multiply by 1000 for µm.");
                 }
             }
 
