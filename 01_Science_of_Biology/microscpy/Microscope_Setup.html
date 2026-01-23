@@ -1146,7 +1146,8 @@
                 setupShortAnswer(question);
             }
 
-            document.querySelector('.quiz-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // FIXED: Removed the scrollIntoView that was causing the screen to shift
+            // document.querySelector('.quiz-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function setupMultipleChoice(question) {
@@ -1213,23 +1214,37 @@
                 userAnswer = shortAnswerInput.value.trim();
                 const correctAnswers = question.correctAnswer.split(';').map(a => a.trim().toLowerCase());
                 const userAnswers = userAnswer.toLowerCase();
-
+                
+                // FIXED: Improved short answer matching logic
                 let matches = 0;
-                correctAnswers.forEach(correct => {
-                    if (userAnswers.includes(correct) || correct.includes(userAnswers)) {
-                        matches++;
-                    }
-                });
-
-                isCorrect = matches > 0;
+                if (correctAnswers.length === 1) {
+                    // For single answer questions
+                    isCorrect = userAnswers === correctAnswers[0];
+                } else {
+                    // For multi-part questions
+                    const userParts = userAnswers.split(';').map(a => a.trim());
+                    matches = 0;
+                    
+                    correctAnswers.forEach(correct => {
+                        if (userParts.some(user => user === correct || correct.includes(user))) {
+                            matches++;
+                        }
+                    });
+                    
+                    isCorrect = matches === correctAnswers.length;
+                }
             }
 
             question.answered = true;
             question.userAnswer = userAnswer;
             question.correct = isCorrect;
 
+            // FIXED: Ensure score is updated correctly
             if (isCorrect) {
                 score += question.points;
+                console.log(`Correct! Added ${question.points} points. New score: ${score}`);
+            } else {
+                console.log(`Incorrect. Score remains: ${score}`);
             }
 
             updateProgress();
@@ -1241,16 +1256,6 @@
             showFeedback(isCorrect, question);
         }
 
-        function showFeedback(isCorrect, question) {
-            feedbackTitle.textContent = isCorrect ?
-                `✓ Correct! (${question.points} point${question.points > 1 ? 's' : ''} earned)` :
-                `✗ Incorrect`;
-
-            explanationText.textContent = question.explanation ||
-                (isCorrect ? 'Well done!' : `The correct answer is: ${getCorrectAnswerText(question)}`);
-            feedbackContainer.classList.add('show');
-        }
-
         function getCorrectAnswerText(question) {
             if (question.type === 'Short Answer') {
                 return question.correctAnswer;
@@ -1259,6 +1264,27 @@
                 const correctIndex = optionLabels.indexOf(question.correctAnswer);
                 return question.options[correctIndex];
             }
+        }
+
+        function showFeedback(isCorrect, question) {
+            feedbackTitle.textContent = isCorrect ?
+                `✓ Correct! (${question.points} point${question.points > 1 ? 's' : ''} earned)` :
+                `✗ Incorrect`;
+            
+            // FIXED: Improved feedback message
+            if (isCorrect) {
+                explanationText.textContent = question.explanation || 'Well done! Your answer is correct.';
+            } else {
+                explanationText.textContent = question.explanation || 
+                    `The correct answer is: ${getCorrectAnswerText(question)}`;
+            }
+            
+            feedbackContainer.classList.add('show');
+            
+            // Scroll feedback into view gently
+            setTimeout(() => {
+                feedbackContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
         }
 
         function continueVideo() {
