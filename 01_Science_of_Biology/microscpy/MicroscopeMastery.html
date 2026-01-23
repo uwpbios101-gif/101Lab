@@ -1822,7 +1822,7 @@
 
                     <div class="alert-box" id="lens-warning" style="display:none; text-align: left;">
                         <strong>⚠️ CAUTION:</strong> The lens is extremely close to the specimen! Do not use the
-                        Coarse Focus knob here or you will crush the sample.
+                        Coarse Focus knob here or you will crush the sample. Do not se this lens in BIOS101!
                     </div>
 
                     <p id="wd-observation" style="margin-top: 1rem; font-weight: bold;">Observation: The 4x lens is
@@ -2534,7 +2534,7 @@
             const app = document.getElementById(appName + '-app');
             if (app) {
                 app.classList.add('active');
-                window.scrollTo(0, 0);
+
             }
         }
 
@@ -2551,7 +2551,7 @@
 
             // Show landing page
             document.getElementById('landing-page').style.display = 'block';
-            window.scrollTo(0, 0);
+
         }
 
         // Logic for the Landing Page "Back" button to go to external URL
@@ -2701,8 +2701,14 @@
             const module = document.getElementById('module-' + moduleName);
             if (module) {
                 module.classList.add('active');
+                // Instead of scrolling to top, scroll to the module with smooth behavior
+                setTimeout(() => {
+                    module.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 50); // Small delay ensures the DOM has updated
             }
-            window.scrollTo(0, 0);
         }
 
         function checkAnswer(element, isCorrect, questionId) {
@@ -3032,7 +3038,7 @@
 
             toEl.classList.remove('fd-hidden');
             toEl.classList.add('active');
-            window.scrollTo(0, 0);
+
         }
 
         function fdNextStep(toId) {
@@ -3043,7 +3049,7 @@
             const t = document.getElementById(toId);
             t.classList.remove('fd-hidden');
             t.classList.add('active');
-            window.scrollTo(0, 0);
+
         }
 
         function fdUpdateProgress(val) {
