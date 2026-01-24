@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Seating Chart</title>
+
+    <style>
+        :root {
+            --uwp-green: #004f39;
+            --uwp-light-green: #007a53;
+            --uwp-gold: #f2c94c;
+            --uwp-gray: #f4f4f4;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--uwp-gray);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--uwp-green);
+        }
+
+        .instructions {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: var(--uwp-light-green);
+            font-size: 14px;
+        }
+
+        /* Student list - 10 Columns and 2 Rows */
+        .students {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 8px;
+            max-width: 900px;
+            margin: 0 auto 10px auto;
+        }
+
+        .student {
+            padding: 6px 2px;
+            background: var(--uwp-gold);
+            border-radius: 8px;
+            cursor: grab;
+            font-size: 11px;
+            border: 1px solid #333;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: var(--uwp-green);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: var(--uwp-light-green);
+        }
+
+        /* Room */
+        .room {
+            width: 900px;
+            height: 600px;
+            margin: auto;
+            background: white;
+            border: 4px solid var(--uwp-green);
+            position: relative;
+        }
+
+        /* Front Elements */
+        .blackboard {
+            position: absolute;
+            top: 10px;
+            left: 300px;
+            width: 300px;
+            height: 40px;
+            background: var(--uwp-green);
+            color: white;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        .door {
+            position: absolute;
+            top: 10px;
+            width: 80px;
+            height: 40px;
+            background: #c9b27c;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        .door.left { left: 10px; }
+        .door.right { right: 10px; }
+
+        .smartboard {
+            position: absolute;
+            bottom: 10px;
+            left: 320px;
+            width: 260px;
+            height: 40px;
+            background: var(--uwp-light-green);
+            color: white;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        /* Tables */
+        .table {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #e6efe9;
+            border: 2px solid var(--uwp-green);
+            position: absolute;
+        }
+
+        .label {
+            position: absolute;
+            width: 100%;
+            top: 45px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--uwp-green);
+        }
+
+        /* Seats */
+        .seat {
+            width: 52px;
+            height: 22px;
+            background: white;
+            border: 1px solid #333;
+            border-radius: 10px;
+            position: absolute;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .seat:nth-child(1) { top: -12px; left: 34px; }
+        .seat:nth-child(2) { bottom: 6px; left: -10px; }
+        .seat:nth-child(3) { bottom: 6px; right: -10px; }
+        
+        /* Dropped student styling */
+        .seat .student {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 8px;
+            font-size: 10px;
+        }
+
+        /* Desk Positions */
+        #carbs { top: 120px; left: 90px; }
+        #proteins { top: 270px; left: 90px; }
+        #lipids { top: 420px; left: 90px; }
+        #photosynthesis { top: 120px; right: 90px; }
+        #mitosis { top: 270px; right: 90px; }
+        #meiosis { top: 420px; right: 90px; }
+        #cells { top: 120px; left: 390px; }
+    </style>
+</head>
+
+<body>
+
+    <h2>Interactive Seating Chart</h2>
+
+    <div class="instructions">
+        👉 Drag your name to your assigned table and seat, the number beside your name is your microscope number.
+    </div>
+
+    <div class="students" id="studentContainer">
+        <div draggable="true" class="student" id="s1" ondragstart="drag(event)">Ariana-24</div>
+        <div draggable="true" class="student" id="s2" ondragstart="drag(event)">Juls-23</div>
+        <div draggable="true" class="student" id="s3" ondragstart="drag(event)">Melanie-22</div>
+        <div draggable="true" class="student" id="s4" ondragstart="drag(event)">Brynnale-21</div>
+        <div draggable="true" class="student" id="s5" ondragstart="drag(event)">Brianna-20</div>
+        <div draggable="true" class="student" id="s6" ondragstart="drag(event)">Hayden-19</div>
+        <div draggable="true" class="student" id="s7" ondragstart="drag(event)">Sam-18</div>
+        <div draggable="true" class="student" id="s8" ondragstart="drag(event)">Alyssa-17</div>
+        <div draggable="true" class="student" id="s9" ondragstart="drag(event)">Bella-16</div>
+        <div draggable="true" class="student" id="s10" ondragstart="drag(event)">Gracyn-15</div>
+        <div draggable="true" class="student" id="s11" ondragstart="drag(event)">Gabbie-14</div>
+        <div draggable="true" class="student" id="s12" ondragstart="drag(event)">Nacyiah-13</div>
+        <div draggable="true" class="student" id="s13" ondragstart="drag(event)">Jamir-12</div>
+        <div draggable="true" class="student" id="s14" ondragstart="drag(event)">Jadyn-11</div>
+        <div draggable="true" class="student" id="s15" ondragstart="drag(event)">Pablo-10</div>
+        <div draggable="true" class="student" id="s16" ondragstart="drag(event)">Elijah-9</div>
+        <div draggable="true" class="student" id="s17" ondragstart="drag(event)">Autumn-8</div>
+        <div draggable="true" class="student" id="s18" ondragstart="drag(event)">Natalie-7</div>
+        <div draggable="true" class="student" id="s19" ondragstart="drag(event)">Maddie-6</div>
+        <div draggable="true" class="student" id="s20" ondragstart="drag(event)">Cami-5</div>
+    </div>
+
+    <div class="controls">
+        <button onclick="resetBoard()">Reset All Seats</button>
+    </div>
+
+    <div class="room">
+        <div class="door left">Door</div>
+        <div class="blackboard">Blackboard</div>
+        <div class="door right">Door</div>
+        <div class="smartboard">Smartboard</div>
+
+        <div class="table" id="carbs">
+            <div class="label">Carbohydrates</div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <div class="table" id="proteins">
+            <div class="label">Proteins</div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <div class="table" id="lipids">
+            <div class="label">Lipids</div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <div class="table" id="cells">
+            <div class="label">Cells</div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <div class="table" id="photosynthesis">
+            <div class="label">Photosynthesis</div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <div class="table" id="mitosis">
+            <div class="label">Mitosis</div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <div class="table" id="meiosis">
+            <div class="label">Meiosis</div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="seat" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+    </div>
+
+    <script>
+        function allowDrop(ev) { 
+            ev.preventDefault(); 
+        }
+
+        function drag(ev) { 
+            ev.dataTransfer.setData("text", ev.target.id); 
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            let target = ev.target;
+
+            // If user drops directly on a student who is already in a seat, find the seat div
+            if (target.classList.contains("student")) {
+                target = target.parentElement;
+            }
+
+            // CHECK: Is the seat empty?
+            if (target.classList.contains("seat") && target.children.length === 0) {
+                target.appendChild(draggedElement);
+            } else {
+                console.log("This seat is already occupied!");
+            }
+        }
+
+        function resetBoard() {
+            const container = document.getElementById("studentContainer");
+            const students = document.querySelectorAll(".student");
+            students.forEach(s => container.appendChild(s));
+        }
+    </script>
+</body>
+</html>
