@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology 303 Lab Safety | UW-Parkside</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #EFECE2;
+            color: #21272A;
+            line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
+            scroll-padding-top: 140px;
+        }
+
+        .header {
+            background-color: #016836;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .nav-container {
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 84px;
+            z-index: 999;
+        }
+
+        .nav-bar {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            overflow-x: auto;
+            padding: 5px 5px;
+            scrollbar-width: none;
+        }
+
+        .nav-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-item {
+            padding: 4px 4px;
+            margin-right: 10px;
+            background-color: #DBD9D6;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #54534A;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: #016836;
+            color: white;
+        }
+
+        .nav-item.active {
+            background-color: #016836;
+            color: white;
+            border-color: #FABA31;
+        }
+
+        .nav-item.completed {
+            background-color: #016836;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 5px;
+        }
+
+        .progress-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-bar-wrapper {
+            background-color: #DBD9D6;
+            height: 7px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #016836 0%, #00502f 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            role: progressbar;
+        }
+
+        .progress-text {
+            font-size: 13px;
+            color: #54534A;
+            text-align: center;
+        }
+
+        .content-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            display: none;
+            scroll-margin-top: 140px;
+        }
+
+        .content-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-title {
+            color: #016836;
+            font-size: 20px;
+            font-weight: 700;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #016836;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .section-read-btn {
+            background-color: #016836;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .section-read-btn:hover {
+            background-color: #00502f;
+        }
+
+        .section-read-btn:disabled {
+            background-color: #DBD9D6;
+            cursor: not-allowed;
+        }
+
+        .section-read-btn.speaking {
+            background-color: #FABA31;
+            color: #21272A;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* TTS Status Indicator */
+        .tts-status {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .tts-status.visible {
+            display: flex;
+        }
+
+        .tts-status.playing {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .tts-status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .tts-status.warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .tts-status-icon {
+            font-size: 18px;
+        }
+
+        .intro-text {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #EFECE2;
+            border-radius: 6px;
+            border-left: 4px solid #016836;
+        }
+
+        .intro-text.highlight {
+            background-color: #fff;
+            border-left-color: #FABA31;
+            box-shadow: 0 2px 6px rgba(250, 186, 49, 0.2);
+            transition: background-color 0.3s ease, border-left-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .safety-rule {
+            padding: 15px;
+            margin-bottom: 12px;
+            background-color: #EFECE2;
+            border-radius: 6px;
+            border-left: 4px solid #DBD9D6;
+            font-size: 15px;
+            line-height: 1.7;
+            opacity: 0.4;
+            transition: opacity 0.4s ease, background-color 0.4s ease, border-left-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .safety-rule.active {
+            opacity: 1;
+            background-color: #fff;
+            border-left-color: #FABA31;
+            box-shadow: 0 2px 6px rgba(250, 186, 49, 0.2);
+        }
+
+        .safety-rule.read {
+            opacity: 1;
+            background-color: #f8f8f8;
+            border-left-color: #016836;
+        }
+
+        .question-section {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 6px;
+            border: 2px solid #FABA31;
+        }
+
+        .question-section.visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #016836;
+            margin-bottom: 15px;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #DBD9D6;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #016836;
+        }
+
+        .submit-answer-btn {
+            background-color: #016836;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-answer-btn:hover {
+            background-color: #00502f;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .continue-btn {
+            background-color: #DBD9D6;
+            color: #54534A;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: not-allowed;
+            width: 100%;
+            margin-top: 15px;
+            transition: background-color 0.3s ease, color 0.3s ease, cursor 0.3s ease;
+        }
+
+        .continue-btn.ready {
+            background-color: #016836;
+            color: white;
+            cursor: pointer;
+        }
+
+        .continue-btn.ready:hover {
+            background-color: #00502f;
+        }
+
+        .student-info {
+            margin-bottom: 15px;
+        }
+
+        .student-info label {
+            display: block;
+            font-weight: 600;
+            color: #016836;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .student-info input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #DBD9D6;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .student-info input:focus {
+            outline: none;
+            border-color: #016836;
+        }
+
+        .final-statement {
+            background-color: #EFECE2;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #016836;
+            margin: 20px 0;
+            font-size: 15px;
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        .submit-button {
+            background-color: #DBD9D6;
+            color: #54534A;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: not-allowed;
+            width: 100%;
+            transition: background-color 0.3s ease, color 0.3s ease, cursor 0.3s ease;
+        }
+
+        .submit-button.ready {
+            background-color: #016836;
+            color: white;
+            cursor: pointer;
+        }
+
+        .submit-button.ready:hover {
+            background-color: #00502f;
+        }
+
+        .success-message {
+            background-color: #016836;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .success-message.visible {
+            display: block;
+        }
+
+        .timer-badge {
+            display: inline-block;
+            background-color: #FABA31;
+            color: #21272A;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #54534A;
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .section-read-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-container {
+                top: 80px;
+            }
+
+            body {
+                scroll-padding-top: 130px;
+            }
+
+            .content-card {
+                scroll-margin-top: 130px;
+            }
+        }
+
+        /* Improved focus indicators for keyboard navigation */
+        .nav-item:focus,
+        .section-read-btn:focus,
+        .submit-answer-btn:focus,
+        .continue-btn:focus,
+        .submit-button:focus,
+        .answer-input:focus {
+            outline: 3px solid #FABA31;
+            outline-offset: 2px;
+        }
+
+        /* Better button disabled states */
+        button:disabled {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Microbiology 303 Lab Safety</h1>
+        <p>University of Wisconsin-Parkside</p>
+    </div>
+
+    <div class="nav-container">
+        <div class="nav-bar" role="navigation" aria-label="Section navigation">
+            <div class="nav-item active" data-section="0" tabindex="0" role="button" aria-label="Introduction section">Introduction</div>
+            <div class="nav-item" data-section="1" tabindex="0" role="button" aria-label="Safety Equipment section">Safety Equipment</div>
+            <div class="nav-item" data-section="2" tabindex="0" role="button" aria-label="Fire Safety section">Fire Safety</div>
+            <div class="nav-item" data-section="3" tabindex="0" role="button" aria-label="Microbe Handling section">Microbe Handling</div>
+            <div class="nav-item" data-section="4" tabindex="0" role="button" aria-label="Acknowledgment section">Acknowledgment</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-bar-wrapper">
+                <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Training progress"></div>
+            </div>
+            <div class="progress-text">
+                <span id="progressText">0% Complete</span>
+                <span class="timer-badge" id="timerBadge">0:00</span>
+            </div>
+        </div>
+
+        <!-- TTS Status Indicator (Global) -->
+        <div class="tts-status" id="ttsStatus" role="status" aria-live="polite">
+            <span class="tts-status-icon" id="ttsStatusIcon"></span>
+            <span id="ttsStatusText"></span>
+        </div>
+
+        <div class="content-card active" id="section0">
+            <div class="section-header">
+                <h2 class="section-title">Introduction</h2>
+                <button class="section-read-btn" id="readBtn0" aria-label="Listen to introduction with text-to-speech">
+                    🔊 Listen to Introduction
+                </button>
+            </div>
+            <div class="intro-text" id="introText">Microbiology 303 is designed to teach you the correct techniques used
+                in a microbiology laboratory and also the safety procedures needed to successfully work in the
+                laboratory. While the microorganisms that are used in BIOS 303 are generally not disease-causing
+                microbes, it is very important to realize that these microbes have the potential to cause disease. This
+                can occur when microbes are not properly handled and are subsequently introduced into the human body. In
+                addition to microorganisms, you may handle potentially dangerous chemicals and sharp objects and use
+                open flames. Thus, a safe laboratory requires that you follow the rules and procedures listed below in
+                order to prevent accidents and infections by microorganisms being studied.</div>
+            <button class="continue-btn" id="continueBtn0">
+                Continue to Safety Equipment →
+            </button>
+        </div>
+
+        <div class="content-card" id="section1">
+            <div class="section-header">
+                <h2 class="section-title">Safety Equipment</h2>
+                <button class="section-read-btn" id="readBtn1" aria-label="Read safety equipment section with text-to-speech">
+                    🔊 Read Section
+                </button>
+            </div>
+            <div id="safetyEquipmentRules"></div>
+            <div class="question-section" id="question1">
+                <div class="question-text">Question: List at least THREE safety items that are important to know the location of.</div>
+                <input type="text" class="answer-input" id="answer1" placeholder="Type your answer here..." aria-label="Answer for safety equipment question">
+                <button class="submit-answer-btn" aria-label="Submit your answer">Submit Answer</button>
+                <div class="feedback" id="feedback1" role="alert"></div>
+            </div>
+            <button class="continue-btn" id="continueBtn1">
+                Continue to Fire Safety →
+            </button>
+        </div>
+
+        <div class="content-card" id="section2">
+            <div class="section-header">
+                <h2 class="section-title">Fire Safety</h2>
+                <button class="section-read-btn" id="readBtn2" aria-label="Read fire safety section with text-to-speech">
+                    🔊 Read Section
+                </button>
+            </div>
+            <div id="fireSafetyRules"></div>
+            <div class="question-section" id="question2">
+                <div class="question-text">Question: If your clothes catch on fire, what three actions should you take?
+                </div>
+                <input type="text" class="answer-input" id="answer2" placeholder="Type your answer here..." aria-label="Answer for fire safety question">
+                <button class="submit-answer-btn" aria-label="Submit your answer">Submit Answer</button>
+                <div class="feedback" id="feedback2" role="alert"></div>
+            </div>
+            <button class="continue-btn" id="continueBtn2">
+                Continue to Lab Procedures →
+            </button>
+        </div>
+
+        <div class="content-card" id="section3">
+            <div class="section-header">
+                <h2 class="section-title">Safety Procedures for Handling Microbes</h2>
+                <button class="section-read-btn" id="readBtn3" aria-label="Read microbe handling section with text-to-speech">
+                    🔊 Read Section
+                </button>
+            </div>
+            <div id="microbeHandlingRules"></div>
+            <div class="question-section" id="question3">
+                <div class="question-text">Question: What should you always wear when in the lab?</div>
+                <input type="text" class="answer-input" id="answer3" placeholder="Type your answer here..." aria-label="Answer for lab procedures question">
+                <button class="submit-answer-btn" aria-label="Submit your answer">Submit Answer</button>
+                <div class="feedback" id="feedback3" role="alert"></div>
+            </div>
+            <button class="continue-btn" id="continueBtn3">
+                Continue to Acknowledgment →
+            </button>
+        </div>
+
+        <div class="content-card" id="section4">
+            <div class="section-header">
+                <h2 class="section-title">Safety Acknowledgment</h2>
+            </div>
+
+            <div class="final-statement">
+                I have read and understood the safety rules and safety procedures. My signature below signifies my
+                agreement to abide by these rules. I understand that my failure to comply will result in serious
+                accidents and possibly expulsion from the laboratory and an equivalent reduction in my final grade for
+                the course.
+            </div>
+
+            <div class="student-info">
+                <label for="studentName">Print Name *</label>
+                <input type="text" id="studentName" placeholder="Enter your full name" required aria-required="true">
+            </div>
+
+            <div class="student-info">
+                <label for="studentInitials">Initials *</label>
+                <input type="text" id="studentInitials" placeholder="Enter your initials" maxlength="4" required aria-required="true">
+            </div>
+
+            <div class="student-info">
+                <label for="studentEmail">Email Address *</label>
+                <input type="email" id="studentEmail" placeholder="your.email@uwp.edu" required aria-required="true">
+            </div>
+
+            <div class="student-info">
+                <label for="labSection">Lab Section *</label>
+                <input type="text" id="labSection" placeholder="e.g. 001" required aria-required="true">
+            </div>
+
+            <button class="submit-button" id="submitBtn" aria-label="Submit safety acknowledgment">
+                Submit Safety Acknowledgment
+            </button>
+
+            <div class="success-message" id="successMessage" role="status" aria-live="polite">
+                <h2>✅ Acknowledgment Submitted!</h2>
+                <p>Your safety acknowledgment has been recorded and sent to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f99190919099c8c9b98c8e89d79c9d8c">[email&#160;protected]</a></p>
+                <p style="margin-top: 10px; font-size: 14px;">You are now cleared to work in the Microbiology 303
+                    laboratory.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2024 University of Wisconsin-Parkside | Microbiology 303</p>
+    </div>
+
+    <script>
+        // Encapsulated in IIFE to avoid global scope pollution
+        const SafetyTraining = (() => {
+            // Private variables
+            let currentSection = 0;
+            let sectionsCompleted = [false, false, false, false, false];
+            let readTimer = 0;
+            let timerInterval;
+            let currentSpeech = null;
+            let femaleVoice = null;
+            let speechSupported = true;
+
+            // Safety rules data structure
+            const safetyRules = {
+                equipment: [
+                    "Know the location of the fire extinguisher, fire blanket, eye wash station, safety shower, and first aid kit.",
+                    "Report all accidents and injuries to the instructor immediately, no matter how minor.",
+                    "Wear appropriate closed-toe shoes. Sandals and open-toed shoes are not allowed.",
+                    "Do not wear loose or flowing clothing in the laboratory that might catch fire or knock over cultures or equipment.",
+                    "Long hair must be tied back to prevent it from catching fire or falling into cultures.",
+                    "Keep aisles clear of book bags, books, coats, etc. Place these items under your lab bench."
+                ],
+                fire: [
+                    "Know the location of fire exits and fire extinguishers.",
+                    "In case of fire, alert the instructor and other lab members immediately.",
+                    "If your clothes catch on fire: STOP, DROP, and ROLL to extinguish the flames.",
+                    "Use the fire blanket or safety shower if necessary.",
+                    "Never try to carry burning materials out of the laboratory.",
+                    "Evacuate the building if the fire cannot be controlled quickly."
+                ],
+                microbes: [
+                    "Always wear a lab coat or apron when in the laboratory.",
+                    "Wash your hands with soap and water before leaving the laboratory.",
+                    "Never eat, drink, smoke, or apply cosmetics in the laboratory.",
+                    "Never put pencils, pens, fingers, or other objects in your mouth while in the lab.",
+                    "Keep your hands away from your face, eyes, mouth, and body while working with microorganisms.",
+                    "Disinfect your work area before and after each lab session with the provided disinfectant.",
+                    "Report all spills to the instructor immediately.",
+                    "Place all contaminated materials in the proper disposal containers.",
+                    "Never pipette by mouth. Always use a pipette bulb or mechanical pipetting device.",
+                    "Label all cultures clearly with your name, date, organism, and section number.",
+                    "Keep all cultures in designated areas. Never leave cultures unattended on the bench.",
+                    "Notify the instructor of any broken glassware. Do not attempt to clean it up yourself."
+                ]
+            };
+
+            // Check if TTS is available
+            function checkTTSSupport() {
+                if (!('speechSynthesis' in window)) {
+                    speechSupported = false;
+                    showTTSStatus('warning', '⚠️', 'Text-to-speech is not available in your browser. Please read the content manually.');
+                    // Disable all read buttons
+                    document.querySelectorAll('.section-read-btn').forEach(btn => {
+                        btn.disabled = true;
+                        btn.style.opacity = '0.5';
+                    });
+                }
+            }
+
+            // Show TTS status messages
+            function showTTSStatus(type, icon, message) {
+                const statusDiv = document.getElementById('ttsStatus');
+                const iconSpan = document.getElementById('ttsStatusIcon');
+                const textSpan = document.getElementById('ttsStatusText');
+
+                statusDiv.className = `tts-status visible ${type}`;
+                iconSpan.textContent = icon;
+                textSpan.textContent = message;
+
+                // Auto-hide after 5 seconds for non-error messages
+                if (type !== 'error' && type !== 'warning') {
+                    setTimeout(() => {
+                        statusDiv.classList.remove('visible');
+                    }, 5000);
+                }
+            }
+
+            function hideTTSStatus() {
+                const statusDiv = document.getElementById('ttsStatus');
+                statusDiv.classList.remove('visible');
+            }
+
+            function getBritishFemaleVoice() {
+                if (!speechSupported) return null;
+                
+                const voices = window.speechSynthesis.getVoices();
+                
+                // Prioritize British female voices
+                const preferredVoices = [
+                    'Google UK English Female',
+                    'Microsoft Hazel - English (Great Britain)',
+                    'Kate',
+                    'Serena',
+                    'British Female'
+                ];
+
+                for (const preferred of preferredVoices) {
+                    const voice = voices.find(v => v.name === preferred);
+                    if (voice) return voice;
+                }
+
+                // Fallback: any female voice with British English
+                let fallback = voices.find(v => 
+                    v.lang.includes('en-GB') && v.name.toLowerCase().includes('female')
+                );
+                if (fallback) return fallback;
+
+                // Fallback: any British English voice
+                fallback = voices.find(v => v.lang.includes('en-GB'));
+                if (fallback) return fallback;
+
+                // Final fallback: any English female voice
+                fallback = voices.find(v => 
+                    v.lang.startsWith('en') && v.name.toLowerCase().includes('female')
+                );
+                
+                return fallback || voices[0];
+            }
+
+            function populateRules() {
+                const equipmentDiv = document.getElementById('safetyEquipmentRules');
+                const fireDiv = document.getElementById('fireSafetyRules');
+                const microbesDiv = document.getElementById('microbeHandlingRules');
+
+                safetyRules.equipment.forEach((rule, index) => {
+                    const ruleDiv = document.createElement('div');
+                    ruleDiv.className = 'safety-rule';
+                    ruleDiv.id = `equipment-${index}`;
+                    ruleDiv.textContent = rule;
+                    equipmentDiv.appendChild(ruleDiv);
+                });
+
+                safetyRules.fire.forEach((rule, index) => {
+                    const ruleDiv = document.createElement('div');
+                    ruleDiv.className = 'safety-rule';
+                    ruleDiv.id = `fire-${index}`;
+                    ruleDiv.textContent = rule;
+                    fireDiv.appendChild(ruleDiv);
+                });
+
+                safetyRules.microbes.forEach((rule, index) => {
+                    const ruleDiv = document.createElement('div');
+                    ruleDiv.className = 'safety-rule';
+                    ruleDiv.id = `microbes-${index}`;
+                    ruleDiv.textContent = rule;
+                    microbesDiv.appendChild(ruleDiv);
+                });
+            }
+
+            function startTimer() {
+                timerInterval = setInterval(() => {
+                    readTimer++;
+                    const minutes = Math.floor(readTimer / 60);
+                    const seconds = readTimer % 60;
+                    document.getElementById('timerBadge').textContent = 
+                        `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                }, 1000);
+            }
+
+            function readIntro() {
+                if (!speechSupported) {
+                    showTTSStatus('warning', '⚠️', 'Text-to-speech is not available. Please read the content manually.');
+                    return;
+                }
+
+                const readBtn = document.getElementById('readBtn0');
+                const introText = document.getElementById('introText');
+                const continueBtn = document.getElementById('continueBtn0');
+
+                if (currentSpeech) {
+                    window.speechSynthesis.cancel();
+                }
+
+                readBtn.disabled = true;
+                readBtn.classList.add('speaking');
+                introText.classList.add('highlight');
+                showTTSStatus('playing', '🔊', 'Reading introduction...');
+
+                // Split text into sentences to avoid browser timeout on long text
+                const text = introText.textContent;
+                const sentences = text.match(/[^\.!\?]+[\.!\?]+/g) || [text];
+
+                readSentencesRecursively(sentences, 0, () => {
+                    introText.classList.remove('highlight');
+                    readBtn.classList.remove('speaking');
+                    readBtn.disabled = false;
+                    continueBtn.classList.add('ready');
+                    sectionsCompleted[0] = true;
+                    updateProgress();
+                    updateNavStatus();
+                    hideTTSStatus();
+                });
+            }
+
+            // Helper function to read array of sentences recursively
+            function readSentencesRecursively(sentences, index, callback) {
+                if (index >= sentences.length) {
+                    if (callback) callback();
+                    return;
+                }
+
+                speakText(sentences[index].trim(), () => {
+                    readSentencesRecursively(sentences, index + 1, callback);
+                });
+            }
+
+            function readSection(sectionNum) {
+                if (!speechSupported) {
+                    showTTSStatus('warning', '⚠️', 'Text-to-speech is not available. Please read the content manually.');
+                    return;
+                }
+
+                if (currentSpeech) {
+                    window.speechSynthesis.cancel();
+                }
+
+                const readBtn = document.getElementById(`readBtn${sectionNum}`);
+                readBtn.disabled = true;
+
+                let prefix, rules;
+                if (sectionNum === 1) {
+                    prefix = 'equipment';
+                    rules = safetyRules.equipment;
+                } else if (sectionNum === 2) {
+                    prefix = 'fire';
+                    rules = safetyRules.fire;
+                } else if (sectionNum === 3) {
+                    prefix = 'microbes';
+                    rules = safetyRules.microbes;
+                }
+
+                readBtn.classList.add('speaking');
+                showTTSStatus('playing', '🔊', `Reading section ${sectionNum}...`);
+
+                readRulesSequentially(prefix, rules, 0, () => {
+                    document.getElementById(`question${sectionNum}`).classList.add('visible');
+                    readBtn.classList.remove('speaking');
+                    readBtn.disabled = false;
+                    sectionsCompleted[sectionNum] = true;
+                    updateProgress();
+                    updateNavStatus();
+                    hideTTSStatus();
+                });
+            }
+
+            function readRulesSequentially(prefix, rules, index, callback) {
+                if (index >= rules.length) {
+                    if (callback) callback();
+                    return;
+                }
+
+                const ruleDiv = document.getElementById(`${prefix}-${index}`);
+                ruleDiv.classList.add('active');
+
+                speakText(rules[index], () => {
+                    ruleDiv.classList.remove('active');
+                    ruleDiv.classList.add('read');
+                    readRulesSequentially(prefix, rules, index + 1, callback);
+                });
+            }
+
+            function speakText(text, onEndCallback) {
+                if (!speechSupported) {
+                    if (onEndCallback) onEndCallback();
+                    return;
+                }
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-GB';
+
+                if (femaleVoice) {
+                    utterance.voice = femaleVoice;
+                }
+
+                utterance.rate = 0.95;
+                utterance.pitch = 1.1;
+                utterance.volume = 1;
+
+                utterance.onend = () => {
+                    if (onEndCallback) onEndCallback();
+                };
+
+                utterance.onerror = (e) => {
+                    console.error('Speech error:', e);
+                    showTTSStatus('error', '❌', `Speech error: ${e.error}. Please read the content manually.`);
+                    if (onEndCallback) onEndCallback();
+                };
+
+                currentSpeech = utterance;
+                window.speechSynthesis.speak(utterance);
+            }
+
+            function levenshteinDistance(a, b) {
+                const matrix = [];
+
+                for (let i = 0; i <= b.length; i++) {
+                    matrix[i] = [i];
+                }
+
+                for (let j = 0; j <= a.length; j++) {
+                    matrix[0][j] = j;
+                }
+
+                for (let i = 1; i <= b.length; i++) {
+                    for (let j = 1; j <= a.length; j++) {
+                        if (b.charAt(i - 1) == a.charAt(j - 1)) {
+                            matrix[i][j] = matrix[i - 1][j - 1];
+                        } else {
+                            matrix[i][j] = Math.min(
+                                matrix[i - 1][j - 1] + 1,
+                                Math.min(
+                                    matrix[i][j - 1] + 1,
+                                    matrix[i - 1][j] + 1
+                                )
+                            );
+                        }
+                    }
+                }
+
+                return matrix[b.length][a.length];
+            }
+
+            function checkAnswer(questionNum, acceptableAnswer) {
+                const input = document.getElementById(`answer${questionNum}`);
+                const feedback = document.getElementById(`feedback${questionNum}`);
+
+                const userAnswerText = input.value.trim().toLowerCase();
+                const userWords = userAnswerText.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").split(/\s+/);
+
+                let isCorrect = false;
+
+                const hasFuzzyMatch = (targetWord, tolerance = 2) => {
+                    return userWords.some(userWord =>
+                        levenshteinDistance(userWord, targetWord) <= tolerance
+                    );
+                };
+
+                if (questionNum === 1) {
+                    // Updated: Require at least 3 different safety items to be mentioned
+                    const requiredKeywords = [
+                        "extinguisher",
+                        "extinguishers",
+                        "eye",
+                        "eyewash",
+                        "shower",
+                        "aid",
+                        "blanket",
+                        "exit",
+                        "exits"
+                    ];
+
+                    // Count how many unique safety items were mentioned
+                    const matchedItems = new Set();
+                    
+                    requiredKeywords.forEach(keyword => {
+                        if (hasFuzzyMatch(keyword)) {
+                            // Group related keywords
+                            if (keyword.includes('extinguisher')) {
+                                matchedItems.add('extinguisher');
+                            } else if (keyword.includes('eye')) {
+                                matchedItems.add('eyewash');
+                            } else if (keyword.includes('shower')) {
+                                matchedItems.add('shower');
+                            } else if (keyword.includes('aid')) {
+                                matchedItems.add('first-aid');
+                            } else if (keyword.includes('blanket')) {
+                                matchedItems.add('blanket');
+                            } else if (keyword.includes('exit')) {
+                                matchedItems.add('exit');
+                            }
+                        }
+                    });
+
+                    // Require at least 3 distinct safety items
+                    isCorrect = matchedItems.size >= 3;
+
+                    if (!isCorrect && matchedItems.size > 0) {
+                        feedback.className = 'feedback incorrect';
+                        feedback.textContent = `✗ You mentioned ${matchedItems.size} item(s). Please list at least THREE different safety items.`;
+                        return;
+                    }
+
+                } else {
+                    const keywords = acceptableAnswer.toLowerCase().split(' ');
+                    isCorrect = keywords.every(keyword => hasFuzzyMatch(keyword));
+                }
+
+                if (isCorrect) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✓ Correct! You may continue.';
+                    document.getElementById(`continueBtn${questionNum}`).classList.add('ready');
+                    sectionsCompleted[questionNum] = true;
+                    updateProgress();
+                    updateNavStatus();
+                } else {
+                    feedback.className = 'feedback incorrect';
+                    feedback.textContent = '✗ Please review the section and try again.';
+                }
+            }
+
+            function showSection(sectionNum) {
+                document.querySelectorAll('.content-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+
+                const section = document.getElementById(`section${sectionNum}`);
+                if (!section) return;
+
+                section.classList.add('active');
+                updateNav(sectionNum);
+                currentSection = sectionNum;
+
+                setTimeout(() => {
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const navHeight = document.querySelector('.nav-container').offsetHeight;
+                    const totalOffset = headerHeight + navHeight + 10;
+
+                    const elementPosition = section.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - totalOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }, 50);
+            }
+
+            function updateNav(sectionNum) {
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                const activeNav = document.querySelector(`.nav-item[data-section="${sectionNum}"]`);
+                if (activeNav) activeNav.classList.add('active');
+            }
+
+            function updateNavStatus() {
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    const sectionNum = parseInt(item.getAttribute('data-section'));
+                    item.classList.remove('completed');
+                    if (sectionNum < sectionsCompleted.length && sectionsCompleted[sectionNum]) {
+                        item.classList.add('completed');
+                    }
+                });
+            }
+
+            function updateProgress() {
+                const completed = sectionsCompleted.filter(s => s).length;
+                const total = sectionsCompleted.length;
+                const percentage = Math.round((completed / total) * 100);
+                
+                const progressBar = document.getElementById('progressBar');
+                progressBar.style.width = percentage + '%';
+                progressBar.setAttribute('aria-valuenow', percentage);
+                
+                document.getElementById('progressText').textContent = percentage + '% Complete';
+            }
+
+            function checkSubmitReady() {
+                const name = document.getElementById('studentName').value.trim();
+                const initials = document.getElementById('studentInitials').value.trim();
+                const email = document.getElementById('studentEmail').value.trim();
+
+                const sectionElem = document.getElementById('labSection');
+                const section = sectionElem ? sectionElem.value.trim() : '';
+
+                const submitBtn = document.getElementById('submitBtn');
+
+                if (name && initials && email && section) {
+                    submitBtn.classList.add('ready');
+                } else {
+                    submitBtn.classList.remove('ready');
+                }
+            }
+
+            async function submitAcknowledgment() {
+                const submitBtn = document.getElementById('submitBtn');
+                if (!submitBtn.classList.contains('ready')) return;
+
+                const name = document.getElementById('studentName').value;
+                const initials = document.getElementById('studentInitials').value;
+                const email = document.getElementById('studentEmail').value;
+                const section = document.getElementById('labSection').value;
+
+                const minutes = Math.floor(readTimer / 60);
+                const seconds = readTimer % 60;
+                const timeSpent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                const subject = `Microbiology 303 Lab Safety Acknowledgment - ${name} (${initials})`;
+                const body = `MICROBIOLOGY 303 LAB SAFETY ACKNOWLEDGMENT
+========================================================================
+STUDENT INFORMATION:
+- Full Name: ${name}
+- Initials: ${initials}
+- Email: ${email}
+- Lab Section: ${section}
+- Time Spent on Training: ${timeSpent}
+- Completion Date: ${new Date().toLocaleDateString()}
+- Completion Time: ${new Date().toLocaleTimeString()}
+
+ACKNOWLEDGMENT STATEMENT:
+I have read and understood the safety rules and safety procedures for Microbiology 303.
+My signature below signifies my agreement to abide by these rules.
+I understand that my failure to comply will result in serious accidents and 
+possibly expulsion from the laboratory and an equivalent reduction in my final grade.
+
+SECTIONS COMPLETED:
+✓ Introduction
+✓ Safety Equipment  
+✓ Fire Safety
+✓ Safety Procedures for Handling Microbes
+
+TRAINING DETAILS:
+- Total Time: ${timeSpent}
+- Platform: Interactive Web-Based Safety Training
+- Institution: University of Wisconsin-Parkside
+- Course: Microbiology 303
+
+ELECTRONIC SIGNATURE:
+Student Name: ${name}
+Initials: ${initials}
+Date: ${new Date().toLocaleDateString()}
+
+========================================================================
+Note: This acknowledgment was automatically generated by the UW-Parkside
+Microbiology 303 Safety Training System.`;
+
+                try {
+                    const mailtoLink = `mailto:harria01@uwp.edu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+                    localStorage.setItem('safetyAcknowledgment', JSON.stringify({
+                        name, initials, email, section,
+                        timeSpent, timestamp: new Date().toISOString(),
+                        subject, body
+                    }));
+
+                    const mailWindow = window.open(mailtoLink, '_blank');
+
+                    setTimeout(() => {
+                        if (!mailWindow || mailWindow.closed) {
+                            showManualConfirmation(subject, body);
+                        }
+                    }, 1000);
+
+                } catch (error) {
+                    showManualConfirmation(subject, body);
+                }
+
+                clearInterval(timerInterval);
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Submitted ✓';
+            }
+
+            function showManualConfirmation(subject, body) {
+                document.getElementById('emailSubjectText').textContent = subject;
+                document.getElementById('emailBodyText').value = body;
+                document.getElementById('confirmationModal').style.display = 'flex';
+                document.getElementById('successMessage').classList.add('visible');
+            }
+
+            async function copyToClipboard() {
+                const textarea = document.getElementById('emailBodyText');
+                const copyBtn = document.querySelector('button[data-action="copy"]');
+                
+                try {
+                    // Modern Clipboard API
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(textarea.value);
+                        
+                        const originalText = copyBtn.textContent;
+                        copyBtn.textContent = '✓ Copied!';
+                        copyBtn.style.backgroundColor = '#016836';
+                        copyBtn.style.color = 'white';
+
+                        setTimeout(() => {
+                            copyBtn.textContent = originalText;
+                            copyBtn.style.backgroundColor = '#FABA31';
+                            copyBtn.style.color = '#21272A';
+                        }, 2000);
+                    } else {
+                        // Fallback for older browsers
+                        textarea.select();
+                        textarea.setSelectionRange(0, 99999);
+                        
+                        const successful = document.execCommand('copy');
+                        if (successful) {
+                            const originalText = copyBtn.textContent;
+                            copyBtn.textContent = '✓ Copied!';
+                            copyBtn.style.backgroundColor = '#016836';
+                            copyBtn.style.color = 'white';
+
+                            setTimeout(() => {
+                                copyBtn.textContent = originalText;
+                                copyBtn.style.backgroundColor = '#FABA31';
+                                copyBtn.style.color = '#21272A';
+                            }, 2000);
+                        } else {
+                            throw new Error('Copy command failed');
+                        }
+                    }
+                } catch (err) {
+                    console.error('Copy failed:', err);
+                    alert('Please manually select and copy the text (Ctrl+C or Cmd+C).');
+                }
+            }
+
+            function closeConfirmation() {
+                document.getElementById('confirmationModal').style.display = 'none';
+
+                setTimeout(() => {
+                    document.getElementById('successMessage').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }, 100);
+            }
+
+            function loadVoices() {
+                if (!speechSupported) return;
+
+                femaleVoice = getBritishFemaleVoice();
+                if (!femaleVoice && window.speechSynthesis) {
+                    window.speechSynthesis.onvoiceschanged = () => {
+                        femaleVoice = getBritishFemaleVoice();
+                    };
+                }
+            }
+
+            function attachEventListeners() {
+                // Navigation items
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    // Click handler
+                    item.addEventListener('click', function () {
+                        const sectionNum = parseInt(this.getAttribute('data-section'));
+                        showSection(sectionNum);
+                    });
+
+                    // Keyboard handler (Enter or Space)
+                    item.addEventListener('keypress', function (e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            const sectionNum = parseInt(this.getAttribute('data-section'));
+                            showSection(sectionNum);
+                        }
+                    });
+                });
+
+                // Read buttons
+                const readBtn0 = document.getElementById('readBtn0');
+                if (readBtn0) readBtn0.addEventListener('click', readIntro);
+
+                const readBtn1 = document.getElementById('readBtn1');
+                if (readBtn1) readBtn1.addEventListener('click', () => readSection(1));
+
+                const readBtn2 = document.getElementById('readBtn2');
+                if (readBtn2) readBtn2.addEventListener('click', () => readSection(2));
+
+                const readBtn3 = document.getElementById('readBtn3');
+                if (readBtn3) readBtn3.addEventListener('click', () => readSection(3));
+
+                // Continue buttons
+                const continueBtn0 = document.getElementById('continueBtn0');
+                if (continueBtn0) continueBtn0.addEventListener('click', () => showSection(1));
+
+                const continueBtn1 = document.getElementById('continueBtn1');
+                if (continueBtn1) continueBtn1.addEventListener('click', () => showSection(2));
+
+                const continueBtn2 = document.getElementById('continueBtn2');
+                if (continueBtn2) continueBtn2.addEventListener('click', () => showSection(3));
+
+                const continueBtn3 = document.getElementById('continueBtn3');
+                if (continueBtn3) continueBtn3.addEventListener('click', () => showSection(4));
+
+                // Answer submission buttons
+                document.querySelectorAll('.submit-answer-btn').forEach((btn, index) => {
+                    btn.addEventListener('click', function() {
+                        const questionNum = index + 1;
+                        let acceptableAnswer = '';
+                        
+                        if (questionNum === 1) {
+                            acceptableAnswer = 'extinguisher'; // This is used as a placeholder
+                        } else if (questionNum === 2) {
+                            acceptableAnswer = 'stop drop roll';
+                        } else if (questionNum === 3) {
+                            acceptableAnswer = 'lab coat';
+                        }
+                        
+                        checkAnswer(questionNum, acceptableAnswer);
+                    });
+                });
+
+                // Student info inputs
+                const studentName = document.getElementById('studentName');
+                const studentInitials = document.getElementById('studentInitials');
+                const studentEmail = document.getElementById('studentEmail');
+                const labSection = document.getElementById('labSection');
+
+                if (studentName) studentName.addEventListener('input', checkSubmitReady);
+                if (studentInitials) studentInitials.addEventListener('input', checkSubmitReady);
+                if (studentEmail) studentEmail.addEventListener('input', checkSubmitReady);
+                if (labSection) labSection.addEventListener('input', checkSubmitReady);
+
+                // Submit button
+                const submitBtn = document.getElementById('submitBtn');
+                if (submitBtn) submitBtn.addEventListener('click', submitAcknowledgment);
+            }
+
+            function init() {
+                populateRules();
+                startTimer();
+                checkTTSSupport();
+                loadVoices();
+                updateNavStatus();
+                attachEventListeners();
+            }
+
+            // Public API
+            return {
+                init,
+                copyToClipboard,
+                closeConfirmation
+            };
+        })();
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', SafetyTraining.init);
+        } else {
+            SafetyTraining.init();
+        }
+    </script>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center;">
+        <div
+            style="background-color: white; padding: 30px; border-radius: 10px; max-width: 500px; width: 90%; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+            <h2 style="color: #016836; margin-bottom: 15px;">📧 Email Submission Required</h2>
+            <p style="margin-bottom: 20px; line-height: 1.6;">Your acknowledgment has been prepared. Please:</p>
+
+            <div style="background-color: #EFECE2; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                <p><strong>1. Copy the text below</strong></p>
+                <textarea id="emailBodyText"
+                    style="width: 100%; height: 200px; padding: 10px; border: 1px solid #DBD9D6; border-radius: 4px; font-family: monospace; font-size: 14px; resize: vertical; margin-bottom: 15px;"
+                    aria-label="Email body text to copy"></textarea>
+
+                <p><strong>2. Send it to:</strong> <code
+                        style="background-color: #DBD9D6; padding: 2px 8px; border-radius: 4px;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6b030a191903091a1b2b1e1c1b45041018">[email&#160;protected]</a></code>
+                </p>
+                <p><strong>Subject:</strong> <code id="emailSubjectText"
+                        style="background-color: #DBD9D6; padding: 2px 8px; border-radius: 4px;"></code></p>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button data-action="copy"
+                    style="background-color: #FABA31; color: #21272A; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer;"
+                    onclick="SafetyTraining.copyToClipboard()" aria-label="Copy text to clipboard">
+                    📋 Copy Text
+                </button>
+                <button
+                    style="background-color: #016836; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer;"
+                    onclick="SafetyTraining.closeConfirmation()" aria-label="Close confirmation modal">
+                    ✓ Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+
+</html>
