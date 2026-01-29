@@ -107,9 +107,10 @@
         }
 
         /* ===== MODULE SELECTION ===== */
-        .modules-section padding: 0.5rem 1rem 1rem;
-        max-width: 1200px;
-        margin: 0 auto;
+        .modules-section {
+            padding: 0.5rem 1rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .section-title {
@@ -897,9 +898,6 @@
             background: white;
             position: relative;
             margin: 0 auto;
-            /* Remove overflow: hidden AND z-index: 1 */
-            /* overflow: hidden; */
-            /* z-index: 1; */
         }
 
         .fov-guideline {
@@ -935,7 +933,6 @@
             top: 35%;
             left: -1.087%;
             width: 108.7%;
-            /* No z-index needed here since wrapper handles it */
         }
 
         /* Add a specific red mark for the 4.55 measurement */
@@ -947,13 +944,12 @@
             width: 3px;
             height: 25px;
             background-color: red;
-            /* No z-index needed */
         }
 
         /* Add label for the 4.55 mark */
         .ruler-scale::before {
-            content: "4.6;
- position: absolute;
+            content: "4.6";
+            position: absolute;
             left: 93%;
             top: -45px;
             color: red;
@@ -964,7 +960,6 @@
             border: 1px solid red;
             border-radius: 3px;
             transform: translateX(-50%);
-            /* No z-index needed */
         }
 
         /* Adjust the ruler numbers to align properly with new ruler position */
@@ -1988,7 +1983,6 @@
     <div style="text-align: center; margin: 2rem 0;">
         <button class="btn btn-outline" onclick="returnToLanding()">← Back to All Modules</button>
     </div>
-    </div>
 
     <div id="magnification-mastery-app" class="app-container">
         <div class="magnification-mastery-container">
@@ -2210,289 +2204,289 @@
                             onclick="fdNextStep('fd-step-calculate')">Next:
                             Calculations</button>
                     </div>
+                </div>
 
-                    <div id="fd-step-calculate" class="fd-card fd-hidden">
-                        <h2>Step 2: Calculating High Power Diameters</h2>
+                <div id="fd-step-calculate" class="fd-card fd-hidden">
+                    <h2>Step 2: Calculating High Power Diameters</h2>
 
-                        <div
-                            style="background: #fff3cd; border: 1px solid #ffeeba; padding: 1rem; margin-bottom: 1rem;">
-                            <p><strong>Teaching Point:</strong> Remember the thre (3) objective lenses? The Low Power
-                                objective lens that provides 4x Magnification; and the two High Power objective lenses
-                                that
-                                provide 10x & 40x Magnification.</p>
-                            <p>The 4x lens provides Low Power Magnificaiont (LPM)</p>
-                            <p>The 10x lens provides High Power Magnificaiont (HPM)<<sub>(10x)</sub></p>
-                            <p>The 40x lens provides High Power Magnificaiont (HPM)<<sub>(40x)</sub></p>
+                    <div
+                        style="background: #fff3cd; border: 1px solid #ffeeba; padding: 1rem; margin-bottom: 1rem;">
+                        <p><strong>Teaching Point:</strong> Remember the thre (3) objective lenses? The Low Power
+                            objective lens that provides 4x Magnification; and the two High Power objective lenses
+                            that
+                            provide 10x & 40x Magnification.</p>
+                        <p>The 4x lens provides Low Power Magnificaiont (LPM)</p>
+                        <p>The 10x lens provides High Power Magnificaiont (HPM)<<sub>(10x)</sub></p>
+                        <p>The 40x lens provides High Power Magnificaiont (HPM)<<sub>(40x)</sub></p>
 
 
-                            In this calculation, the 4x lens is your <strong>Low Power
-                                magnification<(LPM) lenses </strong>.
-                                    Both the 10x lens AND the 40x lens are considered <strong>High Power
-                                        magnification(HPM)
-                                        lenses</strong> relative to
-                                    the 4x.
+                        In this calculation, the 4x lens is your <strong>Low Power
+                            magnification<(LPM) lenses </strong>.
+                                Both the 10x lens AND the 40x lens are considered <strong>High Power
+                                    magnification(HPM)
+                                    lenses</strong> relative to
+                                the 4x.
+                    </div>
+
+                    <h3>Part A: The 10x Objective lens</h3>
+                    <p>Our goal is to determine (calculate) the diameter for the 10x lens. Let's use a simple
+                        formula
+                    </p>
+
+                    <div class="formula-builder">
+                        <p><strong>1. Build the Formula:</strong></p>
+                        <p>Select the correct variables to construct the equation.</p>
+                        <div style="font-size: 1.2rem; margin: 1rem 0;">
+                            HPD =
+                            <select id="fd-f1-lpd">
+                                <option value="">?</option>
+                                <option value="HPM">HPM</option>
+                                <option value="LPD">LPD</option>
+                            </select>
+                            × (
+                            <div class="fraction">
+                                <span class="numerator">
+                                    <select id="fd-f1-top">
+                                        <option value="">?</option>
+                                        <option value="LPM">LPM</option>
+                                        <option value="HPM">HPM</option>
+                                    </select>
+                                </span>
+                                <span class="denominator">
+                                    <select id="fd-f1-bot">
+                                        <option value="">?</option>
+                                        <option value="LPM">LPM</option>
+                                        <option value="HPM">HPM</option>
+                                    </select>
+                                </span>
+                            </div>
+                            )
                         </div>
+                        <button class="fd-btn" onclick="fdCheckFormula('10x')">Check Formula</button>
+                    </div>
+                    <div id="fd-feedback-formula-10x" class="fd-feedback-box"></div>
 
-                        <h3>Part A: The 10x Objective lens</h3>
-                        <p>Our goal is to determine (calculate) the diameter for the 10x lens. Let's use a simple
-                            formula
-                        </p>
+                    <div id="fd-calc-input-10x" class="fd-hidden"
+                        style="margin-top: 2rem; border-top: 1px dashed #ccc; padding-top: 1rem;">
+                        <p><strong>2. Plug in the numbers:</strong></p>
+                        <div class="formula-container">
+                            Diameter =
+                            <input type="number" id="fd-val-lpd-10" style="width: 120px; text-align: center;"
+                                placeholder="LPD">
+                            × (
+                            <div class="fraction">
+                                <span class="numerator">
+                                    <input type="number" id="fd-val-lpm-10"
+                                        style="width: 100px; text-align: center;" placeholder="LPM">
+                                </span>
+                                <span class="denominator">
+                                    <input type="number" id="fd-val-hpm-10"
+                                        style="width: 100px; text-align: center;" placeholder="HPM">
+                                </span>
+                            </div>
+                            )
+                        </div>
+                        <p><strong>3. Result:</strong> What is the diameter?</p>
+                        <input type="number" id="fd-ans-10x" placeholder="mm">
+                        <button class="fd-btn" onclick="fdCheckMath('10x')">Check Math</button>
+                    </div>
+                    <div id="fd-feedback-math-10x" class="fd-feedback-box"></div>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <div id="fd-section-40x" class="fd-hidden">
+                        <h3>Part B: The 40x Objective</h3>
+                        <p>Now calculate for the 40x lens. Remember, 40x is now the "High Power" (HPM) relative to
+                            the
+                            4x (LPM).</p>
 
                         <div class="formula-builder">
                             <p><strong>1. Build the Formula:</strong></p>
-                            <p>Select the correct variables to construct the equation.</p>
                             <div style="font-size: 1.2rem; margin: 1rem 0;">
-                                HPD =
-                                <select id="fd-f1-lpd">
-                                    <option value="">?</option>
-                                    <option value="HPM">HPM</option>
-                                    <option value="LPD">LPD</option>
-                                </select>
-                                × (
+                                HPD = LPD × (
                                 <div class="fraction">
-                                    <span class="numerator">
-                                        <select id="fd-f1-top">
-                                            <option value="">?</option>
-                                            <option value="LPM">LPM</option>
-                                            <option value="HPM">HPM</option>
-                                        </select>
-                                    </span>
-                                    <span class="denominator">
-                                        <select id="fd-f1-bot">
-                                            <option value="">?</option>
-                                            <option value="LPM">LPM</option>
-                                            <option value="HPM">HPM</option>
-                                        </select>
-                                    </span>
+                                    <span class="numerator">LPM</span>
+                                    <span class="denominator">HPM</span>
                                 </div>
                                 )
                             </div>
-                            <button class="fd-btn" onclick="fdCheckFormula('10x')">Check Formula</button>
+                            <p><em>(Formula remains the same, variables change)</em></p>
                         </div>
-                        <div id="fd-feedback-formula-10x" class="fd-feedback-box"></div>
 
-                        <div id="fd-calc-input-10x" class="fd-hidden"
-                            style="margin-top: 2rem; border-top: 1px dashed #ccc; padding-top: 1rem;">
+                        <div style="margin-top: 1rem;">
                             <p><strong>2. Plug in the numbers:</strong></p>
                             <div class="formula-container">
                                 Diameter =
-                                <input type="number" id="fd-val-lpd-10" style="width: 120px; text-align: center;"
+                                <input type="number" id="fd-val-lpd-40" style="width: 120px; text-align: center;"
                                     placeholder="LPD">
                                 × (
                                 <div class="fraction">
                                     <span class="numerator">
-                                        <input type="number" id="fd-val-lpm-10"
+                                        <input type="number" id="fd-val-lpm-40"
                                             style="width: 100px; text-align: center;" placeholder="LPM">
                                     </span>
                                     <span class="denominator">
-                                        <input type="number" id="fd-val-hpm-10"
+                                        <input type="number" id="fd-val-hpm-40"
                                             style="width: 100px; text-align: center;" placeholder="HPM">
                                     </span>
                                 </div>
                                 )
                             </div>
-                            <p><strong>3. Result:</strong> What is the diameter?</p>
-                            <input type="number" id="fd-ans-10x" placeholder="mm">
-                            <button class="fd-btn" onclick="fdCheckMath('10x')">Check Math</button>
+                            <p><strong>3. Result:</strong> What is the diameter? <em>Activity check - when in lab
+                                    rotate
+                                    the revolving nosepiece and recite the field diameter for each objective lens
+                                    while
+                                    looking into the microscope.</em></p>
+                            <input type="number" id="fd-ans-40x" placeholder="mm">
+                            <button class="fd-btn" onclick="fdCheckMath('40x')">Check Math</button>
                         </div>
-                        <div id="fd-feedback-math-10x" class="fd-feedback-box"></div>
-
-                        <hr style="margin: 2rem 0;">
-
-                        <div id="fd-section-40x" class="fd-hidden">
-                            <h3>Part B: The 40x Objective</h3>
-                            <p>Now calculate for the 40x lens. Remember, 40x is now the "High Power" (HPM) relative to
-                                the
-                                4x (LPM).</p>
-
-                            <div class="formula-builder">
-                                <p><strong>1. Build the Formula:</strong></p>
-                                <div style="font-size: 1.2rem; margin: 1rem 0;">
-                                    HPD = LPD × (
-                                    <div class="fraction">
-                                        <span class="numerator">LPM</span>
-                                        <span class="denominator">HPM</span>
-                                    </div>
-                                    )
-                                </div>
-                                <p><em>(Formula remains the same, variables change)</em></p>
-                            </div>
-
-                            <div style="margin-top: 1rem;">
-                                <p><strong>2. Plug in the numbers:</strong></p>
-                                <div class="formula-container">
-                                    Diameter =
-                                    <input type="number" id="fd-val-lpd-40" style="width: 120px; text-align: center;"
-                                        placeholder="LPD">
-                                    × (
-                                    <div class="fraction">
-                                        <span class="numerator">
-                                            <input type="number" id="fd-val-lpm-40"
-                                                style="width: 100px; text-align: center;" placeholder="LPM">
-                                        </span>
-                                        <span class="denominator">
-                                            <input type="number" id="fd-val-hpm-40"
-                                                style="width: 100px; text-align: center;" placeholder="HPM">
-                                        </span>
-                                    </div>
-                                    )
-                                </div>
-                                <p><strong>3. Result:</strong> What is the diameter? <em>Activity check - when in lab
-                                        rotate
-                                        the revolving nosepiece and recite the field diameter for each objective lens
-                                        while
-                                        looking into the microscope.</em></p>
-                                <input type="number" id="fd-ans-40x" placeholder="mm">
-                                <button class="fd-btn" onclick="fdCheckMath('40x')">Check Math</button>
-                            </div>
-                            <div id="fd-feedback-math-40x" class="fd-feedback-box"></div>
-                        </div>
-
-                        <button id="fd-btn-to-mem" class="fd-btn fd-hidden"
-                            onclick="fdNextStep('fd-step-memorize')">Next:
-                            Memorization</button>
+                        <div id="fd-feedback-math-40x" class="fd-feedback-box"></div>
                     </div>
 
-                    <div id="fd-step-memorize" class="fd-card fd-hidden">
-                        <h2>Step 3: The "Big Three"</h2>
-                        <p>You must memorize these three numbers. You will use them constantly in BIOS101.</p>
+                    <button id="fd-btn-to-mem" class="fd-btn fd-hidden"
+                        onclick="fdNextStep('fd-step-memorize')">Next:
+                        Memorization</button>
+                </div>
 
+                <div id="fd-step-memorize" class="fd-card fd-hidden">
+                    <h2>Step 3: The "Big Three"</h2>
+                    <p>You must memorize these three numbers. You will use them constantly in BIOS101.</p>
+
+                    <div
+                        style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem; margin: 2rem 0;">
                         <div
-                            style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem; margin: 2rem 0;">
-                            <div
-                                style="background: #004b87; color: white; padding: 2rem; border-radius: 8px; text-align: center; flex: 1;">
-                                <h3>4x</h3>
-                                <h1 style="font-size: 3rem;">5<span style="font-size:1rem">mm</span></h1>
-                                <p>Scanning</p>
-                            </div>
-                            <div
-                                style="background: #004b87; color: white; padding: 2rem; border-radius: 8px; text-align: center; flex: 1;">
-                                <h3>10x</h3>
-                                <h1 style="font-size: 3rem;">2<span style="font-size:1rem">mm</span></h1>
-                                <p>Low Power</p>
-                            </div>
-                            <div
-                                style="background: #004b87; color: white; padding: 2rem; border-radius: 8px; text-align: center; flex: 1;">
-                                <h3>40x</h3>
-                                <h1 style="font-size: 3rem;">0.5<span style="font-size:1rem">mm</span></h1>
-                                <p>High Power</p>
-                            </div>
+                            style="background: #004b87; color: white; padding: 2rem; border-radius: 8px; text-align: center; flex: 1;">
+                            <h3>4x</h3>
+                            <h1 style="font-size: 3rem;">5<span style="font-size:1rem">mm</span></h1>
+                            <p>Scanning</p>
                         </div>
-
-                        <div style="background: #e3f2fd; padding: 1.5rem; text-align: center; border-radius: 8px;">
-                            <h3>Space Repetition Check</h3>
-                            <p>Type the values to lock them in your memory.</p>
-                            <div
-                                style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 300px; margin: 0 auto;">
-                                <label style="text-align:right; padding-top:10px;">4x Diameter:</label>
-                                <input type="number" id="fd-mem-4" placeholder="mm">
-                                <label style="text-align:right; padding-top:10px;">10x Diameter:</label>
-                                <input type="number" id="fd-mem-10" placeholder="mm">
-                                <label style="text-align:right; padding-top:10px;">40x Diameter:</label>
-                                <input type="number" id="fd-mem-40" step="0.1" placeholder="mm">
-                            </div>
-                            <button class="fd-btn" onclick="fdCheckMemorization()">Check & Continue</button>
-                            <div id="fd-feedback-mem" class="fd-feedback-box"></div>
+                        <div
+                            style="background: #004b87; color: white; padding: 2rem; border-radius: 8px; text-align: center; flex: 1;">
+                            <h3>10x</h3>
+                            <h1 style="font-size: 3rem;">2<span style="font-size:1rem">mm</span></h1>
+                            <p>Low Power</p>
                         </div>
-
-                        <button id="fd-btn-to-est" class="fd-btn fd-hidden"
-                            onclick="fdNextStep('fd-step-estimate')">Next:
-                            Estimation</button>
+                        <div
+                            style="background: #004b87; color: white; padding: 2rem; border-radius: 8px; text-align: center; flex: 1;">
+                            <h3>40x</h3>
+                            <h1 style="font-size: 3rem;">0.5<span style="font-size:1rem">mm</span></h1>
+                            <p>High Power</p>
+                        </div>
                     </div>
 
-                    <div id="fd-step-estimate" class="fd-card fd-hidden">
-                        <h2>Step 4: Estimating Specimen Size</h2>
-                        <p>Now that you know the field diameter, you can estimate the organism's size.</p>
-
-                        <div class="scope-view" style="border-color: #004b87;">
-                            <svg width="300" height="300" viewBox="0 0 300 300">
-                                <circle cx="150" cy="150" r="140" fill="#fff" stroke="none" />
-                                <path d="M10,150 Q75,140 80,150 T150,150" stroke="green" stroke-width="5" fill="none" />
-                                <path d="M80,150 Q145,160 150,150 T220,150" stroke="green" stroke-width="5"
-                                    fill="none" />
-                                <path d="M150,150 Q215,140 220,150 T290,150" stroke="green" stroke-width="5"
-                                    fill="none" />
-                                <line x1="0" y1="150" x2="300" y2="150" stroke="#ccc" stroke-dasharray="5,5" />
-                            </svg>
+                    <div style="background: #e3f2fd; padding: 1.5rem; text-align: center; border-radius: 8px;">
+                        <h3>Space Repetition Check</h3>
+                        <p>Type the values to lock them in your memory.</p>
+                        <div
+                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 300px; margin: 0 auto;">
+                            <label style="text-align:right; padding-top:10px;">4x Diameter:</label>
+                            <input type="number" id="fd-mem-4" placeholder="mm">
+                            <label style="text-align:right; padding-top:10px;">10x Diameter:</label>
+                            <input type="number" id="fd-mem-10" placeholder="mm">
+                            <label style="text-align:right; padding-top:10px;">40x Diameter:</label>
+                            <input type="number" id="fd-mem-40" step="0.1" placeholder="mm">
                         </div>
-                        <p style="text-align:center;">View at <strong>40x Objective</strong> (Field Diameter = 0.5mm)
+                        <button class="fd-btn" onclick="fdCheckMemorization()">Check & Continue</button>
+                        <div id="fd-feedback-mem" class="fd-feedback-box"></div>
+                    </div>
+
+                    <button id="fd-btn-to-est" class="fd-btn fd-hidden"
+                        onclick="fdNextStep('fd-step-estimate')">Next:
+                        Estimation</button>
+                </div>
+
+                <div id="fd-step-estimate" class="fd-card fd-hidden">
+                    <h2>Step 4: Estimating Specimen Size</h2>
+                    <p>Now that you know the field diameter, you can estimate the organism's size.</p>
+
+                    <div class="scope-view" style="border-color: #004b87;">
+                        <svg width="300" height="300" viewBox="0 0 300 300">
+                            <circle cx="150" cy="150" r="140" fill="#fff" stroke="none" />
+                            <path d="M10,150 Q75,140 80,150 T150,150" stroke="green" stroke-width="5" fill="none" />
+                            <path d="M80,150 Q145,160 150,150 T220,150" stroke="green" stroke-width="5"
+                                fill="none" />
+                            <path d="M150,150 Q215,140 220,150 T290,150" stroke="green" stroke-width="5"
+                                fill="none" />
+                            <line x1="0" y1="150" x2="300" y2="150" stroke="#ccc" stroke-dasharray="5,5" />
+                        </svg>
+                    </div>
+                    <p style="text-align:center;">View at <strong>40x Objective</strong> (Field Diameter = 0.5mm)
+                    </p>
+
+                    <div class="formula-builder">
+                        <p><strong>1. Build the Word Formula:</strong></p>
+                        <div style="font-size: 1.2rem; margin: 1rem 0;">
+                            Length =
+                            <select id="fd-est-top">
+                                <option value="">?</option>
+                                <option value="Number">Number that fit</option>
+                                <option value="Diameter">Field Diameter</option>
+                            </select>
+                            /
+                            <select id="fd-est-bot">
+                                <option value="">?</option>
+                                <option value="Number">Number that fit</option>
+                                <option value="Diameter">Field Diameter</option>
+                            </select>
+                        </div>
+                        <p style="font-size: 0.9rem; color: #666;">(L = D / N)</p>
+                        <button class="fd-btn" onclick="fdCheckEstFormula()">Check Formula</button>
+                    </div>
+                    <div id="fd-feedback-est-formula" class="fd-feedback-box"></div>
+
+                    <div id="fd-est-calc-area" class="fd-hidden" style="margin-top: 2rem;">
+                        <p><strong>2. Calculate:</strong></p>
+                        <p>Based on the image above, about <strong>92</strong> cells organized in a filament fit
+                            across
+                            the diameter (0.5mm).
                         </p>
-
-                        <div class="formula-builder">
-                            <p><strong>1. Build the Word Formula:</strong></p>
-                            <div style="font-size: 1.2rem; margin: 1rem 0;">
-                                Length =
-                                <select id="fd-est-top">
-                                    <option value="">?</option>
-                                    <option value="Number">Number that fit</option>
-                                    <option value="Diameter">Field Diameter</option>
-                                </select>
-                                /
-                                <select id="fd-est-bot">
-                                    <option value="">?</option>
-                                    <option value="Number">Number that fit</option>
-                                    <option value="Diameter">Field Diameter</option>
-                                </select>
-                            </div>
-                            <p style="font-size: 0.9rem; color: #666;">(L = D / N)</p>
-                            <button class="fd-btn" onclick="fdCheckEstFormula()">Check Formula</button>
-                        </div>
-                        <div id="fd-feedback-est-formula" class="fd-feedback-box"></div>
-
-                        <div id="fd-est-calc-area" class="fd-hidden" style="margin-top: 2rem;">
-                            <p><strong>2. Calculate:</strong></p>
-                            <p>Based on the image above, about <strong>92</strong> cells organized in a filament fit
-                                across
-                                the diameter (0.5mm).
-                            </p>
-                            <div class="formula-container">
-                                Length = 0.5mm / 92
-                            </div>
-
-                            <label>Length in mm:</label>
-                            <input type="number" id="fd-est-ans-mm" placeholder="mm (decimal)">
-
-                            <label>Convert to micrometers (µm):</label>
-                            <input type="number" id="fd-est-ans-um" placeholder="µm">
-
-                            <button class="fd-btn" onclick="fdCheckEstMath()">Check Estimate</button>
-                            <div id="fd-feedback-est-math" class="fd-feedback-box"></div>
+                        <div class="formula-container">
+                            Length = 0.5mm / 92
                         </div>
 
-                        <button id="fd-btn-to-exam" class="fd-btn fd-hidden" onclick="fdNextStep('fd-step-exam')">Go to
-                            Final Exam</button>
+                        <label>Length in mm:</label>
+                        <input type="number" id="fd-est-ans-mm" placeholder="mm (decimal)">
+
+                        <label>Convert to micrometers (µm):</label>
+                        <input type="number" id="fd-est-ans-um" placeholder="µm">
+
+                        <button class="fd-btn" onclick="fdCheckEstMath()">Check Estimate</button>
+                        <div id="fd-feedback-est-math" class="fd-feedback-box"></div>
                     </div>
 
-                    <div id="fd-step-exam" class="fd-card fd-hidden">
-                        <h2>Final Mastery Exam</h2>
-                        <p>Pass this to generate your certificate. You must know your numbers!</p>
-                        <div id="fd-quiz-container"></div>
-                        <button class="fd-btn" onclick="fdSubmitExam()">Submit Exam</button>
-                        <div id="fd-exam-result" class="fd-feedback-box"></div>
-                    </div>
+                    <button id="fd-btn-to-exam" class="fd-btn fd-hidden" onclick="fdNextStep('fd-step-exam')">Go to
+                        Final Exam</button>
+                </div>
 
-                    <div id="fd-certificate-area" class="fd-hidden">
-                        <h1 class="cert-title">Certificate of Mastery</h1>
-                        <p>This certifies that</p>
-                        <div style="font-size: 2rem; font-family: cursive; border-bottom: 2px solid #333; display: inline-block; min-width: 300px; margin: 1rem 0;"
-                            id="fd-cert-name-display"></div>
-                        <p>has mastered Microscope Field Diameter & Estimation</p>
-                        <div style="margin: 2rem 0; font-size: 1.2rem;">
-                            <p><strong>Memorized Values:</strong></p>
-                            <p>4x Field: 5 mm</p>
-                            <p>10x Field: 2 mm</p>
-                            <p>40x Field: 0.5 mm</p>
-                        </div>
-                        <p>Section: <span id="fd-cert-section-display"></span></p>
-                        <p>Date: <span id="fd-cert-date"></span></p>
-                        <div
-                            style="margin-top: 3rem; border-top: 1px solid #ccc; width: 250px; margin-left: auto; margin-right: auto;">
-                            Instructor Signature</div>
-                    </div>
+                <div id="fd-step-exam" class="fd-card fd-hidden">
+                    <h2>Final Mastery Exam</h2>
+                    <p>Pass this to generate your certificate. You must know your numbers!</p>
+                    <div id="fd-quiz-container"></div>
+                    <button class="fd-btn" onclick="fdSubmitExam()">Submit Exam</button>
+                    <div id="fd-exam-result" class="fd-feedback-box"></div>
+                </div>
 
-                    <div id="fd-print-controls" class="fd-hidden" style="text-align: center; margin: 2rem 0;">
-                        <button class="fd-btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+                <div id="fd-certificate-area" class="fd-hidden">
+                    <h1 class="cert-title">Certificate of Mastery</h1>
+                    <p>This certifies that</p>
+                    <div style="font-size: 2rem; font-family: cursive; border-bottom: 2px solid #333; display: inline-block; min-width: 300px; margin: 1rem 0;"
+                        id="fd-cert-name-display"></div>
+                    <p>has mastered Microscope Field Diameter & Estimation</p>
+                    <div style="margin: 2rem 0; font-size: 1.2rem;">
+                        <p><strong>Memorized Values:</strong></p>
+                        <p>4x Field: 5 mm</p>
+                        <p>10x Field: 2 mm</p>
+                        <p>40x Field: 0.5 mm</p>
                     </div>
+                    <p>Section: <span id="fd-cert-section-display"></span></p>
+                    <p>Date: <span id="fd-cert-date"></span></p>
+                    <div
+                        style="margin-top: 3rem; border-top: 1px solid #ccc; width: 250px; margin-left: auto; margin-right: auto;">
+                        Instructor Signature</div>
+                </div>
+
+                <div id="fd-print-controls" class="fd-hidden" style="text-align: center; margin: 2rem 0;">
+                    <button class="fd-btn" onclick="window.print()">🖨️ Print / Save PDF</button>
                 </div>
             </div>
 
@@ -2500,824 +2494,811 @@
                 <button class="btn btn-outline" onclick="returnToLanding()">← Back to All Modules</button>
             </div>
         </div>
+    </div>
 
-        <div id="quick-reference-app" class="app-container">
-            <div
-                style="max-width: 900px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: var(--card-shadow);">
-                <h2 style="color: var(--parkside-green); margin-bottom: 2rem; text-align: center;">Microscope Mastery
-                    Quick
-                    Reference</h2>
+    <div id="quick-reference-app" class="app-container">
+        <div
+            style="max-width: 900px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: var(--card-shadow);">
+            <h2 style="color: var(--parkside-green); margin-bottom: 2rem; text-align: center;">Microscope Mastery
+                Quick
+                Reference</h2>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-                    <div class="concept-box">
-                        <h3>Magnification</h3>
-                        <p><strong>Formula:</strong> Total Magnification = Ocular × Objective</p>
-                        <p><strong>Example:</strong> 10x eyepiece × 40x objective = 400x total</p>
-                        <p><strong>Key Concept:</strong> Empty Magnification - making something bigger without adding
-                            detail
-                        </p>
-                    </div>
-
-                    <div class="concept-box">
-                        <h3>Resolution</h3>
-                        <p><strong>Definition:</strong> Ability to distinguish two separate points</p>
-                        <p><strong>Key Point:</strong> Different from magnification - about detail, not size</p>
-                        <p><strong>Analogy:</strong> 720p TV vs 4K TV - same size, different clarity</p>
-                    </div>
-
-                    <div class="concept-box">
-                        <h3>Contrast</h3>
-                        <p><strong>Definition:</strong> Difference between specimen and background</p>
-                        <p><strong>Solution:</strong> Use stains (methylene blue, iodine, etc.)</p>
-                        <p><strong>Analogy:</strong> Black text on white paper vs gray on white</p>
-                    </div>
-
-                    <div class="concept-box">
-                        <h3>Working Distance</h3>
-                        <p><strong>Definition:</strong> Space between objective lens and slide</p>
-                        <p><strong>Rule:</strong> Higher magnification = Shorter working distance</p>
-                        <p><strong>Tip:</strong> Use 4x lens when adding reagents to slide</p>
-                    </div>
-
-                    <div class="concept-box">
-                        <h3>Field Diameter</h3>
-                        <p><strong>The "Big Three":</strong></p>
-                        <ul>
-                            <li><strong>4x:</strong> 5 mm (Scanning)</li>
-                            <li><strong>10x:</strong> 2 mm (Low Power)</li>
-                            <li><strong>40x:</strong> 0.5 mm (High Power)</li>
-                        </ul>
-                        <p><strong>Formula:</strong> HPD = LPD × (LPM / HPM)</p>
-                    </div>
-
-                    <div class="concept-box">
-                        <h3>Size Estimation</h3>
-                        <p><strong>Formula:</strong> Length = Field Diameter ÷ # that fit</p>
-                        <p><strong>Conversion:</strong> 1 mm = 1000 µm (micrometers)</p>
-                        <p><strong>Example:</strong> 3 cells across 0.5mm field = 0.167mm each</p>
-                    </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                <div class="concept-box">
+                    <h3>Magnification</h3>
+                    <p><strong>Formula:</strong> Total Magnification = Ocular × Objective</p>
+                    <p><strong>Example:</strong> 10x eyepiece × 40x objective = 400x total</p>
+                    <p><strong>Key Concept:</strong> Empty Magnification - making something bigger without adding
+                        detail
+                    </p>
                 </div>
 
-                <div style="margin-top: 3rem; padding: 1.5rem; background: #f0f7ff; border-radius: 8px;">
-                    <h3>⚠️ Microscope Safety Tips</h3>
-                    <ul style="margin-left: 1.5rem; margin-top: 1rem;">
-                        <li>Always start with the <strong>4x (scanning) lens</strong> when focusing</li>
-                        <li>Never use the <strong>coarse focus</strong> with 40x or 100x lenses</li>
-                        <li>Carry with <strong>two hands</strong> - one on arm, one under base</li>
-                        <li>Clean lenses only with <strong>lens paper</strong>, not tissue or cloth</li>
-                        <li>Turn off light when not in use to preserve bulb life</li>
+                <div class="concept-box">
+                    <h3>Resolution</h3>
+                    <p><strong>Definition:</strong> Ability to distinguish two separate points</p>
+                    <p><strong>Key Point:</strong> Different from magnification - about detail, not size</p>
+                    <p><strong>Analogy:</strong> 720p TV vs 4K TV - same size, different clarity</p>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Contrast</h3>
+                    <p><strong>Definition:</strong> Difference between specimen and background</p>
+                    <p><strong>Solution:</strong> Use stains (methylene blue, iodine, etc.)</p>
+                    <p><strong>Analogy:</strong> Black text on white paper vs gray on white</p>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Working Distance</h3>
+                    <p><strong>Definition:</strong> Space between objective lens and slide</p>
+                    <p><strong>Rule:</strong> Higher magnification = Shorter working distance</p>
+                    <p><strong>Tip:</strong> Use 4x lens when adding reagents to slide</p>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Field Diameter</h3>
+                    <p><strong>The "Big Three":</strong></p>
+                    <ul>
+                        <li><strong>4x:</strong> 5 mm (Scanning)</li>
+                        <li><strong>10x:</strong> 2 mm (Low Power)</li>
+                        <li><strong>40x:</strong> 0.5 mm (High Power)</li>
                     </ul>
+                    <p><strong>Formula:</strong> HPD = LPD × (LPM / HPM)</p>
                 </div>
 
-                <div style="text-align: center; margin-top: 2rem;">
-                    <button class="btn" onclick="window.location.href='../prelab/prelab.html'">Back to Pre-Lab
-                        Modules</button>
+                <div class="concept-box">
+                    <h3>Size Estimation</h3>
+                    <p><strong>Formula:</strong> Length = Field Diameter ÷ # that fit</p>
+                    <p><strong>Conversion:</strong> 1 mm = 1000 µm (micrometers)</p>
+                    <p><strong>Example:</strong> 3 cells across 0.5mm field = 0.167mm each</p>
                 </div>
             </div>
+
+            <div style="margin-top: 3rem; padding: 1.5rem; background: #f0f7ff; border-radius: 8px;">
+                <h3>⚠️ Microscope Safety Tips</h3>
+                <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                    <li>Always start with the <strong>4x (scanning) lens</strong> when focusing</li>
+                    <li>Never use the <strong>coarse focus</strong> with 40x or 100x lenses</li>
+                    <li>Carry with <strong>two hands</strong> - one on arm, one under base</li>
+                    <li>Clean lenses only with <strong>lens paper</strong>, not tissue or cloth</li>
+                    <li>Turn off light when not in use to preserve bulb life</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn" onclick="window.location.href='../prelab/prelab.html'">Back to Pre-Lab
+                    Modules</button>
+            </div>
         </div>
+    </div>
 
-        <script>
-            // ===== LANDING PAGE FUNCTIONS =====
-            function scrollToModules() {
-                document.querySelector('.modules-section').scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
+    <script>
+        // ===== LANDING PAGE FUNCTIONS =====
+        function scrollToModules() {
+            document.querySelector('.modules-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
 
-            // Logic for loading specific game apps
-            function loadApp(appName) {
-                // Hide landing page
-                document.getElementById('landing-page').style.display = 'none';
+        // Logic for loading specific game apps
+        function loadApp(appName) {
+            // Hide landing page
+            document.getElementById('landing-page').style.display = 'none';
 
-                // Hide all other apps
-                document.getElementById('microscope-mastery-app').classList.remove('active');
-                document.getElementById('magnification-mastery-app').classList.remove('active');
-                document.getElementById('field-diameter-mastery-app').classList.remove('active');
-                document.getElementById('quick-reference-app').classList.remove('active');
+            // Hide all other apps
+            document.getElementById('microscope-mastery-app').classList.remove('active');
+            document.getElementById('magnification-mastery-app').classList.remove('active');
+            document.getElementById('field-diameter-mastery-app').classList.remove('active');
+            document.getElementById('quick-reference-app').classList.remove('active');
 
-                // Show selected app
-                const app = document.getElementById(appName + '-app');
-                if (app) {
-                    app.classList.add('active');
-
-                }
-            }
-
-            // Logic for switching view back to the 5-card Landing Page
-            function returnToLanding() {
-                // Hide all apps
-                document.querySelectorAll('.app-container').forEach(app => {
-                    app.classList.remove('active');
-                });
-
-                // Show landing page
-                document.getElementById('landing-page').style.display = 'block';
+            // Show selected app
+            const app = document.getElementById(appName + '-app');
+            if (app) {
+                app.classList.add('active');
 
             }
+        }
 
-            // Logic for the Landing Page "Back" button to go to external URL
-            function exitToExternal() {
-                window.location.href = 'https://harriauwp.github.io/101Labs/01_Science_of_Biology/index.html';
-            }
+        // Logic for switching view back to the 5-card Landing Page
+        function returnToLanding() {
+            // Hide all apps
+            document.querySelectorAll('.app-container').forEach(app => {
+                app.classList.remove('active');
+            });
 
-            // ===== MICROSCOPE MASTERY FUNCTIONS (from original) =====
-            const learningState = {
-                questionsAnswered: {
-                    mag1: false, mag2: false,
-                    res1: false, res2: false,
-                    con1: false, con2: false,
-                    wd1: false,
-                    syn1: false, syn2: false
-                },
-                finalAnswers: {}
-            };
+            // Show landing page
+            document.getElementById('landing-page').style.display = 'block';
 
-            // --- MAGNIFICATION LOGIC ---
-            const magSlider = document.getElementById('magSlider');
-            const magImage = document.getElementById('magImage');
-            const magValue = document.getElementById('magValue');
-            if (magSlider) {
-                magSlider.addEventListener('input', function () {
-                    const value = this.value;
-                    const scale = value / 10; // Converts slider (10-100) to scale factor (1-10)
-                    const newSize = 50 * scale; // Base size (50px) multiplied by scale
+        }
 
-                    if (magImage) {
-                        magImage.style.width = newSize + 'px';
-                        magImage.style.height = newSize + 'px';
-                    }
+        // Logic for the Landing Page "Back" button to go to external URL
+        function exitToExternal() {
+            window.location.href = 'https://harriauwp.github.io/101Labs/01_Science_of_Biology/index.html';
+        }
 
-                    if (magValue) {
-                        magValue.textContent = (scale * 100).toFixed(0) + '%'; // Shows as percentage
-                    }
-                });
+        // ===== MICROSCOPE MASTERY FUNCTIONS (from original) =====
+        const learningState = {
+            questionsAnswered: {
+                mag1: false, mag2: false,
+                res1: false, res2: false,
+                con1: false, con2: false,
+                wd1: false,
+                syn1: false, syn2: false
+            },
+            finalAnswers: {}
+        };
 
-                // Trigger initial state
-                magSlider.dispatchEvent(new Event('input'));
-            }
+        // --- MAGNIFICATION LOGIC ---
+        const magSlider = document.getElementById('magSlider');
+        const magImage = document.getElementById('magImage');
+        const magValue = document.getElementById('magValue');
+        if (magSlider) {
+            magSlider.addEventListener('input', function () {
+                const value = this.value;
+                const scale = value / 10; // Converts slider (10-100) to scale factor (1-10)
+                const newSize = 50 * scale; // Base size (50px) multiplied by scale
 
-            // --- CONTRAST LOGIC ---
-            const contrastSlider = document.getElementById('contrastSlider');
-            const contrastValue = document.getElementById('contrastValue');
-            const anaCells = document.querySelectorAll('.ana-cell');
-            const anaHeterocysts = document.querySelectorAll('.ana-heterocyst');
-
-            if (contrastSlider) {
-                contrastSlider.addEventListener('input', function () {
-                    const value = parseInt(this.value);
-                    let opacity, colorVeg, colorHet;
-                    if (value < 30) {
-                        contrastValue.textContent = 'Low (Unstained/Transparent)';
-                        opacity = 0.1 + (value / 100);
-                        colorVeg = `rgba(136, 196, 136, ${opacity})`;
-                        colorHet = `rgba(181, 220, 181, ${opacity})`;
-                    } else if (value < 70) {
-                        contrastValue.textContent = 'Medium';
-                        opacity = 0.4 + (value / 200);
-                        colorVeg = `rgba(100, 180, 100, ${opacity})`;
-                        colorHet = `rgba(150, 210, 150, ${opacity})`;
-                    } else {
-                        contrastValue.textContent = 'High (Stained)';
-                        opacity = 1;
-                        colorVeg = '#2e7d32';
-                        colorHet = '#81c784';
-                    }
-                    anaCells.forEach(cell => { cell.style.backgroundColor = colorVeg; });
-                    anaHeterocysts.forEach(het => { het.style.backgroundColor = colorHet; });
-                });
-                if (contrastSlider) {
-                    contrastSlider.dispatchEvent(new Event('input'));
-                }
-            }
-
-            // --- WORKING DISTANCE LOGIC (IMPROVED) ---
-            function setLens(mag) {
-                const lens = document.getElementById('objLens');
-                const band = document.getElementById('lensBand');
-                const arrow = document.getElementById('measureArrow');
-                const label = document.getElementById('measureLabel');
-                const obs = document.getElementById('wd-observation');
-                const warning = document.getElementById('lens-warning');
-
-                if (!lens || !band || !arrow || !label || !obs || !warning) return;
-
-                // Reset buttons
-                document.querySelectorAll('.lens-btn').forEach(b => b.classList.remove('active'));
-                if (event && event.currentTarget) {
-                    event.currentTarget.classList.add('active');
+                if (magImage) {
+                    magImage.style.width = newSize + 'px';
+                    magImage.style.height = newSize + 'px';
                 }
 
-                let lensHeight, gapHeight, color, text;
-
-                switch (mag) {
-                    case 4:
-                        lensHeight = 100;
-                        gapHeight = 247;
-                        color = '#ff4444';
-                        text = "4x Lens: Short lens. Large Working Distance. Perfect for adding reagents.";
-                        warning.style.display = 'none';
-                        break;
-                    case 10:
-                        lensHeight = 200;
-                        gapHeight = 147;
-                        color = '#ffeb3b';
-                        text = "10x Lens: Longer lens. Working Distance decreases.";
-                        warning.style.display = 'none';
-                        break;
-                    case 40:
-                        lensHeight = 300;
-                        gapHeight = 47;
-                        color = '#2196f3';
-                        text = "40x Lens: Long lens. Small Working Distance. Be careful.";
-                        warning.style.display = 'none';
-                        break;
-                    case 100:
-                        lensHeight = 345;
-                        gapHeight = 2;
-                        color = '#ffffff';
-                        text = "100x Lens: Almost touching the specimen! Risk of breaking slide is high.";
-                        warning.style.display = 'block';
-                        break;
+                if (magValue) {
+                    magValue.textContent = (scale * 100).toFixed(0) + '%'; // Shows as percentage
                 }
+            });
 
-                lens.style.height = lensHeight + 'px';
-                band.style.backgroundColor = color;
+            // Trigger initial state
+            magSlider.dispatchEvent(new Event('input'));
+        }
 
-                arrow.style.height = gapHeight + 'px';
-                arrow.style.bottom = (23) + 'px';
+        // --- CONTRAST LOGIC ---
+        const contrastSlider = document.getElementById('contrastSlider');
+        const contrastValue = document.getElementById('contrastValue');
+        const anaCells = document.querySelectorAll('.ana-cell');
+        const anaHeterocysts = document.querySelectorAll('.ana-heterocyst');
 
-                label.innerText = `WD: ~${(gapHeight / 10).toFixed(1)}mm`;
-                obs.innerText = "Observation: " + text;
-            }
-
-            // --- GENERAL LEARNING LOGIC ---
-            function startLearning() {
-                showModule('magnification');
-                setLens(4);
-                updateProgress();
-            }
-
-            function showModule(moduleName) {
-                document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
-                const module = document.getElementById('module-' + moduleName);
-                if (module) {
-                    module.classList.add('active');
-                    // Instead of scrolling to top, scroll to the module with smooth behavior
-                    setTimeout(() => {
-                        module.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }, 50); // Small delay ensures the DOM has updated
-                }
-            }
-
-            function checkAnswer(element, isCorrect, questionId) {
-                const parent = element.parentElement;
-                const allOptions = parent.querySelectorAll('.option');
-                const feedback = document.getElementById('feedback-' + questionId);
-
-                if (isCorrect) {
-                    allOptions.forEach(opt => {
-                        opt.style.pointerEvents = 'none';
-                        if (opt === element) opt.classList.add('correct');
-                    });
-
-                    if (feedback) {
-                        feedback.className = 'feedback show correct';
-                        feedback.innerHTML = '<strong>✓ Correct!</strong> ' + getExplanation(questionId);
-                    }
-
-                    learningState.questionsAnswered[questionId] = true;
-                    checkModuleCompletion(questionId);
-
+        if (contrastSlider) {
+            contrastSlider.addEventListener('input', function () {
+                const value = parseInt(this.value);
+                let opacity, colorVeg, colorHet;
+                if (value < 30) {
+                    contrastValue.textContent = 'Low (Unstained/Transparent)';
+                    opacity = 0.1 + (value / 100);
+                    colorVeg = `rgba(136, 196, 136, ${opacity})`;
+                    colorHet = `rgba(181, 220, 181, ${opacity})`;
+                } else if (value < 70) {
+                    contrastValue.textContent = 'Medium';
+                    opacity = 0.4 + (value / 200);
+                    colorVeg = `rgba(100, 180, 100, ${opacity})`;
+                    colorHet = `rgba(150, 210, 150, ${opacity})`;
                 } else {
-                    element.classList.add('incorrect');
+                    contrastValue.textContent = 'High (Stained)';
+                    opacity = 1;
+                    colorVeg = '#2e7d32';
+                    colorHet = '#81c784';
+                }
+                anaCells.forEach(cell => { cell.style.backgroundColor = colorVeg; });
+                anaHeterocysts.forEach(het => { het.style.backgroundColor = colorHet; });
+            });
+            if (contrastSlider) {
+                contrastSlider.dispatchEvent(new Event('input'));
+            }
+        }
 
-                    if (feedback) {
-                        feedback.className = 'feedback show incorrect';
-                        feedback.innerHTML = '<strong>✗ Not quite.</strong> Try again! ' + getExplanation(questionId);
-                    }
+        // --- WORKING DISTANCE LOGIC (IMPROVED) ---
+        function setLens(mag) {
+            const lens = document.getElementById('objLens');
+            const band = document.getElementById('lensBand');
+            const arrow = document.getElementById('measureArrow');
+            const label = document.getElementById('measureLabel');
+            const obs = document.getElementById('wd-observation');
+            const warning = document.getElementById('lens-warning');
+
+            if (!lens || !band || !arrow || !label || !obs || !warning) return;
+
+            // Reset buttons
+            document.querySelectorAll('.lens-btn').forEach(b => b.classList.remove('active'));
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+
+            let lensHeight, gapHeight, color, text;
+
+            switch (mag) {
+                case 4:
+                    lensHeight = 100;
+                    gapHeight = 247;
+                    color = '#ff4444';
+                    text = "4x Lens: Short lens. Large Working Distance. Perfect for adding reagents.";
+                    warning.style.display = 'none';
+                    break;
+                case 10:
+                    lensHeight = 200;
+                    gapHeight = 147;
+                    color = '#ffeb3b';
+                    text = "10x Lens: Longer lens. Working Distance decreases.";
+                    warning.style.display = 'none';
+                    break;
+                case 40:
+                    lensHeight = 300;
+                    gapHeight = 47;
+                    color = '#2196f3';
+                    text = "40x Lens: Long lens. Small Working Distance. Be careful.";
+                    warning.style.display = 'none';
+                    break;
+                case 100:
+                    lensHeight = 345;
+                    gapHeight = 2;
+                    color = '#ffffff';
+                    text = "100x Lens: Almost touching the specimen! Risk of breaking slide is high.";
+                    warning.style.display = 'block';
+                    break;
+            }
+
+            lens.style.height = lensHeight + 'px';
+            band.style.backgroundColor = color;
+
+            arrow.style.height = gapHeight + 'px';
+            arrow.style.bottom = (23) + 'px';
+
+            label.innerText = `WD: ~${(gapHeight / 10).toFixed(1)}mm`;
+            obs.innerText = "Observation: " + text;
+        }
+
+        // --- GENERAL LEARNING LOGIC ---
+        function startLearning() {
+            showModule('magnification');
+            setLens(4);
+            updateProgress();
+        }
+
+        function showModule(moduleName) {
+            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+            const module = document.getElementById('module-' + moduleName);
+            if (module) {
+                module.classList.add('active');
+                // Instead of scrolling to top, scroll to the module with smooth behavior
+                setTimeout(() => {
+                    module.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 50); // Small delay ensures the DOM has updated
+            }
+        }
+
+        function checkAnswer(element, isCorrect, questionId) {
+            const parent = element.parentElement;
+            const allOptions = parent.querySelectorAll('.option');
+            const feedback = document.getElementById('feedback-' + questionId);
+
+            if (isCorrect) {
+                allOptions.forEach(opt => {
+                    opt.style.pointerEvents = 'none';
+                    if (opt === element) opt.classList.add('correct');
+                });
+
+                if (feedback) {
+                    feedback.className = 'feedback show correct';
+                    feedback.innerHTML = '<strong>✓ Correct!</strong> ' + getExplanation(questionId);
                 }
 
-                updateProgress();
-            }
+                learningState.questionsAnswered[questionId] = true;
+                checkModuleCompletion(questionId);
 
-            function checkModuleCompletion(qId) {
-                const magQs = ['mag1', 'mag2'];
-                const resQs = ['res1', 'res2'];
-                const conQs = ['con1', 'con2'];
-                const wdQs = ['wd1'];
-                const synQs = ['syn1', 'syn2'];
+            } else {
+                element.classList.add('incorrect');
 
-                if (magQs.includes(qId) && magQs.every(q => learningState.questionsAnswered[q])) {
-                    document.getElementById('btn-mag').disabled = false;
-                    updateChip('magnification');
-                }
-                if (resQs.includes(qId) && resQs.every(q => learningState.questionsAnswered[q])) {
-                    document.getElementById('btn-res').disabled = false;
-                    updateChip('resolution');
-                }
-                if (conQs.includes(qId) && conQs.every(q => learningState.questionsAnswered[q])) {
-                    document.getElementById('btn-con').disabled = false;
-                    updateChip('contrast');
-                }
-                if (wdQs.includes(qId) && wdQs.every(q => learningState.questionsAnswered[q])) {
-                    document.getElementById('btn-wd').disabled = false;
-                    updateChip('working-distance');
-                }
-                if (synQs.includes(qId) && synQs.every(q => learningState.questionsAnswered[q])) {
-                    document.getElementById('btn-syn').disabled = false;
+                if (feedback) {
+                    feedback.className = 'feedback show incorrect';
+                    feedback.innerHTML = '<strong>✗ Not quite.</strong> Try again! ' + getExplanation(questionId);
                 }
             }
 
-            function getExplanation(questionId) {
-                const explanations = {
-                    'mag1': 'Total Mag = Eyepiece (10) × Objective (40) = 400x.',
-                    'mag2': '0.01mm × 400 = 4mm.',
-                    'res1': 'Resolution is about seeing detail and separating close objects.',
-                    'res2': 'Better lenses (optics) provide better resolution.',
-                    'con1': 'Stains add color/contrast to transparent specimens.',
-                    'con2': 'Staining makes invisible structures visible.',
-                    'wd1': 'As magnification increases, the lens gets longer, so space decreases.',
-                    'syn1': 'Blurry = Needs Resolution. Invisible = Needs Contrast.',
-                    'syn2': 'Best = High Mag + High Res + High Contrast.'
-                };
-                return explanations[questionId] || 'Correct!';
+            updateProgress();
+        }
+
+        function checkModuleCompletion(qId) {
+            const magQs = ['mag1', 'mag2'];
+            const resQs = ['res1', 'res2'];
+            const conQs = ['con1', 'con2'];
+            const wdQs = ['wd1'];
+            const synQs = ['syn1', 'syn2'];
+
+            if (magQs.includes(qId) && magQs.every(q => learningState.questionsAnswered[q])) {
+                document.getElementById('btn-mag').disabled = false;
+                updateChip('magnification');
+            }
+            if (resQs.includes(qId) && resQs.every(q => learningState.questionsAnswered[q])) {
+                document.getElementById('btn-res').disabled = false;
+                updateChip('resolution');
+            }
+            if (conQs.includes(qId) && conQs.every(q => learningState.questionsAnswered[q])) {
+                document.getElementById('btn-con').disabled = false;
+                updateChip('contrast');
+            }
+            if (wdQs.includes(qId) && wdQs.every(q => learningState.questionsAnswered[q])) {
+                document.getElementById('btn-wd').disabled = false;
+                updateChip('working-distance');
+            }
+            if (synQs.includes(qId) && synQs.every(q => learningState.questionsAnswered[q])) {
+                document.getElementById('btn-syn').disabled = false;
+            }
+        }
+
+        function getExplanation(questionId) {
+            const explanations = {
+                'mag1': 'Total Mag = Eyepiece (10) × Objective (40) = 400x.',
+                'mag2': '0.01mm × 400 = 4mm.',
+                'res1': 'Resolution is about seeing detail and separating close objects.',
+                'res2': 'Better lenses (optics) provide better resolution.',
+                'con1': 'Stains add color/contrast to transparent specimens.',
+                'con2': 'Staining makes invisible structures visible.',
+                'wd1': 'As magnification increases, the lens gets longer, so space decreases.',
+                'syn1': 'Blurry = Needs Resolution. Invisible = Needs Contrast.',
+                'syn2': 'Best = High Mag + High Res + High Contrast.'
+            };
+            return explanations[questionId] || 'Correct!';
+        }
+
+        function completeModule(moduleName) {
+            const nextMap = {
+                'magnification': 'resolution',
+                'resolution': 'contrast',
+                'contrast': 'working-distance',
+                'working-distance': 'synthesis'
+            };
+            showModule(nextMap[moduleName]);
+        }
+
+        function updateChip(concept) {
+            const chipMap = {
+                'magnification': 'chip-mag',
+                'resolution': 'chip-res',
+                'contrast': 'chip-con',
+                'working-distance': 'chip-wd'
+            };
+            const chip = document.getElementById(chipMap[concept]);
+            if (chip) chip.classList.add('mastery-complete');
+        }
+
+        function updateProgress() {
+            const questions = Object.values(learningState.questionsAnswered).filter(v => v).length;
+            const percentage = Math.min(100, Math.round(((questions) / 9) * 100));
+            const progressFill = document.getElementById('progressFill');
+            if (progressFill) {
+                progressFill.style.width = percentage + '%';
+                progressFill.textContent = percentage + '%';
+            }
+        }
+
+        // FIXED: This function now works correctly
+        function goToFinalAssessment() {
+            showModule('final');
+        }
+
+        function selectFinal(element, questionId, isCorrect) {
+            const allOptions = element.parentElement.querySelectorAll('.option');
+            allOptions.forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            learningState.finalAnswers[questionId] = isCorrect;
+        }
+
+        function gradeFinalAssessment() {
+            const totalQuestions = 6;
+            const answeredCount = Object.keys(learningState.finalAnswers).length;
+
+            if (answeredCount < totalQuestions) {
+                alert('Please answer all questions before submitting!');
+                return;
             }
 
-            function completeModule(moduleName) {
-                const nextMap = {
-                    'magnification': 'resolution',
-                    'resolution': 'contrast',
-                    'contrast': 'working-distance',
-                    'working-distance': 'synthesis'
-                };
-                showModule(nextMap[moduleName]);
+            const correctCount = Object.values(learningState.finalAnswers).filter(v => v).length;
+            const score = Math.round((correctCount / totalQuestions) * 100);
+
+            showModule('results');
+            document.getElementById('finalScore').textContent = score + '%';
+            const content = document.getElementById('resultsContent');
+
+            if (score >= 80) {
+                content.innerHTML = `<div class="concept-box" style="background:#e8f5e9; border-color:#4caf50;"><h3>🎓 MASTERY ACHIEVED!</h3><p>You scored ${correctCount}/${totalQuestions}. You are ready for the lab!</p></div>`;
+            } else {
+                content.innerHTML = `<div class="concept-box" style="background:#ffebee; border-color:#f44336;"><h3>🔄 Review Needed</h3><p>You scored ${correctCount}/${totalQuestions}. Please review and try again.</p></div>`;
             }
+        }
 
-            function updateChip(concept) {
-                const chipMap = {
-                    'magnification': 'chip-mag',
-                    'resolution': 'chip-res',
-                    'contrast': 'chip-con',
-                    'working-distance': 'chip-wd'
-                };
-                const chip = document.getElementById(chipMap[concept]);
-                if (chip) chip.classList.add('mastery-complete');
-            }
+        function restartLearning() {
+            location.reload();
+        }
 
-            function updateProgress() {
-                const questions = Object.values(learningState.questionsAnswered).filter(v => v).length;
-                const percentage = Math.min(100, Math.round(((questions) / 9) * 100));
-                const progressFill = document.getElementById('progressFill');
-                if (progressFill) {
-                    progressFill.style.width = percentage + '%';
-                    progressFill.textContent = percentage + '%';
-                }
-            }
+        // ===== MAGNIFICATION MASTERY FUNCTIONS (from MagnificationMastery.html) =====
+        // --- Calculator ---
+        const magOcularInput = document.getElementById('mag-ocular');
+        const magObjectiveSelect = document.getElementById('mag-objective');
+        const magCalcBtn = document.getElementById('mag-calcBtn');
+        const magCalcResult = document.getElementById('mag-calcResult');
 
-            // FIXED: This function now works correctly
-            function goToFinalAssessment() {
-                showModule('final');
-            }
+        function magFormatMag(x) { return Number.isFinite(x) ? `${x.toLocaleString()}×` : '—'; }
+        function magCalcTotal(ocular, objective) { return ocular * objective; }
 
-            function selectFinal(element, questionId, isCorrect) {
-                const allOptions = element.parentElement.querySelectorAll('.option');
-                allOptions.forEach(opt => opt.classList.remove('selected'));
-                element.classList.add('selected');
-                learningState.finalAnswers[questionId] = isCorrect;
-            }
-
-            function gradeFinalAssessment() {
-                const totalQuestions = 6;
-                const answeredCount = Object.keys(learningState.finalAnswers).length;
-
-                if (answeredCount < totalQuestions) {
-                    alert('Please answer all questions before submitting!');
+        if (magCalcBtn) {
+            magCalcBtn.addEventListener('click', () => {
+                const ocular = parseFloat(magOcularInput.value);
+                const objective = parseFloat(magObjectiveSelect.value);
+                if (!ocular || !objective || ocular <= 0 || objective <= 0) {
+                    magCalcResult.innerHTML = `<span class="mag-bad">Please enter valid magnifications (&gt; 0).</span>`;
                     return;
                 }
-
-                const correctCount = Object.values(learningState.finalAnswers).filter(v => v).length;
-                const score = Math.round((correctCount / totalQuestions) * 100);
-
-                showModule('results');
-                document.getElementById('finalScore').textContent = score + '%';
-                const content = document.getElementById('resultsContent');
-
-                if (score >= 80) {
-                    content.innerHTML = `<div class="concept-box" style="background:#e8f5e9; border-color:#4caf50;"><h3>🎓 MASTERY ACHIEVED!</h3><p>You scored ${correctCount}/${totalQuestions}. You are ready for the lab!</p></div>`;
-                } else {
-                    content.innerHTML = `<div class="concept-box" style="background:#ffebee; border-color:#f44336;"><h3>🔄 Review Needed</h3><p>You scored ${correctCount}/${totalQuestions}. Please review and try again.</p></div>`;
-                }
-            }
-
-            function restartLearning() {
-                location.reload();
-            }
-
-            // ===== MAGNIFICATION MASTERY FUNCTIONS (from MagnificationMastery.html) =====
-            // --- Calculator ---
-            const magOcularInput = document.getElementById('mag-ocular');
-            const magObjectiveSelect = document.getElementById('mag-objective');
-            const magCalcBtn = document.getElementById('mag-calcBtn');
-            const magCalcResult = document.getElementById('mag-calcResult');
-
-            function magFormatMag(x) { return Number.isFinite(x) ? `${x.toLocaleString()}×` : '—'; }
-            function magCalcTotal(ocular, objective) { return ocular * objective; }
-
-            if (magCalcBtn) {
-                magCalcBtn.addEventListener('click', () => {
-                    const ocular = parseFloat(magOcularInput.value);
-                    const objective = parseFloat(magObjectiveSelect.value);
-                    if (!ocular || !objective || ocular <= 0 || objective <= 0) {
-                        magCalcResult.innerHTML = `<span class="mag-bad">Please enter valid magnifications (&gt; 0).</span>`;
-                        return;
-                    }
-                    const total = magCalcTotal(ocular, objective);
-                    magCalcResult.innerHTML = `
+                const total = magCalcTotal(ocular, objective);
+                magCalcResult.innerHTML = `
                     <span class="mag-tiny">Computed as ${ocular} × ${objective}.</span><br/>
                     <strong>Total Magnification:</strong> ${magFormatMag(total)}
                 `;
-                });
-            }
+            });
+        }
 
-            // --- Guided Practice ---
-            const magP4 = document.getElementById('mag-p-4');
-            const magP10 = document.getElementById('mag-p-10');
-            const magP40 = document.getElementById('mag-p-40');
-            const magP100 = document.getElementById('mag-p-100');
-            const magPOcular = document.getElementById('mag-p-ocular');
-            const magCheckPracticeBtn = document.getElementById('mag-checkPractice');
-            const magPracticeFeedback = document.getElementById('mag-practiceFeedback');
+        // --- Guided Practice ---
+        const magP4 = document.getElementById('mag-p-4');
+        const magP10 = document.getElementById('mag-p-10');
+        const magP40 = document.getElementById('mag-p-40');
+        const magP100 = document.getElementById('mag-p-100');
+        const magPOcular = document.getElementById('mag-p-ocular');
+        const magCheckPracticeBtn = document.getElementById('mag-checkPractice');
+        const magPracticeFeedback = document.getElementById('mag-practiceFeedback');
 
-            if (magCheckPracticeBtn) {
-                magCheckPracticeBtn.addEventListener('click', () => {
-                    const oc = parseFloat(magPOcular.value);
-                    if (!oc || oc <= 0) {
-                        magPracticeFeedback.innerHTML = `<span class="mag-bad">Enter a valid ocular (×) value.</span>`;
-                        return;
+        if (magCheckPracticeBtn) {
+            magCheckPracticeBtn.addEventListener('click', () => {
+                const oc = parseFloat(magPOcular.value);
+                if (!oc || oc <= 0) {
+                    magPracticeFeedback.innerHTML = `<span class="mag-bad">Enter a valid ocular (×) value.</span>`;
+                    return;
+                }
+                const answers = {
+                    '4×': oc * 4,
+                    '10×': oc * 10,
+                    '40×': oc * 40,
+                    '100×': oc * 100
+                };
+                const student = {
+                    '4×': parseFloat(magP4.value),
+                    '10×': parseFloat(magP10.value),
+                    '40×': parseFloat(magP40.value),
+                    '100×': parseFloat(magP100.value)
+                };
+                let correct = 0;
+                let report = '<ul class="mag-list">';
+                for (const key of Object.keys(answers)) {
+                    const s = student[key];
+                    const a = answers[key];
+                    const ok = (Number.isFinite(s) && Math.round(s) === Math.round(a));
+                    if (ok) {
+                        correct++;
+                        report += `<li><span class="mag-good">✔</span> ${key}: ${s} (correct)</li>`;
+                    } else {
+                        report += `<li><span class="mag-bad">✖</span> ${key}: ${Number.isFinite(s) ? s : '—'} (should be <strong>${a}</strong>)</li>`;
                     }
-                    const answers = {
-                        '4×': oc * 4,
-                        '10×': oc * 10,
-                        '40×': oc * 40,
-                        '100×': oc * 100
-                    };
-                    const student = {
-                        '4×': parseFloat(magP4.value),
-                        '10×': parseFloat(magP10.value),
-                        '40×': parseFloat(magP40.value),
-                        '100×': parseFloat(magP100.value)
-                    };
-                    let correct = 0;
-                    let report = '<ul class="mag-list">';
-                    for (const key of Object.keys(answers)) {
-                        const s = student[key];
-                        const a = answers[key];
-                        const ok = (Number.isFinite(s) && Math.round(s) === Math.round(a));
-                        if (ok) {
-                            correct++;
-                            report += `<li><span class="mag-good">✔</span> ${key}: ${s} (correct)</li>`;
-                        } else {
-                            report += `<li><span class="mag-bad">✖</span> ${key}: ${Number.isFinite(s) ? s : '—'} (should be <strong>${a}</strong>)</li>`;
-                        }
-                    }
-                    report += '</ul>';
-                    const msg = correct === 4
-                        ? `<span class="mag-good">Great job!</span> All answers are correct.`
-                        : `<span class="mag-warn">Keep going.</span> ${4 - correct} item(s) need correction.`;
-                    magPracticeFeedback.innerHTML = msg + report + `<p class="mag-hint">Remember: Total = Ocular × Objective.</p>`;
-                });
-            }
+                }
+                report += '</ul>';
+                const msg = correct === 4
+                    ? `<span class="mag-good">Great job!</span> All answers are correct.`
+                    : `<span class="mag-warn">Keep going.</span> ${4 - correct} item(s) need correction.`;
+                magPracticeFeedback.innerHTML = msg + report + `<p class="mag-hint">Remember: Total = Ocular × Objective.</p>`;
+            });
+        }
 
-            // --- Mastery Check ---
-            const magItemsContainer = document.getElementById('mag-items');
-            const magNewSetBtn = document.getElementById('mag-newSet');
-            const magCheckMasteryBtn = document.getElementById('mag-checkMastery');
-            const magMasteryFeedback = document.getElementById('mag-masteryFeedback');
-            const magBar = document.getElementById('mag-bar');
+        // --- Mastery Check ---
+        const magItemsContainer = document.getElementById('mag-items');
+        const magNewSetBtn = document.getElementById('mag-newSet');
+        const magCheckMasteryBtn = document.getElementById('mag-checkMastery');
+        const magMasteryFeedback = document.getElementById('mag-masteryFeedback');
+        const magBar = document.getElementById('mag-bar');
 
-            const magOcularOptions = [8, 10, 12, 15];
-            const magObjectiveOptions = [4, 10, 40, 100];
+        const magOcularOptions = [8, 10, 12, 15];
+        const magObjectiveOptions = [4, 10, 40, 100];
 
-            function magMakeItem(id, ocular, objective) {
-                const total = ocular * objective;
-                const wrapper = document.createElement('div');
-                wrapper.className = 'mag-card';
-                wrapper.style.background = 'transparent';
-                wrapper.style.border = '1px dashed #334155';
-                wrapper.style.padding = '.8rem';
+        function magMakeItem(id, ocular, objective) {
+            const total = ocular * objective;
+            const wrapper = document.createElement('div');
+            wrapper.className = 'mag-card';
+            wrapper.style.background = 'transparent';
+            wrapper.style.border = '1px dashed #334155';
+            wrapper.style.padding = '.8rem';
 
-                wrapper.innerHTML = `
+            wrapper.innerHTML = `
                 <label for="mag-q-${id}" class="mag-label">Ocular ${ocular}× with Objective ${objective}× → Total magnification:</label>
                 <input class="mag-input" id="mag-q-${id}" type="number" inputmode="numeric" placeholder="Enter your answer here" aria-describedby="mag-h-${id}" />
                 <div id="mag-h-${id}" class="mag-tiny">Compute: ${ocular} × ${objective}</div>
                 <div id="mag-f-${id}" class="mag-feedback mag-tiny"></div>
             `;
-                wrapper.dataset.answer = total;
-                wrapper.dataset.id = id;
-                return wrapper;
+            wrapper.dataset.answer = total;
+            wrapper.dataset.id = id;
+            return wrapper;
+        }
+
+        function magGenerateSet() {
+            if (!magItemsContainer) return;
+            magItemsContainer.innerHTML = '';
+            magMasteryFeedback.innerHTML = '';
+            magBar.style.width = '0%';
+            const usedPairs = new Set();
+            let count = 0;
+            while (count < 3) {
+                const oc = magOcularOptions[Math.floor(Math.random() * magOcularOptions.length)];
+                const obj = magObjectiveOptions[Math.floor(Math.random() * magObjectiveOptions.length)];
+                const key = `${oc}-${obj}`;
+                if (usedPairs.has(key)) continue;
+                usedPairs.add(key);
+                magItemsContainer.appendChild(magMakeItem(count + 1, oc, obj));
+                count++;
+            }
+        }
+
+        function magCheckSet() {
+            const items = Array.from(magItemsContainer.querySelectorAll('[data-answer]'));
+            let correct = 0;
+            items.forEach(item => {
+                const ans = parseFloat(item.dataset.answer);
+                const input = item.querySelector('input');
+                const fb = item.querySelector('.mag-feedback');
+                const val = parseFloat(input.value);
+                if (Number.isFinite(val) && Math.round(val) === Math.round(ans)) {
+                    fb.innerHTML = `<span class="mag-good">✔ Correct:</span> ${val}×`;
+                    correct++;
+                } else {
+                    fb.innerHTML = `<span class="mag-bad">✖ Not quite.</span> It should be <strong>${ans}×</strong>.`;
+                }
+            });
+            const pct = Math.round((correct / items.length) * 100);
+            magBar.style.width = pct + '%';
+            magMasteryFeedback.innerHTML = correct === items.length
+                ? `<span class="mag-good">Mastery achieved!</span> Perfect score on ${items.length} items.`
+                : `<span class="mag-warn">Almost there.</span> ${items.length - correct} item(s) to fix.`;
+        }
+
+        if (magNewSetBtn && magCheckMasteryBtn) {
+            magNewSetBtn.addEventListener('click', magGenerateSet);
+            magCheckMasteryBtn.addEventListener('click', magCheckSet);
+        }
+
+        // Initialize magnification mastery
+        if (magItemsContainer) {
+            magGenerateSet();
+        }
+
+        // ===== FIELD DIAMETER MASTERY FUNCTIONS (from original) =====
+        const fdState = {
+            name: '',
+            section: '',
+            lpd: 5,
+            progress: 0
+        };
+
+        function fdInitLab() {
+            const name = document.getElementById('fd-studentName').value;
+            const section = document.getElementById('fd-labSection').value;
+            if (!name || !section) { alert("Please enter name and section."); return; }
+
+            fdState.name = name;
+            fdState.section = section;
+            fdUpdateProgress(10);
+            fdNextStep('fd-step-measure');
+        }
+
+        function fdUpdateProgress(val) {
+            const bar = document.getElementById('fd-progressBar');
+            const text = document.getElementById('fd-statusText');
+            if (bar) bar.style.width = val + '%';
+            if (text) text.innerText = 'Lab Progress: ' + val + '%';
+        }
+
+        function fdNextStep(toId) {
+            document.querySelectorAll('.fd-card').forEach(c => {
+                c.classList.remove('active');
+                c.classList.add('fd-hidden');
+            });
+            const t = document.getElementById(toId);
+            t.classList.remove('fd-hidden');
+            t.classList.add('active');
+        }
+
+        function fdShowFeedback(id, isCorrect, msg) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.style.display = 'block';
+            el.className = isCorrect ? 'fd-feedback-box correct' : 'fd-feedback-box incorrect';
+            el.innerHTML = (isCorrect ? '✅ ' : '❌ ') + msg;
+        }
+
+        function fdSubmitMeasurement() {
+            const raw = parseFloat(document.getElementById('fd-rawMeasurement').value);
+            const rounded = parseInt(document.getElementById('fd-roundedMeasurement').value);
+
+            if (raw < 4.5 || raw > 4.9) {
+                fdShowFeedback('fd-feedback-measure', false, "Look closer at the ruler. The edge is past the halfway mark between 4 and 5.");
+                return;
             }
 
-            function magGenerateSet() {
-                if (!magItemsContainer) return;
-                magItemsContainer.innerHTML = '';
-                magMasteryFeedback.innerHTML = '';
-                magBar.style.width = '0%';
-                const usedPairs = new Set();
-                let count = 0;
-                while (count < 3) {
-                    const oc = magOcularOptions[Math.floor(Math.random() * magOcularOptions.length)];
-                    const obj = magObjectiveOptions[Math.floor(Math.random() * magObjectiveOptions.length)];
-                    const key = `${oc}-${obj}`;
-                    if (usedPairs.has(key)) continue;
-                    usedPairs.add(key);
-                    magItemsContainer.appendChild(magMakeItem(count + 1, oc, obj));
-                    count++;
+            if (rounded !== 5) {
+                fdShowFeedback('fd-feedback-measure', false, "Incorrect rounding. If it's greater than 4.5, we round UP to the next whole number (5).");
+                return;
+            }
+
+            fdShowFeedback('fd-feedback-measure', true, "Perfect! Your Low Power Diameter (LPD) is 5mm.");
+            document.getElementById('fd-btn-to-calc').classList.remove('fd-hidden');
+            fdUpdateProgress(20);
+        }
+
+        function fdCheckFormula(lens) {
+            if (lens === '10x') {
+                const v1 = document.getElementById('fd-f1-lpd').value;
+                const v2 = document.getElementById('fd-f1-top').value;
+                const v3 = document.getElementById('fd-f1-bot').value;
+
+                if (v1 === 'LPD' && v2 === 'LPM' && v3 === 'HPM') {
+                    fdShowFeedback('fd-feedback-formula-10x', true, "Correct Formula! Students are required to memorize this formula. Now plug in the numbers.");
+                    document.getElementById('fd-calc-input-10x').classList.remove('fd-hidden');
+                } else {
+                    fdShowFeedback('fd-feedback-formula-10x', false, "Incorrect. Remember: HPD = LPD × (LPM / HPM).");
                 }
             }
+        }
 
-            function magCheckSet() {
-                const items = Array.from(magItemsContainer.querySelectorAll('[data-answer]'));
-                let correct = 0;
-                items.forEach(item => {
-                    const ans = parseFloat(item.dataset.answer);
-                    const input = item.querySelector('input');
-                    const fb = item.querySelector('.mag-feedback');
-                    const val = parseFloat(input.value);
-                    if (Number.isFinite(val) && Math.round(val) === Math.round(ans)) {
-                        fb.innerHTML = `<span class="mag-good">✔ Correct:</span> ${val}×`;
-                        correct++;
-                    } else {
-                        fb.innerHTML = `<span class="mag-bad">✖ Not quite.</span> It should be <strong>${ans}×</strong>.`;
-                    }
+        function fdCheckMath(lens) {
+            if (lens === '10x') {
+                const lpdVal = parseInt(document.getElementById('fd-val-lpd-10').value);
+                const lpmVal = parseInt(document.getElementById('fd-val-lpm-10').value);
+                const hpmVal = parseInt(document.getElementById('fd-val-hpm-10').value);
+                const ans = parseFloat(document.getElementById('fd-ans-10x').value);
+
+                if (lpdVal === 5 && lpmVal === 4 && hpmVal === 10 && ans === 2) {
+                    fdShowFeedback('fd-feedback-math-10x', true, "Correct! 5 × (4/10) = 2mm.");
+                    document.getElementById('fd-section-40x').classList.remove('fd-hidden');
+                    fdUpdateProgress(35);
+                } else {
+                    fdShowFeedback('fd-feedback-math-10x', false, "Check your inputs. LPD=5, LPM=4, HPM=10. The result should be 2.");
+                }
+            }
+            else if (lens === '40x') {
+                const lpdVal = parseInt(document.getElementById('fd-val-lpd-40').value);
+                const lpmVal = parseInt(document.getElementById('fd-val-lpm-40').value);
+                const hpmVal = parseInt(document.getElementById('fd-val-hpm-40').value);
+                const ans = parseFloat(document.getElementById('fd-ans-40x').value);
+
+                if (lpdVal === 5 && lpmVal === 4 && hpmVal === 40 && ans === 0.5) {
+                    fdShowFeedback('fd-feedback-math-40x', true, "Correct! 5 × (4/40) = 0.5mm.");
+                    document.getElementById('fd-btn-to-mem').classList.remove('fd-hidden');
+                    fdUpdateProgress(50);
+                } else {
+                    fdShowFeedback('fd-feedback-math-40x', false, "Check inputs. LPD=5, LPM=4, HPM=40. Result should be 0.5.");
+                }
+            }
+        }
+
+        function fdCheckMemorization() {
+            const v4 = parseInt(document.getElementById('fd-mem-4').value);
+            const v10 = parseInt(document.getElementById('fd-mem-10').value);
+            const v40 = parseFloat(document.getElementById('fd-mem-40').value);
+
+            if (v4 === 5 && v10 === 2 && v40 === 0.5) {
+                fdShowFeedback('fd-feedback-mem', true, "You've got it! 5, 2, 0.5.");
+                document.getElementById('fd-btn-to-est').classList.remove('fd-hidden');
+                fdUpdateProgress(70);
+            } else {
+                fdShowFeedback('fd-feedback-mem', false, "Incorrect. Review the cards above and try again.");
+            }
+        }
+
+        function fdCheckEstFormula() {
+            const top = document.getElementById('fd-est-top').value;
+            const bot = document.getElementById('fd-est-bot').value;
+
+            if (top === 'Diameter' && bot === 'Number') {
+                fdShowFeedback('fd-feedback-est-formula', true, "Correct! Length = Diameter / Number that fit.");
+                document.getElementById('fd-est-calc-area').classList.remove('fd-hidden');
+            } else {
+                fdShowFeedback('fd-feedback-est-formula', false, "Incorrect. Think: You have the total Diameter, you need to divide it by how many fit.");
+            }
+        }
+
+        function fdCheckEstMath() {
+            const mm = parseFloat(document.getElementById('fd-est-ans-mm').value);
+            const um = parseFloat(document.getElementById('fd-est-ans-um').value);
+
+            const validMM = (mm >= 0.0054 && mm <= 0.0055);
+            const validUM = (um >= 5.4 && um <= 5.5);
+
+            if (validMM && validUM) {
+                fdShowFeedback('fd-feedback-est-math', true, "Excellent! You are ready for the final exam.");
+                document.getElementById('fd-btn-to-exam').classList.remove('fd-hidden');
+                fdUpdateProgress(85);
+            } else {
+                fdShowFeedback('fd-feedback-est-math', false, "Math check: 0.5 divided by 92. Then multiply by 1000 for µm.");
+            }
+        }
+
+        const fdQuestions = [
+            {
+                q: "What is the memorized field diameter for the 4x objective?",
+                options: ["2mm", "4mm", "5mm", "0.5mm"],
+                a: 2
+            },
+            {
+                q: "What is the memorized field diameter for the 40x objective?",
+                options: ["0.2mm", "0.5mm", "5mm", "2mm"],
+                a: 1
+            },
+            {
+                q: "Which formula is correct for estimation?",
+                options: ["L = D × N", "L = N / D", "L = D / N"],
+                a: 2
+            },
+            {
+                q: "If LPD=5, LPM=4, and HPM=10, what is HPD?",
+                options: ["20mm", "2mm", "0.2mm", "8mm"],
+                a: 1
+            },
+            {
+                q: "You estimate 5 cells fit across the 40x field (0.5mm). How big is one cell?",
+                options: ["0.1mm", "2.5mm", "0.01mm", "1.0mm"],
+                a: 0
+            }
+        ];
+
+        function fdSubmitExam() {
+            const container = document.getElementById('fd-quiz-container');
+            if (container.innerHTML === "") {
+                let html = "";
+                fdQuestions.forEach((q, i) => {
+                    html += `<div style="margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid #eee;">
+                        <p><strong>${i + 1}. ${q.q}</strong></p>
+                        ${q.options.map((opt, oi) => `<label style="display:block;"><input type="radio" name="fd-q${i}" value="${oi}"> ${opt}</label>`).join('')}
+                    </div>`;
                 });
-                const pct = Math.round((correct / items.length) * 100);
-                magBar.style.width = pct + '%';
-                magMasteryFeedback.innerHTML = correct === items.length
-                    ? `<span class="mag-good">Mastery achieved!</span> Perfect score on ${items.length} items.`
-                    : `<span class="mag-warn">Almost there.</span> ${items.length - correct} item(s) to fix.`;
+                container.innerHTML = html;
+                return;
             }
 
-            if (magNewSetBtn && magCheckMasteryBtn) {
-                magNewSetBtn.addEventListener('click', magGenerateSet);
-                magCheckMasteryBtn.addEventListener('click', magCheckSet);
+            let score = 0;
+            fdQuestions.forEach((q, i) => {
+                const sel = document.querySelector(`input[name="fd-q${i}"]:checked`);
+                if (sel && parseInt(sel.value) === q.a) score++;
+            });
+
+            const percent = (score / fdQuestions.length) * 100;
+            const fb = document.getElementById('fd-exam-result');
+
+            if (percent === 100) {
+                fb.className = 'fd-feedback-box correct';
+                fb.innerHTML = "<h3>💯 Perfect Score!</h3><p>Generating certificate...</p>";
+                fb.style.display = 'block';
+                fdUpdateProgress(100);
+                setTimeout(() => {
+                    document.getElementById('fd-certificate-area').classList.remove('fd-hidden');
+                    document.getElementById('fd-step-exam').classList.add('fd-hidden');
+                    document.getElementById('fd-print-controls').classList.remove('fd-hidden');
+                    document.getElementById('fd-cert-name-display').innerText = fdState.name;
+                    document.getElementById('fd-cert-section-display').innerText = fdState.section;
+                    document.getElementById('fd-cert-date').innerText = new Date().toLocaleDateString();
+                }, 2000);
+            } else {
+                fb.className = 'fd-feedback-box incorrect';
+                fb.innerHTML = `<h3>Score: ${percent}%</h3><p>You need 100% mastery on these values. Please try again.</p>`;
+                fb.style.display = 'block';
+            }
+        }
+
+        // Initialize default lens for microscope mastery
+        window.onload = function () {
+            if (document.getElementById('objLens')) {
+                setLens(4);
             }
 
             // Initialize magnification mastery
             if (magItemsContainer) {
                 magGenerateSet();
             }
-
-            // ===== FIELD DIAMETER MASTERY FUNCTIONS (from original) =====
-            const fdState = {
-                name: '',
-                section: '',
-                lpd: 5,
-                progress: 0
-            };
-
-            function fdInitLab() {
-                const name = document.getElementById('fd-studentName').value;
-                const section = document.getElementById('fd-labSection').value;
-                if (!name || !section) { alert("Please enter name and section."); return; }
-
-                fdState.name = name;
-                fdState.section = section;
-                fdUpdateProgress(10);
-                fdTransition('fd-step-setup', 'fd-step-measure');
-            }
-
-            function fdTransition(fromId, toId) {
-                const fromEl = document.getElementById(fromId);
-                const toEl = document.getElementById(toId);
-                if (!fromEl || !toEl) return;
-
-                fromEl.classList.remove('active');
-                fromEl.classList.add('fd-hidden');
-
-                toEl.classList.remove('fd-hidden');
-                toEl.classList.add('active');
-
-            }
-
-            function fdNextStep(toId) {
-                document.querySelectorAll('.fd-card').forEach(c => {
-                    c.classList.remove('active');
-                    c.classList.add('fd-hidden');
-                });
-                const t = document.getElementById(toId);
-                t.classList.remove('fd-hidden');
-                t.classList.add('active');
-
-            }
-
-            function fdUpdateProgress(val) {
-                const bar = document.getElementById('fd-progressBar');
-                const text = document.getElementById('fd-statusText');
-                if (bar) bar.style.width = val + '%';
-                if (text) text.innerText = 'Lab Progress: ' + val + '%';
-            }
-
-            function fdShowFeedback(id, isCorrect, msg) {
-                const el = document.getElementById(id);
-                if (!el) return;
-                el.style.display = 'block';
-                el.className = isCorrect ? 'fd-feedback-box correct' : 'fd-feedback-box incorrect';
-                el.innerHTML = (isCorrect ? '✅ ' : '❌ ') + msg;
-            }
-
-            function fdSubmitMeasurement() {
-                const raw = parseFloat(document.getElementById('fd-rawMeasurement').value);
-                const rounded = parseInt(document.getElementById('fd-roundedMeasurement').value);
-
-                if (raw < 4.5 || raw > 4.9) {
-                    fdShowFeedback('fd-feedback-measure', false, "Look closer at the ruler. The edge is past the halfway mark between 4 and 5.");
-                    return;
-                }
-
-                if (rounded !== 5) {
-                    fdShowFeedback('fd-feedback-measure', false, "Incorrect rounding. If it's greater than 4.5, we round UP to the next whole number (5).");
-                    return;
-                }
-
-                fdShowFeedback('fd-feedback-measure', true, "Perfect! Your Low Power Diameter (LPD) is 5mm.");
-                document.getElementById('fd-btn-to-calc').classList.remove('fd-hidden');
-                fdUpdateProgress(20);
-            }
-
-            function fdCheckFormula(lens) {
-                if (lens === '10x') {
-                    const v1 = document.getElementById('fd-f1-lpd').value;
-                    const v2 = document.getElementById('fd-f1-top').value;
-                    const v3 = document.getElementById('fd-f1-bot').value;
-
-                    if (v1 === 'LPD' && v2 === 'LPM' && v3 === 'HPM') {
-                        fdShowFeedback('fd-feedback-formula-10x', true, "Correct Formula! Students are required to memorize this formula. Now plug in the numbers.");
-                        document.getElementById('fd-calc-input-10x').classList.remove('fd-hidden');
-                    } else {
-                        fdShowFeedback('fd-feedback-formula-10x', false, "Incorrect. Remember: HPD = LPD × (LPM / HPM).");
-                    }
-                }
-            }
-
-            function fdCheckMath(lens) {
-                if (lens === '10x') {
-                    const lpdVal = parseInt(document.getElementById('fd-val-lpd-10').value);
-                    const lpmVal = parseInt(document.getElementById('fd-val-lpm-10').value);
-                    const hpmVal = parseInt(document.getElementById('fd-val-hpm-10').value);
-                    const ans = parseFloat(document.getElementById('fd-ans-10x').value);
-
-                    if (lpdVal === 5 && lpmVal === 4 && hpmVal === 10 && ans === 2) {
-                        fdShowFeedback('fd-feedback-math-10x', true, "Correct! 5 × (4/10) = 2mm.");
-                        document.getElementById('fd-section-40x').classList.remove('fd-hidden');
-                        fdUpdateProgress(35);
-                    } else {
-                        fdShowFeedback('fd-feedback-math-10x', false, "Check your inputs. LPD=5, LPM=4, HPM=10. The result should be 2.");
-                    }
-                }
-                else if (lens === '40x') {
-                    const lpdVal = parseInt(document.getElementById('fd-val-lpd-40').value);
-                    const lpmVal = parseInt(document.getElementById('fd-val-lpm-40').value);
-                    const hpmVal = parseInt(document.getElementById('fd-val-hpm-40').value);
-                    const ans = parseFloat(document.getElementById('fd-ans-40x').value);
-
-                    if (lpdVal === 5 && lpmVal === 4 && hpmVal === 40 && ans === 0.5) {
-                        fdShowFeedback('fd-feedback-math-40x', true, "Correct! 5 × (4/40) = 0.5mm.");
-                        document.getElementById('fd-btn-to-mem').classList.remove('fd-hidden');
-                        fdUpdateProgress(50);
-                    } else {
-                        fdShowFeedback('fd-feedback-math-40x', false, "Check inputs. LPD=5, LPM=4, HPM=40. Result should be 0.5.");
-                    }
-                }
-            }
-
-            function fdCheckMemorization() {
-                const v4 = parseInt(document.getElementById('fd-mem-4').value);
-                const v10 = parseInt(document.getElementById('fd-mem-10').value);
-                const v40 = parseFloat(document.getElementById('fd-mem-40').value);
-
-                if (v4 === 5 && v10 === 2 && v40 === 0.5) {
-                    fdShowFeedback('fd-feedback-mem', true, "You've got it! 5, 2, 0.5.");
-                    document.getElementById('fd-btn-to-est').classList.remove('fd-hidden');
-                    fdUpdateProgress(70);
-                } else {
-                    fdShowFeedback('fd-feedback-mem', false, "Incorrect. Review the cards above and try again.");
-                }
-            }
-
-            function fdCheckEstFormula() {
-                const top = document.getElementById('fd-est-top').value;
-                const bot = document.getElementById('fd-est-bot').value;
-
-                if (top === 'Diameter' && bot === 'Number') {
-                    fdShowFeedback('fd-feedback-est-formula', true, "Correct! Length = Diameter / Number that fit.");
-                    document.getElementById('fd-est-calc-area').classList.remove('fd-hidden');
-                } else {
-                    fdShowFeedback('fd-feedback-est-formula', false, "Incorrect. Think: You have the total Diameter, you need to divide it by how many fit.");
-                }
-            }
-
-            function fdCheckEstMath() {
-                const mm = parseFloat(document.getElementById('fd-est-ans-mm').value);
-                const um = parseFloat(document.getElementById('fd-est-ans-um').value);
-
-                const validMM = (mm >= 0.0054 && mm <= 0.0055);
-                const validUM = (um >= 5.4 && um <= 5.5);
-
-                if (validMM && validUM) {
-                    fdShowFeedback('fd-feedback-est-math', true, "Excellent! You are ready for the final exam.");
-                    document.getElementById('fd-btn-to-exam').classList.remove('fd-hidden');
-                    fdUpdateProgress(85);
-                } else {
-                    fdShowFeedback('fd-feedback-est-math', false, "Math check: 0.5 divided by 92. Then multiply by 1000 for µm.");
-                }
-            }
-
-            const fdQuestions = [
-                {
-                    q: "What is the memorized field diameter for the 4x objective?",
-                    options: ["2mm", "4mm", "5mm", "0.5mm"],
-                    a: 2
-                },
-                {
-                    q: "What is the memorized field diameter for the 40x objective?",
-                    options: ["0.2mm", "0.5mm", "5mm", "2mm"],
-                    a: 1
-                },
-                {
-                    q: "Which formula is correct for estimation?",
-                    options: ["L = D × N", "L = N / D", "L = D / N"],
-                    a: 2
-                },
-                {
-                    q: "If LPD=5, LPM=4, and HPM=10, what is HPD?",
-                    options: ["20mm", "2mm", "0.2mm", "8mm"],
-                    a: 1
-                },
-                {
-                    q: "You estimate 5 cells fit across the 40x field (0.5mm). How big is one cell?",
-                    options: ["0.1mm", "2.5mm", "0.01mm", "1.0mm"],
-                    a: 0
-                }
-            ];
-
-            function fdSubmitExam() {
-                const container = document.getElementById('fd-quiz-container');
-                if (container.innerHTML === "") {
-                    let html = "";
-                    fdQuestions.forEach((q, i) => {
-                        html += `<div style="margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid #eee;">
-                        <p><strong>${i + 1}. ${q.q}</strong></p>
-                        ${q.options.map((opt, oi) => `<label style="display:block;"><input type="radio" name="fd-q${i}" value="${oi}"> ${opt}</label>`).join('')}
-                    </div>`;
-                    });
-                    container.innerHTML = html;
-                    return;
-                }
-
-                let score = 0;
-                fdQuestions.forEach((q, i) => {
-                    const sel = document.querySelector(`input[name="fd-q${i}"]:checked`);
-                    if (sel && parseInt(sel.value) === q.a) score++;
-                });
-
-                const percent = (score / fdQuestions.length) * 100;
-                const fb = document.getElementById('fd-exam-result');
-
-                if (percent === 100) {
-                    fb.className = 'fd-feedback-box correct';
-                    fb.innerHTML = "<h3>💯 Perfect Score!</h3><p>Generating certificate...</p>";
-                    fb.style.display = 'block';
-                    fdUpdateProgress(100);
-                    setTimeout(() => {
-                        document.getElementById('fd-certificate-area').classList.remove('fd-hidden');
-                        document.getElementById('fd-step-exam').classList.add('fd-hidden');
-                        document.getElementById('fd-print-controls').classList.remove('fd-hidden');
-                        document.getElementById('fd-cert-name-display').innerText = fdState.name;
-                        document.getElementById('fd-cert-section-display').innerText = fdState.section;
-                        document.getElementById('fd-cert-date').innerText = new Date().toLocaleDateString();
-                    }, 2000);
-                } else {
-                    fb.className = 'fd-feedback-box incorrect';
-                    fb.innerHTML = `<h3>Score: ${percent}%</h3><p>You need 100% mastery on these values. Please try again.</p>`;
-                    fb.style.display = 'block';
-                }
-            }
-
-            // Initialize default lens for microscope mastery
-            window.onload = function () {
-                if (document.getElementById('objLens')) {
-                    setLens(4);
-                }
-
-                // Initialize magnification mastery
-                if (magItemsContainer) {
-                    magGenerateSet();
-                }
-            };
-        </script>
+        };
+    </script>
 </body>
 
 </html>
