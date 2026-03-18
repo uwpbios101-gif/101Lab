@@ -1,10 +1,50 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Science Detective: The Carlson Astrology Study</title>
 <style>
+/* ===== Added header styles from pseudo.html ===== */
+:root {
+    --parkside-green: #016836;
+    --near-black: #212721;
+    --warm-grey: #54534A;
+    --cool-grey: #DBD9D6;
+    --goldenrod: #FABA31;
+    --white-birch: #EFECE2;
+    --white: #FFFFFF;
+}
+
+header {
+    background: var(--parkside-green);
+    border-bottom: 3px solid var(--goldenrod);
+}
+
+.header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: center;
+}
+
+.nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+/* ===== End of added header styles ===== */
+
 * {
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -496,100 +536,22 @@ textarea.reflection-input {
     padding: 5px;
 }
 </style>
-<style>
-.bios-nav {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: #016836;
-  border-bottom: 2px solid #FFD100;
-}
-.bios-nav-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 4px 8px;
-}
-.bios-home {
-  color: white;
-  font-weight: 700;
-  text-decoration: none;
-  letter-spacing: .5px;
-}
-.bios-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-.bios-menus {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.bios-menu { position: relative; }
-.bios-trigger {
-  background: none;
-  border: none;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 2px 4px;
-}
-.bios-trigger.active {
-  border-bottom: 2px solid #FFD100;
-}
-.bios-dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-  border: 1px solid #ccc;
-  min-width: 160px;
-  z-index: 1001;
-}
-.bios-dropdown a {
-  display: block;
-  padding: 6px 10px;
-  color: #212721;
-  text-decoration: none;
-}
-.bios-dropdown a:hover {
-  background: #EFECE2;
-}
-.bios-menu:hover .bios-dropdown,
-.bios-menu:focus-within .bios-dropdown {
-  display: block;
-}
-@media (max-width: 768px) {
-  .bios-toggle { display: block; }
-  .bios-menus {
-    display: none;
-    flex-direction: column;
-    background: #016836;
-    width: 100%;
-  }
-  .bios-menus.open { display: flex; }
-  .bios-dropdown {
-    position: static;
-    border: none;
-  }
-}
-</style>
 </head>
 <body>
-<nav class="bios-nav">
-  <div class="bios-nav-inner">
-    <a href="../index.html" class="bios-home">BIOS101</a>
-    <button class="bios-toggle" aria-label="Toggle menu">â˜°</button>
-    <div class="bios-menus" id="biosMenus"></div>
-  </div>
-</nav>
+
+<!-- ===== New header from pseudo.html ===== -->
+<header>
+    <div class="header-inner nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="prelabreadings.html">Prelab Readings</a>
+        <a href="../microscpy/MicroscopeMastery.html">Microscopy</a>
+        <a href="traintrack.html">Metric Conversion Practice</a>
+        <a href="traintrackhomework.html">Metric Conversion Homework</a>
+        <a href="size.html">Size Practice</a>
+    </div>
+</header>
+<!-- ===== End of new header ===== -->
+
 <div class="container">
 <div class="badge">Nature 1985</div>
 <div class="header">
@@ -1523,37 +1485,6 @@ function setupEventListeners(){
 
 document.addEventListener('DOMContentLoaded',initializeApp);
 </script>
-<script>
-(function() {
-  function initNav() {
-    var labs = [{"folder":"bios101-learning","title":"Metacognition"},{"folder":"01_Science_of_Biology","title":"Scientific Process"},{"folder":"02_Eukaryotes","title":"Eukaryotes"},{"folder":"03_Carbohydrates","title":"Carbohydrates"},{"folder":"04_Proteins","title":"Proteins"},{"folder":"05_Lipids","title":"Lipids"},{"folder":"06_Photosynthetic_Pigments","title":"Photosynthesis"},{"folder":"07_Nucleic Acids","title":"Nucleic Acids"},{"folder":"08_Mitosis","title":"Mitosis"},{"folder":"09_Meiosis","title":"Meiosis"},{"folder":"10_Genetics","title":"Genetics"}];
-    var menus = document.getElementById('biosMenus');
-    var path = location.pathname;
-    if (!menus) return;
-    labs.forEach(function(lab) {
-      var m = document.createElement('div');
-      m.className = 'bios-menu';
-      var b = document.createElement('button');
-      b.className = 'bios-trigger';
-      b.textContent = lab.title;
-      if (path.indexOf(lab.folder) !== -1) b.classList.add('active');
-      var d = document.createElement('div');
-      d.className = 'bios-dropdown';
-      var bp = '../../' + lab.folder;
-      d.innerHTML = '<a href="' + bp + '/index.html">Overview</a><a href="' + bp + '/prelab/prelab.html">Pre-Lab</a><a href="' + bp + '/during_lab/in-lab.html">In-Lab</a><a href="' + bp + '/postlab/postlab.html">Post-Lab</a><a href="' + bp + '/advanced/optional.html">Optional</a>';
-      m.appendChild(b);
-      m.appendChild(d);
-      menus.appendChild(m);
-    });
-    var t = document.querySelector('.bios-toggle');
-    if (t) t.onclick = function() { menus.classList.toggle('open'); };
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initNav);
-  } else {
-    initNav();
-  }
-})();
-</script>
+<!-- Removed the old dynamic navigation script -->
 </body>
 </html>
