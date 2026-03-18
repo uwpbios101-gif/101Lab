@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dr. David Higgs — Algae &amp; Nitrogen Stress · UWP Biology</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ── TOKENS ── */
+        :root {
+            --green:        #016836;
+            --green-dark:   #004D21;
+            --green-light:  #e8f4ee;
+            --gold:         #FABA31;
+            --near-black:   #212721;
+            --warm-grey:    #54534A;
+            --cool-grey:    #DBD9D6;
+            --off-white:    #EFECE2;
+            --white:        #FFFFFF;
+            --blue-info:    #1E6F9F;
+            --blue-light:   #e8f0fe;
+            --radius-card:  12px;
+            --shadow-soft:  0 2px 12px rgba(0,0,0,0.07);
+            --shadow-hover: 0 6px 24px rgba(0,0,0,0.12);
+            --transition:   all 0.2s ease;
+        }
+
+        /* ── RESET ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "DM Sans", system-ui, sans-serif;
+            background: var(--off-white);
+            color: var(--near-black);
+            line-height: 1.65;
+            font-size: 16px;
+        }
+        a { color: var(--green); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* ── NAVBAR ── */
+        header {
+            background: var(--green);
+            border-bottom: 3px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: center;
+        }
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            padding: 4px 2px;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.15s;
+        }
+        .nav-links a:hover { border-bottom-color: var(--gold); text-decoration: none; }
+
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(145deg, var(--green-dark) 0%, #005a28 55%, var(--green) 100%);
+            color: var(--white);
+            padding: 48px 24px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40L40 0M-5 5L5 -5M35 45L45 35' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E");
+        }
+        .hero-eyebrow {
+            display: inline-block;
+            background: rgba(250,186,49,0.2);
+            border: 1px solid rgba(250,186,49,0.5);
+            color: var(--gold);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 999px;
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-family: "DM Serif Display", Georgia, serif;
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 400;
+            line-height: 1.2;
+            color: var(--white);
+            max-width: 640px;
+            margin: 0 auto 10px;
+        }
+        .hero h1 em { font-style: italic; color: var(--gold); }
+        .hero-sub {
+            font-size: 0.97rem;
+            opacity: 0.88;
+            max-width: 500px;
+            margin: 0 auto 20px;
+            line-height: 1.65;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 6px 14px;
+            border-radius: 999px;
+            transition: var(--transition);
+        }
+        .back-link:hover { color: var(--white); border-color: var(--white); text-decoration: none; }
+
+        /* ── PAGE BODY ── */
+        .page-body {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 36px 24px 72px;
+        }
+
+        /* ── STEP CARD ── */
+        .step-card {
+            background: var(--white);
+            border-radius: var(--radius-card);
+            border: 1px solid var(--cool-grey);
+            padding: 28px 32px;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 20px;
+        }
+
+        /* ── STEP HEADER ── */
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+        .step-title-group { display: flex; align-items: center; gap: 10px; }
+        .step-name {
+            font-family: "DM Serif Display", serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--green-dark);
+        }
+        .step-counter {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--warm-grey);
+            background: var(--off-white);
+            border: 1px solid var(--cool-grey);
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+        .info-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: var(--blue-info);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: help;
+            position: relative;
+            flex-shrink: 0;
+            border: none;
+        }
+        .info-btn:hover::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--near-black);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            white-space: pre-wrap;
+            max-width: 280px;
+            z-index: 20;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            pointer-events: none;
+            font-family: "DM Sans", sans-serif;
+            line-height: 1.5;
+        }
+        .step-subtitle {
+            font-size: 0.88rem;
+            color: var(--warm-grey);
+            margin-bottom: 14px;
+        }
+
+        /* ── DEFINITION BOX ── */
+        .definition-box {
+            background: var(--blue-light);
+            border-left: 4px solid var(--blue-info);
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.88rem;
+            color: #1a2a3a;
+            line-height: 1.65;
+        }
+        .definition-box strong { color: var(--blue-info); }
+
+        /* ── PROGRESS BAR ── */
+        .progress-wrap { margin-bottom: 18px; }
+        .progress-label {
+            font-size: 0.75rem;
+            color: var(--warm-grey);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 5px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 7px;
+            border-radius: 999px;
+            background: var(--cool-grey);
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--green);
+            border-radius: 999px;
+            transition: width 0.3s ease-out;
+        }
+
+        /* ── CONTEXT BOX ── */
+        .context-box {
+            background: var(--green-light);
+            border-left: 4px solid var(--green);
+            padding: 14px 18px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+            color: #1a3a1a;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+        .context-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--green-dark);
+            margin-bottom: 6px;
+        }
+
+        /* ── PROMPT AREA ── */
+        .prompt-label {
+            font-size: 0.97rem;
+            font-weight: 600;
+            color: var(--near-black);
+            margin-bottom: 6px;
+        }
+        .prompt-helper {
+            font-size: 0.84rem;
+            color: var(--warm-grey);
+            background: #f5faf5;
+            border: 1px solid #c8e6c9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        textarea {
+            width: 100%;
+            background: var(--white);
+            border-radius: 6px;
+            border: 1.5px solid var(--cool-grey);
+            color: var(--near-black);
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            font-family: "DM Sans", sans-serif;
+            resize: vertical;
+            min-height: 110px;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+            line-height: 1.6;
+        }
+        textarea:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(1,104,54,0.12);
+        }
+        ::placeholder { color: #aaa; }
+
+        /* ── FEEDBACK ── */
+        .feedback-area {
+            margin-top: 10px;
+            font-size: 0.88rem;
+            line-height: 1.65;
+            min-height: 24px;
+        }
+        .feedback-good {
+            color: #2e7d32;
+            background: #f1f8f1;
+            border: 1px solid #a5d6a7;
+            border-radius: 6px;
+            padding: 10px 14px;
+        }
+        .feedback-warn {
+            color: #b71c1c;
+            background: #fff5f5;
+            border: 1px solid #ffcdd2;
+            border-radius: 6px;
+            padding: 10px 14px;
+        }
+        .feedback-partial {
+            color: #e65100;
+            background: #fff8f0;
+            border: 1px solid #ffcc80;
+            border-radius: 6px;
+            padding: 10px 14px;
+        }
+        .feedback-item { margin-bottom: 5px; }
+        .feedback-item:last-child { margin-bottom: 0; }
+
+        /* ── CHECKLIST ── */
+        .checklist-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 10px;
+        }
+        .check-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border: 1px solid var(--cool-grey);
+            background: var(--off-white);
+            color: var(--warm-grey);
+            transition: var(--transition);
+        }
+        .check-chip.pass {
+            background: #e8f5e9;
+            border-color: #a5d6a7;
+            color: #2e7d32;
+        }
+        .check-chip.fail {
+            background: #fff5f5;
+            border-color: #ffcdd2;
+            color: #c62828;
+        }
+
+        /* ── PRIOR RESPONSES ── */
+        .prior-panel {
+            background: var(--off-white);
+            border: 1px solid var(--cool-grey);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 18px;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .prior-panel.visible { display: block; }
+        .prior-panel-title {
+            font-weight: 700;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--green-dark);
+            margin-bottom: 10px;
+        }
+        .prior-entry {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--cool-grey);
+        }
+        .prior-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .prior-step-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--green-dark);
+            margin-bottom: 3px;
+        }
+        .prior-entry p { font-size: 0.85rem; color: var(--near-black); line-height: 1.55; }
+
+        /* ── COHERENCE ALERT ── */
+        .coherence-alert {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 6px;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            color: #5a3e00;
+            margin-top: 8px;
+            display: none;
+        }
+        .coherence-alert.visible { display: block; }
+
+        /* ── NAV ROW ── */
+        .nav-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 22px;
+            border-radius: 7px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            font-family: "DM Sans", sans-serif;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-primary {
+            background: var(--green);
+            color: var(--white);
+            box-shadow: 0 2px 8px rgba(1,104,54,0.25);
+        }
+        .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary {
+            background: var(--white);
+            color: var(--green-dark);
+            border: 1.5px solid var(--green-dark);
+        }
+        .btn-secondary:hover { background: var(--green-light); }
+        .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-gold {
+            background: var(--gold);
+            color: var(--green-dark);
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .btn-gold:hover { background: #e5a820; transform: translateY(-1px); }
+
+        /* ── COMPARE CARD ── */
+        .compare-card {
+            background: var(--white);
+            border-radius: var(--radius-card);
+            border: 1px solid var(--cool-grey);
+            padding: 28px 32px;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 20px;
+            display: none;
+        }
+        .compare-card.visible { display: block; }
+        .compare-card h2 {
+            font-family: "DM Serif Display", serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--green-dark);
+            margin-bottom: 6px;
+        }
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 14px;
+            font-size: 0.88rem;
+        }
+        .compare-table th, .compare-table td {
+            border: 1px solid var(--cool-grey);
+            padding: 10px 14px;
+            text-align: left;
+            color: var(--near-black);
+            line-height: 1.5;
+        }
+        .compare-table th {
+            background: var(--off-white);
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--warm-grey);
+        }
+        .email-section { margin-top: 24px; text-align: center; }
+        .email-section p { font-size: 0.8rem; color: var(--warm-grey); margin-top: 8px; }
+
+        /* ── HELP PANEL ── */
+        .help-toggle {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 11px 20px;
+            font-weight: 600;
+            font-family: "DM Sans", sans-serif;
+            font-size: 0.88rem;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            z-index: 98;
+            display: none;
+        }
+        .help-panel {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            width: 300px;
+            background: white;
+            border: 2px solid var(--green);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+            padding: 18px 20px;
+            z-index: 99;
+            transition: transform 0.3s ease;
+        }
+        .help-panel.collapsed { transform: translateX(340px); }
+        .help-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: var(--green-dark);
+            font-size: 0.95rem;
+        }
+        .help-close {
+            background: none; border: none; font-size: 1.1rem;
+            cursor: pointer; color: var(--near-black); line-height: 1;
+        }
+        .help-content { font-size: 0.82rem; max-height: 380px; overflow-y: auto; line-height: 1.6; }
+        .help-content p { margin-bottom: 8px; color: #333; }
+        .help-content strong { color: var(--green-dark); }
+
+        /* ── HIDDEN ── */
+        .hidden { display: none !important; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 600px) {
+            .step-card, .compare-card { padding: 20px 16px; }
+            .page-body { padding: 24px 14px 60px; }
+            .help-panel { width: 260px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<header>
+    <div class="header-inner nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="prelabreadings.html">Prelab Readings</a>
+        <a href="../microscopy/MicroscopeMastery.html">Microscopy</a>
+        <a href="traintrack.html">Metric Conversion Practice</a>
+        <a href="traintrackhomework.html">Metric Conversion Homework</a>
+        <a href="size.html">Size Practice</a>
+    </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+    <div class="hero-eyebrow">🔬 UWP Biology · Scientific Process</div>
+    <h1>Dr. David <em>Higgs</em></h1>
+    <p class="hero-sub">Algae &amp; Nitrogen Stress — Low nitrogen: one alga thrives, the other stalls. Same photosynthesis genes. What explains the difference?</p>
+    <a class="back-link" href="index.html">← All Researchers</a>
+</section>
+
+<!-- ── PAGE BODY ── -->
+<main class="page-body">
+
+    <!-- STEP CARD -->
+    <div class="step-card" id="stepCard">
+
+        <div class="step-header">
+            <div class="step-title-group">
+                <span class="step-name" id="stepName">Observation</span>
+                <button class="info-btn" id="infoBtn" data-tip="">i</button>
+            </div>
+            <span class="step-counter" id="stepCounter">Step 1 of 8</span>
+        </div>
+        <div class="step-subtitle" id="stepSubtitle">Describe what is happening before you try to explain why.</div>
+
+        <div class="definition-box" id="definitionBox">
+            <strong>📘 Definition:</strong> <span id="definitionText"></span>
+        </div>
+
+        <div class="progress-wrap">
+            <div class="progress-label" id="progressLabel">Progress — Step 1 of 8</div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+
+        <div class="context-box">
+            <div class="context-label">🧪 Higgs Lab — Your Scenario</div>
+            <div id="contextText"></div>
+        </div>
+
+        <div class="prior-panel" id="priorPanel">
+            <div class="prior-panel-title">📝 Your thinking so far</div>
+            <div id="priorList"></div>
+        </div>
+
+        <div class="coherence-alert" id="coherenceAlert"></div>
+
+        <div class="prompt-label" id="promptLabel"></div>
+        <div class="prompt-helper" id="promptHelper"></div>
+        <textarea id="responseInput" placeholder="Type your response here…" rows="5"></textarea>
+
+        <div class="feedback-area" id="feedbackArea"></div>
+        <div class="checklist-area" id="checklistArea"></div>
+
+        <div class="nav-row">
+            <button class="btn btn-secondary" id="prevBtn" onclick="prevStep()">← Previous</button>
+            <div style="flex:1;"></div>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Check &amp; Continue →</button>
+        </div>
+    </div>
+
+    <!-- COMPARE CARD -->
+    <div class="compare-card" id="compareCard">
+        <h2>From Hypothesis to Theory &amp; Law</h2>
+        <p style="font-size:0.88rem; color:var(--warm-grey);">Where does your experiment sit on the spectrum of scientific knowledge?</p>
+        <table class="compare-table">
+            <thead><tr><th>Level</th><th>What it is</th><th>In this scenario</th></tr></thead>
+            <tbody id="compareBody"></tbody>
+        </table>
+        <div class="email-section">
+            <button class="btn btn-gold" onclick="emailResponses()">📧 Email my responses — Dr. Higgs scenario</button>
+            <p>Only this scenario's answers will be sent to your instructor.</p>
+        </div>
+        <div style="text-align:center; margin-top:16px;">
+            <a href="index.html" class="btn btn-secondary">← Try another researcher</a>
+        </div>
+    </div>
+
+</main>
+
+<!-- ── HELP ── -->
+<button class="help-toggle" id="helpToggle">❓ Need Help?</button>
+<div class="help-panel collapsed" id="helpPanel">
+    <div class="help-header">
+        <span>📘 Step-by-Step Guide</span>
+        <button class="help-close" id="helpClose">✖</button>
+    </div>
+    <div class="help-content">
+        <p><strong>Observation</strong> — Facts only. No explanations. Use your senses or instruments. Avoid "because."</p>
+        <p><strong>Curiosity Question</strong> — Broad wonder-question. Starts with "How does…", "Is there…", "To what extent…". Not testable yet.</p>
+        <p><strong>Research Question</strong> — Focused &amp; testable. Names the independent variable (what you change) and dependent variable (what you measure).</p>
+        <p><strong>Hypothesis</strong> — A tentative, falsifiable answer. Proposes a cause-effect relationship. Uses "will" and includes a comparison.</p>
+        <p><strong>Prediction</strong> — If–Then format. States the measurable outcome expected if the hypothesis is correct.</p>
+        <p><strong>Variables &amp; Controls</strong> — IV: what you manipulate. DV: what you measure. Controlled: everything kept constant.</p>
+        <p><strong>Experimental Design</strong> — Describe groups, replicates, and the result pattern that would support or reject your hypothesis.</p>
+        <p><strong>Theory vs. Law</strong> — Theory: broad, evidence-based explanation. Law: concise mathematical description.</p>
+    </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// SHARED STEP DEFINITIONS
+// ─────────────────────────────────────────────────────────────────────────────
+const STEPS = [
+    "Observation",
+    "Curiosity Question",
+    "Research Question",
+    "Hypothesis",
+    "Prediction",
+    "Variables & Controls",
+    "Experimental Design & Results",
+    "Theory vs. Law"
+];
+
+const STEP_SUBTITLES = [
+    "Describe what is happening before you try to explain why.",
+    "Turn your observation into a broad, open-ended wonder question.",
+    "Refine curiosity into a specific, testable question with clear variables.",
+    "Propose an educated, falsifiable answer to your research question.",
+    "State what you expect to measure if your hypothesis is correct.",
+    "Separate what you change from what you measure and what you hold constant.",
+    "Plan the test and describe the result pattern that would support your hypothesis.",
+    "Place your experiment on the hypothesis → theory → law spectrum."
+];
+
+const STEP_DEFINITIONS = [
+    "Observation is the objective recording of a phenomenon through direct sensory experience or instrumentation — free from assumption or interpretation. It is the raw encounter with reality that ignites scientific inquiry.",
+    "A Curiosity Question is a broad, open-ended question that arises naturally from an observation. It is not yet testable — it expresses genuine wonder and points toward what you want to understand.",
+    "A Research Question is a specific, testable refinement of the curiosity question. It clearly names the independent variable (what you will change) and the dependent variable (what you will measure).",
+    "A Hypothesis is a tentative, falsifiable answer to the research question. It proposes a causal mechanism and must be structured so that evidence can potentially prove it wrong.",
+    "A Prediction is an If–Then statement that translates the hypothesis into a concrete, measurable expectation. It specifies what should happen in an experiment if the hypothesis is correct.",
+    "Variables: the Independent Variable is what you deliberately change; the Dependent Variable is what you measure in response; Controlled Variables are factors held constant to ensure a fair test.",
+    "Experimental Design is the detailed plan for testing the hypothesis — specifying groups, sample size, replicates, measurement methods, and the pattern of results that would support or falsify the hypothesis.",
+    "A Theory is a broad, well-supported explanation for a class of phenomena. A Law is a concise, often mathematical description of a consistent pattern. Your experiment tests a hypothesis; over time, many such tests build toward theory."
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DR. DAVID HIGGS — RESEARCHER DATA
+// ─────────────────────────────────────────────────────────────────────────────
+const RESEARCHER = {
+    label: "Dr. David Higgs",
+    email: "harria01@uwp.edu",
+
+    contextByStep: [
+        "You are looking at two strains of a tiny green alga called Chlamydomonas reinhardtii growing in a tank with very little nitrogen — imagine the tank is running low on a key ingredient in their food. Both strains have the same genes for capturing sunlight. Strain X keeps growing and you can see it turning a deeper green; Strain Y slows down and looks pale. Scrolling through the gene activity readout on screen, you notice that the two strains show a different pattern of lit-up genes — but you're not yet sure what that means.",
+        "You have just described what you saw — two algae strains responding differently to low nitrogen, despite having the same photosynthesis genes. Now you are curious: what could be happening inside the cells that leads to this difference? A curiosity question is broad and wonder-based — it doesn't need to be testable yet.",
+        "You've asked a broad wonder question. Now sharpen it. A research question must name the factor you will manipulate (independent variable) and what you will measure (dependent variable). For Higgs, the factor of interest is the genetic difference between strains in how they sense or respond to nitrogen scarcity.",
+        "You've identified a testable question. Now take a position — propose a specific mechanism. Dr. Higgs suspects that Strain X possesses a more efficient nitrogen-sensing or gene-regulation system that allows it to maintain photosynthesis under stress. Your hypothesis should make a cause-effect claim that can be proven wrong.",
+        "Your hypothesis makes a claim — now predict what would actually happen in a real experiment if that claim is correct. Use the If–Then format. The measurement here involves comparing gene expression levels or growth rates between the two strains under controlled low-nitrogen conditions.",
+        "Now break your experiment into its moving parts. The independent variable is what differs between your experimental groups. The dependent variable is what you measure to detect an effect. Controlled variables are everything you keep identical so the only difference between groups is your IV.",
+        "Design the actual experiment. How would you grow both strains, control nitrogen levels, measure the outcome, and ensure your results are reliable? What would the data look like if your hypothesis is correct — and what would it look like if it is wrong?",
+        "Zoom out. Your experiment tests one hypothesis about one mechanism in two strains of alga. How does this fit into the larger scientific landscape? What theory does it contribute to? Is there a law involved? What is the difference between what you did and an established theory or physical law?"
+    ],
+
+    prompts: [
+        {
+            label: "Describe what you observe in the Higgs lab scenario.",
+            helper: "Report only what can be directly seen or measured. Mention both strains, the growing conditions, what growth looks like, and what the gene readout shows. Do not suggest a cause or explanation.",
+            checklist: [
+                "Both strains mentioned",
+                "Growth difference described",
+                "Low-nitrogen condition noted",
+                "Gene activity difference noted",
+                "No causal explanation included"
+            ]
+        },
+        {
+            label: "Write a curiosity question that arises from your observation.",
+            helper: "Start with 'How does…', 'Is there a relationship between…', or 'To what extent…' — not 'Why'. It should be broad and not yet testable.",
+            checklist: [
+                "Starts with How / Is there / To what extent",
+                "References nitrogen or nutrient stress",
+                "Links to algae growth or gene expression",
+                "Not a 'Why' question",
+                "Not yet a specific testable question"
+            ]
+        },
+        {
+            label: "Write a focused, testable research question.",
+            helper: "Name the independent variable (the genetic/regulatory difference between strains) and the dependent variable (growth rate, gene expression level, or a similar measurement). Example structure: 'How does [IV] affect [DV] in Chlamydomonas under low nitrogen?'",
+            checklist: [
+                "Names an independent variable",
+                "Names a dependent variable",
+                "Specific to algae or nitrogen context",
+                "Testable (can be measured)",
+                "More specific than the curiosity question"
+            ]
+        },
+        {
+            label: "State your hypothesis — a tentative, falsifiable answer to your research question.",
+            helper: "Propose a specific mechanism: what does Strain X have or do differently that allows it to maintain growth? Use 'will' and include a comparison to Strain Y. Example: 'Strain X possesses a more sensitive nitrogen-sensing regulator, which will allow it to maintain higher expression of photosynthesis-related genes compared to Strain Y under low-nitrogen conditions.'",
+            checklist: [
+                "Proposes a specific mechanism",
+                "Uses cause-effect language",
+                "Includes a comparison (Strain X vs Y)",
+                "Uses 'will' or similar predictive language",
+                "Falsifiable — could be proven wrong"
+            ]
+        },
+        {
+            label: "Write an If–Then prediction for your hypothesis.",
+            helper: "Format: 'If [the condition from your hypothesis], then [the measurable outcome].' Specify the direction of the result — which strain will show higher/lower expression or growth.",
+            checklist: [
+                "Uses If–Then structure",
+                "The 'If' restates the hypothesis condition",
+                "The 'Then' names a measurable outcome",
+                "Specifies direction (higher/lower, more/less)",
+                "Could be directly tested in a lab"
+            ]
+        },
+        {
+            label: "Identify the independent variable, dependent variable, and at least three controlled variables.",
+            helper: "IV = what differs between your two groups (the strain type or the regulatory mechanism). DV = what you measure (growth rate, chlorophyll content, gene expression level). Controlled = light intensity, CO₂ levels, temperature, nitrogen concentration, growth phase, etc.",
+            checklist: [
+                "Independent variable clearly named",
+                "Dependent variable clearly named",
+                "At least 3 controlled variables listed",
+                "IV and DV are distinct from each other",
+                "Controls are biologically relevant to algae"
+            ]
+        },
+        {
+            label: "Outline your experimental design and describe what results would support your hypothesis.",
+            helper: "Describe: (1) your two experimental groups, (2) how you will grow the algae and control nitrogen, (3) how you will measure the outcome (e.g. RNA-seq, growth curves, chlorophyll assay), (4) how many replicates, and (5) what the data pattern would look like if your hypothesis is correct vs. if it is wrong.",
+            checklist: [
+                "Two groups clearly defined",
+                "Nitrogen conditions specified",
+                "Measurement method named",
+                "Replicates mentioned",
+                "Result pattern described for both outcomes (support AND reject)"
+            ]
+        },
+        {
+            label: "Contrast your experiment with a scientific theory and a scientific law.",
+            helper: "Your experiment tests one hypothesis. A theory (e.g. the theory of photosynthetic acclimation to nutrient stress) integrates many such experiments. A law (e.g. Fick's law of diffusion, Beer-Lambert law) is a concise mathematical relationship. Explain where your work sits and what would be needed to move from hypothesis toward theory.",
+            checklist: [
+                "Distinguishes hypothesis from theory",
+                "Names or describes a relevant theory",
+                "Names or describes a relevant law",
+                "Explains the difference in scope or evidence",
+                "Describes what it would take to build toward theory"
+            ]
+        }
+    ],
+
+    compareRows: [
+        {
+            level: "Hypothesis",
+            what: "A specific, testable claim about one mechanism in two strains.",
+            inModule: "Strain X has a more efficient nitrogen-sensing regulator, maintaining photosynthesis gene expression under low nitrogen."
+        },
+        {
+            level: "Scientific Theory",
+            what: "A broad, evidence-based explanation integrating many experiments.",
+            inModule: "The theory of photosynthetic acclimation to nutrient stress — built from decades of studies across many algae species and conditions."
+        },
+        {
+            level: "Scientific Law",
+            what: "A concise, mathematical description of a consistent physical pattern.",
+            inModule: "The Beer-Lambert law governs light absorption in your chlorophyll assay, but it is not what your experiment is testing."
+        }
+    ]
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SMART FEEDBACK ENGINE — HIGGS-SPECIFIC RUBRICS
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Utility helpers
+const has = (text, words) => words.some(w => text.includes(w.toLowerCase()));
+const hasAll = (text, words) => words.every(w => text.includes(w.toLowerCase()));
+const hasPhrase = (text, phrases) => phrases.some(p => text.includes(p.toLowerCase()));
+const wordCount = (text) => text.trim().split(/\s+/).filter(Boolean).length;
+
+// Causal language detector — used by observation step
+const CAUSAL_WORDS = ["because","due to","caused by","results in","leads to","explains","therefore","since","as a result","this means","so that","in order to","which causes","causing","makes","allows","enables","prevents","inhibits"];
+
+// Step-specific feedback functions
+const RUBRICS = [
+
+    // ── STEP 0: Observation ──────────────────────────────────────────────────
+    function observationFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Check: causal / explanatory language
+        const causalFound = CAUSAL_WORDS.filter(w => text.includes(w));
+        if (causalFound.length > 0) {
+            messages.push({ type: "warn", text: `⚠️ Explanation detected: you used "${causalFound[0]}" — observations report only what you see, not why it happens. Remove any cause-and-effect language.` });
+        } else {
+            score++;
+        }
+
+        // Check: both strains mentioned
+        const bothStrains = (text.includes("strain x") || text.includes("x ")) && (text.includes("strain y") || text.includes("y "));
+        const altBoth = hasPhrase(text, ["both strains", "two strains", "one strain", "one alga", "two alga"]);
+        if (bothStrains || altBoth) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Both strains";
+            score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Both strains";
+            messages.push({ type: "warn", text: "❌ Mention both Strain X and Strain Y — observations need to capture both sides of the comparison." });
+        }
+
+        // Check: growth difference
+        if (has(text, ["grow","growth","grows","pale","green","deeper","deeper green","slow","slows","barely","thrive"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Growth difference";
+            score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Growth difference";
+            messages.push({ type: "warn", text: "❌ Describe the visible growth difference — what does Strain X look like versus Strain Y?" });
+        }
+
+        // Check: nitrogen condition
+        if (has(text, ["nitrogen","nutrient","low nitrogen","low-nitrogen","limited","deficient"])) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Low-nitrogen condition";
+            score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Low-nitrogen condition";
+            messages.push({ type: "warn", text: "❌ Note the growing condition — both strains are in a low-nitrogen environment." });
+        }
+
+        // Check: gene activity
+        if (has(text, ["gene","genes","expression","readout","lit","activity","rna","pattern","different pattern"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Gene activity noted";
+            score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Gene activity noted";
+            messages.push({ type: "warn", text: "❌ Include what the gene activity readout showed — the two strains display a different pattern of active genes." });
+        }
+
+        // Check: no explanation (chip 4)
+        if (causalFound.length === 0) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ No causal explanation";
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ No causal explanation";
+        }
+
+        if (score >= 4 && causalFound.length === 0) {
+            return [{ type: "good", text: "✅ Strong observation! You've described both strains, the growth difference, the nitrogen condition, and the gene activity readout — all without slipping into explanation. That's exactly right." }];
+        }
+        if (score >= 2) {
+            messages.unshift({ type: "partial", text: "🟡 Partial — your observation captures some key details but is missing others. See the checklist below." });
+        }
+        return messages;
+    },
+
+    // ── STEP 1: Curiosity Question ───────────────────────────────────────────
+    function curiosityFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Check: opening stem
+        const goodStems = ["how does","how do","is there","to what extent","what is the relationship","could there be","might there be"];
+        const badStems = ["why does","why do","why is","why are","why would"];
+        const hasGoodStem = hasPhrase(text, goodStems);
+        const hasBadStem = hasPhrase(text, badStems);
+
+        if (hasBadStem) {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Not a 'Why' question";
+            messages.push({ type: "warn", text: `⚠️ You started with "why" — curiosity questions should begin with "How does…", "Is there…", or "To what extent…". "Why" questions often assume a cause before you've tested anything.` });
+        } else if (hasGoodStem) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Good opening stem";
+            score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Opening stem";
+            messages.push({ type: "warn", text: `❌ Start your curiosity question with "How does…", "Is there a relationship between…", or "To what extent…"` });
+        }
+
+        // Check: references nitrogen or stress
+        if (has(text, ["nitrogen","nutrient","stress","low nitrogen","starvation","deprivation","deficiency","limited"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ References nitrogen stress";
+            score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Nitrogen/stress missing";
+            messages.push({ type: "warn", text: "❌ Your curiosity question should reference nitrogen or nutrient stress — that's the condition you observed." });
+        }
+
+        // Check: links to algae, gene expression, or growth
+        if (has(text, ["alga","algae","chlamydomonas","gene","genes","expression","growth","photosynthesis","strain"])) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Links to algae/growth/genes";
+            score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Algae/growth/genes missing";
+            messages.push({ type: "warn", text: "❌ Anchor your question in the scenario — mention algae, photosynthesis, gene expression, or growth." });
+        }
+
+        // Check: not already a specific testable RQ (too narrow)
+        const tooSpecific = hasPhrase(text, ["independent variable","dependent variable","control group","null hypothesis","p-value","assay"]);
+        if (tooSpecific) {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Not yet a RQ";
+            messages.push({ type: "warn", text: "⚠️ This reads more like a research question already. A curiosity question is broader — save the specific variables for Step 3." });
+        } else {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Appropriately broad";
+            score++;
+        }
+
+        // Check: not a 'Why' (chip 4)
+        if (!hasBadStem) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Not a 'Why' question";
+            score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Avoid 'Why'";
+        }
+
+        if (score >= 4) {
+            return [{ type: "good", text: "✅ Great curiosity question! It's broad, uses the right opening, and is grounded in the Higgs scenario. You're ready to sharpen it into a research question." }];
+        }
+        if (score >= 2) {
+            messages.unshift({ type: "partial", text: "🟡 Getting there — your question has some good elements but needs refinement. See the checklist." });
+        }
+        return messages;
+    },
+
+    // ── STEP 2: Research Question ────────────────────────────────────────────
+    function researchQFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Check: identifies an IV
+        const ivTerms = ["genetic difference","nitrogen sensor","regulatory","gene regulation","strain","sensing mechanism","regulatory gene","transcription factor","independent variable","independent"];
+        if (has(text, ivTerms)) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Independent variable named";
+            score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Independent variable unclear";
+            messages.push({ type: "warn", text: "❌ Name your independent variable — what specifically differs between the two strains that you are investigating? (e.g. the nitrogen-sensing or regulatory mechanism)" });
+        }
+
+        // Check: identifies a DV
+        const dvTerms = ["growth rate","growth","gene expression","expression level","photosynthesis","chlorophyll","rna","transcript","biomass","cell count","fluorescence","dependent variable","dependent"];
+        if (has(text, dvTerms)) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Dependent variable named";
+            score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Dependent variable unclear";
+            messages.push({ type: "warn", text: "❌ Name your dependent variable — what will you measure? (e.g. growth rate, gene expression level, chlorophyll content)" });
+        }
+
+        // Check: specific to algae/nitrogen
+        if (has(text, ["alga","algae","chlamydomonas","nitrogen","low nitrogen","nutrient stress"])) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Algae/nitrogen context";
+            score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Missing scenario context";
+            messages.push({ type: "warn", text: "❌ Ground your research question in the Higgs scenario — mention algae or nitrogen stress." });
+        }
+
+        // Check: testable (measurable)
+        const measurableTerms = ["measure","affect","influence","compare","differ","effect","rate","level","amount","quantify","assay"];
+        if (has(text, measurableTerms)) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Testable / measurable";
+            score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Not clearly testable";
+            messages.push({ type: "warn", text: "⚠️ Your question should imply something measurable — include a word like 'affect', 'influence', 'differ', or 'rate'." });
+        }
+
+        // Check: more specific than curiosity Q (not just restating it)
+        if (wordCount(text) < 6) {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Too brief";
+            messages.push({ type: "warn", text: "⚠️ Your research question is very short. It should be specific enough to guide an experiment — name both the IV and DV clearly." });
+        } else {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Appropriately specific";
+            score++;
+        }
+
+        if (score >= 4) {
+            return [{ type: "good", text: "✅ Strong research question! It identifies a specific independent variable, a measurable dependent variable, and is grounded in the Higgs scenario." }];
+        }
+        if (score >= 2) {
+            messages.unshift({ type: "partial", text: "🟡 Partial — your question is moving in the right direction but needs to be more specific. See the checklist." });
+        }
+        return messages;
+    },
+
+    // ── STEP 3: Hypothesis ───────────────────────────────────────────────────
+    function hypothesisFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Check: mechanism proposed
+        const mechanismTerms = ["sensor","sensing","regulator","regulatory","transcription","binding","receptor","signaling","pathway","respond","detects","activates","expression","pathway","mechanism"];
+        if (has(text, mechanismTerms)) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Mechanism proposed";
+            score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Mechanism unclear";
+            messages.push({ type: "warn", text: "❌ Your hypothesis should propose a specific biological mechanism — what does Strain X do differently at the molecular or cellular level?" });
+        }
+
+        // Check: cause-effect language
+        const causeEffectTerms = ["will","leads to","results in","causes","enables","allows","therefore","consequently","increases","decreases","maintains","reduces","higher","lower"];
+        if (has(text, causeEffectTerms)) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Cause-effect language";
+            score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ No cause-effect link";
+            messages.push({ type: "warn", text: "❌ State a cause-effect relationship — use words like 'will', 'leads to', 'enables', or 'results in'." });
+        }
+
+        // Check: comparison between strains
+        const comparisonTerms = ["compared to","compared with","than strain y","than y","unlike strain y","unlike y","whereas","while strain","relative to","more than","less than","greater than","higher than","lower than"];
+        if (hasPhrase(text, comparisonTerms)) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Comparison included";
+            score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Comparison missing";
+            messages.push({ type: "warn", text: "❌ Include a comparison — your hypothesis should contrast Strain X with Strain Y (e.g. '…compared to Strain Y')." });
+        }
+
+        // Check: falsifiable (contains something that could be wrong)
+        const nonFalsifiable = ["always","never will","it is impossible","proven","certain","definitely","must be","there is no doubt"];
+        if (hasPhrase(text, nonFalsifiable)) {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Not falsifiable";
+            messages.push({ type: "warn", text: "⚠️ A hypothesis must be falsifiable — it should be possible for evidence to prove it wrong. Remove absolute language like 'always' or 'definitely'." });
+        } else if (score >= 2) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Falsifiable";
+            score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Falsifiability unclear";
+        }
+
+        // Check: uses predictive language ("will")
+        if (text.includes("will")) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Predictive 'will'";
+            score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Add 'will'";
+            messages.push({ type: "warn", text: "⚠️ Hypotheses typically use 'will' to signal a prediction — e.g. 'Strain X will maintain higher expression…'" });
+        }
+
+        if (score >= 4) {
+            return [{ type: "good", text: "✅ Solid hypothesis! It proposes a mechanism, makes a cause-effect claim, includes a comparison, and is falsifiable. Well done." }];
+        }
+        if (score >= 2) {
+            messages.unshift({ type: "partial", text: "🟡 Your hypothesis has a foundation but is missing some key elements. See the checklist below." });
+        }
+        return messages;
+    },
+
+    // ── STEP 4: Prediction ───────────────────────────────────────────────────
+    function predictionFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Check: If–Then structure
+        const hasIf = text.startsWith("if") || text.includes(" if ");
+        const hasThen = text.includes(" then ");
+        if (hasIf && hasThen) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ If–Then structure";
+            score++;
+        } else if (hasIf || hasThen) {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Incomplete If–Then";
+            messages.push({ type: "warn", text: "⚠️ Use the full If–Then format: 'If [condition], then [measurable outcome]'." });
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ No If–Then";
+            messages.push({ type: "warn", text: "❌ Structure your prediction as 'If [condition from hypothesis], then [measurable outcome]'." });
+        }
+
+        // Check: 'If' part refers to hypothesis condition
+        if (has(text, ["nitrogen","strain x","strain y","sensor","regulatory","mechanism","expression","low nitrogen"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ 'If' restates hypothesis";
+            score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ 'If' unclear";
+            messages.push({ type: "warn", text: "❌ The 'If' part should restate the condition from your hypothesis — e.g. 'If Strain X has a more efficient nitrogen sensor…'" });
+        }
+
+        // Check: 'Then' specifies a measurable outcome
+        const measurableOutcomes = ["higher","lower","more","less","greater","fewer","increase","decrease","faster","slower","expression","growth rate","chlorophyll","rna","transcript","gene activity","biomass"];
+        if (has(text, measurableOutcomes)) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Measurable 'Then'";
+            score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ 'Then' not measurable";
+            messages.push({ type: "warn", text: "❌ The 'Then' part must name a measurable outcome — what will you actually observe or quantify? (e.g. higher gene expression, faster growth rate)" });
+        }
+
+        // Check: direction specified
+        const directionTerms = ["higher than","lower than","more than","less than","greater than","fewer than","faster than","slower than","increase compared","decrease compared"];
+        if (hasPhrase(text, directionTerms) || has(text, ["higher","lower","more","less","faster","slower","increase","decrease"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Direction specified";
+            score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Direction unclear";
+            messages.push({ type: "warn", text: "⚠️ Specify a direction — will Strain X show higher or lower expression, faster or slower growth?" });
+        }
+
+        // Check: could actually be tested
+        if (has(text, ["measure","assay","quantify","count","compare","under low nitrogen","in the experiment","in a lab","growth rate","expression level","chlorophyll"])) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Lab-testable";
+            score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Lab context missing";
+            messages.push({ type: "warn", text: "⚠️ Make it clear this prediction can be tested in a lab — mention the measurement method or experimental context." });
+        }
+
+        if (score >= 4) {
+            return [{ type: "good", text: "✅ Excellent prediction! It uses If–Then, restates your hypothesis condition, names a measurable outcome, and specifies a direction." }];
+        }
+        if (score >= 2) {
+            messages.unshift({ type: "partial", text: "🟡 Your prediction is partially there. Check the If–Then structure and make sure the outcome is clearly measurable and directional." });
+        }
+        return messages;
+    },
+
+    // ── STEP 5: Variables & Controls ─────────────────────────────────────────
+    function variablesFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Check: IV named
+        const ivTerms = ["independent variable","independent","iv","strain","genetic","regulatory","nitrogen sensor","sensing mechanism","regulatory difference"];
+        if (has(text, ivTerms)) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Independent variable named";
+            score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ IV unclear";
+            messages.push({ type: "warn", text: "❌ Clearly name your independent variable (IV) — the factor that differs between your two groups (e.g. the genetic/regulatory difference between Strain X and Strain Y)." });
+        }
+
+        // Check: DV named
+        const dvTerms = ["dependent variable","dependent","dv","growth rate","growth","gene expression","expression level","chlorophyll","rna","transcript","biomass","fluorescence","cell count","photosynthesis rate"];
+        if (has(text, dvTerms)) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Dependent variable named";
+            score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ DV unclear";
+            messages.push({ type: "warn", text: "❌ Name your dependent variable (DV) — what you will measure (e.g. growth rate, gene expression level, chlorophyll content)." });
+        }
+
+        // Check: at least 3 controlled variables
+        const controlledTerms = ["light","temperature","co2","carbon dioxide","ph","nitrogen concentration","medium","culture medium","growth phase","humidity","salinity","time","incubation","agitation","aeration","wavelength","photoperiod"];
+        const controlsFound = controlledTerms.filter(c => text.includes(c));
+        if (controlsFound.length >= 3) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ ≥3 controlled variables";
+            score++;
+        } else if (controlsFound.length >= 1) {
+            chips[2].classList.add("fail"); chips[2].innerHTML = `✗ Only ${controlsFound.length} control(s) — need 3+`;
+            messages.push({ type: "warn", text: `⚠️ You listed ${controlsFound.length} controlled variable(s). List at least 3 — consider: light intensity, temperature, CO₂ levels, nitrogen concentration, growth phase, pH.` });
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ No controlled variables";
+            messages.push({ type: "warn", text: "❌ List your controlled variables — factors you'll keep identical in both groups (e.g. light intensity, temperature, CO₂, medium composition)." });
+        }
+
+        // Check: IV and DV are distinct
+        const hasIVtext = has(text, ivTerms);
+        const hasDVtext = has(text, dvTerms);
+        if (hasIVtext && hasDVtext && text.indexOf("independent") !== text.indexOf("dependent")) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ IV and DV distinct";
+            score++;
+        } else if (hasIVtext && hasDVtext) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ IV and DV present";
+            score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ IV/DV distinction unclear";
+        }
+
+        // Check: controls are biologically relevant
+        if (controlsFound.length >= 2) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Controls biologically relevant";
+            score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Controls need more detail";
+        }
+
+        if (score >= 4) {
+            return [{ type: "good", text: "✅ Well-structured variables section! IV, DV, and controlled variables are all clearly identified — your experiment is set up for a fair test." }];
+        }
+        if (score >= 2) {
+            messages.unshift({ type: "partial", text: "🟡 Good start, but your variables section needs more detail. See the checklist." });
+        }
+        return messages;
+    },
+
+    // ── STEP 6: Experimental Design ──────────────────────────────────────────
+    function designFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Check: two groups defined
+        if (has(text, ["strain x","strain y","group a","group b","two groups","control group","experimental group","wild-type","mutant","both strains"])) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Two groups defined";
+            score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Groups not defined";
+            messages.push({ type: "warn", text: "❌ Define your two experimental groups clearly — e.g. Strain X (experimental) vs Strain Y (control)." });
+        }
+
+        // Check: nitrogen conditions specified
+        if (has(text, ["nitrogen","low nitrogen","nitrogen-deficient","low-nitrogen","nitrogen concentration","nitrogen level","n-deficient"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Nitrogen conditions specified";
+            score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Nitrogen conditions missing";
+            messages.push({ type: "warn", text: "❌ Specify your nitrogen conditions — how will you create and maintain the low-nitrogen environment for both strains?" });
+        }
+
+        // Check: measurement method named
+        const methods = ["rna-seq","rna seq","rnaseq","qpcr","q-pcr","northern blot","microarray","transcriptome","chlorophyll assay","spectrophotometer","cell count","hemocytometer","fluorimeter","growth curve","optical density","od600","westernblot","western blot","elisa","gel","microscop","flow cytom"];
+        if (has(text, methods)) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Measurement method named";
+            score++;
+        } else if (has(text, ["measure","assay","quantify","analyze","test","examine","record","count","observe","read"])) {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Method vague";
+            messages.push({ type: "warn", text: "⚠️ Name a specific measurement method — e.g. RNA-seq for gene expression, chlorophyll assay or OD600 for growth, qPCR for gene activity." });
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ No measurement method";
+            messages.push({ type: "warn", text: "❌ Describe how you will measure your dependent variable — what instrument or technique will you use?" });
+        }
+
+        // Check: replicates mentioned
+        if (has(text, ["replicate","replication","replicates","triplicates","triplicate","n=","multiple","repeated","repetition","biological replicates","technical replicates"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Replicates mentioned";
+            score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Replicates missing";
+            messages.push({ type: "warn", text: "❌ Mention replicates — running the experiment multiple times (or with multiple samples) ensures your results aren't due to chance." });
+        }
+
+        // Check: result pattern described for both outcomes
+        const supportsHyp = has(text, ["support","supports","consistent with","confirms","if hypothesis is correct","higher expression","higher growth","would show","would indicate"]);
+        const rejectsHyp = has(text, ["reject","disprove","fail","no difference","null hypothesis","if hypothesis is wrong","if incorrect","would not","would fail"]);
+        if (supportsHyp && rejectsHyp) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Both outcomes described";
+            score++;
+        } else if (supportsHyp || rejectsHyp) {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Describe both outcomes";
+            messages.push({ type: "warn", text: "⚠️ Describe what results would both support AND reject your hypothesis — a good experiment anticipates both possibilities." });
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ No result pattern described";
+            messages.push({ type: "warn", text: "❌ Describe the expected result pattern — what would the data look like if your hypothesis is correct? And if it's wrong?" });
+        }
+
+        if (score >= 4) {
+            return [{ type: "good", text: "✅ Excellent experimental design! You've defined your groups, specified conditions, named a measurement method, included replicates, and described both possible outcomes." }];
+        }
+        if (score >= 2) {
+            messages.unshift({ type: "partial", text: "🟡 Your design is taking shape but is missing key elements. See the checklist." });
+        }
+        return messages;
+    },
+
+    // ── STEP 7: Theory vs. Law ───────────────────────────────────────────────
+    function theoryLawFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Check: distinguishes hypothesis from theory
+        if (has(text, ["hypothesis","hypotheses"]) && has(text, ["theory","theories"])) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Hypothesis vs Theory";
+            score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Distinguish H vs Theory";
+            messages.push({ type: "warn", text: "❌ Explicitly distinguish between your hypothesis and a scientific theory — how are they different in scope and evidence?" });
+        }
+
+        // Check: names or describes a relevant theory
+        const theoryNames = ["photosynthetic acclimation","acclimation theory","nutrient stress","ecological theory","gene regulation theory","transcriptional regulation","evolutionary theory","natural selection","theory of evolution","cell signaling theory","systems biology"];
+        if (has(text, theoryNames) || (text.includes("theory") && has(text, ["many","decades","multiple","broad","accumulated","established","supported","evidence","studies","experiments","integrates"]))) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Relevant theory named";
+            score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Name a relevant theory";
+            messages.push({ type: "warn", text: "❌ Name a specific relevant theory — e.g. the theory of photosynthetic acclimation to nutrient stress." });
+        }
+
+        // Check: names or describes a relevant law
+        const lawNames = ["beer-lambert","beer lambert","fick","law of diffusion","law of conservation","thermodynamics","michaelis-menten","michaelis menten","law of","scientific law","physical law"];
+        if (has(text, lawNames) || (text.includes("law") && has(text, ["mathematical","equation","formula","constant","quantitative","physical","universal","precise"]))) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Relevant law named";
+            score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Name a relevant law";
+            messages.push({ type: "warn", text: "❌ Name a relevant scientific law — e.g. the Beer-Lambert law (used in your chlorophyll assay) or Fick's law of diffusion." });
+        }
+
+        // Check: explains scope/evidence difference
+        if (has(text, ["many experiments","many studies","accumulated","broader","scope","integrates","built from","supported by","years of","decades","multiple lines","evidence"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Scope/evidence explained";
+            score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Explain scope difference";
+            messages.push({ type: "warn", text: "⚠️ Explain why your single experiment is not yet a theory — a theory is built from many studies with accumulated evidence across multiple conditions." });
+        }
+
+        // Check: describes path from hypothesis to theory
+        if (has(text, ["would need","over time","multiple","repeated","replicated","confirmed","accumulated","build toward","contribute","more evidence","further testing","future experiments","more studies"])) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Path to theory described";
+            score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Path to theory missing";
+            messages.push({ type: "warn", text: "⚠️ Describe what it would take to move from your hypothesis toward theory — what additional evidence or experiments would be needed?" });
+        }
+
+        if (score >= 4) {
+            return [{ type: "good", text: "✅ Excellent reflection! You've clearly distinguished hypothesis, theory, and law, named relevant examples, and explained what it takes to build scientific knowledge over time." }];
+        }
+        if (score >= 2) {
+            messages.unshift({ type: "partial", text: "🟡 Good start — but dig deeper into the distinctions between hypothesis, theory, and law. See the checklist." });
+        }
+        return messages;
+    }
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COHERENCE CHECKER
+// Checks cross-step consistency (e.g. RQ variables match hypothesis variables)
+// ─────────────────────────────────────────────────────────────────────────────
+function checkCoherence(stepIdx, currentText, allResponses) {
+    if (stepIdx === 3) {
+        // Hypothesis should be consistent with Research Question (step 2)
+        const rq = (allResponses[2] || "").toLowerCase();
+        const hyp = currentText.toLowerCase();
+        if (rq.length < 10) return null;
+
+        // Extract key terms from RQ
+        const rqMentionsGrowth = has(rq, ["growth","grow","biomass","cell count"]);
+        const rqMentionsExpression = has(rq, ["expression","gene","rna","transcript"]);
+        const hypMentionsGrowth = has(hyp, ["growth","grow","biomass","cell count"]);
+        const hypMentionsExpression = has(hyp, ["expression","gene","rna","transcript"]);
+
+        if (rqMentionsGrowth && !hypMentionsGrowth && !hypMentionsExpression) {
+            return "⚠️ Coherence check: Your research question focused on growth, but your hypothesis doesn't seem to connect to that outcome. Make sure your hypothesis answers your own research question.";
+        }
+        if (rqMentionsExpression && !hypMentionsExpression && !hypMentionsGrowth) {
+            return "⚠️ Coherence check: Your research question mentioned gene expression, but your hypothesis doesn't seem to address it. A hypothesis should directly answer your research question.";
+        }
+    }
+
+    if (stepIdx === 4) {
+        // Prediction should be consistent with Hypothesis (step 3)
+        const hyp = (allResponses[3] || "").toLowerCase();
+        const pred = currentText.toLowerCase();
+        if (hyp.length < 10) return null;
+
+        const hypMentionsX = has(hyp, ["strain x","x will","x has","x possesses"]);
+        const predMentionsX = has(pred, ["strain x","x will","x shows","x would"]);
+        if (hypMentionsX && !predMentionsX) {
+            return "⚠️ Coherence check: Your hypothesis was about Strain X's advantage, but your prediction doesn't mention Strain X specifically. Your If–Then should reflect your hypothesis directly.";
+        }
+    }
+
+    if (stepIdx === 5) {
+        // Variables should match the IV named in the Research Question (step 2)
+        const rq = (allResponses[2] || "").toLowerCase();
+        const vars = currentText.toLowerCase();
+        if (rq.length < 10) return null;
+
+        const rqMentionsSensor = has(rq, ["sensor","regulatory","regulation","sensing","genetic"]);
+        const varsMentionsSensor = has(vars, ["sensor","regulatory","regulation","sensing","genetic","strain","independent"]);
+        if (rqMentionsSensor && !varsMentionsSensor) {
+            return "⚠️ Coherence check: Your research question pointed to a genetic or regulatory difference as the key variable, but your variables section doesn't seem to reflect that. Make sure your IV matches what you described in your research question.";
+        }
+    }
+
+    return null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+let currentStep = 0;
+let responses = Array(STEPS.length).fill("");
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER STEP
+// ─────────────────────────────────────────────────────────────────────────────
+function loadStep() {
+    const idx = currentStep;
+    const prompt = RESEARCHER.prompts[idx];
+
+    document.getElementById("stepName").textContent = STEPS[idx];
+    document.getElementById("stepCounter").textContent = `Step ${idx + 1} of ${STEPS.length}`;
+    document.getElementById("stepSubtitle").textContent = STEP_SUBTITLES[idx];
+    document.getElementById("definitionText").textContent = STEP_DEFINITIONS[idx];
+    document.getElementById("infoBtn").setAttribute("data-tip", STEP_DEFINITIONS[idx]);
+    document.getElementById("progressLabel").textContent = `Progress — Step ${idx + 1} of ${STEPS.length}`;
+    document.getElementById("progressFill").style.width = `${(idx / (STEPS.length - 1)) * 100}%`;
+    document.getElementById("contextText").textContent = RESEARCHER.contextByStep[idx];
+    document.getElementById("promptLabel").textContent = prompt.label;
+    document.getElementById("promptHelper").textContent = prompt.helper;
+    document.getElementById("responseInput").value = responses[idx] || "";
+    document.getElementById("feedbackArea").innerHTML = "";
+    document.getElementById("coherenceAlert").textContent = "";
+    document.getElementById("coherenceAlert").classList.remove("visible");
+
+    // Build checklist chips
+    const checklistEl = document.getElementById("checklistArea");
+    checklistEl.innerHTML = "";
+    prompt.checklist.forEach(item => {
+        const chip = document.createElement("span");
+        chip.className = "check-chip";
+        chip.textContent = item;
+        checklistEl.appendChild(chip);
+    });
+
+    // Prior responses
+    updatePriorPanel(idx);
+
+    // Buttons
+    document.getElementById("prevBtn").disabled = idx === 0;
+    const nextBtn = document.getElementById("nextBtn");
+    nextBtn.textContent = idx === STEPS.length - 1 ? "Finish & See Summary →" : "Check & Continue →";
+
+    // Compare card
+    document.getElementById("compareCard").classList.remove("visible");
+}
+
+function updatePriorPanel(idx) {
+    const panel = document.getElementById("priorPanel");
+    const list = document.getElementById("priorList");
+    const prior = responses.slice(0, idx).filter(Boolean);
+    if (prior.length === 0) { panel.classList.remove("visible"); return; }
+    panel.classList.add("visible");
+    list.innerHTML = prior.map((r, i) => `
+        <div class="prior-entry">
+            <div class="prior-step-label">${STEPS[i]}</div>
+            <p>${r}</p>
+        </div>
+    `).join("");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FEEDBACK
+// ─────────────────────────────────────────────────────────────────────────────
+function runFeedback() {
+    const text = (document.getElementById("responseInput").value || "").toLowerCase().trim();
+    const feedbackEl = document.getElementById("feedbackArea");
+    const chips = Array.from(document.getElementById("checklistArea").children);
+
+    // Reset chips
+    chips.forEach(c => { c.className = "check-chip"; c.textContent = RESEARCHER.prompts[currentStep].checklist[chips.indexOf(c)]; });
+
+    if (!text) {
+        feedbackEl.innerHTML = `<div class="feedback-warn">⚠️ Please write something before continuing.</div>`;
+        return false;
+    }
+
+    if (wordCount(text) < 5) {
+        feedbackEl.innerHTML = `<div class="feedback-warn">⚠️ Your answer is very brief. Try to be more specific and detailed.</div>`;
+        return false;
+    }
+
+    const messages = RUBRICS[currentStep](text, chips);
+
+    // Coherence check
+    const coherenceMsg = checkCoherence(currentStep, text, responses);
+    const coherenceEl = document.getElementById("coherenceAlert");
+    if (coherenceMsg) {
+        coherenceEl.textContent = coherenceMsg;
+        coherenceEl.classList.add("visible");
+    }
+
+    // Render feedback messages
+    if (messages.length === 1 && messages[0].type === "good") {
+        feedbackEl.innerHTML = `<div class="feedback-good feedback-item">${messages[0].text}</div>`;
+        return true;
+    }
+
+    const html = messages.map(m => {
+        const cls = m.type === "good" ? "feedback-good" : m.type === "partial" ? "feedback-partial" : "feedback-warn";
+        return `<div class="${cls} feedback-item">${m.text}</div>`;
+    }).join("");
+    feedbackEl.innerHTML = html;
+
+    const hasWarning = messages.some(m => m.type === "warn");
+    return !hasWarning;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────────────────────────────────────
+function nextStep() {
+    responses[currentStep] = document.getElementById("responseInput").value.trim();
+    const passed = runFeedback();
+
+    if (!document.getElementById("responseInput").value.trim()) return;
+
+    if (currentStep === STEPS.length - 1) {
+        // Final step — show compare card
+        fillCompareCard();
+        document.getElementById("compareCard").classList.add("visible");
+        document.getElementById("compareCard").scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+    }
+
+    if (passed) {
+        setTimeout(() => { currentStep++; loadStep(); window.scrollTo({ top: 0, behavior: "smooth" }); }, 600);
+    }
+    // If not passed, stay on step so student can revise
+}
+
+function prevStep() {
+    if (currentStep === 0) return;
+    responses[currentStep] = document.getElementById("responseInput").value.trim();
+    currentStep--;
+    loadStep();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function fillCompareCard() {
+    const tbody = document.getElementById("compareBody");
+    tbody.innerHTML = "";
+    RESEARCHER.compareRows.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${row.level}</td><td>${row.what}</td><td>${row.inModule}</td>`;
+        tbody.appendChild(tr);
+    });
+}
+
+function emailResponses() {
+    let body = `Scientific Process — ${RESEARCHER.label}\n\n`;
+    STEPS.forEach((step, i) => {
+        body += `${step}:\n${responses[i] || "(no response)"}\n\n`;
+    });
+    body += "\n-- Sent from the UWP Biology Scientific Process tool.";
+    const mailto = `mailto:${RESEARCHER.email}?subject=${encodeURIComponent("Scientific Process: " + RESEARCHER.label + " Responses")}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HELP PANEL
+// ─────────────────────────────────────────────────────────────────────────────
+const helpPanel = document.getElementById("helpPanel");
+const helpToggle = document.getElementById("helpToggle");
+const helpClose = document.getElementById("helpClose");
+
+helpToggle.style.display = "block";
+
+helpToggle.addEventListener("click", () => {
+    helpPanel.classList.toggle("collapsed");
+    helpToggle.textContent = helpPanel.classList.contains("collapsed") ? "❓ Need Help?" : "❓ Hide Help";
+});
+helpClose.addEventListener("click", () => {
+    helpPanel.classList.add("collapsed");
+    helpToggle.textContent = "❓ Need Help?";
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+loadStep();
+</script>
+</body>
+</html>
