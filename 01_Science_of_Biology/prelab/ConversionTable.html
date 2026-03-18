@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+/* === UWP Compliant Header & Global Styles === */
+header {
+    background: #016836;
+    border-bottom: 3px solid #FABA31;
+}
+.header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: center;
+}
+.nav-links a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    font-family: "Open Sans", system-ui, sans-serif;
+}
+.nav-links a:hover { text-decoration: underline; }
+
+/* Global body */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f7f9;
+    color: #212721;
+}
+
+/* Wrapper to limit width of lesson panel and tables */
+.lesson-header, .tables-wrapper {
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+}
+
+/* Lesson panel (accordion) */
+.lesson-header {
+  border: 1px solid #016836;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+/* Progress bar – 7 steps */
+.step-progress {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  background: #fff;
+}
+.step-pip {
+  flex: 1;
+  text-align: center;
+  padding: 7px 4px 6px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #999;
+  cursor: pointer;
+  border-right: 1px solid #ddd;
+  transition: background 0.15s, color 0.15s;
+  user-select: none;
+  line-height: 1.3;
+}
+.step-pip:last-child { border-right: none; }
+.step-pip:hover { background: #f0f0f0; color: #333; }
+.step-pip.active {
+  background: #e8f4ff;
+  color: #016836;
+  border-bottom: 3px solid #016836;
+}
+.step-pip.done {
+  color: #2a7a2a;
+  background: #f0fff0;
+}
+
+/* Accordion panels */
+.acc-panel {
+  display: none;
+  padding: 12px 14px 10px;
+  border-top: 1px solid #ddd;
+  animation: fadeIn 0.18s ease;
+}
+.acc-panel.open { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* Step header inside panel */
+.step-heading {
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0 0 6px;
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.step-badge {
+  display: inline-block;
+  background: #016836;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 1px 8px;
+  letter-spacing: .04em;
+}
+.step-sub {
+  font-size: 12px;
+  color: #666;
+  margin: 0 0 10px;
+  font-weight: normal;
+}
+
+/* Button groups */
+.btn-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
+
+/* Navigation buttons */
+.step-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+  gap: 8px;
+}
+.btn-nav {
+  cursor: pointer;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1.5px solid #999;
+  border-radius: 3px;
+  background: #fff;
+  color: #333;
+}
+.btn-nav:hover { background: #eee; }
+.btn-nav.primary {
+  background: #016836;
+  color: #fff;
+  border-color: #016836;
+}
+.btn-nav.primary:hover { background: #00502f; }
+
+.sub-section { margin-bottom: 8px; }
+.sub-label-inline {
+  font-size: 11px;
+  font-weight: bold;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  display: block;
+  margin-bottom: 3px;
+}
+
+button { cursor:pointer; padding:5px 12px; font-weight:bold; border: 2px solid transparent; border-radius: 3px; font-size: 13px; }
+
+/* Family buttons */
+.btn-meter  { background:#d7f0ff; border-color:#4aa8d8; }
+.btn-gram   { background:#ffe0e0; border-color:#d85050; }
+.btn-liter  { background:#e7ffd9; border-color:#50a050; }
+.btn-tbl    { background:#fff8dc; border-color:#bba020; }
+.btn-base   { background:#fffde0; border-color:#c8a800; color:#5a4000; }
+.btn-above  { background:#e0f4e0; border-color:#2a8a2a; color:#0a3a0a; }
+.btn-below  { background:#ffe8f0; border-color:#c03060; color:#5a0020; }
+.btn-util   { background:#f0f0f0; border-color:#888; }
+
+/* Tables */
+table { border:none; border-collapse:collapse; width:400px; table-layout:fixed; background:white; margin-bottom:20px; }
+td { padding:1px 0; border:none; vertical-align:top; }
+th { text-decoration:underline; text-align:left; font-weight:bold; padding-bottom:8px; border:none; font-size:16px; }
+.base-row-text { font-weight:bold; text-align:center; width:100%; display:block; padding:4px 0; }
+.section-container { display:flex; gap:60px; align-items:flex-start; flex-wrap:wrap; }
+
+/* Highlight classes */
+.highlight-pfx    { background:#00FFFF !important; }
+.highlight-bse    { background:#FFFF00 !important; }
+.highlight-meter  { background:#d7f0ff !important; }
+.highlight-gram   { background:#ffe0e0 !important; }
+.highlight-liter  { background:#e7ffd9 !important; }
+.truncation-zone  { border:2px dashed #FF8C00; }
+.one-target-left  { outline: 3px solid #cc0000; background: #fff0b3 !important; }
+.one-target-right { outline: 3px solid #0055cc; background: #d0e8ff !important; }
+.dimmed { opacity: 0.18; }
+
+/* Hint bar */
+#hint {
+  margin: 10px 14px 12px;
+  font-size: 13px;
+  min-height: 40px;
+  background: #fffbe6;
+  border-left: 4px solid #FABA31;
+  padding: 8px 12px;
+  line-height: 1.5;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Where-is-the-1 panel */
+#where-panel {
+  display:none; border:2px solid #016836; border-radius:6px;
+  background:#f0f4ff; padding:12px 16px; margin-bottom:14px;
+  font-family:Arial,sans-serif; font-size:13px; line-height:1.55;
+}
+#where-panel h3 { margin:0 0 8px; font-size:14px; color:#224; }
+.zone-grid { display:flex; gap:10px; flex-wrap:wrap; }
+.zone-card {
+  flex:1; min-width:160px; border-radius:5px; padding:8px 10px;
+  border:1.5px solid #aaa;
+}
+.zone-card.z-above { background:#e0f4e0; border-color:#2a8a2a; }
+.zone-card.z-base  { background:#fffde0; border-color:#c8a800; }
+.zone-card.z-below { background:#ffe8f0; border-color:#c03060; }
+.zone-card h4 { margin:0 0 4px; font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+.zone-card.z-above h4 { color:#1a5a1a; }
+.zone-card.z-base  h4 { color:#5a4000; }
+.zone-card.z-below h4 { color:#7a0030; }
+.zone-card p  { margin:0; font-size:12px; }
+.zone-card .eg { font-style:italic; color:#444; font-size:11px; margin-top:3px; }
+.calm-note { background:#fffbe6; border-left:3px solid #FABA31; padding:5px 8px;
+             margin-top:8px; border-radius:0 4px 4px 0; font-size:12px; }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="prelabreadings.html">Prelab Readings</a>
+        <a href="../microscpy/MicroscopeMastery.html">Microscopy</a>
+        <a href="traintrack.html">Metric Conversion Practice</a>
+        <a href="traintrackhomework.html">Metric Conversion Homework</a>
+        <a href="size.html">Size Practice</a>
+    </div>
+</header>
+
+<!-- Lesson panel (width restricted) -->
+<div class="lesson-header">
+
+  <!-- 7-step progress bar -->
+  <div class="step-progress">
+    <div class="step-pip active" id="pip-1" onclick="goStep(1)">📐 Step 1<br>Family</div>
+    <div class="step-pip" id="pip-2" onclick="goStep(2)">🏛 Step 2<br>Base row</div>
+    <div class="step-pip" id="pip-3" onclick="goStep(3)">🟢 Step 3<br>Above base</div>
+    <div class="step-pip" id="pip-4" onclick="goStep(4)">🔴 Step 4<br>Below base</div>
+    <div class="step-pip" id="pip-5" onclick="goStep(5)">🔍 Step 5<br>Right “1”</div>
+    <div class="step-pip" id="pip-6" onclick="goStep(6)">🧠 Step 6<br>Pattern</div>
+    <div class="step-pip" id="pip-7" onclick="goStep(7)">📦 Step 7<br>Volume</div>
+  </div>
+
+  <!-- STEP 1: Pick family -->
+  <div class="acc-panel open" id="panel-1">
+    <p class="step-heading"><span class="step-badge">STEP 1 of 7</span> Pick one family — the other two fade out</p>
+    <p class="step-sub">There are three measurement families. Pick one. Everything else fades so you only see what you are working with.</p>
+    <div class="btn-row">
+      <button class="btn-meter" onclick="showMeters()">📏 Length (meter)</button>
+      <button class="btn-gram"  onclick="showGrams()">⚖️ Mass (gram)</button>
+      <button class="btn-liter" onclick="showLiters()">🧪 Volume (liter)</button>
+    </div>
+    <div class="step-nav">
+      <span></span>
+      <button class="btn-nav primary" onclick="goStep(2)">Next: Base row →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Center row – base unit itself -->
+  <div class="acc-panel" id="panel-2">
+    <p class="step-heading"><span class="step-badge">STEP 2 of 7</span> Center row – the base unit itself</p>
+    <p class="step-sub">The center row of both tables is the base unit. It has no prefix and no exponent — it is the reference point everything else is measured against.</p>
+    <div class="btn-row">
+      <button class="btn-util" onclick="findBaseRow('meter')">Highlight center row — Length</button>
+      <button class="btn-util" onclick="findBaseRow('gram')">Highlight center row — Mass</button>
+      <button class="btn-util" onclick="findBaseRow('liter')">Highlight center row — Volume</button>
+    </div>
+    <div class="step-nav">
+      <button class="btn-nav" onclick="goStep(1)">← Back</button>
+      <button class="btn-nav primary" onclick="goStep(3)">Next: Bigger than base →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Bigger than base (above) -->
+  <div class="acc-panel" id="panel-3">
+    <p class="step-heading"><span class="step-badge">STEP 3 of 7</span> Bigger than the base – look ABOVE the center row, on the LEFT table</p>
+    <p class="step-sub">These prefixes make the unit larger than the base. Find the row that starts with 1 — then read right to see how many base units it equals.</p>
+    <div class="btn-row">
+      <button class="btn-above" onclick="findOne('meter','1 kilometer')">1 kilometer</button>
+      <button class="btn-above" onclick="findOne('gram','1 kilogram')">1 kilogram</button>
+      <button class="btn-above" onclick="findOne('liter','1 kiloliter')">1 kiloliter</button>
+    </div>
+    <div class="step-nav">
+      <button class="btn-nav" onclick="goStep(2)">← Back</button>
+      <button class="btn-nav primary" onclick="goStep(4)">Next: Smaller than base →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Smaller than base (below) -->
+  <div class="acc-panel" id="panel-4">
+    <p class="step-heading"><span class="step-badge">STEP 4 of 7</span> Smaller than the base – look BELOW the center row, on the LEFT table</p>
+    <p class="step-sub">These prefixes make the unit smaller than the base. Find the row that starts with 1 — then read right to see how many base units it equals.</p>
+    <div class="btn-row">
+      <button class="btn-below" onclick="findOne('meter','1 centimeter')">1 centimeter</button>
+      <button class="btn-below" onclick="findOne('meter','1 millimeter')">1 millimeter</button>
+      <button class="btn-below" onclick="findOne('meter','1 nanometer')">1 nanometer</button>
+      <button class="btn-below" onclick="findOne('gram','1 milligram')">1 milligram</button>
+      <button class="btn-below" onclick="findOne('gram','1 microgram')">1 microgram</button>
+      <button class="btn-below" onclick="findOne('liter','1 milliliter')">1 milliliter</button>
+    </div>
+    <div class="step-nav">
+      <button class="btn-nav" onclick="goStep(3)">← Back</button>
+      <button class="btn-nav primary" onclick="goStep(5)">Next: Find the exact “1” →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Find the exact "1" on the right table -->
+  <div class="acc-panel" id="panel-5">
+    <p class="step-heading"><span class="step-badge">STEP 5 of 7</span> Find the exact “1” – not just the word</p>
+    <!-- Trap warning -->
+    <div style="background:#fff3cd; border-left:4px solid #FABA31; padding:7px 10px; margin-bottom:12px; font-size:12px; border-radius:0 4px 4px 0;">
+      ⚠️ <strong>Read this before you click anything.</strong><br>
+      When you scan the right table you will see the word <em>meter</em> (or gram/liter) on every row. That is the trap. You are looking for <strong>= 1 meter</strong> with nothing in between. If it says <strong>= 1×10³ meter</strong>, that is not 1 meter.
+    </div>
+    <div class="sub-section">
+      <span class="sub-label-inline" style="color:#8a6a00;">⚪ THE BASE "1" – look on the RIGHT table</span>
+      <p style="font-size:12px; margin:0 0 5px;">Go to the right table. Find every row that says <strong>= 1 meter</strong> (or gram/liter) — nothing else in between.</p>
+      <div class="btn-row">
+        <button class="btn-base" onclick="findOne('meter','1 meter')">Find = 1 meter</button>
+        <button class="btn-base" onclick="findOne('gram','1 gram')">Find = 1 gram</button>
+        <button class="btn-base" onclick="findOne('liter','1 liter')">Find = 1 liter</button>
+      </div>
+      <button class="btn-util" style="margin-top:8px;" onclick="showWherePanel()">❓ Where is the "1"? (explainer panel)</button>
+    </div>
+    <div class="step-nav">
+      <button class="btn-nav" onclick="goStep(4)">← Back</button>
+      <button class="btn-nav primary" onclick="goStep(6)">Next: See the pattern →</button>
+    </div>
+  </div>
+
+  <!-- STEP 6: See pattern across families -->
+  <div class="acc-panel" id="panel-6">
+    <p class="step-heading"><span class="step-badge">STEP 6 of 7</span> See the pattern across all three families</p>
+    <p class="step-sub">The prefix pattern is <em>identical</em> for meters, grams, and liters. Highlight it to see for yourself.</p>
+    <div class="btn-row">
+      <button class="btn-util" onclick="showBaseTables()">Highlight every = 1 base cell (right tables)</button>
+      <button class="btn-util" onclick="showPrefixes()">Highlight every 1 prefix‑unit cell (left tables)</button>
+    </div>
+    <div class="step-nav">
+      <button class="btn-nav" onclick="goStep(5)">← Back</button>
+      <button class="btn-nav primary" onclick="goStep(7)">Next: Volume table →</button>
+    </div>
+  </div>
+
+  <!-- STEP 7: Volume table truncation -->
+  <div class="acc-panel" id="panel-7">
+    <p class="step-heading"><span class="step-badge">STEP 7 of 7</span> Volume table – why is it shorter?</p>
+    <p class="step-sub">Volume tables are shortened because hekto‑, deka‑, deci‑, centi‑, nano‑, and angstrom‑liters are rarely used. But the prefix pattern still follows the same rule.</p>
+    <button class="btn-util" onclick="showVolumeTruncation()">Show truncated volume tables</button>
+    <div class="step-nav">
+      <button class="btn-nav" onclick="goStep(6)">← Back</button>
+      <button class="btn-nav" onclick="reset(); goStep(1)">↺ Start over</button>
+    </div>
+  </div>
+
+  <!-- Hint bar -->
+  <div id="hint">
+    Every row on the left table starts with the number <strong>1</strong>. That "1" tells you exactly what unit you have one of.
+  </div>
+</div>
+
+<!-- Where-is-the-1 explainer panel (hidden initially) -->
+<div id="where-panel">
+  <h3>📍 Understanding the "1" — and where to find it in the table</h3>
+  <p style="margin:0 0 8px; font-size:12px; color:#444;">
+    Every row on the <strong>left table</strong> represents exactly <strong>one</strong> of something.
+    The number <strong>1</strong> always appears at the very start of the row — before the unit name.
+    Your job is simply to find the row whose name matches the unit you are working with.
+    <em>That's it. There is no trick.</em>
+  </p>
+
+  <div class="zone-grid">
+    <div class="zone-card z-base">
+      <h4>⚪ Base unit — the "1" on the RIGHT table</h4>
+      <p>The right table is where you physically <em>see</em> the number <strong>1</strong> written out on every single row — every row ends with <em>"= 1 meter"</em> (or gram, or liter).
+         That right-hand column is always asking: "equals how many base units?" And the answer, for every row, is always 1.</p>
+      <p class="eg">Examples: = 1 meter (m) &nbsp;·&nbsp; = 1 gram (g) &nbsp;·&nbsp; = 1 liter (L)</p>
+      <p class="eg">👉 Go find it: click "Find 1 meter" — every "= 1 meter" cell in the right table lights up.</p>
+    </div>
+    <div class="zone-card z-above">
+      <h4>🟢 Above the base (larger units)</h4>
+      <p>Rows <strong>above</strong> the center represent units with a prefix that makes them <em>larger</em> than the base.
+         Each row still starts with <strong>1</strong> — for example, <em>"1 kilometer (km)"</em>.</p>
+      <p class="eg">kilo- · hekto- · deka-</p>
+      <p class="eg">👉 Go find it: click "Find 1 kilogram" — watch the row light up above center.</p>
+    </div>
+    <div class="zone-card z-below">
+      <h4>🔴 Below the base (smaller units)</h4>
+      <p>Rows <strong>below</strong> the center represent units with a prefix that makes them <em>smaller</em> than the base.
+         Each row still starts with <strong>1</strong> — for example, <em>"1 millimeter (mm)"</em>.</p>
+      <p class="eg">deci- · centi- · milli- · micro- · nano-</p>
+      <p class="eg">👉 Go find it: click "Find 1 nanometer" — watch how far below center it lands.</p>
+    </div>
+  </div>
+
+  <div class="calm-note">
+    💡 <strong>You will always find the "1".</strong> The only question is <em>which row</em> to look at.
+    If you know the unit name, scan the left column until you see "1 [that name]."
+    The base unit is the only special case — it sits in the center row without a "1" because it <em>is</em> the "1" that everything else is compared to.
+  </div>
+  <div style="text-align:right;margin-top:6px;">
+    <button class="btn-util" onclick="hideWherePanel()">✕ Close</button>
+  </div>
+</div>
+
+<!-- Tables wrapper to match width (all tables fully restored) -->
+<div class="tables-wrapper">
+  <!-- LENGTH -->
+  <div class="section-container meter-set">
+    <table id="meter-left">
+      <tr><th colspan="2">METRIC UNITS OF LENGTH</th></tr>
+      <tr><td>1 kilometer (km)</td><td>= 1×10<sup>3</sup> meter (m)</td></tr>
+      <tr><td>1 hektometer (hkm)</td><td>= 1×10<sup>2</sup> meter (m)</td></tr>
+      <tr><td>1 dekameter (dkm)</td><td>= 1×10<sup>1</sup> meter (m)</td></tr>
+      <tr><td colspan="2"><span class="base-row-text">meter (m) = base unit</span></td></tr>
+      <tr><td>1 decimeter (dm)</td><td>= 1×10<sup>-1</sup> meter (m)</td></tr>
+      <tr><td>1 centimeter (cm)</td><td>= 1×10<sup>-2</sup> meter (m)</td></tr>
+      <tr><td>1 millimeter (mm)</td><td>= 1×10<sup>-3</sup> meter (m)</td></tr>
+      <tr><td>1 micrometer (μm)</td><td>= 1×10<sup>-6</sup> meter (m)</td></tr>
+      <tr><td>1 nanometer (nm)</td><td>= 1×10<sup>-9</sup> meter (m)</td></tr>
+      <tr><td>1 angstrom (Å)</td><td>= 1×10<sup>-10</sup> meter (m)</td></tr>
+    </table>
+
+    <table id="meter-right">
+      <tr><th colspan="2">METRIC UNITS OF LENGTH</th></tr>
+      <tr><td>1×10<sup>-3</sup> kilometer (km)</td><td class="base-target">= 1 meter (m)</td></tr>
+      <tr><td>1×10<sup>-2</sup> hektometer (hkm)</td><td class="base-target">= 1 meter (m)</td></tr>
+      <tr><td>1×10<sup>-1</sup> dekameter (dkm)</td><td class="base-target">= 1 meter (m)</td></tr>
+      <tr><td colspan="2"><span class="base-row-text">meter (m) = base unit</span></td></tr>
+      <tr><td>1×10<sup>1</sup> decimeter (dm)</td><td class="base-target">= 1 meter (m)</td></tr>
+      <tr><td>1×10<sup>2</sup> centimeter (cm)</td><td class="base-target">= 1 meter (m)</td></tr>
+      <tr><td>1×10<sup>3</sup> millimeter (mm)</td><td class="base-target">= 1 meter (m)</td></tr>
+      <tr><td>1×10<sup>6</sup> micrometer (μm)</td><td class="base-target">= 1 meter (m)</td></tr>
+      <tr><td>1×10<sup>9</sup> nanometer (nm)</td><td class="base-target">= 1 meter (m)</td></tr>
+      <tr><td>1×10<sup>10</sup> angstrom (Å)</td><td class="base-target">= 1 meter (m)</td></tr>
+    </table>
+  </div>
+
+  <!-- MASS -->
+  <div class="section-container gram-set">
+    <table id="gram-left">
+      <tr><th colspan="2">METRIC UNITS OF MASS</th></tr>
+      <tr><td>1 kilogram (kg)</td><td>= 1×10<sup>3</sup> gram (g)</td></tr>
+      <tr><td>1 hektogram (hkg)</td><td>= 1×10<sup>2</sup> gram (g)</td></tr>
+      <tr><td>1 dekagram (dkg)</td><td>= 1×10<sup>1</sup> gram (g)</td></tr>
+      <tr><td colspan="2"><span class="base-row-text">gram (g) = base unit</span></td></tr>
+      <tr><td>1 decigram (dg)</td><td>= 1×10<sup>-1</sup> gram (g)</td></tr>
+      <tr><td>1 centigram (cg)</td><td>= 1×10<sup>-2</sup> gram (g)</td></tr>
+      <tr><td>1 milligram (mg)</td><td>= 1×10<sup>-3</sup> gram (g)</td></tr>
+      <tr><td>1 microgram (μg)</td><td>= 1×10<sup>-6</sup> gram (g)</td></tr>
+      <tr><td>1 nanogram (ng)</td><td>= 1×10<sup>-9</sup> gram (g)</td></tr>
+      <tr><td>1 angstrom‑gram (Åg)</td><td>= 1×10<sup>-10</sup> gram (g)</td></tr>
+    </table>
+
+    <table id="gram-right">
+      <tr><th colspan="2">METRIC UNITS OF MASS</th></tr>
+      <tr><td>1×10<sup>-3</sup> kilogram (kg)</td><td class="base-target">= 1 gram (g)</td></tr>
+      <tr><td>1×10<sup>-2</sup> hektogram (hkg)</td><td class="base-target">= 1 gram (g)</td></tr>
+      <tr><td>1×10<sup>-1</sup> dekagram (dkg)</td><td class="base-target">= 1 gram (g)</td></tr>
+      <tr><td colspan="2"><span class="base-row-text">gram (g) = base unit</span></td></tr>
+      <tr><td>1×10<sup>1</sup> decigram (dg)</td><td class="base-target">= 1 gram (g)</td></tr>
+      <tr><td>1×10<sup>2</sup> centigram (cg)</td><td class="base-target">= 1 gram (g)</td></tr>
+      <tr><td>1×10<sup>3</sup> milligram (mg)</td><td class="base-target">= 1 gram (g)</td></tr>
+      <tr><td>1×10<sup>6</sup> microgram (μg)</td><td class="base-target">= 1 gram (g)</td></tr>
+      <tr><td>1×10<sup>9</sup> nanogram (ng)</td><td class="base-target">= 1 gram (g)</td></tr>
+      <tr><td>1×10<sup>10</sup> angstrom‑gram (Åg)</td><td class="base-target">= 1 gram (g)</td></tr>
+    </table>
+  </div>
+
+  <!-- VOLUME -->
+  <div class="section-container liter-set" id="vol-box">
+    <table id="liter-left">
+      <tr><th colspan="2">METRIC UNITS OF VOLUME</th></tr>
+      <tr><td>1 kiloliter (kL)</td><td>= 1×10<sup>3</sup> liter (L)</td></tr>
+      <tr><td colspan="2"><span class="base-row-text">liter (L) = base unit</span></td></tr>
+      <tr><td>1 milliliter (mL)</td><td>= 1×10<sup>-3</sup> liter (L)</td></tr>
+      <tr><td>1 microliter (μL)</td><td>= 1×10<sup>-6</sup> liter (L)</td></tr>
+    </table>
+
+    <table id="liter-right">
+      <tr><th colspan="2">METRIC UNITS OF VOLUME</th></tr>
+      <tr><td>1×10<sup>-3</sup> kiloliter (kL)</td><td class="base-target">= 1 liter (L)</td></tr>
+      <tr><td colspan="2"><span class="base-row-text">liter (L) = base unit</span></td></tr>
+      <tr><td>1×10<sup>3</sup> milliliter (mL)</td><td class="base-target">= 1 liter (L)</td></tr>
+      <tr><td>1×10<sup>6</sup> microliter (μL)</td><td class="base-target">= 1 liter (L)</td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+// ── Accordion step navigation ─────────────────────────────────────────────
+const TOTAL_STEPS = 7;
+let currentStep = 1;
+
+function goStep(n) {
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    document.getElementById('panel-' + i).classList.remove('open');
+    const pip = document.getElementById('pip-' + i);
+    pip.classList.remove('active');
+    if (i < n) pip.classList.add('done');
+    else pip.classList.remove('done');
+  }
+  document.getElementById('panel-' + n).classList.add('open');
+  document.getElementById('pip-' + n).classList.add('active');
+  currentStep = n;
+}
+
+// ── helpers ──────────────────────────────────────────────────────────────
+const ALL_TABLES = ['meter-left','meter-right','gram-left','gram-right','liter-left','liter-right'];
+
+function reset(){
+  document.querySelectorAll('*').forEach(el=>{
+    el.classList.remove(
+      'highlight-pfx','highlight-bse','highlight-meter','highlight-gram','highlight-liter',
+      'truncation-zone','one-target-left','one-target-right','dimmed'
+    );
+  });
+  document.querySelectorAll('tr').forEach(r=>r.style.background='');
+  document.querySelectorAll('td').forEach(el=>{ el.style.outline=''; el.style.background=''; });
+  document.querySelectorAll('.base-row-text').forEach(el=>{ el.style.background=''; el.style.outline=''; el.style.borderRadius=''; });
+  document.getElementById('hint').innerHTML = 'Click a button above — the chart will respond below.';
+}
+
+function setHint(msg){ document.getElementById('hint').innerHTML = msg; }
+
+function dimAllExcept(ids){
+  ALL_TABLES.forEach(tid=>{
+    const t = document.getElementById(tid);
+    if(!t) return;
+    if(ids.includes(tid)) t.classList.remove('dimmed');
+    else t.classList.add('dimmed');
+  });
+}
+
+// ── Group 1 : unit families ───────────────────────────────────────────────
+function showMeters(){
+  reset();
+  document.querySelectorAll('.meter-set table').forEach(t=>t.classList.add('highlight-meter'));
+  dimAllExcept(['meter-left','meter-right']);
+  setHint("📏 <strong>Length family highlighted.</strong> The left table is the <strong>PREFIX table</strong> — each row starts with 1 prefix-unit and shows how many meters that equals. The right table is the <strong>BASE table</strong> — each row ends with = 1 meter.");
+}
+function showGrams(){
+  reset();
+  document.querySelectorAll('.gram-set table').forEach(t=>t.classList.add('highlight-gram'));
+  dimAllExcept(['gram-left','gram-right']);
+  setHint("⚖️ <strong>Mass family highlighted.</strong> The left table is the <strong>PREFIX table</strong> — each row starts with 1 prefix-unit and shows how many grams that equals. The right table is the <strong>BASE table</strong> — each row ends with = 1 gram.");
+}
+function showLiters(){
+  reset();
+  document.querySelectorAll('.liter-set table').forEach(t=>t.classList.add('highlight-liter'));
+  dimAllExcept(['liter-left','liter-right']);
+  setHint("🧪 <strong>Volume family highlighted.</strong> The left table is the <strong>PREFIX table</strong> — each row starts with 1 prefix-unit and shows how many liters that equals. The right table is the <strong>BASE table</strong> — each row ends with = 1 liter.");
+}
+
+// ── Group 2 : individual tables ───────────────────────────────────────────
+const TABLE_HINTS = {
+  'meter-left':  "📋 <strong>LEFT — PREFIX table for Length.</strong> Scan each row — every one starts with <strong>1</strong> followed by a prefix-unit name. Read right to see how many meters that unit equals.",
+  'meter-right': "📋 <strong>RIGHT — BASE table for Length.</strong> Scan each row — every one ends with <strong>= 1 meter (m)</strong>. That = 1 meter on the right is exactly what you are looking for in Step 3.",
+  'gram-left':   "📋 <strong>LEFT — PREFIX table for Mass.</strong> Scan each row — every one starts with <strong>1</strong> followed by a prefix-unit name. Read right to see how many grams that unit equals.",
+  'gram-right':  "📋 <strong>RIGHT — BASE table for Mass.</strong> Scan each row — every one ends with <strong>= 1 gram (g)</strong>. That = 1 gram on the right is exactly what you are looking for in Step 3.",
+  'liter-left':  "📋 <strong>LEFT — PREFIX table for Volume.</strong> Scan each row — every one starts with <strong>1</strong> followed by a prefix-unit name. Read right to see how many liters that unit equals.",
+  'liter-right': "📋 <strong>RIGHT — BASE table for Volume.</strong> Scan each row — every one ends with <strong>= 1 liter (L)</strong>. That = 1 liter on the right is exactly what you are looking for in Step 3.",
+};
+
+function focusTable(id){
+  reset();
+  dimAllExcept([id]);
+  const t = document.getElementById(id);
+  if(t){
+    if(id.startsWith('meter')) t.classList.add('highlight-meter');
+    else if(id.startsWith('gram')) t.classList.add('highlight-gram');
+    else t.classList.add('highlight-liter');
+  }
+  setHint(TABLE_HINTS[id] || '');
+}
+
+// ── Group 3 : Find the "1" ─────────────────────────────────────────────────────
+const ONE_CONFIG = {
+  '1 meter':      { tableId:'meter-right', isBaseRow:false, isRightAll:true,  family:'meter', zone:'base'  },
+  '1 gram':       { tableId:'gram-right',  isBaseRow:false, isRightAll:true,  family:'gram',  zone:'base'  },
+  '1 liter':      { tableId:'liter-right', isBaseRow:false, isRightAll:true,  family:'liter', zone:'base'  },
+  '1 kilometer':  { tableId:'meter-left',  matchText:'1 kilometer',  isBaseRow:false, isRightAll:false, family:'meter', zone:'above' },
+  '1 kilogram':   { tableId:'gram-left',   matchText:'1 kilogram',   isBaseRow:false, isRightAll:false, family:'gram',  zone:'above' },
+  '1 kiloliter':  { tableId:'liter-left',  matchText:'1 kiloliter',  isBaseRow:false, isRightAll:false, family:'liter', zone:'above' },
+  '1 centimeter': { tableId:'meter-left',  matchText:'1 centimeter', isBaseRow:false, isRightAll:false, family:'meter', zone:'below' },
+  '1 millimeter': { tableId:'meter-left',  matchText:'1 millimeter', isBaseRow:false, isRightAll:false, family:'meter', zone:'below' },
+  '1 nanometer':  { tableId:'meter-left',  matchText:'1 nanometer',  isBaseRow:false, isRightAll:false, family:'meter', zone:'below' },
+  '1 milligram':  { tableId:'gram-left',   matchText:'1 milligram',  isBaseRow:false, isRightAll:false, family:'gram',  zone:'below' },
+  '1 microgram':  { tableId:'gram-left',   matchText:'1 microgram',  isBaseRow:false, isRightAll:false, family:'gram',  zone:'below' },
+  '1 milliliter': { tableId:'liter-left',  matchText:'1 milliliter', isBaseRow:false, isRightAll:false, family:'liter', zone:'below' },
+};
+
+const ZONE_HINTS = {
+  base: (label, family) =>
+    `✅ <strong>Every gold cell says = 1 ${family} — that is the exact "1" you are looking for.</strong><br>`+
+    `Notice: the word <em>${family}</em> also appears on other rows — but those say = 1×10³ ${family} or = 1×10⁻³ ${family}. That is not 1 ${family}. `+
+    `If there is anything between the = sign and the word <em>${family}</em>, keep scanning. You need the row where the = sign is followed immediately by 1 ${family} with nothing in between.`,
+  above: (label, family) =>
+    `✅ <strong>Found ${label} on the LEFT (prefix) table — above the center.</strong><br>`+
+    `The <strong>1</strong> is at the very start of this row. Read right to see how many ${family}s that equals. `+
+    `This unit is <em>bigger</em> than the base — its prefix (kilo-, hekto-, deka-) multiplies the base upward.`,
+  below: (label, family) =>
+    `✅ <strong>Found ${label} on the LEFT (prefix) table — below the center.</strong><br>`+
+    `The <strong>1</strong> is at the very start of this row. Read right to see how many ${family}s that equals. `+
+    `This unit is <em>smaller</em> than the base — its prefix (milli-, micro-, nano-) divides the base downward.`,
+};
+
+function findOne(family, label){
+  reset();
+  const cfg = ONE_CONFIG[label];
+  if(!cfg) return;
+
+  dimAllExcept([cfg.tableId]);
+  const tbl = document.getElementById(cfg.tableId);
+
+  if(cfg.isRightAll){
+    tbl.querySelectorAll('td.base-target').forEach(el=>{
+      el.style.background='#fff0b3';
+      el.style.outline='3px solid #cc0000';
+      el.style.borderRadius='3px';
+    });
+  } else {
+    tbl.querySelectorAll('tr').forEach(row=>{
+      const firstTd = row.querySelector('td');
+      if(firstTd && firstTd.innerText.trim().toLowerCase().startsWith(cfg.matchText.toLowerCase())){
+        row.style.background='#fff0b3';
+        firstTd.style.outline='3px solid #cc0000';
+      }
+    });
+  }
+  setHint(ZONE_HINTS[cfg.zone](label, family));
+}
+
+function findBaseRow(family){
+  reset();
+  const leftId  = family+'-left';
+  const rightId = family+'-right';
+  dimAllExcept([leftId, rightId]);
+  [leftId, rightId].forEach(id=>{
+    const tbl = document.getElementById(id);
+    if(!tbl) return;
+    tbl.querySelectorAll('.base-row-text').forEach(el=>{
+      el.style.background='#fff0b3';
+      el.style.outline='3px solid #cc0000';
+      el.style.borderRadius='3px';
+    });
+  });
+  const unitName = family === 'meter' ? 'meter (m)' : family === 'gram' ? 'gram (g)' : 'liter (L)';
+  setHint(`✅ <strong>Center row highlighted in both tables.</strong><br>`+
+    `This is the base unit — ${unitName}. It has no prefix and no exponent because it <em>is</em> the reference. `+
+    `Every other unit in both tables is measured relative to this row. `+
+    `Units above it are bigger. Units below it are smaller.`);
+}
+
+function hideWherePanel(){
+  document.getElementById('where-panel').style.display='none';
+}
+function showWherePanel(){
+  document.getElementById('where-panel').style.display='block';
+  setHint('Read the panel above — it explains the base unit row, units above the base, and units below the base.');
+}
+
+// ── Group 4 : learning tools ───────────────────────────────────────────────
+function showBaseTables(){
+  reset();
+  document.querySelectorAll('.base-target').forEach(el=>el.classList.add('highlight-bse'));
+  setHint("✅ <strong>Every yellow cell is a = 1 base unit cell.</strong> These are on the RIGHT tables only. Every single row on the right table ends with exactly this — = 1 meter, = 1 gram, or = 1 liter. This is where your exact \"1\" lives.");
+}
+
+function showPrefixes(){
+  reset();
+  document.querySelectorAll('td:first-child').forEach(el=>{
+    if(el.innerText.trim().startsWith('1 ')) el.classList.add('highlight-pfx');
+  });
+  setHint("✅ <strong>Every cyan cell starts with 1.</strong> These are on the LEFT tables only. Notice: the prefix pattern — kilo, hekto, deka above center, deci, centi, milli, micro, nano below — is <em>identical</em> for meters, grams, and liters. Learn the pattern once. It works for all three.");
+}
+
+function showVolumeTruncation(){
+  reset();
+  document.querySelectorAll('#vol-box table').forEach(el=>el.classList.add('truncation-zone'));
+  dimAllExcept(['liter-left','liter-right']);
+  setHint("Volume tables are shortened. Hekto-, deka-, deci-, centi-, nano-, angstrom- liters exist but are rarely used. The prefix pattern still follows the SAME rule.");
+}
+</script>
+
+</body>
+</html>
