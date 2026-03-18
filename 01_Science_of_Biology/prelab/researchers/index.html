@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scientific Process — UWP Biology</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ── TOKENS ── */
+        :root {
+            --green:        #016836;
+            --green-dark:   #004D21;
+            --green-light:  #e8f4ee;
+            --gold:         #FABA31;
+            --near-black:   #212721;
+            --warm-grey:    #54534A;
+            --cool-grey:    #DBD9D6;
+            --off-white:    #EFECE2;
+            --white:        #FFFFFF;
+
+            --radius-card:  12px;
+            --shadow-soft:  0 2px 12px rgba(0,0,0,0.07);
+            --shadow-hover: 0 6px 24px rgba(0,0,0,0.12);
+            --transition:   all 0.2s ease;
+        }
+
+        /* ── RESET ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "DM Sans", system-ui, sans-serif;
+            background: var(--off-white);
+            color: var(--near-black);
+            line-height: 1.65;
+            font-size: 16px;
+        }
+        a { color: var(--green); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        img { max-width: 100%; }
+
+        /* ── NAVBAR (from pseudo.html) ── */
+        header {
+            background: var(--green);
+            border-bottom: 3px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: center;
+        }
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            padding: 4px 2px;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.15s;
+        }
+        .nav-links a:hover { border-bottom-color: var(--gold); text-decoration: none; }
+
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(145deg, var(--green-dark) 0%, #005a28 55%, var(--green) 100%);
+            color: var(--white);
+            padding: 64px 24px 52px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        /* subtle crosshatch texture */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40L40 0M-5 5L5 -5M35 45L45 35' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E");
+        }
+        .hero-eyebrow {
+            display: inline-block;
+            background: rgba(250,186,49,0.2);
+            border: 1px solid rgba(250,186,49,0.5);
+            color: var(--gold);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 999px;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-family: "DM Serif Display", Georgia, serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--white);
+            max-width: 680px;
+            margin: 0 auto 18px;
+        }
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+        }
+        .hero-sub {
+            font-size: 1.05rem;
+            opacity: 0.88;
+            max-width: 520px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--gold);
+            color: var(--green-dark);
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px 36px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+        }
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            text-decoration: none;
+            color: var(--green-dark);
+        }
+        .hero-note {
+            margin-top: 14px;
+            font-size: 0.82rem;
+            opacity: 0.65;
+        }
+
+        /* ── PAGE BODY ── */
+        .page-body {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 48px 24px 72px;
+        }
+
+        /* ── SECTION CARDS ── */
+        .section-card {
+            background: var(--white);
+            border-radius: var(--radius-card);
+            border: 1px solid var(--cool-grey);
+            padding: 28px 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+        }
+        .section-card:hover { box-shadow: var(--shadow-hover); }
+        .section-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+        .section-card p, .section-card li {
+            font-size: 0.95rem;
+            color: #333;
+            line-height: 1.75;
+        }
+        .section-card ul, .section-card ol {
+            margin: 8px 0 0;
+            padding-left: 22px;
+        }
+        .section-card li { margin-bottom: 6px; }
+
+        /* ── MILESTONE ROW ── */
+        .milestone-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .milestone-card {
+            background: var(--green-light);
+            border-radius: 8px;
+            padding: 16px;
+            border-left: 4px solid var(--green);
+        }
+        .milestone-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 5px;
+        }
+        .milestone-card p { font-size: 0.88rem; margin: 0; color: #333; }
+
+        /* ── STEPS GRID ── */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .step-chip {
+            background: var(--off-white);
+            border: 1px solid var(--cool-grey);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .step-num {
+            background: var(--green);
+            color: var(--white);
+            border-radius: 50%;
+            min-width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .step-chip strong { display: block; font-size: 0.82rem; color: var(--near-black); }
+        .step-chip span   { font-size: 0.76rem; color: var(--warm-grey); }
+
+        /* ── ADHD GRID ── */
+        .adhd-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .adhd-tip {
+            background: #f0f9f0;
+            border: 1px solid #b8ddb8;
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-size: 0.88rem;
+            color: #1a4a1a;
+            line-height: 1.6;
+        }
+        .adhd-tip strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--green-dark);
+            font-size: 0.9rem;
+        }
+
+        /* ── TEACHER BOX ── */
+        .teacher-box {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-top: 14px;
+            font-size: 0.88rem;
+            color: #5a4000;
+        }
+        .teacher-box ul { margin: 8px 0 0; padding-left: 20px; }
+        .teacher-box li { margin-bottom: 5px; }
+
+        /* ── RESEARCHER GRID ── */
+        .section-anchor {
+            scroll-margin-top: 80px;
+        }
+        .researcher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .researcher-card {
+            background: var(--white);
+            border: 2px solid var(--cool-grey);
+            border-radius: var(--radius-card);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--near-black);
+            transition: var(--transition);
+            box-shadow: var(--shadow-soft);
+        }
+        .researcher-card:hover {
+            border-color: var(--green);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            text-decoration: none;
+            color: var(--near-black);
+        }
+        .researcher-card h3 {
+            font-family: "DM Serif Display", serif;
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: var(--green-dark);
+            margin: 0;
+        }
+        .researcher-card .r-desc {
+            font-size: 0.83rem;
+            color: var(--warm-grey);
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+        .researcher-card .r-desc strong { color: var(--near-black); }
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 4px;
+        }
+        .badge {
+            display: inline-block;
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 9px;
+            border-radius: 999px;
+            letter-spacing: 0.04em;
+        }
+        .r-arrow {
+            font-size: 0.82rem;
+            color: var(--green);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* ── BOTTOM CTA STRIP ── */
+        .bottom-strip {
+            background: var(--green-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 40px 24px;
+        }
+        .bottom-strip p {
+            font-size: 0.88rem;
+            opacity: 0.7;
+            margin-top: 12px;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 600px) {
+            .page-body { padding: 32px 16px 56px; }
+            .section-card { padding: 22px 18px; }
+            .hero { padding: 48px 16px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<header>
+    <div class="header-inner nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="prelabreadings.html">Prelab Readings</a>
+        <a href="../microscopy/MicroscopeMastery.html">Microscopy</a>
+        <a href="traintrack.html">Metric Conversion Practice</a>
+        <a href="traintrackhomework.html">Metric Conversion Homework</a>
+        <a href="size.html">Size Practice</a>
+    </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+    <div class="hero-eyebrow">🔬 UWP Biology · Scientific Process</div>
+    <h1>Think Like a <em>Scientist</em></h1>
+    <p class="hero-sub">
+        A training gym built on real UWP Biology research.
+        Every step you complete strengthens your science brain.
+    </p>
+    <a class="hero-cta" href="#choose">
+        🚀 Choose Your Researcher →
+    </a>
+    <p class="hero-note">10 researchers · 8 steps · guided feedback · one step at a time</p>
+</section>
+
+<!-- ── PAGE BODY ── -->
+<main class="page-body">
+
+    <!-- 1. YOUR GOAL -->
+    <div class="section-card">
+        <div class="section-title">🎯 Your Goal</div>
+        <p>By the end of this activity, you will be able to explain the scientific process clearly and confidently — the same way real scientists do. This builds a foundation so that by:</p>
+        <div class="milestone-row">
+            <div class="milestone-card">
+                <div class="milestone-label">End of this semester</div>
+                <p>You can use the scientific process without help</p>
+            </div>
+            <div class="milestone-card">
+                <div class="milestone-label">End of your first year</div>
+                <p>You can explain it clearly to others</p>
+            </div>
+            <div class="milestone-card">
+                <div class="milestone-label">End of two years</div>
+                <p>You apply it automatically in any biology class</p>
+            </div>
+        </div>
+        <p style="margin-top:16px; font-style:italic; color:var(--green-dark); font-weight:600; font-size:0.92rem;">
+            This tool is your "training gym." Every click is practice that strengthens your science muscles.
+        </p>
+    </div>
+
+    <!-- 2. WHY YOU'RE DOING THIS -->
+    <div class="section-card">
+        <div class="section-title">🧭 Why You're Doing This</div>
+        <p>Most students take 2–3 years before they truly understand the scientific process. This activity cuts that time in half by letting you practice the steps one at a time, with:</p>
+        <ul>
+            <li>Clear examples from <strong>real UWP researchers</strong></li>
+            <li>Built-in checklists so you always know what belongs in your answer</li>
+            <li>Immediate feedback to guide your thinking</li>
+            <li>10 different scenarios — from gut bacteria to fossil dig sites</li>
+        </ul>
+        <p style="margin-top:12px;"><strong>You're not memorizing a method — you're learning to think like a scientist.</strong></p>
+    </div>
+
+    <!-- 3. THE 8 STEPS -->
+    <div class="section-card">
+        <div class="section-title">🚀 The 8 Steps You'll Practice</div>
+        <p>Pick a researcher below. Then work through these 8 steps, one at a time. Each screen only asks you for <em>one thing</em>.</p>
+        <div class="steps-grid">
+            <div class="step-chip"><div class="step-num">1</div><div><strong>Observation</strong><span>Describe what you see</span></div></div>
+            <div class="step-chip"><div class="step-num">2</div><div><strong>Curiosity Question</strong><span>Broad "How does…" question</span></div></div>
+            <div class="step-chip"><div class="step-num">3</div><div><strong>Research Question</strong><span>Make it testable</span></div></div>
+            <div class="step-chip"><div class="step-num">4</div><div><strong>Hypothesis</strong><span>Propose an explanation</span></div></div>
+            <div class="step-chip"><div class="step-num">5</div><div><strong>Prediction</strong><span>If–Then statement</span></div></div>
+            <div class="step-chip"><div class="step-num">6</div><div><strong>Variables &amp; Controls</strong><span>What you change &amp; measure</span></div></div>
+            <div class="step-chip"><div class="step-num">7</div><div><strong>Experimental Design</strong><span>How you'd test it</span></div></div>
+            <div class="step-chip"><div class="step-num">8</div><div><strong>Theory vs. Law</strong><span>The bigger picture</span></div></div>
+        </div>
+    </div>
+
+    <!-- 4. HOW TO USE THIS TOOL -->
+    <div class="section-card">
+        <div class="section-title">🛠 How to Use This Tool</div>
+        <ol>
+            <li style="margin-bottom:12px;"><strong>Choose a Researcher Card below</strong> — this is your scenario.<br>
+            <span style="font-size:0.88rem; color:var(--warm-grey);">Think of it like picking a mission. Each researcher found something surprising in the real world.</span></li>
+            <li style="margin-bottom:12px;"><strong>Complete the 8 steps.</strong><br>
+            <span style="font-size:0.88rem; color:var(--warm-grey);">Each page presents one step. Write your answer, check the feedback, adjust if needed, then move on.</span></li>
+            <li style="margin-bottom:12px;"><strong>Use the checklists every time.</strong><br>
+            <span style="font-size:0.88rem; color:var(--warm-grey);">The built-in keyword system will tell you if you've hit the required concepts. It won't let you skip.</span></li>
+            <li style="margin-bottom:12px;"><strong>When you finish all 8 steps: email your work.</strong><br>
+            <span style="font-size:0.88rem; color:var(--warm-grey);">Only the current researcher's answers are sent.</span></li>
+            <li><strong>Try another researcher any time.</strong><br>
+            <span style="font-size:0.88rem; color:var(--warm-grey);">Every researcher gives you a new puzzle. The more you try, the faster you master the process.</span></li>
+        </ol>
+    </div>
+
+    <!-- 5. ADHD-FRIENDLY TIPS -->
+    <div class="section-card">
+        <div class="section-title">🌈 ADHD-Friendly Tips</div>
+        <div class="adhd-grid">
+            <div class="adhd-tip"><strong>✔ One Step at a Time</strong>Don't think about all 8 steps at once. Each screen only asks for one thing.</div>
+            <div class="adhd-tip"><strong>✔ Don't Try to Be Perfect</strong>Write something → check feedback → adjust. That's exactly how real scientific thinking works.</div>
+            <div class="adhd-tip"><strong>✔ Take Breaks</strong>Do 2–3 steps, stand up, move around, reset. Small bursts beat long grinds.</div>
+            <div class="adhd-tip"><strong>✔ Use the Progress Bar</strong>The bar inside each scenario tracks where you are — this reduces overwhelm and builds momentum.</div>
+        </div>
+    </div>
+
+    <!-- 6. THE BIG PICTURE (teacher note) -->
+    <div class="section-card">
+        <div class="section-title">🎓 The Big Picture</div>
+        <p>Students struggle because they learn the "scientific method" as a list instead of a skill. This tool:</p>
+        <div class="teacher-box">
+            <ul>
+                <li>States the purpose before students begin</li>
+                <li>Gives a destination — not just a task</li>
+                <li>Explains the long-term payoff (semester → year → two years)</li>
+                <li>Breaks the work into ADHD-friendly chunks</li>
+                <li>Uses <strong>real UWP faculty research</strong> as the scenario — making science feel local, real, and achievable</li>
+                <li>Provides clear, immediate feedback to help students refine their answers</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 7. RESEARCHER CARDS -->
+    <div class="section-card section-anchor" id="choose">
+        <div class="section-title">🔬 Choose Your Researcher</div>
+        <p style="font-size:0.9rem; color:var(--warm-grey); margin-bottom:4px;">
+            Each card is a complete, standalone scenario. Pick one that sounds interesting — you can always try others later.
+        </p>
+        <div class="researcher-grid">
+
+            <a class="researcher-card" href="barber.html">
+                <h3>🧪 Robert Barber</h3>
+                <p class="r-desc"><strong>Gut bacteria &amp; enzyme shape</strong><br>Two strains, same gene, different 3D structure — one grows, one doesn't.</p>
+                <div class="badge-row"><span class="badge">enzyme evolution</span><span class="badge">bioinformatics</span></div>
+                <div class="r-arrow">Start this scenario →</div>
+            </a>
+
+            <a class="researcher-card" href="lee.html">
+                <h3>🧪 Traci Lee</h3>
+                <p class="r-desc"><strong>Yeast gene regulation</strong><br>Low sulfur: one yeast activates genes, the other doesn't — same Met4 regulator.</p>
+                <div class="badge-row"><span class="badge">transcription</span><span class="badge">Met4</span></div>
+                <div class="r-arrow">Start this scenario →</div>
+            </a>
+
+            <a class="researcher-card" href="higgs.html">
+                <h3>🧪 David Higgs</h3>
+                <p class="r-desc"><strong>Algae &amp; nitrogen stress</strong><br>Low nitrogen: one alga thrives, the other stalls — same photosynthesis genes.</p>
+                <div class="badge-row"><span class="badge">photosynthesis</span><span class="badge">Chlamydomonas</span></div>
+                <div class="r-arrow">Start this scenario →</div>
+            </a>
+
+            <a class="researcher-card" href="richards.html">
+                <h3>🧪 Gregory Richards</h3>
+                <p class="r-desc"><strong>E. coli &amp; sugar stress</strong><br>Same sugar, one grows, one doesn't — genes present but not regulated.</p>
+                <div class="badge-row"><span class="badge">stress response</span><span class="badge">small RNAs</span></div>
+                <div class="r-arrow">Start this scenario →</div>
+            </a>
+
+            <a class="researcher-card" href="mossman.html">
+                <h3>🧪 Catherine Mossman</h3>
+                <p class="r-desc"><strong>Animal behavior &amp; habitat</strong><br>Two mouse populations: one active and reproducing, the other less so. Habitat cover differs.</p>
+                <div class="badge-row"><span class="badge">animal behavior</span><span class="badge">ecology</span></div>
+                <div class="r-arrow">Start this scenario →</div>
+            </a>
+
+            <a class="researcher-card" href="orlofske.html">
+                <h3>🧪 Jessica Orlofske</h3>
+                <p class="r-desc"><strong>Aquatic insects &amp; biomonitoring</strong><br>Two similar ponds: one has diverse insects, the other only a few. Nutrient runoff differs.</p>
+                <div class="badge-row"><span class="badge">invertebrates</span><span class="badge">freshwater</span></div>
+                <div class="r-arrow">Start this scenario →</div>
+            </a>
+
+            <a class="researcher-card" href="preuss.html">
+                <h3>🧪 Fabian Preuss</h3>
+                <p class="r-desc"><strong>Circadian rhythms &amp; metabolism</strong><br>Mice on the same diet: normal sleep stays lean; sleep-disrupted gains weight.</p>
+                <div class="badge-row"><span class="badge">circadian</span><span class="badge">microbiome</span></div>
+                <div class="r-arrow">Start this scenario →</div>
+            </a>
+
+            <a class="researcher-card" href="rogers.html">
+                <h3>🧪 David Rogers</h3>
+                <p class="r-desc"><strong>Historical plant ecology</strong><br>Prairie resurvey: native plants missing, new species appeared 60 years later.</p>
+                <div class="badge-row"><span class="badge">plant ecology</span><span class="badge">long-term</span></div>
+                <div class="r-arrow">Start this scenario →</div>
+            </a>
+
+            <a class="researcher-card" href="taft.html">
+                <h3>🧪 Natalia Taft</h3>
+                <p class="r-desc"><strong>Fish fin biomechanics</strong><br>Two similar fish: one handles current easily, one struggles. Fin shape differs.</p>
+                <div class="badge-row"><span class="badge">functional morphology</span><span class="badge">biomechanics</span></div>
+                <div class="r-arrow">Start this scenario →</div>
+            </a>
+
+            <a class="researcher-card" href="noto.html">
+                <h3>🧪 Christopher Noto</h3>
+                <p class="r-desc"><strong>Paleontology &amp; taphonomy</strong><br>Same fossil layer: one skeleton articulated, another scattered with tooth marks.</p>
+                <div class="badge-row"><span class="badge">paleoecology</span><span class="badge">taphonomy</span></div>
+                <div class="r-arrow">Start this scenario →</div>
+            </a>
+
+        </div>
+    </div>
+
+</main>
+
+<!-- ── BOTTOM STRIP ── -->
+<footer class="bottom-strip">
+    <a class="hero-cta" href="#choose" style="font-size:0.95rem; padding:12px 28px;">🔬 Choose Your Researcher →</a>
+    <p>10 real UWP Biology research scenarios · 8 steps · guided keyword feedback</p>
+</footer>
+
+</body>
+</html>
