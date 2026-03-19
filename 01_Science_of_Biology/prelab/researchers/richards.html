@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dr. Gregory Richards — Scientific Process · UWP Biology</title>
+    <title>Dr. Gregory Richards — E. coli &amp; Sugar Stress · UWP Biology</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -18,406 +18,146 @@
             --white:        #FFFFFF;
             --blue-info:    #1E6F9F;
             --blue-light:   #e8f0fe;
+            --radius-card:  12px;
             --shadow-soft:  0 2px 12px rgba(0,0,0,0.07);
-            --radius:       10px;
+            --shadow-hover: 0 6px 24px rgba(0,0,0,0.12);
             --transition:   all 0.2s ease;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body {
-            font-family: "DM Sans", system-ui, sans-serif;
-            background: var(--off-white);
-            color: var(--near-black);
-            line-height: 1.65;
-            font-size: 16px;
-        }
-        a { color: var(--green-dark); text-decoration: underline; }
-        a:hover { color: var(--near-black); }
+        body { font-family: "DM Sans", system-ui, sans-serif; background: var(--off-white); color: var(--near-black); line-height: 1.65; font-size: 16px; }
+        a { color: var(--green); text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
-        /* NAVBAR */
-        header {
-            background: var(--green);
-            border-bottom: 3px solid var(--gold);
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
-        .header-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 18px;
-            justify-content: center;
-        }
-        .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            white-space: nowrap;
-            padding: 4px 2px;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.15s;
-        }
+        /* ── NAVBAR ── */
+        header { background: var(--green); border-bottom: 3px solid var(--gold); position: sticky; top: 0; z-index: 999; }
+        .header-inner { max-width: 1400px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 18px; justify-content: center; }
+        .nav-links a { color: var(--white); text-decoration: none; font-weight: 600; font-size: 0.95rem; white-space: nowrap; padding: 4px 2px; border-bottom: 2px solid transparent; transition: border-color 0.15s; }
         .nav-links a:hover { border-bottom-color: var(--gold); text-decoration: none; }
 
-        .app { max-width: 820px; margin: 0 auto; padding: 32px 16px 60px; }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--warm-grey);
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: color 0.15s;
-        }
-        .back-link:hover { color: var(--green-dark); text-decoration: none; }
-
-        .scenario-header {
-            background: var(--white);
-            border-radius: var(--radius);
-            border: 1px solid var(--cool-grey);
-            padding: 22px 28px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-soft);
-        }
-        .scenario-header h1 {
-            font-family: "DM Serif Display", serif;
-            font-size: 1.45rem;
-            font-weight: 400;
-            color: var(--green-dark);
-            margin-bottom: 4px;
-        }
-        .scenario-header p { font-size: 0.88rem; color: var(--warm-grey); margin: 0; }
-        .badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-        .badge {
-            display: inline-block;
-            background: var(--green-light);
-            color: var(--green-dark);
-            font-size: 0.72rem;
-            font-weight: 600;
-            padding: 3px 10px;
-            border-radius: 999px;
-            letter-spacing: 0.04em;
+        /* ── HERO ── */
+        .hero { background: linear-gradient(145deg, var(--green-dark) 0%, #005a28 55%, var(--green) 100%); color: var(--white); padding: 48px 24px 44px; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40L40 0M-5 5L5 -5M35 45L45 35' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E"); }
+        .hero-eyebrow { display: inline-block; background: rgba(250,186,49,0.2); border: 1px solid rgba(250,186,49,0.5); color: var(--gold); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 14px; border-radius: 999px; margin-bottom: 20px; }
+        .hero-content { display: flex; align-items: center; justify-content: center; gap: 36px; flex-wrap: wrap; max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+        .researcher-portrait { width: 170px; height: 170px; border-radius: 50%; object-fit: cover; object-position: center top; border: 3px solid var(--gold); box-shadow: 0 4px 24px rgba(0,0,0,0.35), 0 0 0 6px rgba(250,186,49,0.15); flex-shrink: 0; }
+        .hero-text { text-align: left; max-width: 440px; }
+        .hero h1 { font-family: "DM Serif Display", Georgia, serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 400; line-height: 1.2; color: var(--white); margin: 0 0 10px; }
+        .hero h1 em { font-style: italic; color: var(--gold); }
+        .hero-sub { font-size: 0.95rem; opacity: 0.88; margin: 0 0 20px; line-height: 1.68; }
+        .back-link { display: inline-flex; align-items: center; gap: 6px; color: rgba(255,255,255,0.75); font-size: 0.85rem; font-weight: 600; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 999px; transition: var(--transition); }
+        .back-link:hover { color: var(--white); border-color: var(--white); text-decoration: none; }
+        @media (max-width: 600px) {
+            .hero-content { flex-direction: column; gap: 20px; }
+            .hero-text { text-align: center; }
+            .researcher-portrait { width: 140px; height: 140px; }
         }
 
-        .progress-wrap { margin-bottom: 20px; }
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--warm-grey);
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            border-radius: 999px;
-            background: var(--cool-grey);
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--green);
-            border-radius: 999px;
-            transition: width 0.35s ease-out;
-        }
+        /* ── PAGE BODY ── */
+        .page-body { max-width: 820px; margin: 0 auto; padding: 36px 24px 72px; }
 
-        .card {
-            background: var(--white);
-            border-radius: var(--radius);
-            border: 1px solid var(--cool-grey);
-            padding: 28px 32px;
-            box-shadow: var(--shadow-soft);
-            margin-bottom: 20px;
-        }
+        /* ── STEP CARD ── */
+        .step-card { background: var(--white); border-radius: var(--radius-card); border: 1px solid var(--cool-grey); padding: 28px 32px; box-shadow: var(--shadow-soft); margin-bottom: 20px; }
 
-        .step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
-        .step-number {
-            background: var(--green);
-            color: var(--white);
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 999px;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        .step-title {
-            font-family: "DM Serif Display", serif;
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: var(--green-dark);
-        }
-        .info-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: var(--blue-info);
-            color: var(--white);
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: help;
-            position: relative;
-            flex-shrink: 0;
-        }
-        .info-icon:hover::after {
-            content: attr(data-tip);
-            position: absolute;
-            bottom: 130%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--near-black);
-            color: var(--white);
-            padding: 10px 14px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            line-height: 1.5;
-            white-space: normal;
-            width: 280px;
-            z-index: 50;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-            pointer-events: none;
-            font-family: "DM Sans", sans-serif;
-            font-weight: 400;
-        }
-        .step-subtitle { font-size: 0.9rem; color: var(--warm-grey); margin: 4px 0 14px; }
+        /* ── STEP HEADER ── */
+        .step-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
+        .step-title-group { display: flex; align-items: center; gap: 10px; }
+        .step-name { font-family: "DM Serif Display", serif; font-size: 1.5rem; font-weight: 400; color: var(--green-dark); }
+        .step-counter { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--warm-grey); background: var(--off-white); border: 1px solid var(--cool-grey); padding: 3px 10px; border-radius: 999px; }
+        .info-btn { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--blue-info); color: white; font-size: 0.75rem; font-weight: 700; cursor: help; position: relative; flex-shrink: 0; border: none; }
+        .info-btn:hover::after { content: attr(data-tip); position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); background: var(--near-black); color: white; padding: 8px 12px; border-radius: 6px; font-size: 0.78rem; white-space: pre-wrap; max-width: 280px; z-index: 20; box-shadow: 0 2px 8px rgba(0,0,0,0.2); pointer-events: none; font-family: "DM Sans", sans-serif; line-height: 1.5; }
+        .step-subtitle { font-size: 0.88rem; color: var(--warm-grey); margin-bottom: 14px; }
 
-        .definition-box {
-            background: var(--blue-light);
-            border-left: 4px solid var(--blue-info);
-            padding: 12px 16px;
-            border-radius: 0 6px 6px 0;
-            font-size: 0.88rem;
-            margin-bottom: 16px;
-            color: var(--near-black);
-            line-height: 1.65;
-        }
+        /* ── DEFINITION BOX ── */
+        .definition-box { background: var(--blue-light); border-left: 4px solid var(--blue-info); padding: 12px 16px; margin-bottom: 14px; border-radius: 0 6px 6px 0; font-size: 0.88rem; color: #1a2a3a; line-height: 1.65; }
         .definition-box strong { color: var(--blue-info); }
 
-        .context-box {
-            background: var(--off-white);
-            border-left: 3px solid var(--green);
-            border-radius: 0 6px 6px 0;
-            padding: 14px 16px;
-            font-size: 0.9rem;
-            line-height: 1.7;
-            margin-bottom: 18px;
-            color: var(--near-black);
-        }
+        /* ── PROGRESS BAR ── */
+        .progress-wrap { margin-bottom: 18px; }
+        .progress-label { font-size: 0.75rem; color: var(--warm-grey); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+        .progress-bar { width: 100%; height: 7px; border-radius: 999px; background: var(--cool-grey); overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; background: var(--green); border-radius: 999px; transition: width 0.3s ease-out; }
 
-        .prompt-label { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: var(--near-black); }
-        .prompt-helper {
-            font-size: 0.83rem;
-            color: var(--warm-grey);
-            background: #f0f7f0;
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-        textarea {
-            width: 100%;
-            background: var(--white);
-            border-radius: 6px;
-            border: 1px solid var(--cool-grey);
-            color: var(--near-black);
-            padding: 12px;
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.95rem;
-            resize: vertical;
-            min-height: 110px;
-            outline: none;
-            transition: border-color 0.15s, box-shadow 0.15s;
-            line-height: 1.6;
-        }
-        textarea:focus {
-            border-color: var(--green);
-            box-shadow: 0 0 0 3px rgba(1,104,54,0.15);
-        }
-        ::placeholder { color: var(--cool-grey); opacity: 1; }
+        /* ── CONTEXT BOX ── */
+        .context-box { background: var(--green-light); border-left: 4px solid var(--green); padding: 14px 18px; border-radius: 0 8px 8px 0; font-size: 0.9rem; color: #1a3a1a; line-height: 1.7; margin-bottom: 18px; }
+        .context-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green-dark); margin-bottom: 6px; }
 
-        .feedback { font-size: 0.88rem; font-weight: 600; margin-top: 10px; min-height: 22px; }
-        .feedback.good { color: #2e7d32; }
-        .feedback.warn { color: #c62828; }
+        /* ── PROMPT AREA ── */
+        .prompt-label { font-size: 0.97rem; font-weight: 600; color: var(--near-black); margin-bottom: 6px; }
+        .prompt-helper { font-size: 0.84rem; color: var(--warm-grey); background: #f5faf5; border: 1px solid #c8e6c9; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; line-height: 1.6; }
+        textarea { width: 100%; background: var(--white); border-radius: 6px; border: 1.5px solid var(--cool-grey); color: var(--near-black); padding: 12px 14px; font-size: 0.95rem; font-family: "DM Sans", sans-serif; resize: vertical; min-height: 110px; outline: none; transition: border-color 0.15s, box-shadow 0.15s; line-height: 1.6; }
+        textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(1,104,54,0.12); }
+        ::placeholder { color: #aaa; }
 
-        .mini-checklist { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-        .mini-checklist span {
-            font-size: 0.78rem;
-            padding: 3px 9px;
-            border-radius: 4px;
-            border: 1px solid var(--cool-grey);
-            background: var(--off-white);
-            color: var(--warm-grey);
-        }
+        /* ── FEEDBACK ── */
+        .feedback-area { margin-top: 10px; font-size: 0.88rem; line-height: 1.65; min-height: 24px; }
+        .feedback-good { color: #2e7d32; background: #f1f8f1; border: 1px solid #a5d6a7; border-radius: 6px; padding: 10px 14px; }
+        .feedback-warn { color: #b71c1c; background: #fff5f5; border: 1px solid #ffcdd2; border-radius: 6px; padding: 10px 14px; }
+        .feedback-partial { color: #e65100; background: #fff8f0; border: 1px solid #ffcc80; border-radius: 6px; padding: 10px 14px; }
+        .feedback-item { margin-bottom: 5px; }
+        .feedback-item:last-child { margin-bottom: 0; }
 
-        .prior-responses {
-            background: var(--off-white);
-            border: 1px solid var(--cool-grey);
-            border-radius: 6px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            font-size: 0.83rem;
-            color: var(--warm-grey);
-            display: none;
-        }
-        .prior-responses.visible { display: block; }
-        .prior-responses strong { color: var(--near-black); display: block; margin-bottom: 8px; font-size: 0.88rem; }
+        /* ── CHECKLIST ── */
+        .checklist-area { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+        .check-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; border: 1px solid var(--cool-grey); background: var(--off-white); color: var(--warm-grey); transition: var(--transition); }
+        .check-chip.pass { background: #e8f5e9; border-color: #a5d6a7; color: #2e7d32; }
+        .check-chip.fail { background: #fff5f5; border-color: #ffcdd2; color: #c62828; }
+
+        /* ── PRIOR RESPONSES ── */
+        .prior-panel { background: var(--off-white); border: 1px solid var(--cool-grey); border-radius: 8px; padding: 14px 18px; margin-bottom: 18px; font-size: 0.85rem; display: none; }
+        .prior-panel.visible { display: block; }
+        .prior-panel-title { font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green-dark); margin-bottom: 10px; }
         .prior-entry { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--cool-grey); }
         .prior-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .prior-step-label {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-weight: 700;
-            color: var(--green-dark);
-            margin-bottom: 3px;
-        }
+        .prior-step-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green-dark); margin-bottom: 3px; }
+        .prior-entry p { font-size: 0.85rem; color: var(--near-black); line-height: 1.55; }
 
-        .nav-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border: none;
-            cursor: pointer;
-            border-radius: 6px;
-            padding: 10px 22px;
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: var(--transition);
-            background: var(--green);
-            color: var(--white);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        }
-        .btn:hover { background: var(--green-dark); transform: translateY(-1px); }
-        .btn:active { transform: translateY(0); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .btn.secondary {
-            background: var(--white);
-            color: var(--green-dark);
-            border: 1px solid var(--green-dark);
-            box-shadow: none;
-        }
-        .btn.secondary:hover { background: var(--off-white); }
+        /* ── COHERENCE ALERT ── */
+        .coherence-alert { background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 10px 14px; font-size: 0.85rem; color: #5a3e00; margin-top: 8px; display: none; }
+        .coherence-alert.visible { display: block; }
 
-        .compare-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            border: 1px solid var(--cool-grey);
-            padding: 28px 32px;
-            box-shadow: var(--shadow-soft);
-            margin-bottom: 20px;
-        }
-        .compare-card h2 {
-            font-family: "DM Serif Display", serif;
-            font-size: 1.4rem;
-            font-weight: 400;
-            color: var(--green-dark);
-            margin-bottom: 6px;
-        }
-        .compare-card .intro-text { font-size: 0.88rem; color: var(--warm-grey); margin-bottom: 16px; }
-        .compare-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88rem;
-            margin-bottom: 20px;
-        }
-        .compare-table th, .compare-table td {
-            border: 1px solid var(--cool-grey);
-            padding: 10px 12px;
-            text-align: left;
-            color: var(--near-black);
-            line-height: 1.55;
-        }
-        .compare-table th {
-            background: var(--off-white);
-            font-weight: 700;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--warm-grey);
-        }
-        .email-section { text-align: center; margin-top: 8px; }
-        .email-section p { font-size: 0.78rem; color: var(--warm-grey); margin-top: 8px; }
+        /* ── NAV ROW ── */
+        .nav-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 7px; font-size: 0.92rem; font-weight: 600; font-family: "DM Sans", sans-serif; border: none; cursor: pointer; transition: var(--transition); }
+        .btn-primary { background: var(--green); color: var(--white); box-shadow: 0 2px 8px rgba(1,104,54,0.25); }
+        .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary { background: var(--white); color: var(--green-dark); border: 1.5px solid var(--green-dark); }
+        .btn-secondary:hover { background: var(--green-light); }
+        .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-gold { background: var(--gold); color: var(--green-dark); font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .btn-gold:hover { background: #e5a820; transform: translateY(-1px); }
 
-        .help-panel {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 300px;
-            background: var(--white);
-            border: 2px solid var(--green);
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-            padding: 18px;
-            z-index: 200;
-            transition: transform 0.3s ease;
-        }
+        /* ── COMPARE CARD ── */
+        .compare-card { background: var(--white); border-radius: var(--radius-card); border: 1px solid var(--cool-grey); padding: 28px 32px; box-shadow: var(--shadow-soft); margin-bottom: 20px; display: none; }
+        .compare-card.visible { display: block; }
+        .compare-card h2 { font-family: "DM Serif Display", serif; font-size: 1.3rem; font-weight: 400; color: var(--green-dark); margin-bottom: 6px; }
+        .compare-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.88rem; }
+        .compare-table th, .compare-table td { border: 1px solid var(--cool-grey); padding: 10px 14px; text-align: left; color: var(--near-black); line-height: 1.5; }
+        .compare-table th { background: var(--off-white); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--warm-grey); }
+        .email-section { margin-top: 24px; text-align: center; }
+        .email-section p { font-size: 0.8rem; color: var(--warm-grey); margin-top: 8px; }
+
+        /* ── HELP PANEL ── */
+        .help-toggle { position: fixed; bottom: 22px; right: 22px; background: var(--green); color: white; border: none; border-radius: 50px; padding: 11px 20px; font-weight: 600; font-family: "DM Sans", sans-serif; font-size: 0.88rem; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.25); z-index: 98; display: none; }
+        .help-panel { position: fixed; bottom: 22px; right: 22px; width: 300px; background: white; border: 2px solid var(--green); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.18); padding: 18px 20px; z-index: 99; transition: transform 0.3s ease; }
         .help-panel.collapsed { transform: translateX(340px); }
-        .help-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            font-weight: 700;
-            font-size: 0.92rem;
-            color: var(--green-dark);
-        }
-        .close-help { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--warm-grey); line-height: 1; }
+        .help-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 700; color: var(--green-dark); font-size: 0.95rem; }
+        .help-close { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--near-black); line-height: 1; }
         .help-content { font-size: 0.82rem; max-height: 380px; overflow-y: auto; line-height: 1.6; }
-        .help-content p { margin-bottom: 8px; color: var(--near-black); }
-        .toggle-help {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--green);
-            color: var(--white);
-            border: none;
-            border-radius: 50px;
-            padding: 11px 20px;
-            font-family: "DM Sans", sans-serif;
-            font-weight: 600;
-            font-size: 0.88rem;
-            cursor: pointer;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-            z-index: 199;
-            display: none;
-        }
-
-        .hidden { display: none !important; }
+        .help-content p { margin-bottom: 8px; color: #333; }
+        .help-content strong { color: var(--green-dark); }
 
         @media (max-width: 600px) {
-            .app { padding: 20px 12px 48px; }
-            .card, .compare-card { padding: 20px 16px; }
-            .scenario-header { padding: 16px 18px; }
+            .step-card, .compare-card { padding: 20px 16px; }
+            .page-body { padding: 24px 14px 60px; }
             .help-panel { width: 260px; }
         }
     </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
+<!-- ── NAVBAR ── -->
 <header>
     <div class="header-inner nav-links">
         <a href="../../index.html">Home</a>
@@ -429,37 +169,33 @@
     </div>
 </header>
 
-<div class="app">
-
-    <a class="back-link" href="index.html">← Back to Researcher Hub</a>
-
-    <div class="scenario-header">
-        <h1>🧪 Dr. Gregory Richards</h1>
-        <p>E. coli &amp; sugar stress — same glucose, same genes, but SgrS is silent in one strain</p>
-        <div class="badge-row">
-            <span class="badge">stress response</span>
-            <span class="badge">small RNAs</span>
-            <span class="badge">E. coli</span>
-            <span class="badge">SgrS</span>
-            <span class="badge">glucose-phosphate stress</span>
+<!-- ── HERO ── -->
+<section class="hero">
+    <div class="hero-eyebrow">🔬 UWP Biology · Scientific Process</div>
+    <div class="hero-content">
+        <img
+            src="richards.png"
+            alt="Dr. Gregory Richards — Microbiology: Fine-Tuner of Life"
+            class="researcher-portrait"
+        >
+        <div class="hero-text">
+            <h1>Dr. Gregory <em>Richards</em></h1>
+            <p class="hero-sub">E. coli &amp; Sugar Stress — Same glucose, same genes, but SgrS is silent in one strain. One bacterium grows, the other barely moves. What is SgrS actually doing?</p>
+            <a class="back-link" href="index.html">← All Researchers</a>
         </div>
     </div>
+</section>
 
-    <div class="progress-wrap">
-        <div class="progress-label">
-            <span id="progressStepLabel">Step 1 of 8</span>
-            <span id="progressPct">0%</span>
-        </div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-    </div>
+<!-- ── PAGE BODY ── -->
+<main class="page-body">
 
-    <div class="card" id="stepCard">
+    <div class="step-card" id="stepCard">
         <div class="step-header">
-            <span class="step-number" id="stepPill">Step 1</span>
-            <span class="step-title" id="stepTitle">Observation</span>
-            <span class="info-icon" id="stepInfoIcon" data-tip="">i</span>
+            <div class="step-title-group">
+                <span class="step-name" id="stepName">Observation</span>
+                <button class="info-btn" id="infoBtn" data-tip="">i</button>
+            </div>
+            <span class="step-counter" id="stepCounter">Step 1 of 8</span>
         </div>
         <div class="step-subtitle" id="stepSubtitle"></div>
 
@@ -467,65 +203,78 @@
             <strong>📘 Definition:</strong> <span id="definitionText"></span>
         </div>
 
-        <div class="context-box" id="contextBox"></div>
-
-        <div class="prior-responses" id="priorResponses">
-            <strong>📝 Your thinking so far:</strong>
-            <div id="priorResponsesList"></div>
+        <div class="progress-wrap">
+            <div class="progress-label" id="progressLabel">Progress — Step 1 of 8</div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
         </div>
+
+        <div class="context-box">
+            <div class="context-label">🧫 Richards Lab — Your Scenario</div>
+            <div id="contextText"></div>
+        </div>
+
+        <div class="prior-panel" id="priorPanel">
+            <div class="prior-panel-title">📝 Your thinking so far</div>
+            <div id="priorList"></div>
+        </div>
+
+        <div class="coherence-alert" id="coherenceAlert"></div>
 
         <div class="prompt-label" id="promptLabel"></div>
         <div class="prompt-helper" id="promptHelper"></div>
-        <textarea id="responseInput" placeholder="Type your response here…"></textarea>
-        <div class="feedback" id="feedbackArea"></div>
-        <div class="mini-checklist" id="checklistArea"></div>
+        <textarea id="responseInput" placeholder="Type your response here…" rows="5"></textarea>
+
+        <div class="feedback-area" id="feedbackArea"></div>
+        <div class="checklist-area" id="checklistArea"></div>
 
         <div class="nav-row">
-            <button class="btn secondary" onclick="prevStep()" id="prevBtn">← Previous</button>
+            <button class="btn btn-secondary" id="prevBtn" onclick="prevStep()">← Previous</button>
             <div style="flex:1;"></div>
-            <button class="btn" onclick="nextStep()" id="nextBtn">Check &amp; Continue →</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Check &amp; Continue →</button>
         </div>
     </div>
 
-    <div class="compare-card hidden" id="compareCard">
+    <div class="compare-card" id="compareCard">
         <h2>From Hypothesis to Theory &amp; Law</h2>
-        <p class="intro-text">Your experiment in context — see how one hypothesis fits into the bigger scientific picture.</p>
+        <p style="font-size:0.88rem; color:var(--warm-grey);">Where does your experiment sit on the spectrum of scientific knowledge?</p>
         <table class="compare-table">
-            <thead>
-                <tr><th>Level</th><th>What it is</th><th>In this scenario</th></tr>
-            </thead>
+            <thead><tr><th>Level</th><th>What it is</th><th>In this scenario</th></tr></thead>
             <tbody id="compareBody"></tbody>
         </table>
         <div class="email-section">
-            <button class="btn" onclick="emailResponses()">📧 Email my responses for Dr. Richards</button>
-            <p>(only this researcher's answers will be sent)</p>
+            <button class="btn btn-gold" onclick="emailResponses()">📧 Email my responses — Dr. Richards scenario</button>
+            <p>Only this scenario's answers will be sent to your instructor.</p>
         </div>
-        <div style="text-align:center; margin-top:20px;">
-            <a href="index.html" class="btn secondary">← Try another researcher</a>
+        <div style="text-align:center; margin-top:16px;">
+            <a href="index.html" class="btn btn-secondary">← Try another researcher</a>
         </div>
     </div>
 
-</div>
+</main>
 
-<button class="toggle-help" id="toggleHelpBtn">❓ Help</button>
+<!-- ── HELP ── -->
+<button class="help-toggle" id="helpToggle">❓ Need Help?</button>
 <div class="help-panel collapsed" id="helpPanel">
     <div class="help-header">
-        <span>📘 Quick Reference</span>
-        <button class="close-help" id="closeHelpBtn">✖</button>
+        <span>📘 Step-by-Step Guide</span>
+        <button class="help-close" id="helpClose">✖</button>
     </div>
     <div class="help-content">
-        <p><strong>Observation</strong> – Just the facts. No explanations. Use your senses or instrument data.</p>
-        <p><strong>Curiosity Question</strong> – Broad, wonder-based. Starts with "How does...", "Is there...".</p>
-        <p><strong>Research Question</strong> – Focused, testable. Identifies independent and dependent variables.</p>
-        <p><strong>Hypothesis</strong> – A <em>tentative answer</em>. Proposes cause‑effect, falsifiable.</p>
-        <p><strong>Prediction</strong> – "If–Then" statement: what measurable outcome if hypothesis is true.</p>
-        <p><strong>Variables &amp; Controls</strong> – Independent (manipulated), Dependent (measured), Controlled (constant).</p>
-        <p><strong>Experimental Design</strong> – Detailed plan, groups, replicates, expected results pattern.</p>
-        <p><strong>Theory vs. Law</strong> – Theory: broad explanation. Law: concise math description.</p>
+        <p><strong>Observation</strong> — Facts only. No explanations. Use your senses or instrument data. Avoid "because."</p>
+        <p><strong>Curiosity Question</strong> — Broad wonder-question. Starts with "How does…", "Is there…", "To what extent…". Not testable yet.</p>
+        <p><strong>Research Question</strong> — Focused &amp; testable. Names the independent variable and dependent variable.</p>
+        <p><strong>Hypothesis</strong> — Tentative, falsifiable answer. Proposes a cause-effect mechanism. Uses "will" and includes a comparison.</p>
+        <p><strong>Prediction</strong> — If–Then format. States the measurable outcome if the hypothesis is correct.</p>
+        <p><strong>Variables &amp; Controls</strong> — IV: what you manipulate. DV: what you measure. Controlled: everything kept constant.</p>
+        <p><strong>Experimental Design</strong> — Groups, replicates, measurement methods, and both possible result patterns.</p>
+        <p><strong>Theory vs. Law</strong> — Theory: broad, evidence-based explanation. Law: concise mathematical description.</p>
     </div>
 </div>
 
 <script>
+// ─────────────────────────────────────────────────────────────────────────────
+// SHARED STEP DEFINITIONS
+// ─────────────────────────────────────────────────────────────────────────────
 const STEPS = [
     "Observation",
     "Curiosity Question",
@@ -537,252 +286,796 @@ const STEPS = [
     "Theory vs. Law"
 ];
 
-const STEP_SUBTITLES = {
-    "Observation":                      "Describe what is happening before you try to explain why.",
-    "Curiosity Question":               "Turn your observation into a clear, non‑'why' question.",
-    "Research Question":                "Refine curiosity into a specific, testable question with clear variables.",
-    "Hypothesis":                       "Propose an educated, falsifiable answer to your research question.",
-    "Prediction":                       "State what you expect to measure if your hypothesis is correct.",
-    "Variables & Controls":             "Separate the factor you change from what you measure and what you hold constant.",
-    "Experimental Design & Results":    "Plan the test and connect expected data patterns back to your hypothesis.",
-    "Theory vs. Law":                   "Place your experiment on the hypothesis–theory–law spectrum."
-};
-
-const STEP_DEFINITIONS = [
-    "Observation is the objective recording of an event or phenomenon through direct sensory experience — sight, hearing, touch, smell, or taste — or through precise instrumentation and measurement. Free from assumption or interpretation, it is the raw, unfiltered encounter with reality that ignites scientific curiosity and drives inquiry forward.",
-    "Curiosity Question is a broad, open-ended question that arises from the observation. It often starts with 'How does...', 'Is there a correlation...', or 'To what extent...'. It is not yet testable.",
-    "Research Question is a focused, specific question that refines the curiosity question. It identifies the independent variable (what you change) and dependent variable (what you measure). It must be testable.",
-    "Hypothesis is a tentative answer to the research question. It proposes a causal relationship and must be falsifiable. It often uses 'will' and includes a comparison (e.g., 'compared to').",
-    "Prediction is an 'If–Then' statement that translates the hypothesis into a measurable expectation. It specifies what should happen in an experiment if the hypothesis is correct.",
-    "Variables & Controls: Independent variable (manipulated), Dependent variable (measured), Controlled variables (kept constant to ensure a fair test).",
-    "Experimental Design & Results: A detailed plan for testing the hypothesis, including groups, sample size, replicates, and the pattern of results that would support or reject the hypothesis.",
-    "Theory vs. Law: A theory is a broad, well-supported explanation; a law is a concise mathematical description. Your experiment tests a hypothesis, contributing to theory."
+const STEP_SUBTITLES = [
+    "Describe what is happening before you try to explain why.",
+    "Turn your observation into a broad, open-ended wonder question.",
+    "Refine curiosity into a specific, testable question with clear variables.",
+    "Propose an educated, falsifiable answer to your research question.",
+    "State what you expect to measure if your hypothesis is correct.",
+    "Separate what you change from what you measure and what you hold constant.",
+    "Plan the test and describe the result pattern that would support your hypothesis.",
+    "Place your experiment on the hypothesis → theory → law spectrum."
 ];
 
-// ── DR. GREGORY RICHARDS DATA ──
+const STEP_DEFINITIONS = [
+    "Observation is the objective recording of a phenomenon through direct sensory experience or instrumentation — free from assumption or interpretation. It is the raw encounter with reality that ignites scientific inquiry.",
+    "A Curiosity Question is a broad, open-ended question that arises naturally from an observation. It is not yet testable — it expresses genuine wonder and points toward what you want to understand.",
+    "A Research Question is a specific, testable refinement of the curiosity question. It clearly names the independent variable (what you will change) and the dependent variable (what you will measure).",
+    "A Hypothesis is a tentative, falsifiable answer to the research question. It proposes a causal mechanism and must be structured so that evidence can potentially prove it wrong.",
+    "A Prediction is an If–Then statement that translates the hypothesis into a concrete, measurable expectation. It specifies what should happen in an experiment if the hypothesis is correct.",
+    "Variables: the Independent Variable is what you deliberately change; the Dependent Variable is what you measure in response; Controlled Variables are factors held constant to ensure a fair test.",
+    "Experimental Design is the detailed plan for testing the hypothesis — specifying groups, sample size, replicates, measurement methods, and the pattern of results that would support or falsify the hypothesis.",
+    "A Theory is a broad, well-supported explanation for a class of phenomena. A Law is a concise, often mathematical description of a consistent pattern. Your experiment tests a hypothesis; over time, many such tests build toward theory."
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DR. GREGORY RICHARDS — RESEARCHER DATA
+// ─────────────────────────────────────────────────────────────────────────────
 const RESEARCHER = {
     label: "Dr. Gregory Richards",
-    emailLabel: "Dr. Gregory Richards — E. coli & Sugar Stress",
+    email: "harria01@uwp.edu",
+
     contextByStep: [
         "You are looking at two E. coli strains both given the same sugar — glucose — as their only food. Strain A eats steadily and grows normally. Strain B seems to struggle with its meal: it slows down and barely grows, as if something in its digestion isn't working. Both strains have the same genes for processing glucose, and both have a molecule called SgrS — a tiny piece of RNA that acts like a traffic signal inside the cell. But glancing at the data readout, you notice that SgrS looks quiet and inactive in Strain B, while it's clearly switched on in Strain A.",
-        "You wonder how SgrS helps relieve metabolic stress.",
-        "Research question: How does SgrS‑mediated regulation affect recovery from glucose‑phosphate stress?",
-        "Hypothesis: SgrS post‑transcriptionally regulates key transporters, reducing stress.",
-        "Prediction: If SgrS is functional, then cells will show lower accumulation of toxic intermediates.",
-        "Variables: IV = SgrS presence; DV = growth rate, intermediate levels; controls = glucose concentration, temperature.",
-        "Design: Compare wild‑type and ΔsgrS mutant; measure growth and metabolite levels.",
-        "How does this experiment inform theories of bacterial stress responses, and how does it differ from a law like the Monod equation?"
+        "You have just described two E. coli strains with the same genes and the same food source, but very different growth outcomes — and a hint that SgrS, a small regulatory RNA, behaves differently between them. Step back and wonder broadly: what could SgrS be doing that makes this difference? A curiosity question is open and exploratory — it doesn't need to be testable yet.",
+        "You've asked a broad wonder question. Now sharpen it. A good research question names the specific factor you will manipulate (SgrS presence or activity) and the specific, measurable outcome you will track (growth rate, accumulation of toxic intermediates, or transporter activity).",
+        "You've identified a testable question. Now take a position. Dr. Richards suspects that SgrS acts as a post-transcriptional regulator — it controls gene expression after the gene has already been copied into RNA. Specifically, SgrS likely silences the mRNA of sugar transporters (like ptsG) that would otherwise continue pumping in glucose even as toxic intermediates build up. Your hypothesis should propose this specific mechanism and be falsifiable.",
+        "Your hypothesis makes a causal claim — now predict what would happen in a real experiment if that claim is correct. Use the If–Then format. The measurement involves comparing growth, toxic intermediate levels, or transporter mRNA levels between wild-type (SgrS present) and ΔsgrS mutant (SgrS absent) strains under glucose-phosphate stress.",
+        "Break your experiment into its moving parts. The independent variable is what differs between your experimental groups (SgrS presence or absence). The dependent variable is what you measure to detect an effect. Controlled variables are everything held constant so that SgrS is the only meaningful difference.",
+        "Design the actual experiment. How will you create and grow the two strains, induce glucose-phosphate stress, measure growth and metabolite levels, ensure replication, and interpret your results? Describe what the data would look like if your hypothesis is correct — and what if it is wrong.",
+        "Zoom out. Your experiment tests one hypothesis about one small RNA in one bacterial species. How does this fit into the broader scientific landscape? What theory does it contribute to? How does it differ from a law like the Monod equation? What would it take to move from hypothesis toward established theory?"
     ],
+
     prompts: [
         {
-            label: "Describe what you observe.",
-            helper: "E. coli, glucose, growth difference, SgrS involvement.",
-            requiredKeywords: ["E. coli", "glucose", "growth", "SgrS"],
-            checklist: ["Both strains", "Growth difference", "Mentions SgrS"]
+            label: "Describe what you observe in the Richards lab scenario.",
+            helper: "Report only what can be directly seen or measured from the data readout. Mention both strains, the growth difference, what food they are given, the gene situation, and what SgrS looks like in each strain. Do not explain why.",
+            checklist: [
+                "Both strains mentioned",
+                "Growth difference described",
+                "Glucose as food source noted",
+                "SgrS activity difference noted",
+                "No causal explanation included"
+            ]
         },
         {
-            label: "Write a curiosity question.",
-            helper: "How does SgrS help cells cope with glucose stress?",
-            requiredKeywords: ["SgrS", "glucose", "stress"],
-            checklist: ["Uses How", "Includes SgrS"]
+            label: "Write a curiosity question that arises from your observation.",
+            helper: "Start with 'How does…', 'Is there a relationship between…', or 'To what extent…' — not 'Why'. It should be broad and wonder-based, not yet testable.",
+            checklist: [
+                "Starts with How / Is there / To what extent",
+                "References SgrS or gene regulation",
+                "Links to growth or stress",
+                "Not a 'Why' question",
+                "Broad — not yet a specific testable question"
+            ]
         },
         {
-            label: "Write a focused research question.",
-            helper: "How does SgrS affect recovery from glucose‑phosphate stress?",
-            requiredKeywords: ["SgrS", "recovery", "stress"],
-            checklist: ["IV = SgrS", "DV = recovery/growth"]
+            label: "Write a focused, testable research question.",
+            helper: "Name the IV (SgrS presence or activity) and the DV (growth rate, toxic intermediate levels, or transporter mRNA). Example: 'How does SgrS-mediated regulation affect recovery from glucose-phosphate stress in E. coli?'",
+            checklist: [
+                "Names an independent variable",
+                "Names a dependent variable",
+                "Specific to E. coli / SgrS / glucose context",
+                "Testable and measurable",
+                "More specific than the curiosity question"
+            ]
         },
         {
-            label: "State your hypothesis.",
-            helper: "SgrS reduces toxic intermediates by regulating sugar transporters.",
-            requiredKeywords: ["SgrS", "intermediates", "transporters"],
-            checklist: ["Cause‑effect", "Comparison"]
+            label: "State your hypothesis — a tentative, falsifiable answer to your research question.",
+            helper: "Propose a specific mechanism: how does SgrS reduce stress? The key pathway: SgrS post-transcriptionally silences ptsG mRNA (the main glucose transporter), reducing glucose import and preventing toxic intermediate accumulation. Use 'will' and compare wild-type vs ΔsgrS mutant.",
+            checklist: [
+                "Proposes a specific mechanism",
+                "References post-transcriptional regulation or mRNA silencing",
+                "Compares wild-type vs mutant (or SgrS present vs absent)",
+                "Uses 'will' or predictive language",
+                "Falsifiable — could be proven wrong"
+            ]
         },
         {
-            label: "Write your If–Then prediction.",
-            helper: "If SgrS is absent, then toxic intermediates will accumulate and growth will be impaired.",
-            requiredKeywords: ["if", "then", "SgrS", "intermediates"],
-            checklist: ["If–Then", "Measurable"]
+            label: "Write an If–Then prediction for your hypothesis.",
+            helper: "Format: 'If [SgrS condition], then [measurable outcome].' Specify direction — if SgrS is absent, toxic intermediates should accumulate and growth should be impaired compared to wild-type.",
+            checklist: [
+                "Uses If–Then structure",
+                "The 'If' names the SgrS condition",
+                "The 'Then' names a measurable outcome",
+                "Specifies direction (more/less, higher/lower)",
+                "Could be directly tested in a lab"
+            ]
         },
         {
-            label: "Identify variables and controls.",
-            helper: "IV: SgrS; DV: growth rate, intermediate levels; controls: glucose, pH, etc.",
-            requiredKeywords: ["independent", "dependent", "control"],
-            checklist: ["Names IV", "Names DV", "≥3 controls"]
+            label: "Identify the independent variable, dependent variable, and at least three controlled variables.",
+            helper: "IV = SgrS presence (wild-type vs ΔsgrS mutant). DV = growth rate, glucose-6-phosphate accumulation, or ptsG mRNA levels. Controlled = glucose concentration, temperature, pH, culture medium, growth phase, aeration, inoculum density.",
+            checklist: [
+                "Independent variable clearly named",
+                "Dependent variable clearly named",
+                "At least 3 controlled variables listed",
+                "Controls are microbiologically relevant",
+                "IV and DV are distinct"
+            ]
         },
         {
-            label: "Outline experimental design and expected results.",
-            helper: "Compare wild‑type vs mutant; measure growth and metabolites.",
-            requiredKeywords: ["wild-type", "mutant", "growth"],
-            checklist: ["Groups", "Replicates", "Expected pattern"]
+            label: "Outline your experimental design and describe what results would support or reject your hypothesis.",
+            helper: "Describe: (1) your two strains (wild-type and ΔsgrS mutant), (2) how you induce glucose-phosphate stress, (3) how you measure growth (OD600) and toxic intermediates (e.g. glucose-6-phosphate assay), (4) replicates, (5) what data pattern would support your hypothesis vs. what would reject it.",
+            checklist: [
+                "Wild-type and ΔsgrS mutant groups defined",
+                "Stress induction method described",
+                "Growth measurement method named",
+                "Replicates mentioned",
+                "Both support AND reject outcomes described"
+            ]
         },
         {
-            label: "Contrast with theories and laws.",
-            helper: "Stress response theory vs. Monod growth law.",
-            requiredKeywords: ["theory", "law"],
-            checklist: ["Distinguishes"]
+            label: "Contrast your experiment with a scientific theory and a scientific law.",
+            helper: "Your experiment tests one hypothesis about one sRNA in one species. The theory of bacterial stress response integrates many such studies across many organisms and stressors. The Monod equation is a mathematical law describing growth rate as a function of nutrient concentration. Explain where your work sits and what it would take to build toward theory.",
+            checklist: [
+                "Distinguishes hypothesis from theory",
+                "Names or describes a relevant theory",
+                "Names or describes the Monod equation or similar law",
+                "Explains scope/evidence difference",
+                "Describes path toward theory"
+            ]
         }
     ],
+
     compareRows: [
         {
             level: "Hypothesis",
-            what: "SgrS reduces glucose-phosphate stress.",
-            inModule: "SgrS mutant shows worse growth under glucose stress."
+            what: "A specific, testable claim about one sRNA in one bacterial species.",
+            inModule: "SgrS post-transcriptionally silences ptsG mRNA, reducing glucose import and preventing toxic intermediate accumulation under glucose-phosphate stress."
         },
         {
             level: "Scientific Theory",
-            what: "Bacterial stress response theory.",
-            inModule: "Many small RNAs (sRNAs) are involved in coordinating stress responses across bacteria."
+            what: "A broad, evidence-based explanation integrating many experiments.",
+            inModule: "Bacterial stress response theory — built from decades of research on how bacteria use small RNAs (sRNAs), two-component systems, and post-transcriptional regulation to survive environmental stress."
         },
         {
             level: "Scientific Law",
-            what: "Monod equation for microbial growth.",
-            inModule: "Describes growth rate as a function of nutrient concentration — not directly tested here."
+            what: "A concise, mathematical description of a consistent pattern.",
+            inModule: "The Monod equation mathematically describes microbial growth rate as a function of nutrient concentration — a law that governs the conditions your experiment uses, but is not itself what your experiment tests."
         }
     ]
 };
 
-// ── STATE ──
-let currentStepIndex = 0;
-let responses = Array(STEPS.length).fill("");
+// ─────────────────────────────────────────────────────────────────────────────
+// SMART FEEDBACK ENGINE — RICHARDS-SPECIFIC RUBRICS
+// ─────────────────────────────────────────────────────────────────────────────
+const has = (text, words) => words.some(w => text.includes(w.toLowerCase()));
+const hasPhrase = (text, phrases) => phrases.some(p => text.includes(p.toLowerCase()));
+const wordCount = (text) => text.trim().split(/\s+/).filter(Boolean).length;
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadStep();
-    setTimeout(() => { document.getElementById("toggleHelpBtn").style.display = "block"; }, 600);
-});
+const CAUSAL_WORDS = ["because","due to","caused by","results in","leads to","explains","therefore","since","as a result","this means","so that","in order to","which causes","causing","makes","allows","enables","prevents"];
 
-function loadStep() {
-    const idx = currentStepIndex;
+const RUBRICS = [
 
-    document.getElementById("stepPill").textContent       = `Step ${idx + 1}`;
-    document.getElementById("stepTitle").textContent      = STEPS[idx];
-    document.getElementById("stepSubtitle").textContent   = STEP_SUBTITLES[STEPS[idx]] || "";
-    document.getElementById("definitionText").textContent = STEP_DEFINITIONS[idx];
-    document.getElementById("stepInfoIcon").setAttribute("data-tip", "Definition: " + STEP_DEFINITIONS[idx]);
-    document.getElementById("contextBox").textContent     = RESEARCHER.contextByStep[idx];
+    // ── STEP 0: Observation ──────────────────────────────────────────────────
+    function observationFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
 
-    const p = RESEARCHER.prompts[idx];
-    document.getElementById("promptLabel").textContent    = p.label;
-    document.getElementById("promptHelper").textContent   = p.helper;
+        const causalFound = CAUSAL_WORDS.filter(w => text.includes(w));
+        if (causalFound.length > 0) {
+            messages.push({ type: "warn", text: `⚠️ Explanation detected: you used "${causalFound[0]}" — observations report only what you see or measure, not why it happens. Remove cause-and-effect language.` });
+        } else { score++; }
 
-    const cl = document.getElementById("checklistArea");
-    cl.innerHTML = "";
-    p.checklist.forEach(item => {
-        const s = document.createElement("span");
-        s.textContent = "✓ " + item;
-        cl.appendChild(s);
-    });
+        // Both strains
+        const bothStrains = hasPhrase(text, ["both strains","two strains","strain a","strain b"]) ||
+            (has(text, ["strain"]) && has(text, ["grow","growth","barely","normal","steadily"]));
+        if (bothStrains) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Both strains mentioned"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Both strains";
+            messages.push({ type: "warn", text: "❌ Mention both Strain A and Strain B — one grows normally, the other barely grows." });
+        }
 
-    document.getElementById("responseInput").value       = responses[idx] || "";
-    document.getElementById("feedbackArea").textContent  = "";
-    document.getElementById("feedbackArea").className    = "feedback";
+        // Growth difference
+        if (has(text, ["grow","growth","grows","barely","normal","steadily","slow","slows","struggle","impaired","less","more","different growth"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Growth difference described"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Growth difference";
+            messages.push({ type: "warn", text: "❌ Describe the growth difference — Strain A grows steadily; Strain B barely grows." });
+        }
 
-    const pct = Math.round((idx / (STEPS.length - 1)) * 100);
-    document.getElementById("progressFill").style.width      = `${pct}%`;
-    document.getElementById("progressPct").textContent       = `${pct}%`;
-    document.getElementById("progressStepLabel").textContent = `Step ${idx + 1} of ${STEPS.length}`;
+        // Glucose as food
+        if (has(text, ["glucose","sugar","food","nutrient","carbon source"])) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Glucose food source noted"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Glucose/food source missing";
+            messages.push({ type: "warn", text: "❌ Note what both strains are being fed — both receive the same glucose as their only food source." });
+        }
 
-    document.getElementById("prevBtn").disabled    = (idx === 0);
-    document.getElementById("nextBtn").textContent = (idx === STEPS.length - 1) ? "Finish & Show Big Picture ✓" : "Check & Continue →";
-    document.getElementById("compareCard").classList.add("hidden");
+        // SgrS activity difference
+        if (has(text, ["sgrs","srna","small rna","rna","signal","inactive","active","switched on","switched off","quiet","expressed","expression","readout","data"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ SgrS activity difference noted"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ SgrS activity missing";
+            messages.push({ type: "warn", text: "❌ Include what the data readout showed about SgrS — it is active (switched on) in Strain A and inactive (quiet) in Strain B." });
+        }
 
-    updatePriorPanel();
-    document.getElementById("stepCard").scrollIntoView({ behavior: "smooth", block: "start" });
+        // No causal explanation
+        if (causalFound.length === 0) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ No causal explanation";
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Remove explanations";
+        }
+
+        if (score >= 4 && causalFound.length === 0) {
+            return [{ type: "good", text: "✅ Excellent observation! You've described both strains, the growth difference, the glucose food source, and the SgrS activity readout — all without explaining why. That's exactly right." }];
+        }
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Partial — your observation has some key details but is missing others. See the checklist." });
+        return messages;
+    },
+
+    // ── STEP 1: Curiosity Question ───────────────────────────────────────────
+    function curiosityFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        const goodStems = ["how does","how do","is there","to what extent","what is the relationship","could there be","might there be"];
+        const badStems = ["why does","why do","why is","why are","why would"];
+        const hasGoodStem = hasPhrase(text, goodStems);
+        const hasBadStem = hasPhrase(text, badStems);
+
+        if (hasBadStem) {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Avoid 'Why'";
+            messages.push({ type: "warn", text: `⚠️ You used "why" — curiosity questions work better starting with "How does…", "Is there a relationship between…", or "To what extent…"` });
+        } else if (hasGoodStem) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Good opening stem"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Opening stem needed";
+            messages.push({ type: "warn", text: `❌ Start with "How does…", "Is there a relationship between…", or "To what extent…"` });
+        }
+
+        // References SgrS or gene regulation
+        if (has(text, ["sgrs","srna","small rna","rna","regulatory","regulation","gene","expression","signal","traffic","molecule"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ References SgrS/gene regulation"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ SgrS/regulation missing";
+            messages.push({ type: "warn", text: "❌ Reference SgrS or gene regulation — that's the key variable you observed differing between the strains." });
+        }
+
+        // Links to growth or stress
+        if (has(text, ["grow","growth","stress","metabolic","glucose","sugar","recovery","survive","function","bacteria","e. coli","ecoli"])) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Links to growth or stress"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Growth/stress link missing";
+            messages.push({ type: "warn", text: "❌ Connect your question to bacterial growth or metabolic stress — that's what you observed being affected." });
+        }
+
+        // Not a 'Why'
+        if (!hasBadStem) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Not a 'Why' question"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Avoid 'Why'";
+        }
+
+        // Appropriately broad
+        const tooSpecific = hasPhrase(text, ["independent variable","dependent variable","null hypothesis","p-value","wild-type","mutant","delta"]);
+        if (!tooSpecific) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Appropriately broad"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Too specific for Step 2";
+            messages.push({ type: "warn", text: "⚠️ Keep Step 2 broad — save wild-type vs mutant comparisons for the research question and hypothesis." });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Great curiosity question! Broad, properly opened, and grounded in SgrS regulation and bacterial growth. Ready to sharpen into a research question." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Getting there — refine using the checklist." });
+        return messages;
+    },
+
+    // ── STEP 2: Research Question ────────────────────────────────────────────
+    function researchQFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // IV
+        const ivTerms = ["sgrs","srna","small rna","sgrS presence","sgrS activity","sgrS expression","independent","presence of sgrs","absence of sgrs","sgrS mutant","wild-type"];
+        if (has(text, ivTerms)) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Independent variable named"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ IV unclear";
+            messages.push({ type: "warn", text: "❌ Name your IV — SgrS presence or activity is what differs between your experimental groups." });
+        }
+
+        // DV
+        const dvTerms = ["growth","growth rate","intermediate","glucose-6-phosphate","glucose 6 phosphate","toxic","transporter","ptsg","mrna","expression level","recovery","metabolite","accumulation","dependent","od600","optical density","cell density"];
+        if (has(text, dvTerms)) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Dependent variable named"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ DV unclear";
+            messages.push({ type: "warn", text: "❌ Name your DV — what will you measure? (e.g. growth rate, toxic intermediate accumulation, ptsG mRNA levels)" });
+        }
+
+        // E. coli / SgrS context
+        if (has(text, ["e. coli","ecoli","escherichia","bacteria","bacterial","sgrs","glucose","stress"])) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ E. coli/SgrS context"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Scenario context missing";
+            messages.push({ type: "warn", text: "❌ Ground your question in the Richards scenario — mention E. coli, SgrS, or glucose stress." });
+        }
+
+        // Testable
+        if (has(text, ["affect","influence","compare","differ","effect","rate","level","amount","measure","change","regulate","mediate"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Testable / measurable"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Not clearly testable";
+            messages.push({ type: "warn", text: "⚠️ Include a word like 'affect', 'regulate', or 'compare' to signal the question is testable." });
+        }
+
+        // Specific enough
+        if (wordCount(text) >= 8) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Appropriately specific"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Too brief";
+            messages.push({ type: "warn", text: "⚠️ Your research question is very short — spell out both IV and DV clearly." });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Strong research question! SgrS as IV, a specific measurable outcome as DV, grounded in the E. coli glucose-stress scenario." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Partial — specify both IV and DV more precisely." });
+        return messages;
+    },
+
+    // ── STEP 3: Hypothesis ───────────────────────────────────────────────────
+    function hypothesisFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Mechanism: post-transcriptional regulation / mRNA silencing / transporter
+        const mechanismTerms = ["post-transcriptional","post transcriptional","mrna","silenc","ptsg","transporter","sugar transporter","glucose transporter","degrad","repress","translat","regul","rna","srna","intermediate","glucose-6-phosphate","glucose 6 phosphate","toxic","accumulation","import"];
+        if (has(text, mechanismTerms)) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Mechanism proposed"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Mechanism unclear";
+            messages.push({ type: "warn", text: "❌ Propose a specific molecular mechanism — SgrS silences the mRNA of ptsG (the glucose transporter), reducing glucose import and preventing toxic intermediate build-up. Name this pathway in your hypothesis." });
+        }
+
+        // Post-transcriptional / mRNA silencing language
+        if (has(text, ["post-transcriptional","post transcriptional","mrna","silenc","degrad","repress","translat","rna-mediated","rna mediated","srna"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ mRNA/post-transcriptional language"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Post-transcriptional link missing";
+            messages.push({ type: "warn", text: "❌ Specify the level of regulation — SgrS acts post-transcriptionally, meaning it targets mRNA after the gene has been transcribed." });
+        }
+
+        // Comparison: wild-type vs mutant
+        const compTerms = ["compared to","compared with","wild-type","wild type","mutant","delta sgrs","δsgrs","sgrS mutant","absent","lacking sgrs","without sgrs","relative to","more than","less than","higher than","lower than"];
+        if (hasPhrase(text, compTerms) || (has(text, ["wild","mutant","absent","lack","without"]) && has(text, ["sgrs","strain"]))) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Comparison included"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Comparison missing";
+            messages.push({ type: "warn", text: "❌ Include a comparison — contrast wild-type (SgrS present) with the ΔsgrS mutant (SgrS absent)." });
+        }
+
+        // Falsifiable
+        const nonFalsifiable = ["always","never will","impossible","proven","certain","definitely","no doubt"];
+        if (hasPhrase(text, nonFalsifiable)) {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Not falsifiable";
+            messages.push({ type: "warn", text: "⚠️ Remove absolute language — a hypothesis must be falsifiable." });
+        } else if (score >= 2) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Falsifiable"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Falsifiability unclear";
+        }
+
+        // Uses 'will'
+        if (text.includes("will")) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Predictive 'will'"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Add 'will'";
+            messages.push({ type: "warn", text: "⚠️ Use 'will' to signal a prediction — e.g. 'SgrS will silence ptsG mRNA, reducing glucose import…'" });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Strong hypothesis! You've named the post-transcriptional mechanism, made a cause-effect claim, included a comparison, and used predictive language." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Developing — the mechanism is the most critical element. Name the mRNA silencing pathway specifically." });
+        return messages;
+    },
+
+    // ── STEP 4: Prediction ───────────────────────────────────────────────────
+    function predictionFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        const hasIf = text.startsWith("if") || text.includes(" if ");
+        const hasThen = text.includes(" then ");
+        if (hasIf && hasThen) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ If–Then structure"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ No If–Then";
+            messages.push({ type: "warn", text: "❌ Structure your prediction: 'If [SgrS condition], then [measurable outcome]'." });
+        }
+
+        // 'If' names SgrS condition
+        if (has(text, ["sgrs","srna","sgrS absent","sgrS missing","sgrS mutant","sgrS inactive","wild-type","without sgrs","delta sgrs","lacking sgrs","sgrS functional","sgrS present"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ 'If' names SgrS condition"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ 'If' unclear";
+            messages.push({ type: "warn", text: "❌ The 'If' part should name the SgrS condition — e.g. 'If SgrS is absent (ΔsgrS mutant)…'" });
+        }
+
+        // 'Then' measurable outcome
+        const outcomes = ["growth","grow","intermediate","glucose-6-phosphate","glucose 6 phosphate","toxic","accumulate","accumulation","ptsg","mrna","transporter","od600","optical density","impaired","reduced","higher","lower","more","less","increase","decrease"];
+        if (has(text, outcomes)) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Measurable 'Then'"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ 'Then' not measurable";
+            messages.push({ type: "warn", text: "❌ The 'Then' must name a measurable outcome — e.g. toxic intermediates will accumulate, growth will be impaired, or ptsG mRNA will remain elevated." });
+        }
+
+        // Direction
+        if (has(text, ["higher","lower","more","less","greater","fewer","increase","decrease","impaired","reduced","accumulate","worse","better"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Direction specified"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Direction unclear";
+            messages.push({ type: "warn", text: "⚠️ Specify a direction — will intermediates increase or decrease? Will growth be higher or lower in the mutant?" });
+        }
+
+        // Lab-testable
+        if (has(text, ["assay","measure","od600","optical density","growth curve","metabolite","hplc","mass spec","northern blot","western blot","qpcr","rt-pcr","gel","colony","plate","compare","experiment","lab","in vitro"])) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Lab-testable"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Lab context missing";
+            messages.push({ type: "warn", text: "⚠️ Ground your prediction in the lab — mention a measurement method or comparison that could be carried out (e.g. growth curve, metabolite assay, mRNA measurement)." });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Excellent prediction! If–Then structure, clear SgrS condition, measurable and directional outcome, and lab-testable." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Partially there — check the If–Then structure and make sure the outcome is specific, directional, and measurable." });
+        return messages;
+    },
+
+    // ── STEP 5: Variables & Controls ─────────────────────────────────────────
+    function variablesFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // IV
+        const ivTerms = ["independent","sgrs","sgrS presence","sgrS absence","wild-type","wild type","mutant","delta","strain"];
+        if (has(text, ivTerms)) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Independent variable named"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ IV unclear";
+            messages.push({ type: "warn", text: "❌ Name your IV — SgrS presence (wild-type vs ΔsgrS mutant)." });
+        }
+
+        // DV
+        const dvTerms = ["dependent","growth rate","growth","od600","optical density","intermediate","glucose-6-phosphate","toxic","mrna","ptsg","transporter","metabolite","accumulation","recovery","expression"];
+        if (has(text, dvTerms)) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Dependent variable named"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ DV unclear";
+            messages.push({ type: "warn", text: "❌ Name your DV — growth rate (OD600), toxic intermediate levels (glucose-6-phosphate), or ptsG mRNA levels." });
+        }
+
+        // ≥3 controlled variables
+        const controlledTerms = ["glucose concentration","temperature","ph","culture medium","growth phase","aeration","oxygen","inoculum","cell density","time","incubation","agitation","medium composition","carbon source","nitrogen","salt","luria","lb medium","m63","m9"];
+        const controlsFound = controlledTerms.filter(c => text.includes(c));
+        if (controlsFound.length >= 3) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ ≥3 controlled variables"; score++;
+        } else if (controlsFound.length >= 1) {
+            chips[2].classList.add("fail"); chips[2].innerHTML = `✗ Only ${controlsFound.length} control(s) — need 3+`;
+            messages.push({ type: "warn", text: `⚠️ You listed ${controlsFound.length} controlled variable(s). Need at least 3 — consider: glucose concentration, temperature, pH, culture medium, growth phase, aeration, inoculum density.` });
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ No controlled variables";
+            messages.push({ type: "warn", text: "❌ List controlled variables — factors kept identical in both strains so SgrS is the only difference (e.g. glucose concentration, temperature, pH, medium)." });
+        }
+
+        // Microbiologically relevant
+        if (controlsFound.length >= 2) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Controls microbiologically relevant"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Controls need more detail";
+        }
+
+        // IV and DV distinct
+        if (has(text, ivTerms) && has(text, dvTerms)) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ IV and DV distinct"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ IV/DV distinction unclear";
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Well-structured variables! SgrS presence as IV, a specific measurable outcome as DV, and microbiologically relevant controlled variables." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Getting there — your variables section needs more detail, especially the controlled variables." });
+        return messages;
+    },
+
+    // ── STEP 6: Experimental Design ──────────────────────────────────────────
+    function designFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Wild-type and ΔsgrS mutant groups
+        if (has(text, ["wild-type","wild type","mutant","delta sgrS","δsgrS","sgrS mutant","knockout","null mutant","deletion mutant","sgrS deletion","both strains","two strains","experimental group","control group"])) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Wild-type & mutant groups defined"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Groups not defined";
+            messages.push({ type: "warn", text: "❌ Define your two experimental groups — wild-type E. coli (SgrS present) and the ΔsgrS mutant (SgrS absent)." });
+        }
+
+        // Stress induction
+        if (has(text, ["glucose","stress","glucose-phosphate","glucose phosphate","αmg","alpha-methyl glucoside","induc","stress condition","high glucose","glucose analog","non-metabolizable","stress growth","stress condition","supplemented with"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Stress induction described"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Stress induction missing";
+            messages.push({ type: "warn", text: "❌ Describe how you will induce glucose-phosphate stress — e.g. growing bacteria on glucose or a non-metabolizable glucose analog (like αMG) that causes stress intermediate accumulation." });
+        }
+
+        // Growth measurement
+        const growthMethods = ["od600","od 600","optical density","spectrophotometer","growth curve","colony count","cfu","plate count","turbidity","absorbance","cell count","viable count"];
+        if (has(text, growthMethods) || has(text, ["measure growth","monitor growth","track growth","growth measurement","growth assay"])) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Growth measurement named"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Growth measurement missing";
+            messages.push({ type: "warn", text: "❌ Name how you'll measure bacterial growth — e.g. OD600 (optical density at 600nm), colony forming units (CFU), or growth curve analysis." });
+        }
+
+        // Replicates
+        if (has(text, ["replicate","replication","replicates","triplicates","triplicate","n=","multiple","repeated","biological replicates","technical replicates","independent experiment"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Replicates mentioned"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Replicates missing";
+            messages.push({ type: "warn", text: "❌ Mention replicates — biological replicates (independent cultures) ensure your results aren't due to chance variation." });
+        }
+
+        // Both outcomes
+        const supportsHyp = has(text, ["support","supports","consistent","mutant grows worse","accumulate","if hypothesis","would confirm","impaired growth","higher intermediate","reduced growth"]);
+        const rejectsHyp = has(text, ["reject","disprove","no difference","null","if wrong","if hypothesis is wrong","fail to","no effect","similar growth","would not","no accumulation"]);
+        if (supportsHyp && rejectsHyp) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Both outcomes described"; score++;
+        } else if (supportsHyp || rejectsHyp) {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Describe both outcomes";
+            messages.push({ type: "warn", text: "⚠️ Describe what results would both support AND reject your hypothesis — what would the data look like in each case?" });
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ No result pattern described";
+            messages.push({ type: "warn", text: "❌ Describe the expected result pattern — what would growth and intermediate data look like if your hypothesis is correct, and what if it's wrong?" });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Rigorous experimental design! Both strains defined, stress induction described, growth measurement named, replicates included, and both possible outcomes addressed." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Your design is developing — pay particular attention to the stress induction method and both possible result patterns." });
+        return messages;
+    },
+
+    // ── STEP 7: Theory vs. Law ───────────────────────────────────────────────
+    function theoryLawFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Hypothesis vs theory
+        if (has(text, ["hypothesis","hypotheses"]) && has(text, ["theory","theories"])) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Hypothesis vs Theory"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Distinguish H vs Theory";
+            messages.push({ type: "warn", text: "❌ Explicitly contrast your hypothesis with a scientific theory — how are they different in scope, scale, and the evidence behind them?" });
+        }
+
+        // Relevant theory named
+        const theoryTerms = ["bacterial stress response","stress response theory","small rna","srna","post-transcriptional","post transcriptional","gene regulation theory","regulatory network","two-component","quorum sensing","systems biology","molecular biology theory","central dogma","sRNA regulation"];
+        if (has(text, theoryTerms) || (text.includes("theory") && has(text, ["many","decades","multiple","broad","accumulated","supported","evidence","studies","bacteria","organisms","integrates"]))) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Relevant theory named"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Name a relevant theory";
+            messages.push({ type: "warn", text: "❌ Name a relevant theory — e.g. the theory of bacterial stress response, or the broader theory of post-transcriptional gene regulation by small RNAs." });
+        }
+
+        // Monod equation or similar law
+        const lawTerms = ["monod","monod equation","michaelis-menten","michaelis menten","law of","mathematical","equation","formula","growth rate","nutrient concentration","kinetics","mathematical law","physical law","fick","diffusion law"];
+        if (has(text, lawTerms) || (text.includes("law") && has(text, ["mathematical","equation","formula","quantitative","constant","precise","nutrient","growth rate"]))) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Monod/law named"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Name a relevant law";
+            messages.push({ type: "warn", text: "❌ Name a relevant scientific law — e.g. the Monod equation, which mathematically describes microbial growth rate as a function of nutrient concentration." });
+        }
+
+        // Scope/evidence difference
+        if (has(text, ["many experiments","many studies","accumulated","broader","scope","integrates","built from","supported by","decades","multiple","evidence","many organisms","multiple species","many bacteria"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Scope/evidence explained"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Explain scope difference";
+            messages.push({ type: "warn", text: "⚠️ Explain why your experiment is not yet a theory — bacterial stress response theory is built from decades of research across many bacterial species and stress conditions." });
+        }
+
+        // Path toward theory
+        if (has(text, ["more evidence","further","replicated","multiple species","future","additional","would need","over time","build toward","contribute","accumulate","long-term","other bacteria","other organisms","other stresses"])) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Path toward theory described"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Path to theory missing";
+            messages.push({ type: "warn", text: "⚠️ Describe what it would take to build toward theory — replication across many bacterial species, stress types, and sRNA systems." });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Excellent reflection! You've distinguished hypothesis from theory, named the bacterial stress response theory and the Monod equation, and described the path toward building scientific knowledge." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Good start — name the Monod equation specifically, and explain the scope difference between one experiment and an established theory." });
+        return messages;
+    }
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COHERENCE CHECKER
+// ─────────────────────────────────────────────────────────────────────────────
+function checkCoherence(stepIdx, currentText, allResponses) {
+    const text = currentText.toLowerCase();
+
+    if (stepIdx === 3) {
+        const rq = (allResponses[2] || "").toLowerCase();
+        if (rq.length < 10) return null;
+        const rqMentionsSgrS = has(rq, ["sgrs","srna","small rna","sgrS"]);
+        const hypMentionsSgrS = has(text, ["sgrs","srna","small rna","post-transcriptional","post transcriptional","mrna","transporter","ptsg"]);
+        if (rqMentionsSgrS && !hypMentionsSgrS) {
+            return "⚠️ Coherence check: Your research question focused on SgrS, but your hypothesis doesn't seem to name SgrS or its molecular mechanism. Your hypothesis should directly answer your research question.";
+        }
+        const rqMentionsDV = has(rq, ["growth","intermediate","mrna","transporter","metabolite","recovery"]);
+        const hypMentionsOutcome = has(text, ["growth","intermediate","mrna","transporter","metabolite","recovery","accumul","impair","reduc"]);
+        if (rqMentionsDV && !hypMentionsOutcome) {
+            return "⚠️ Coherence check: Your research question named a specific outcome, but your hypothesis doesn't address it. Make sure your hypothesis directly answers your research question.";
+        }
+    }
+
+    if (stepIdx === 4) {
+        const hyp = (allResponses[3] || "").toLowerCase();
+        if (hyp.length < 10) return null;
+        const hypMentionsMechanism = has(hyp, ["post-transcriptional","mrna","ptsg","transporter","silenc","degrad","repress","intermediate","accumul"]);
+        const predMentionsMechanism = has(text, ["sgrs","mrna","ptsg","transporter","intermediate","accumul","growth","impair","reduc","wild-type","mutant"]);
+        if (hypMentionsMechanism && !predMentionsMechanism) {
+            return "⚠️ Coherence check: Your hypothesis proposed a specific molecular mechanism, but your prediction doesn't reflect it. The 'If' should restate the SgrS condition from your hypothesis.";
+        }
+    }
+
+    if (stepIdx === 5) {
+        const rq = (allResponses[2] || "").toLowerCase();
+        if (rq.length < 10) return null;
+        const rqMentionsSgrS = has(rq, ["sgrs","srna"]);
+        const varsMentionsSgrS = has(text, ["sgrs","srna","wild-type","mutant","independent","strain"]);
+        if (rqMentionsSgrS && !varsMentionsSgrS) {
+            return "⚠️ Coherence check: Your research question named SgrS as the key variable, but your variables section doesn't reflect it clearly. Make sure your IV matches what you identified in Step 3.";
+        }
+    }
+
+    return null;
 }
 
-function updatePriorPanel() {
-    const panel = document.getElementById("priorResponses");
-    const list  = document.getElementById("priorResponsesList");
-    const prior = responses.slice(0, currentStepIndex).filter(Boolean);
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+let currentStep = 0;
+let responses = Array(STEPS.length).fill("");
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER STEP
+// ─────────────────────────────────────────────────────────────────────────────
+function loadStep() {
+    const idx = currentStep;
+    const prompt = RESEARCHER.prompts[idx];
+
+    document.getElementById("stepName").textContent = STEPS[idx];
+    document.getElementById("stepCounter").textContent = `Step ${idx + 1} of ${STEPS.length}`;
+    document.getElementById("stepSubtitle").textContent = STEP_SUBTITLES[idx];
+    document.getElementById("definitionText").textContent = STEP_DEFINITIONS[idx];
+    document.getElementById("infoBtn").setAttribute("data-tip", STEP_DEFINITIONS[idx]);
+    document.getElementById("progressLabel").textContent = `Progress — Step ${idx + 1} of ${STEPS.length}`;
+    document.getElementById("progressFill").style.width = `${(idx / (STEPS.length - 1)) * 100}%`;
+    document.getElementById("contextText").textContent = RESEARCHER.contextByStep[idx];
+    document.getElementById("promptLabel").textContent = prompt.label;
+    document.getElementById("promptHelper").textContent = prompt.helper;
+    document.getElementById("responseInput").value = responses[idx] || "";
+    document.getElementById("feedbackArea").innerHTML = "";
+    document.getElementById("coherenceAlert").textContent = "";
+    document.getElementById("coherenceAlert").classList.remove("visible");
+
+    const checklistEl = document.getElementById("checklistArea");
+    checklistEl.innerHTML = "";
+    prompt.checklist.forEach(item => {
+        const chip = document.createElement("span");
+        chip.className = "check-chip";
+        chip.textContent = item;
+        checklistEl.appendChild(chip);
+    });
+
+    updatePriorPanel(idx);
+    document.getElementById("prevBtn").disabled = idx === 0;
+    document.getElementById("nextBtn").textContent = idx === STEPS.length - 1 ? "Finish & See Summary →" : "Check & Continue →";
+    document.getElementById("compareCard").classList.remove("visible");
+}
+
+function updatePriorPanel(idx) {
+    const panel = document.getElementById("priorPanel");
+    const list = document.getElementById("priorList");
+    const prior = responses.slice(0, idx).filter(Boolean);
     if (prior.length === 0) { panel.classList.remove("visible"); return; }
     panel.classList.add("visible");
     list.innerHTML = prior.map((r, i) => `
         <div class="prior-entry">
             <div class="prior-step-label">${STEPS[i]}</div>
-            <div style="font-size:0.83rem; color:var(--near-black);">${escapeHtml(r)}</div>
+            <p>${r}</p>
         </div>
     `).join("");
 }
 
-function escapeHtml(str) {
-    return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+// ─────────────────────────────────────────────────────────────────────────────
+// FEEDBACK
+// ─────────────────────────────────────────────────────────────────────────────
+function runFeedback() {
+    const text = (document.getElementById("responseInput").value || "").toLowerCase().trim();
+    const feedbackEl = document.getElementById("feedbackArea");
+    const chips = Array.from(document.getElementById("checklistArea").children);
+
+    chips.forEach((c, i) => { c.className = "check-chip"; c.textContent = RESEARCHER.prompts[currentStep].checklist[i]; });
+
+    if (!text) { feedbackEl.innerHTML = `<div class="feedback-warn">⚠️ Please write something before continuing.</div>`; return false; }
+    if (wordCount(text) < 5) { feedbackEl.innerHTML = `<div class="feedback-warn">⚠️ Your answer is very brief — try to be more specific and detailed.</div>`; return false; }
+
+    const messages = RUBRICS[currentStep](text, chips);
+
+    const coherenceMsg = checkCoherence(currentStep, text, responses);
+    const coherenceEl = document.getElementById("coherenceAlert");
+    if (coherenceMsg) { coherenceEl.textContent = coherenceMsg; coherenceEl.classList.add("visible"); }
+
+    if (messages.length === 1 && messages[0].type === "good") {
+        feedbackEl.innerHTML = `<div class="feedback-good feedback-item">${messages[0].text}</div>`;
+        return true;
+    }
+
+    feedbackEl.innerHTML = messages.map(m => {
+        const cls = m.type === "good" ? "feedback-good" : m.type === "partial" ? "feedback-partial" : "feedback-warn";
+        return `<div class="${cls} feedback-item">${m.text}</div>`;
+    }).join("");
+
+    return !messages.some(m => m.type === "warn");
 }
 
-function prevStep() {
-    if (currentStepIndex === 0) return;
-    saveResponse();
-    currentStepIndex--;
-    loadStep();
-}
-
+// ─────────────────────────────────────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────────────────────────────────────
 function nextStep() {
-    saveResponse();
-    giveFeedback();
+    responses[currentStep] = document.getElementById("responseInput").value.trim();
+    const passed = runFeedback();
     if (!document.getElementById("responseInput").value.trim()) return;
-    if (currentStepIndex === STEPS.length - 1) {
-        fillCompareTable();
-        document.getElementById("compareCard").classList.remove("hidden");
+    if (currentStep === STEPS.length - 1) {
+        fillCompareCard();
+        document.getElementById("compareCard").classList.add("visible");
         document.getElementById("compareCard").scrollIntoView({ behavior: "smooth", block: "start" });
         return;
     }
-    setTimeout(() => { currentStepIndex++; loadStep(); }, 700);
+    if (passed) { setTimeout(() => { currentStep++; loadStep(); window.scrollTo({ top: 0, behavior: "smooth" }); }, 600); }
 }
 
-function saveResponse() {
-    responses[currentStepIndex] = document.getElementById("responseInput").value.trim();
+function prevStep() {
+    if (currentStep === 0) return;
+    responses[currentStep] = document.getElementById("responseInput").value.trim();
+    currentStep--;
+    loadStep();
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function giveFeedback() {
-    const text  = document.getElementById("responseInput").value.toLowerCase();
-    const fbDiv = document.getElementById("feedbackArea");
-    if (!text.trim()) {
-        fbDiv.textContent = "⚠️ Please write something before continuing.";
-        fbDiv.className   = "feedback warn";
-        return false;
-    }
-    const required = RESEARCHER.prompts[currentStepIndex].requiredKeywords || [];
-    const missing  = required.filter(kw => !text.includes(kw.toLowerCase()));
-    if (missing.length > 0) {
-        fbDiv.textContent = `❌ Missing key concepts: ${missing.join(", ")}. Revise to strengthen your answer.`;
-        fbDiv.className   = "feedback warn";
-        return false;
-    }
-    fbDiv.textContent = "✅ Good! Your answer includes the required elements. You can refine, but the core is solid.";
-    fbDiv.className   = "feedback good";
-    return true;
-}
-
-function fillCompareTable() {
-    const body = document.getElementById("compareBody");
-    body.innerHTML = "";
+function fillCompareCard() {
+    const tbody = document.getElementById("compareBody");
+    tbody.innerHTML = "";
     RESEARCHER.compareRows.forEach(row => {
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td><strong>${row.level}</strong></td><td>${row.what}</td><td>${row.inModule}</td>`;
-        body.appendChild(tr);
+        tr.innerHTML = `<td>${row.level}</td><td>${row.what}</td><td>${row.inModule}</td>`;
+        tbody.appendChild(tr);
     });
 }
 
 function emailResponses() {
-    let body = `Scientific Process — ${RESEARCHER.emailLabel}\n\n`;
-    STEPS.forEach((step, idx) => {
-        body += `${step}:\n${responses[idx] || "(no response)"}\n\n`;
-    });
+    let body = `Scientific Process — ${RESEARCHER.label}\n\n`;
+    STEPS.forEach((step, i) => { body += `${step}:\n${responses[i] || "(no response)"}\n\n`; });
     body += "\n-- Sent from the UWP Biology Scientific Process tool.";
-    const mailto = `mailto:harria01@uwp.edu?subject=${encodeURIComponent("Scientific Process: " + RESEARCHER.emailLabel)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+    window.location.href = `mailto:${RESEARCHER.email}?subject=${encodeURIComponent("Scientific Process: " + RESEARCHER.label + " Responses")}&body=${encodeURIComponent(body)}`;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// HELP PANEL
+// ─────────────────────────────────────────────────────────────────────────────
+const helpToggle = document.getElementById("helpToggle");
 const helpPanel = document.getElementById("helpPanel");
-const toggleBtn = document.getElementById("toggleHelpBtn");
-const closeBtn  = document.getElementById("closeHelpBtn");
-toggleBtn.addEventListener("click", () => {
+const helpClose = document.getElementById("helpClose");
+helpToggle.style.display = "block";
+helpToggle.addEventListener("click", () => {
     helpPanel.classList.toggle("collapsed");
-    toggleBtn.textContent = helpPanel.classList.contains("collapsed") ? "❓ Help" : "❓ Need Help?";
+    helpToggle.textContent = helpPanel.classList.contains("collapsed") ? "❓ Need Help?" : "❓ Hide Help";
 });
-closeBtn.addEventListener("click", () => {
-    helpPanel.classList.add("collapsed");
-    toggleBtn.textContent = "❓ Help";
-});
+helpClose.addEventListener("click", () => { helpPanel.classList.add("collapsed"); helpToggle.textContent = "❓ Need Help?"; });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+loadStep();
 </script>
 </body>
 </html>
