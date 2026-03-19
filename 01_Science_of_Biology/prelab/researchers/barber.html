@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dr. Robert Barber — Scientific Process · UWP Biology</title>
+    <title>Dr. Robert Barber — Gut Bacteria &amp; Enzyme Shape · UWP Biology</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* ── TOKENS ── */
         :root {
             --green:        #016836;
             --green-dark:   #004D21;
@@ -19,489 +18,139 @@
             --white:        #FFFFFF;
             --blue-info:    #1E6F9F;
             --blue-light:   #e8f0fe;
+            --radius-card:  12px;
             --shadow-soft:  0 2px 12px rgba(0,0,0,0.07);
             --shadow-hover: 0 6px 24px rgba(0,0,0,0.12);
-            --radius:       10px;
             --transition:   all 0.2s ease;
         }
-
-        /* ── RESET ── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body {
-            font-family: "DM Sans", system-ui, sans-serif;
-            background: var(--off-white);
-            color: var(--near-black);
-            line-height: 1.65;
-            font-size: 16px;
-        }
-        a { color: var(--green-dark); text-decoration: underline; }
-        a:hover { color: var(--near-black); }
+        body { font-family: "DM Sans", system-ui, sans-serif; background: var(--off-white); color: var(--near-black); line-height: 1.65; font-size: 16px; }
+        a { color: var(--green); text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
         /* ── NAVBAR ── */
-        header {
-            background: var(--green);
-            border-bottom: 3px solid var(--gold);
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
-        .header-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 18px;
-            justify-content: center;
-        }
-        .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            white-space: nowrap;
-            padding: 4px 2px;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.15s;
-        }
+        header { background: var(--green); border-bottom: 3px solid var(--gold); position: sticky; top: 0; z-index: 999; }
+        .header-inner { max-width: 1400px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 18px; justify-content: center; }
+        .nav-links a { color: var(--white); text-decoration: none; font-weight: 600; font-size: 0.95rem; white-space: nowrap; padding: 4px 2px; border-bottom: 2px solid transparent; transition: border-color 0.15s; }
         .nav-links a:hover { border-bottom-color: var(--gold); text-decoration: none; }
 
-        /* ── PAGE WRAPPER ── */
-        .app {
-            max-width: 820px;
-            margin: 0 auto;
-            padding: 32px 16px 60px;
+        /* ── HERO ── */
+        .hero { background: linear-gradient(145deg, var(--green-dark) 0%, #005a28 55%, var(--green) 100%); color: var(--white); padding: 48px 24px 44px; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40L40 0M-5 5L5 -5M35 45L45 35' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E"); }
+        .hero-eyebrow { display: inline-block; background: rgba(250,186,49,0.2); border: 1px solid rgba(250,186,49,0.5); color: var(--gold); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 14px; border-radius: 999px; margin-bottom: 20px; }
+        .hero-content { display: flex; align-items: center; justify-content: center; gap: 36px; flex-wrap: wrap; max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+        .researcher-portrait { width: 170px; height: 170px; border-radius: 50%; object-fit: cover; object-position: center top; border: 3px solid var(--gold); box-shadow: 0 4px 24px rgba(0,0,0,0.35), 0 0 0 6px rgba(250,186,49,0.15); flex-shrink: 0; }
+        .hero-text { text-align: left; max-width: 440px; }
+        .hero h1 { font-family: "DM Serif Display", Georgia, serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 400; line-height: 1.2; color: var(--white); margin: 0 0 10px; }
+        .hero h1 em { font-style: italic; color: var(--gold); }
+        .hero-sub { font-size: 0.95rem; opacity: 0.88; margin: 0 0 20px; line-height: 1.68; }
+        .back-link { display: inline-flex; align-items: center; gap: 6px; color: rgba(255,255,255,0.75); font-size: 0.85rem; font-weight: 600; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 999px; transition: var(--transition); }
+        .back-link:hover { color: var(--white); border-color: var(--white); text-decoration: none; }
+        @media (max-width: 600px) {
+            .hero-content { flex-direction: column; gap: 20px; }
+            .hero-text { text-align: center; }
+            .researcher-portrait { width: 140px; height: 140px; }
         }
 
-        /* ── BACK LINK ── */
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--warm-grey);
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: color 0.15s;
-        }
-        .back-link:hover { color: var(--green-dark); text-decoration: none; }
+        /* ── PAGE BODY ── */
+        .page-body { max-width: 820px; margin: 0 auto; padding: 36px 24px 72px; }
 
-        /* ── SCENARIO HEADER ── */
-        .scenario-header {
-            background: var(--white);
-            border-radius: var(--radius);
-            border: 1px solid var(--cool-grey);
-            padding: 22px 28px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-soft);
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        .scenario-header-left h1 {
-            font-family: "DM Serif Display", serif;
-            font-size: 1.45rem;
-            font-weight: 400;
-            color: var(--green-dark);
-            margin-bottom: 4px;
-        }
-        .scenario-header-left p {
-            font-size: 0.88rem;
-            color: var(--warm-grey);
-            margin: 0;
-        }
-        .badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-        .badge {
-            display: inline-block;
-            background: var(--green-light);
-            color: var(--green-dark);
-            font-size: 0.72rem;
-            font-weight: 600;
-            padding: 3px 10px;
-            border-radius: 999px;
-            letter-spacing: 0.04em;
-        }
-
-        /* ── PROGRESS ── */
-        .progress-wrap { margin-bottom: 20px; }
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--warm-grey);
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            border-radius: 999px;
-            background: var(--cool-grey);
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--green);
-            border-radius: 999px;
-            transition: width 0.35s ease-out;
-        }
-
-        /* ── MAIN CARD ── */
-        .card {
-            background: var(--white);
-            border-radius: var(--radius);
-            border: 1px solid var(--cool-grey);
-            padding: 28px 32px;
-            box-shadow: var(--shadow-soft);
-            margin-bottom: 20px;
-        }
+        /* ── STEP CARD ── */
+        .step-card { background: var(--white); border-radius: var(--radius-card); border: 1px solid var(--cool-grey); padding: 28px 32px; box-shadow: var(--shadow-soft); margin-bottom: 20px; }
 
         /* ── STEP HEADER ── */
-        .step-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 4px;
-        }
-        .step-number {
-            background: var(--green);
-            color: var(--white);
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 999px;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        .step-title {
-            font-family: "DM Serif Display", serif;
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: var(--green-dark);
-        }
-        .info-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: var(--blue-info);
-            color: var(--white);
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: help;
-            position: relative;
-            flex-shrink: 0;
-        }
-        .info-icon:hover::after {
-            content: attr(data-tip);
-            position: absolute;
-            bottom: 130%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--near-black);
-            color: var(--white);
-            padding: 10px 14px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            line-height: 1.5;
-            white-space: normal;
-            width: 280px;
-            z-index: 50;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-            pointer-events: none;
-            font-family: "DM Sans", sans-serif;
-            font-weight: 400;
-        }
-        .step-subtitle {
-            font-size: 0.9rem;
-            color: var(--warm-grey);
-            margin: 4px 0 14px;
-        }
+        .step-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
+        .step-title-group { display: flex; align-items: center; gap: 10px; }
+        .step-name { font-family: "DM Serif Display", serif; font-size: 1.5rem; font-weight: 400; color: var(--green-dark); }
+        .step-counter { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--warm-grey); background: var(--off-white); border: 1px solid var(--cool-grey); padding: 3px 10px; border-radius: 999px; }
+        .info-btn { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--blue-info); color: white; font-size: 0.75rem; font-weight: 700; cursor: help; position: relative; flex-shrink: 0; border: none; }
+        .info-btn:hover::after { content: attr(data-tip); position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); background: var(--near-black); color: white; padding: 8px 12px; border-radius: 6px; font-size: 0.78rem; white-space: pre-wrap; max-width: 280px; z-index: 20; box-shadow: 0 2px 8px rgba(0,0,0,0.2); pointer-events: none; font-family: "DM Sans", sans-serif; line-height: 1.5; }
+        .step-subtitle { font-size: 0.88rem; color: var(--warm-grey); margin-bottom: 14px; }
 
         /* ── DEFINITION BOX ── */
-        .definition-box {
-            background: var(--blue-light);
-            border-left: 4px solid var(--blue-info);
-            padding: 12px 16px;
-            border-radius: 0 6px 6px 0;
-            font-size: 0.88rem;
-            margin-bottom: 16px;
-            color: var(--near-black);
-            line-height: 1.65;
-        }
+        .definition-box { background: var(--blue-light); border-left: 4px solid var(--blue-info); padding: 12px 16px; margin-bottom: 14px; border-radius: 0 6px 6px 0; font-size: 0.88rem; color: #1a2a3a; line-height: 1.65; }
         .definition-box strong { color: var(--blue-info); }
 
-        /* ── CONTEXT BOX ── */
-        .context-box {
-            background: var(--off-white);
-            border-left: 3px solid var(--green);
-            border-radius: 0 6px 6px 0;
-            padding: 14px 16px;
-            font-size: 0.9rem;
-            line-height: 1.7;
-            margin-bottom: 18px;
-            color: var(--near-black);
-        }
+        /* ── PROGRESS BAR ── */
+        .progress-wrap { margin-bottom: 18px; }
+        .progress-label { font-size: 0.75rem; color: var(--warm-grey); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+        .progress-bar { width: 100%; height: 7px; border-radius: 999px; background: var(--cool-grey); overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; background: var(--green); border-radius: 999px; transition: width 0.3s ease-out; }
 
-        /* ── PROMPT ── */
-        .prompt-label {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--near-black);
-        }
-        .prompt-helper {
-            font-size: 0.83rem;
-            color: var(--warm-grey);
-            background: #f0f7f0;
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-        textarea {
-            width: 100%;
-            background: var(--white);
-            border-radius: 6px;
-            border: 1px solid var(--cool-grey);
-            color: var(--near-black);
-            padding: 12px;
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.95rem;
-            resize: vertical;
-            min-height: 110px;
-            outline: none;
-            transition: border-color 0.15s, box-shadow 0.15s;
-            line-height: 1.6;
-        }
-        textarea:focus {
-            border-color: var(--green);
-            box-shadow: 0 0 0 3px rgba(1,104,54,0.15);
-        }
-        ::placeholder { color: var(--cool-grey); opacity: 1; }
+        /* ── CONTEXT BOX ── */
+        .context-box { background: var(--green-light); border-left: 4px solid var(--green); padding: 14px 18px; border-radius: 0 8px 8px 0; font-size: 0.9rem; color: #1a3a1a; line-height: 1.7; margin-bottom: 18px; }
+        .context-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green-dark); margin-bottom: 6px; }
+
+        /* ── PROMPT AREA ── */
+        .prompt-label { font-size: 0.97rem; font-weight: 600; color: var(--near-black); margin-bottom: 6px; }
+        .prompt-helper { font-size: 0.84rem; color: var(--warm-grey); background: #f5faf5; border: 1px solid #c8e6c9; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; line-height: 1.6; }
+        textarea { width: 100%; background: var(--white); border-radius: 6px; border: 1.5px solid var(--cool-grey); color: var(--near-black); padding: 12px 14px; font-size: 0.95rem; font-family: "DM Sans", sans-serif; resize: vertical; min-height: 110px; outline: none; transition: border-color 0.15s, box-shadow 0.15s; line-height: 1.6; }
+        textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(1,104,54,0.12); }
+        ::placeholder { color: #aaa; }
 
         /* ── FEEDBACK ── */
-        .feedback {
-            font-size: 0.88rem;
-            font-weight: 600;
-            margin-top: 10px;
-            min-height: 22px;
-        }
-        .feedback.good { color: #2e7d32; }
-        .feedback.warn { color: #c62828; }
+        .feedback-area { margin-top: 10px; font-size: 0.88rem; line-height: 1.65; min-height: 24px; }
+        .feedback-good { color: #2e7d32; background: #f1f8f1; border: 1px solid #a5d6a7; border-radius: 6px; padding: 10px 14px; }
+        .feedback-warn { color: #b71c1c; background: #fff5f5; border: 1px solid #ffcdd2; border-radius: 6px; padding: 10px 14px; }
+        .feedback-partial { color: #e65100; background: #fff8f0; border: 1px solid #ffcc80; border-radius: 6px; padding: 10px 14px; }
+        .feedback-item { margin-bottom: 5px; }
+        .feedback-item:last-child { margin-bottom: 0; }
 
         /* ── CHECKLIST ── */
-        .mini-checklist {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 10px;
-        }
-        .mini-checklist span {
-            font-size: 0.78rem;
-            padding: 3px 9px;
-            border-radius: 4px;
-            border: 1px solid var(--cool-grey);
-            background: var(--off-white);
-            color: var(--warm-grey);
-        }
+        .checklist-area { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+        .check-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; border: 1px solid var(--cool-grey); background: var(--off-white); color: var(--warm-grey); transition: var(--transition); }
+        .check-chip.pass { background: #e8f5e9; border-color: #a5d6a7; color: #2e7d32; }
+        .check-chip.fail { background: #fff5f5; border-color: #ffcdd2; color: #c62828; }
 
         /* ── PRIOR RESPONSES ── */
-        .prior-responses {
-            background: var(--off-white);
-            border: 1px solid var(--cool-grey);
-            border-radius: 6px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            font-size: 0.83rem;
-            color: var(--warm-grey);
-            display: none;
-        }
-        .prior-responses.visible { display: block; }
-        .prior-responses strong {
-            color: var(--near-black);
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.88rem;
-        }
-        .prior-entry {
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--cool-grey);
-        }
+        .prior-panel { background: var(--off-white); border: 1px solid var(--cool-grey); border-radius: 8px; padding: 14px 18px; margin-bottom: 18px; font-size: 0.85rem; display: none; }
+        .prior-panel.visible { display: block; }
+        .prior-panel-title { font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green-dark); margin-bottom: 10px; }
+        .prior-entry { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--cool-grey); }
         .prior-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .prior-step-label {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-weight: 700;
-            color: var(--green-dark);
-            margin-bottom: 3px;
-        }
+        .prior-step-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green-dark); margin-bottom: 3px; }
+        .prior-entry p { font-size: 0.85rem; color: var(--near-black); line-height: 1.55; }
+
+        /* ── COHERENCE ALERT ── */
+        .coherence-alert { background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 10px 14px; font-size: 0.85rem; color: #5a3e00; margin-top: 8px; display: none; }
+        .coherence-alert.visible { display: block; }
 
         /* ── NAV ROW ── */
-        .nav-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border: none;
-            cursor: pointer;
-            border-radius: 6px;
-            padding: 10px 22px;
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: var(--transition);
-            background: var(--green);
-            color: var(--white);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        }
-        .btn:hover { background: var(--green-dark); transform: translateY(-1px); }
-        .btn:active { transform: translateY(0); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .btn.secondary {
-            background: var(--white);
-            color: var(--green-dark);
-            border: 1px solid var(--green-dark);
-            box-shadow: none;
-        }
-        .btn.secondary:hover { background: var(--off-white); }
+        .nav-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 7px; font-size: 0.92rem; font-weight: 600; font-family: "DM Sans", sans-serif; border: none; cursor: pointer; transition: var(--transition); }
+        .btn-primary { background: var(--green); color: var(--white); box-shadow: 0 2px 8px rgba(1,104,54,0.25); }
+        .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary { background: var(--white); color: var(--green-dark); border: 1.5px solid var(--green-dark); }
+        .btn-secondary:hover { background: var(--green-light); }
+        .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-gold { background: var(--gold); color: var(--green-dark); font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .btn-gold:hover { background: #e5a820; transform: translateY(-1px); }
 
         /* ── COMPARE CARD ── */
-        .compare-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            border: 1px solid var(--cool-grey);
-            padding: 28px 32px;
-            box-shadow: var(--shadow-soft);
-            margin-bottom: 20px;
-        }
-        .compare-card h2 {
-            font-family: "DM Serif Display", serif;
-            font-size: 1.4rem;
-            font-weight: 400;
-            color: var(--green-dark);
-            margin-bottom: 6px;
-        }
-        .compare-card .intro-text {
-            font-size: 0.88rem;
-            color: var(--warm-grey);
-            margin-bottom: 16px;
-        }
-        .compare-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88rem;
-            margin-bottom: 20px;
-        }
-        .compare-table th, .compare-table td {
-            border: 1px solid var(--cool-grey);
-            padding: 10px 12px;
-            text-align: left;
-            color: var(--near-black);
-            line-height: 1.55;
-        }
-        .compare-table th {
-            background: var(--off-white);
-            font-weight: 700;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--warm-grey);
-        }
-        .email-section {
-            text-align: center;
-            margin-top: 8px;
-        }
-        .email-section p {
-            font-size: 0.78rem;
-            color: var(--warm-grey);
-            margin-top: 8px;
-        }
+        .compare-card { background: var(--white); border-radius: var(--radius-card); border: 1px solid var(--cool-grey); padding: 28px 32px; box-shadow: var(--shadow-soft); margin-bottom: 20px; display: none; }
+        .compare-card.visible { display: block; }
+        .compare-card h2 { font-family: "DM Serif Display", serif; font-size: 1.3rem; font-weight: 400; color: var(--green-dark); margin-bottom: 6px; }
+        .compare-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.88rem; }
+        .compare-table th, .compare-table td { border: 1px solid var(--cool-grey); padding: 10px 14px; text-align: left; color: var(--near-black); line-height: 1.5; }
+        .compare-table th { background: var(--off-white); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--warm-grey); }
+        .email-section { margin-top: 24px; text-align: center; }
+        .email-section p { font-size: 0.8rem; color: var(--warm-grey); margin-top: 8px; }
 
         /* ── HELP PANEL ── */
-        .help-panel {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 300px;
-            background: var(--white);
-            border: 2px solid var(--green);
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-            padding: 18px;
-            z-index: 200;
-            transition: transform 0.3s ease;
-        }
+        .help-toggle { position: fixed; bottom: 22px; right: 22px; background: var(--green); color: white; border: none; border-radius: 50px; padding: 11px 20px; font-weight: 600; font-family: "DM Sans", sans-serif; font-size: 0.88rem; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.25); z-index: 98; display: none; }
+        .help-panel { position: fixed; bottom: 22px; right: 22px; width: 300px; background: white; border: 2px solid var(--green); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.18); padding: 18px 20px; z-index: 99; transition: transform 0.3s ease; }
         .help-panel.collapsed { transform: translateX(340px); }
-        .help-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            font-weight: 700;
-            font-size: 0.92rem;
-            color: var(--green-dark);
-        }
-        .close-help {
-            background: none;
-            border: none;
-            font-size: 1.1rem;
-            cursor: pointer;
-            color: var(--warm-grey);
-            line-height: 1;
-        }
-        .help-content {
-            font-size: 0.82rem;
-            max-height: 380px;
-            overflow-y: auto;
-            line-height: 1.6;
-        }
-        .help-content p { margin-bottom: 8px; color: var(--near-black); }
-        .toggle-help {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--green);
-            color: var(--white);
-            border: none;
-            border-radius: 50px;
-            padding: 11px 20px;
-            font-family: "DM Sans", sans-serif;
-            font-weight: 600;
-            font-size: 0.88rem;
-            cursor: pointer;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-            z-index: 199;
-            display: none;
-        }
+        .help-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 700; color: var(--green-dark); font-size: 0.95rem; }
+        .help-close { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--near-black); line-height: 1; }
+        .help-content { font-size: 0.82rem; max-height: 380px; overflow-y: auto; line-height: 1.6; }
+        .help-content p { margin-bottom: 8px; color: #333; }
+        .help-content strong { color: var(--green-dark); }
 
-        /* ── HIDDEN ── */
-        .hidden { display: none !important; }
-
-        /* ── RESPONSIVE ── */
         @media (max-width: 600px) {
-            .app { padding: 20px 12px 48px; }
-            .card { padding: 20px 16px; }
-            .compare-card { padding: 20px 16px; }
-            .scenario-header { padding: 16px 18px; }
+            .step-card, .compare-card { padding: 20px 16px; }
+            .page-body { padding: 24px 14px 60px; }
             .help-panel { width: 260px; }
         }
     </style>
@@ -520,118 +169,112 @@
     </div>
 </header>
 
-<div class="app">
-
-    <!-- BACK LINK -->
-    <a class="back-link" href="index.html">← Back to Researcher Hub</a>
-
-    <!-- SCENARIO HEADER -->
-    <div class="scenario-header">
-        <div class="scenario-header-left">
-            <h1>🧪 Dr. Robert Barber</h1>
-            <p>Gut bacteria &amp; enzyme shape — two strains, same gene, different 3D structure</p>
-            <div class="badge-row">
-                <span class="badge">enzyme evolution</span>
-                <span class="badge">bioinformatics</span>
-                <span class="badge">AlphaFold</span>
-                <span class="badge">fatty acid kinase</span>
-            </div>
+<!-- ── HERO ── -->
+<section class="hero">
+    <div class="hero-eyebrow">🔬 UWP Biology · Scientific Process</div>
+    <div class="hero-content">
+        <img
+            src="barber.png"
+            alt="Dr. Robert Barber — Structure-Function of Life"
+            class="researcher-portrait"
+        >
+        <div class="hero-text">
+            <h1>Dr. Robert <em>Barber</em></h1>
+            <p class="hero-sub">Gut Bacteria &amp; Enzyme Shape — Two bacterial strains, same gene, same fatty acid meal. One grows, one barely does. AlphaFold reveals a small but distinct difference in their enzyme's 3D shape. Does structure explain function?</p>
+            <a class="back-link" href="index.html">← All Researchers</a>
         </div>
     </div>
+</section>
 
-    <!-- PROGRESS -->
-    <div class="progress-wrap">
-        <div class="progress-label">
-            <span id="progressStepLabel">Step 1 of 8</span>
-            <span id="progressPct">0%</span>
-        </div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-    </div>
+<!-- ── PAGE BODY ── -->
+<main class="page-body">
 
-    <!-- STEP CARD -->
-    <div class="card" id="stepCard">
-
+    <div class="step-card" id="stepCard">
         <div class="step-header">
-            <span class="step-number" id="stepPill">Step 1</span>
-            <span class="step-title" id="stepTitle">Observation</span>
-            <span class="info-icon" id="stepInfoIcon" data-tip="">i</span>
+            <div class="step-title-group">
+                <span class="step-name" id="stepName">Observation</span>
+                <button class="info-btn" id="infoBtn" data-tip="">i</button>
+            </div>
+            <span class="step-counter" id="stepCounter">Step 1 of 8</span>
         </div>
         <div class="step-subtitle" id="stepSubtitle"></div>
 
-        <div class="definition-box" id="definitionBox">
+        <div class="definition-box">
             <strong>📘 Definition:</strong> <span id="definitionText"></span>
         </div>
 
-        <div class="context-box" id="contextBox"></div>
-
-        <div class="prior-responses" id="priorResponses">
-            <strong>📝 Your thinking so far:</strong>
-            <div id="priorResponsesList"></div>
+        <div class="progress-wrap">
+            <div class="progress-label" id="progressLabel">Progress — Step 1 of 8</div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
         </div>
+
+        <div class="context-box">
+            <div class="context-label">🦠 Barber Lab — Your Scenario</div>
+            <div id="contextText"></div>
+        </div>
+
+        <div class="prior-panel" id="priorPanel">
+            <div class="prior-panel-title">📝 Your thinking so far</div>
+            <div id="priorList"></div>
+        </div>
+
+        <div class="coherence-alert" id="coherenceAlert"></div>
 
         <div class="prompt-label" id="promptLabel"></div>
         <div class="prompt-helper" id="promptHelper"></div>
-        <textarea id="responseInput" placeholder="Type your response here…"></textarea>
-        <div class="feedback" id="feedbackArea"></div>
-        <div class="mini-checklist" id="checklistArea"></div>
+        <textarea id="responseInput" placeholder="Type your response here…" rows="5"></textarea>
+
+        <div class="feedback-area" id="feedbackArea"></div>
+        <div class="checklist-area" id="checklistArea"></div>
 
         <div class="nav-row">
-            <button class="btn secondary" onclick="prevStep()" id="prevBtn">← Previous</button>
+            <button class="btn btn-secondary" id="prevBtn" onclick="prevStep()">← Previous</button>
             <div style="flex:1;"></div>
-            <button class="btn" onclick="nextStep()" id="nextBtn">Check &amp; Continue →</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Check &amp; Continue →</button>
         </div>
     </div>
 
-    <!-- COMPARE / SUMMARY CARD -->
-    <div class="compare-card hidden" id="compareCard">
+    <div class="compare-card" id="compareCard">
         <h2>From Hypothesis to Theory &amp; Law</h2>
-        <p class="intro-text" id="compareIntro">Your experiment in context — see how one hypothesis fits into the bigger scientific picture.</p>
+        <p style="font-size:0.88rem; color:var(--warm-grey);">Where does your experiment sit on the spectrum of scientific knowledge?</p>
         <table class="compare-table">
-            <thead>
-                <tr>
-                    <th>Level</th>
-                    <th>What it is</th>
-                    <th>In this scenario</th>
-                </tr>
-            </thead>
+            <thead><tr><th>Level</th><th>What it is</th><th>In this scenario</th></tr></thead>
             <tbody id="compareBody"></tbody>
         </table>
         <div class="email-section">
-            <button class="btn" onclick="emailResponses()">📧 Email my responses for Dr. Barber</button>
-            <p>(only this researcher's answers will be sent)</p>
+            <button class="btn btn-gold" onclick="emailResponses()">📧 Email my responses — Dr. Barber scenario</button>
+            <p>Only this scenario's answers will be sent to your instructor.</p>
         </div>
-        <div style="text-align:center; margin-top:20px;">
-            <a href="index.html" class="btn secondary">← Try another researcher</a>
+        <div style="text-align:center; margin-top:16px;">
+            <a href="index.html" class="btn btn-secondary">← Try another researcher</a>
         </div>
     </div>
 
-</div><!-- /app -->
+</main>
 
-<!-- HELP TOGGLE BUTTON -->
-<button class="toggle-help" id="toggleHelpBtn">❓ Help</button>
-
-<!-- HELP PANEL -->
+<!-- ── HELP ── -->
+<button class="help-toggle" id="helpToggle">❓ Need Help?</button>
 <div class="help-panel collapsed" id="helpPanel">
     <div class="help-header">
-        <span>📘 Quick Reference</span>
-        <button class="close-help" id="closeHelpBtn">✖</button>
+        <span>📘 Step-by-Step Guide</span>
+        <button class="help-close" id="helpClose">✖</button>
     </div>
     <div class="help-content">
-        <p><strong>Observation</strong> – Just the facts. No explanations. Use your senses or instrument data.</p>
-        <p><strong>Curiosity Question</strong> – Broad, wonder-based. Starts with "How does...", "Is there...".</p>
-        <p><strong>Research Question</strong> – Focused, testable. Identifies independent and dependent variables.</p>
-        <p><strong>Hypothesis</strong> – A <em>tentative answer</em> to the research question. Proposes cause‑effect, falsifiable.</p>
-        <p><strong>Prediction</strong> – "If–Then" statement: what measurable outcome if hypothesis is true.</p>
-        <p><strong>Variables &amp; Controls</strong> – Independent (manipulated), Dependent (measured), Controlled (constant).</p>
-        <p><strong>Experimental Design</strong> – Detailed plan, groups, replicates, expected results pattern.</p>
-        <p><strong>Theory vs. Law</strong> – Theory: broad explanation. Law: concise math description.</p>
+        <p><strong>Observation</strong> — Facts only. No explanations. Use your senses or instrument data. Avoid "because."</p>
+        <p><strong>Curiosity Question</strong> — Broad wonder-question. Starts with "How does…", "Is there…", "To what extent…". Not testable yet.</p>
+        <p><strong>Research Question</strong> — Focused &amp; testable. Names the independent variable and dependent variable.</p>
+        <p><strong>Hypothesis</strong> — Tentative, falsifiable answer. Proposes a cause-effect mechanism. Uses "will" and includes a comparison.</p>
+        <p><strong>Prediction</strong> — If–Then format. States the measurable outcome if the hypothesis is correct.</p>
+        <p><strong>Variables &amp; Controls</strong> — IV: what you manipulate. DV: what you measure. Controlled: everything kept constant.</p>
+        <p><strong>Experimental Design</strong> — Groups, replicates, measurement methods, and both possible result patterns.</p>
+        <p><strong>Theory vs. Law</strong> — Theory: broad, evidence-based explanation. Law: concise mathematical description.</p>
     </div>
 </div>
 
 <script>
-// ── STEP METADATA ──
+// ─────────────────────────────────────────────────────────────────────────────
+// SHARED STEP DEFINITIONS
+// ─────────────────────────────────────────────────────────────────────────────
 const STEPS = [
     "Observation",
     "Curiosity Question",
@@ -643,292 +286,798 @@ const STEPS = [
     "Theory vs. Law"
 ];
 
-const STEP_SUBTITLES = {
-    "Observation":                      "Describe what is happening before you try to explain why.",
-    "Curiosity Question":               "Turn your observation into a clear, non‑'why' question.",
-    "Research Question":                "Refine curiosity into a specific, testable question with clear variables.",
-    "Hypothesis":                       "Propose an educated, falsifiable answer to your research question.",
-    "Prediction":                       "State what you expect to measure if your hypothesis is correct.",
-    "Variables & Controls":             "Separate the factor you change from what you measure and what you hold constant.",
-    "Experimental Design & Results":    "Plan the test and connect expected data patterns back to your hypothesis.",
-    "Theory vs. Law":                   "Place your experiment on the hypothesis–theory–law spectrum."
-};
-
-const STEP_DEFINITIONS = [
-    "Observation is the objective recording of an event or phenomenon through direct sensory experience — sight, hearing, touch, smell, or taste — or through precise instrumentation and measurement. Free from assumption or interpretation, it is the raw, unfiltered encounter with reality that ignites scientific curiosity and drives inquiry forward.",
-    "Curiosity Question is a broad, open-ended question that arises from the observation. It often starts with 'How does...', 'Is there a correlation...', or 'To what extent...'. It is not yet testable.",
-    "Research Question is a focused, specific question that refines the curiosity question. It identifies the independent variable (what you change) and dependent variable (what you measure). It must be testable.",
-    "Hypothesis is a tentative answer to the research question. It proposes a causal relationship and must be falsifiable. It often uses 'will' and includes a comparison (e.g., 'compared to').",
-    "Prediction is an 'If–Then' statement that translates the hypothesis into a measurable expectation. It specifies what should happen in an experiment if the hypothesis is correct.",
-    "Variables & Controls: Independent variable (manipulated), Dependent variable (measured), Controlled variables (kept constant to ensure a fair test).",
-    "Experimental Design & Results: A detailed plan for testing the hypothesis, including groups, sample size, replicates, and the pattern of results that would support or reject the hypothesis.",
-    "Theory vs. Law: A theory is a broad, well-supported explanation; a law is a concise mathematical description. Your experiment tests a hypothesis, contributing to theory."
+const STEP_SUBTITLES = [
+    "Describe what is happening before you try to explain why.",
+    "Turn your observation into a broad, open-ended wonder question.",
+    "Refine curiosity into a specific, testable question with clear variables.",
+    "Propose an educated, falsifiable answer to your research question.",
+    "State what you expect to measure if your hypothesis is correct.",
+    "Separate what you change from what you measure and what you hold constant.",
+    "Plan the test and describe the result pattern that would support your hypothesis.",
+    "Place your experiment on the hypothesis → theory → law spectrum."
 ];
 
-// ── BARBER RESEARCHER DATA ──
+const STEP_DEFINITIONS = [
+    "Observation is the objective recording of a phenomenon through direct sensory experience or instrumentation — free from assumption or interpretation. It is the raw encounter with reality that ignites scientific inquiry.",
+    "A Curiosity Question is a broad, open-ended question that arises naturally from an observation. It is not yet testable — it expresses genuine wonder and points toward what you want to understand.",
+    "A Research Question is a specific, testable refinement of the curiosity question. It clearly names the independent variable (what you will change) and the dependent variable (what you will measure).",
+    "A Hypothesis is a tentative, falsifiable answer to the research question. It proposes a causal mechanism and must be structured so that evidence can potentially prove it wrong.",
+    "A Prediction is an If–Then statement that translates the hypothesis into a concrete, measurable expectation. It specifies what should happen in an experiment if the hypothesis is correct.",
+    "Variables: the Independent Variable is what you deliberately change; the Dependent Variable is what you measure in response; Controlled Variables are factors held constant to ensure a fair test.",
+    "Experimental Design is the detailed plan for testing the hypothesis — specifying groups, sample size, replicates, measurement methods, and the pattern of results that would support or falsify the hypothesis.",
+    "A Theory is a broad, well-supported explanation for a class of phenomena. A Law is a concise, often mathematical description of a consistent pattern. Your experiment tests a hypothesis; over time, many such tests build toward theory."
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DR. ROBERT BARBER — RESEARCHER DATA
+// ─────────────────────────────────────────────────────────────────────────────
 const RESEARCHER = {
     label: "Dr. Robert Barber",
-    emailLabel: "Dr. Robert Barber — Gut Bacteria & Enzyme Shape",
+    email: "harria01@uwp.edu",
+
     contextByStep: [
         "You are looking at two bacterial strains from the human gut (Strain A and Strain B). Both carry the gene for a fatty acid kinase — an enzyme that helps bacteria eat certain fats for energy. When both strains are given a meal of a specific short-chain fatty acid, Strain A eats well and grows, while Strain B hardly touches it and barely grows. Scrolling through rotating 3D images of each strain's enzyme — generated by a protein folding program called AlphaFold — you notice a small but distinct difference in shape between the two versions.",
-        "Now that you've observed a difference, you're curious about the possible link between the enzyme shape and the growth outcome. A curiosity question is broad and arises from wonder.",
-        "A research question must be specific and testable, clearly identifying the independent variable (enzyme structure variant) and dependent variable (some measure of enzyme function or bacterial growth).",
-        "A hypothesis is a tentative answer to your research question. It proposes a causal relationship and must be falsifiable. Include a comparison.",
-        "A prediction uses an If–Then format, stating what measurable outcome will occur if the hypothesis is correct.",
-        "Identify the key variables: what you will change (independent), what you will measure (dependent), and what you must keep constant (controls).",
-        "Describe a controlled experiment to test your hypothesis. Include groups, replication, and what pattern of results would support or reject your hypothesis.",
-        "Reflect on how this single experiment fits into the broader context of scientific knowledge. How does it differ from an established theory (like enzyme evolution) or a physical law?"
+        "You have just described something puzzling: two gut bacteria with the same enzyme gene, yet one thrives on fatty acids and the other barely grows. And you've noticed the enzyme shapes look different. Step back and wonder broadly: what could the structural difference in the enzyme be doing to change growth outcomes? A curiosity question is open and doesn't need to be testable yet.",
+        "You've asked a broad wonder question. Now sharpen it. A research question must name a specific IV (the structural variant of the fatty acid kinase enzyme) and a specific DV (enzyme activity, substrate utilization rate, or bacterial growth rate). The question must be answerable through experiment.",
+        "You've identified a testable question. Now take a position. Dr. Barber suspects the 3D structural difference in Strain B's enzyme changes the shape of the active site — the pocket where the fatty acid substrate binds. If the active site geometry is altered, the enzyme may not hold the substrate correctly, reducing catalytic activity and starving the cell. Your hypothesis should propose this mechanism and be falsifiable.",
+        "Your hypothesis makes a causal claim — now predict what would happen in a real experiment if that claim is correct. Use the If–Then format. Measurements include enzyme activity assays (measuring how much fatty acid is converted per unit time), kinetic parameters (Km and Vmax from Michaelis-Menten curves), or bacterial growth curves (OD600).",
+        "Break your experiment into its moving parts. The IV is what differs between your two experimental groups — the enzyme variant (Strain A's vs Strain B's). The DV is what you measure to detect an effect. Controlled variables are everything kept identical so that enzyme structure is the only difference.",
+        "Design the actual experiment. How will you isolate and purify each enzyme, set up the activity assay, control the conditions, include replicates, and determine whether your hypothesis is supported or rejected? Describe what the data would look like in both cases.",
+        "Zoom out. Your experiment tests one hypothesis about one enzyme variant in two gut bacterial strains. How does this fit into the broader scientific picture? What theory does it contribute to? How does it differ from a law like Michaelis-Menten kinetics? What would it take to move from hypothesis toward established theory?"
     ],
+
     prompts: [
         {
-            label: "Describe what you observe.",
-            helper: "Focus on the two strains, the growth difference, the enzyme gene presence, and the structural difference. Avoid explanations.",
-            requiredKeywords: ["strain", "growth", "enzyme", "shape", "gene"],
-            checklist: ["Mentions both strains", "Notes growth difference", "Notes both have the gene", "Mentions 3D shape difference"]
+            label: "Describe what you observe in the Barber lab scenario.",
+            helper: "Report only what can be directly seen or measured. Describe both strains, their growth outcomes, the fact that both have the enzyme gene, and what the AlphaFold images showed about 3D shape. No explanations.",
+            checklist: [
+                "Both strains mentioned",
+                "Growth difference described",
+                "Both have the enzyme gene noted",
+                "3D shape difference noted",
+                "No causal explanation included"
+            ]
         },
         {
-            label: "Write a curiosity question.",
-            helper: "Start with 'How does …', 'Is there a correlation …', or 'To what extent …' – not 'Why'.",
-            requiredKeywords: ["shape", "enzyme", "growth"],
-            checklist: ["Uses How/Is there/To what extent", "Includes enzyme shape", "Links to growth or function"]
+            label: "Write a curiosity question that arises from your observation.",
+            helper: "Start with 'How does…', 'Is there a relationship between…', or 'To what extent…' — not 'Why'. Keep it broad and wonder-based.",
+            checklist: [
+                "Starts with How / Is there / To what extent",
+                "References enzyme shape or structure",
+                "Links to growth or function",
+                "Not a 'Why' question",
+                "Broad — not yet a specific testable question"
+            ]
         },
         {
-            label: "Write a focused research question.",
-            helper: "Example: 'How does the structural difference in fatty acid kinase affect its ability to utilize the fatty acid?'",
-            requiredKeywords: ["structural difference", "enzyme", "affect"],
-            checklist: ["Mentions IV (enzyme structure)", "Mentions DV (activity/growth)", "Testable"]
+            label: "Write a focused, testable research question.",
+            helper: "Name the IV (the structural variant of the fatty acid kinase — which strain's version you're testing) and the DV (enzyme activity, substrate conversion rate, or bacterial growth). Example: 'How does the structural difference in the fatty acid kinase affect its catalytic activity and bacterial growth?'",
+            checklist: [
+                "Names an independent variable",
+                "Names a dependent variable",
+                "Specific to enzyme/fatty acid/bacterial context",
+                "Testable and measurable",
+                "More specific than the curiosity question"
+            ]
         },
         {
-            label: "State your hypothesis (tentative answer).",
-            helper: "Use a comparison: 'The structural difference in Strain B's enzyme will reduce its activity, leading to poor growth compared to Strain A.'",
-            requiredKeywords: ["structural difference", "enzyme", "activity", "compared"],
-            checklist: ["Cause and effect", "Includes comparison", "Falsifiable"]
+            label: "State your hypothesis — a tentative, falsifiable answer to your research question.",
+            helper: "Propose the specific mechanism: the structural difference in Strain B's enzyme alters the active site, reducing its ability to bind or catalyze the fatty acid substrate, leading to lower enzyme activity and poor growth compared to Strain A. Use 'will' and include a comparison.",
+            checklist: [
+                "Proposes an active site or structural mechanism",
+                "Links structure to catalytic activity",
+                "Compares Strain A vs Strain B",
+                "Uses 'will' or predictive language",
+                "Falsifiable — could be proven wrong"
+            ]
         },
         {
-            label: "Write your If–Then prediction.",
-            helper: "If [enzyme from Strain B], then [measured activity will be lower] when assayed.",
-            requiredKeywords: ["if", "then", "enzyme", "activity"],
-            checklist: ["Uses If–Then", "Specifies direction", "Measurable"]
+            label: "Write an If–Then prediction for your hypothesis.",
+            helper: "Format: 'If [Strain B enzyme structural variant], then [lower enzyme activity / higher Km / lower Vmax / impaired growth] compared to Strain A.' Reference a measurable assay — enzyme activity assay, Michaelis-Menten kinetics, or OD600 growth curves.",
+            checklist: [
+                "Uses If–Then structure",
+                "The 'If' names Strain B or the structural variant",
+                "The 'Then' names a measurable outcome",
+                "Specifies direction (lower, reduced, impaired)",
+                "References an enzyme assay or growth measurement"
+            ]
         },
         {
-            label: "Identify variables and controls.",
-            helper: "IV: which strain's enzyme. DV: enzyme activity. Controls: temperature, pH, substrate concentration, etc.",
-            requiredKeywords: ["independent", "dependent", "control", "temperature"],
-            checklist: ["Names IV", "Names DV", "Lists ≥3 controls"]
+            label: "Identify the independent variable, dependent variable, and at least three controlled variables.",
+            helper: "IV = which enzyme variant is being tested (Strain A's vs Strain B's fatty acid kinase). DV = enzyme activity (substrate converted per minute), Km/Vmax values, or bacterial growth rate. Controlled = temperature, pH, substrate concentration, buffer composition, reaction time, enzyme concentration, fatty acid type.",
+            checklist: [
+                "Independent variable clearly named",
+                "Dependent variable clearly named",
+                "At least 3 controlled variables listed",
+                "Controls are biochemically relevant",
+                "IV and DV are distinct"
+            ]
         },
         {
-            label: "Outline experimental design and expected results.",
-            helper: "How to obtain pure enzymes, assay with replicates. What results support your hypothesis?",
-            requiredKeywords: ["enzyme", "assay", "replicates", "support"],
-            checklist: ["Defines groups", "Mentions replicates", "Links outcome to hypothesis"]
+            label: "Outline your experimental design and describe what results would support or reject your hypothesis.",
+            helper: "Describe: (1) how you will purify each enzyme from its strain, (2) the enzyme activity assay conditions, (3) how you will measure kinetics (substrate range, Michaelis-Menten curve), (4) replicates, (5) what data would support your hypothesis (lower Vmax or higher Km for Strain B) and what would reject it (no difference in activity).",
+            checklist: [
+                "Enzyme purification described",
+                "Activity assay conditions specified",
+                "Kinetic measurement mentioned (Vmax, Km, or activity units)",
+                "Replicates mentioned",
+                "Both support AND reject outcomes described"
+            ]
         },
         {
-            label: "Contrast your experiment with theories and laws.",
-            helper: "Your experiment tests one hypothesis. A theory integrates many such tests. A law is mathematical.",
-            requiredKeywords: ["theory", "law", "broader", "evidence"],
-            checklist: ["Distinguishes hypothesis from theory", "Mentions scope/evidence", "Notes law is mathematical"]
+            label: "Contrast your experiment with a scientific theory and a scientific law.",
+            helper: "Your experiment tests one hypothesis about one enzyme variant. The theory of enzyme evolution and structure-function relationships integrates thousands of such studies. The Michaelis-Menten equation is a true mathematical law describing enzyme kinetics — your experiment applies and tests predictions within it. Explain where your work sits and what builds toward theory.",
+            checklist: [
+                "Distinguishes hypothesis from theory",
+                "Names or describes a relevant theory",
+                "Names Michaelis-Menten or a similar kinetic law",
+                "Explains scope/evidence difference",
+                "Describes path toward theory"
+            ]
         }
     ],
+
     compareRows: [
         {
             level: "Hypothesis",
-            what: "A specific, testable claim about enzyme structure and function.",
-            inModule: "The structural difference in Strain B's enzyme reduces its activity, impairing growth."
+            what: "A specific, testable claim about one enzyme variant in two bacterial strains.",
+            inModule: "The 3D structural difference in Strain B's fatty acid kinase alters the active site, reducing catalytic activity and impairing growth on short-chain fatty acids."
         },
         {
             level: "Scientific Theory",
-            what: "Broad explanation of enzyme structure-function relationships.",
-            inModule: "Decades of research on enzyme catalysis support theories about how shape determines function."
+            what: "A broad, evidence-based explanation integrating many experiments.",
+            inModule: "The theory of enzyme structure-function relationships — built from decades of biochemistry, crystallography, and bioinformatics showing how active site geometry determines substrate specificity and catalytic efficiency."
         },
         {
             level: "Scientific Law",
-            what: "Mathematical description like Michaelis‑Menten kinetics.",
-            inModule: "Your experiment illustrates kinetics but is not a law."
+            what: "A concise, mathematical description of a consistent pattern.",
+            inModule: "The Michaelis-Menten equation mathematically describes enzyme kinetics (rate as a function of substrate concentration). Your experiment generates data that fits within this law — but the law itself is not what you are testing."
         }
     ]
 };
 
-// ── STATE ──
-let currentStepIndex = 0;
-let responses = Array(STEPS.length).fill("");
+// ─────────────────────────────────────────────────────────────────────────────
+// SMART FEEDBACK ENGINE — BARBER-SPECIFIC RUBRICS
+// ─────────────────────────────────────────────────────────────────────────────
+const has = (text, words) => words.some(w => text.includes(w.toLowerCase()));
+const hasPhrase = (text, phrases) => phrases.some(p => text.includes(p.toLowerCase()));
+const wordCount = (text) => text.trim().split(/\s+/).filter(Boolean).length;
 
-// ── INIT ──
-document.addEventListener("DOMContentLoaded", () => {
-    loadStep();
-    // show help toggle after small delay
-    setTimeout(() => {
-        document.getElementById("toggleHelpBtn").style.display = "block";
-    }, 600);
-});
+const CAUSAL_WORDS = ["because","due to","caused by","results in","leads to","explains","therefore","since","as a result","this means","so that","in order to","which causes","causing","makes","allows","enables","prevents"];
 
-// ── LOAD STEP ──
-function loadStep() {
-    const idx = currentStepIndex;
+const RUBRICS = [
 
-    // pill + title + subtitle
-    document.getElementById("stepPill").textContent     = `Step ${idx + 1}`;
-    document.getElementById("stepTitle").textContent    = STEPS[idx];
-    document.getElementById("stepSubtitle").textContent = STEP_SUBTITLES[STEPS[idx]] || "";
-    document.getElementById("definitionText").textContent = STEP_DEFINITIONS[idx];
-    document.getElementById("stepInfoIcon").setAttribute("data-tip", "Definition: " + STEP_DEFINITIONS[idx]);
+    // ── STEP 0: Observation ──────────────────────────────────────────────────
+    function observationFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
 
-    // context
-    document.getElementById("contextBox").textContent = RESEARCHER.contextByStep[idx];
+        const causalFound = CAUSAL_WORDS.filter(w => text.includes(w));
+        if (causalFound.length > 0) {
+            messages.push({ type: "warn", text: `⚠️ Explanation detected: you used "${causalFound[0]}" — observations report only what you see or measure, not why it happens. Remove cause-and-effect language.` });
+        } else { score++; }
 
-    // prompt
-    const p = RESEARCHER.prompts[idx];
-    document.getElementById("promptLabel").textContent  = p.label;
-    document.getElementById("promptHelper").textContent = p.helper;
+        // Both strains
+        if (hasPhrase(text, ["both strains","two strains","strain a","strain b","one strain","the other strain"]) ||
+            (has(text, ["strain"]) && has(text, ["grow","growth","barely","well","eat"]))) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Both strains mentioned"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Both strains missing";
+            messages.push({ type: "warn", text: "❌ Mention both Strain A and Strain B — one grows well on fatty acids, the other barely grows." });
+        }
 
-    // checklist
-    const cl = document.getElementById("checklistArea");
-    cl.innerHTML = "";
-    p.checklist.forEach(item => {
-        const s = document.createElement("span");
-        s.textContent = "✓ " + item;
-        cl.appendChild(s);
-    });
+        // Growth difference
+        if (has(text, ["grow","growth","grows","barely","well","normal","poor","different","one eats","other doesn't","hardly","hardly grows","eats","doesn't eat"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Growth difference described"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Growth difference missing";
+            messages.push({ type: "warn", text: "❌ Describe the growth difference — Strain A eats well and grows; Strain B barely touches the fatty acid and barely grows." });
+        }
 
-    // restore saved response
-    document.getElementById("responseInput").value = responses[idx] || "";
-    document.getElementById("feedbackArea").textContent = "";
-    document.getElementById("feedbackArea").className = "feedback";
+        // Both have the enzyme gene
+        if (has(text, ["gene","both have","same gene","gene for","fatty acid kinase","kinase gene","enzyme gene","carry the gene","both carry"])) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Both have enzyme gene noted"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Shared gene not noted";
+            messages.push({ type: "warn", text: "❌ Note that both strains carry the same gene for the fatty acid kinase enzyme — this is what makes the structural difference so puzzling." });
+        }
 
-    // progress
-    const pct = Math.round((idx / (STEPS.length - 1)) * 100);
-    document.getElementById("progressFill").style.width  = `${pct}%`;
-    document.getElementById("progressPct").textContent   = `${pct}%`;
-    document.getElementById("progressStepLabel").textContent = `Step ${idx + 1} of ${STEPS.length}`;
+        // 3D shape difference
+        if (has(text, ["shape","3d","three-dimensional","structure","structural","alphafold","folding","fold","different shape","different structure","shape difference","structural difference","rotating","image","visual"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ 3D shape difference noted"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Shape difference missing";
+            messages.push({ type: "warn", text: "❌ Describe what the AlphaFold images showed — a small but distinct difference in the 3D shape of the enzyme between the two strains." });
+        }
 
-    // prev button
-    document.getElementById("prevBtn").disabled = (idx === 0);
+        // No causal explanation
+        if (causalFound.length === 0) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ No causal explanation";
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Remove explanations";
+        }
 
-    // next button label
-    const nextBtn = document.getElementById("nextBtn");
-    nextBtn.textContent = (idx === STEPS.length - 1) ? "Finish & Show Big Picture ✓" : "Check & Continue →";
+        if (score >= 4 && causalFound.length === 0) {
+            return [{ type: "good", text: "✅ Excellent observation! Both strains, the growth difference, the shared enzyme gene, and the AlphaFold shape difference are all captured — without explaining why. That's exactly right." }];
+        }
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Partial — your observation captures some key details. Check the checklist for what's missing." });
+        return messages;
+    },
 
-    // hide compare card when navigating back
-    document.getElementById("compareCard").classList.add("hidden");
+    // ── STEP 1: Curiosity Question ───────────────────────────────────────────
+    function curiosityFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
 
-    // prior responses panel
-    updatePriorPanel();
+        const goodStems = ["how does","how do","is there","to what extent","what is the relationship","could there be","might there be"];
+        const badStems = ["why does","why do","why is","why are","why would"];
+        const hasGoodStem = hasPhrase(text, goodStems);
+        const hasBadStem = hasPhrase(text, badStems);
 
-    // scroll to top of card smoothly
-    document.getElementById("stepCard").scrollIntoView({ behavior: "smooth", block: "start" });
+        if (hasBadStem) {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Avoid 'Why'";
+            messages.push({ type: "warn", text: `⚠️ You used "why" — curiosity questions work better starting with "How does…", "Is there a relationship between…", or "To what extent…"` });
+        } else if (hasGoodStem) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Good opening stem"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Opening stem needed";
+            messages.push({ type: "warn", text: `❌ Start with "How does…", "Is there a relationship between…", or "To what extent…"` });
+        }
+
+        // References enzyme shape or structure
+        if (has(text, ["shape","structure","structural","3d","fold","folding","active site","conformation","form","configuration","enzyme structure","enzyme shape"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ References enzyme shape/structure"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Shape/structure missing";
+            messages.push({ type: "warn", text: "❌ Reference enzyme shape or structure — that's the key difference you observed between the two strains." });
+        }
+
+        // Links to growth or function
+        if (has(text, ["grow","growth","function","activity","fatty acid","substrate","catalysis","catalytic","energy","performance","efficiency","utilization","bacteria","bacterial"])) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Links to growth or function"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Growth/function link missing";
+            messages.push({ type: "warn", text: "❌ Connect your question to bacterial growth or enzyme function — those are the outcomes you observed changing." });
+        }
+
+        // Not a 'Why'
+        if (!hasBadStem) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Not a 'Why' question"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Avoid 'Why'";
+        }
+
+        // Appropriately broad
+        const tooSpecific = hasPhrase(text, ["independent variable","dependent variable","null hypothesis","active site","michaelis","km","vmax","wild-type","mutant"]);
+        if (!tooSpecific) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Appropriately broad"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Too specific for Step 2";
+            messages.push({ type: "warn", text: "⚠️ Keep Step 2 broad — save Michaelis-Menten parameters and active site details for the research question and hypothesis." });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Great curiosity question! Broad, properly opened, and connecting enzyme shape to bacterial growth or function." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Getting there — refine using the checklist." });
+        return messages;
+    },
+
+    // ── STEP 2: Research Question ────────────────────────────────────────────
+    function researchQFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // IV
+        const ivTerms = ["structural difference","structural variant","enzyme variant","enzyme structure","shape difference","3d structure","which enzyme","strain a enzyme","strain b enzyme","structural","independent","variant","version of the enzyme"];
+        if (has(text, ivTerms)) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Independent variable named"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ IV unclear";
+            messages.push({ type: "warn", text: "❌ Name your IV — the structural variant of the fatty acid kinase (Strain A's vs Strain B's enzyme version) is what you are comparing." });
+        }
+
+        // DV
+        const dvTerms = ["enzyme activity","catalytic activity","activity","substrate","fatty acid","growth","grow","km","vmax","rate","kinetics","conversion","utilization","dependent","od600","optical density","function","efficiency"];
+        if (has(text, dvTerms)) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Dependent variable named"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ DV unclear";
+            messages.push({ type: "warn", text: "❌ Name your DV — enzyme activity (substrate conversion rate), kinetic parameters (Km, Vmax), or bacterial growth rate." });
+        }
+
+        // Enzyme/fatty acid/bacterial context
+        if (has(text, ["enzyme","fatty acid","kinase","bacteria","bacterial","gut","strain","gut bacteria"])) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Enzyme/bacterial context"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Scenario context missing";
+            messages.push({ type: "warn", text: "❌ Ground your question in the Barber scenario — mention the enzyme, fatty acid, or bacterial context." });
+        }
+
+        // Testable
+        if (has(text, ["affect","influence","compare","differ","effect","rate","level","measure","change","determine","alter","impact"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Testable / measurable"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Not clearly testable";
+            messages.push({ type: "warn", text: "⚠️ Include a word like 'affect', 'alter', or 'compare' to signal the question is testable." });
+        }
+
+        // Specific enough
+        if (wordCount(text) >= 8) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Appropriately specific"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Too brief";
+            messages.push({ type: "warn", text: "⚠️ Your research question is very short — spell out both IV and DV clearly." });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Strong research question! Enzyme structural variant as IV, a specific measurable enzymatic or growth outcome as DV, grounded in the Barber scenario." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Partial — specify both the IV (which enzyme variant) and the DV (what you'll measure) more precisely." });
+        return messages;
+    },
+
+    // ── STEP 3: Hypothesis ───────────────────────────────────────────────────
+    function hypothesisFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Active site / structural mechanism
+        const mechanismTerms = ["active site","binding site","substrate binding","catalytic","conformation","active-site","structural difference","3d structure","shape","fold","active site geometry","active site shape","altered active","changed active","distort","disrupts","altered binding","changes shape","active pocket","binding pocket","active site pocket"];
+        if (has(text, mechanismTerms)) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Active site mechanism proposed"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Active site mechanism missing";
+            messages.push({ type: "warn", text: "❌ Name the specific molecular mechanism — the structural difference in Strain B's enzyme alters the active site geometry, preventing it from correctly binding or catalyzing the fatty acid substrate. This is the key mechanism to name." });
+        }
+
+        // Links structure to catalytic activity
+        if (has(text, ["activity","catalytic","catalysis","catalyze","function","efficiency","rate","convert","substrate","bind","binding","utilize","kinetics","velocity","slower","reduced activity","lower activity","impaired"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Structure-activity link made"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Structure-activity link missing";
+            messages.push({ type: "warn", text: "❌ Connect the structural difference to enzyme activity — how does an altered active site translate to reduced catalytic performance?" });
+        }
+
+        // Comparison between strains
+        const compTerms = ["compared to","compared with","strain a","strain b","compared to strain","than strain","unlike strain","relative to","more than","less than","higher than","lower than","worse than","better than","compared with strain"];
+        if (hasPhrase(text, compTerms) || (has(text, ["strain a","strain b"]) && has(text, ["compared","than","relative","unlike","whereas"]))) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Comparison included"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Comparison missing";
+            messages.push({ type: "warn", text: "❌ Include an explicit comparison — contrast Strain B's enzyme performance with Strain A's (e.g. 'compared to Strain A')." });
+        }
+
+        // Falsifiable
+        const nonFalsifiable = ["always","never will","impossible","proven","certain","definitely","no doubt"];
+        if (hasPhrase(text, nonFalsifiable)) {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Not falsifiable";
+            messages.push({ type: "warn", text: "⚠️ Remove absolute language — a hypothesis must be falsifiable." });
+        } else if (score >= 2) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Falsifiable"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Falsifiability unclear";
+        }
+
+        // Uses 'will'
+        if (text.includes("will")) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Predictive 'will'"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Add 'will'";
+            messages.push({ type: "warn", text: "⚠️ Use 'will' to signal a prediction — e.g. 'The structural difference will alter the active site, reducing Strain B's enzyme activity compared to Strain A…'" });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Strong hypothesis! The active site mechanism is named, the structure-activity link is clear, and you've included a comparison with predictive language." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Developing — naming the active site mechanism is the most critical element." });
+        return messages;
+    },
+
+    // ── STEP 4: Prediction ───────────────────────────────────────────────────
+    function predictionFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        const hasIf = text.startsWith("if") || text.includes(" if ");
+        const hasThen = text.includes(" then ");
+        if (hasIf && hasThen) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ If–Then structure"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ No If–Then";
+            messages.push({ type: "warn", text: "❌ Structure your prediction: 'If [Strain B enzyme], then [lower activity / higher Km / slower growth] compared to Strain A'." });
+        }
+
+        // 'If' names Strain B or structural variant
+        if (has(text, ["strain b","strain b's","strain b enzyme","structural variant","structural difference","the enzyme from strain b","strain b's enzyme","structurally different","altered enzyme","variant enzyme","b's enzyme"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ 'If' names Strain B variant"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ 'If' unclear";
+            messages.push({ type: "warn", text: "❌ The 'If' part should name Strain B's enzyme or the structural variant — e.g. 'If Strain B's enzyme is assayed…'" });
+        }
+
+        // 'Then' measurable outcome
+        const outcomes = ["activity","enzyme activity","lower activity","reduced activity","km","vmax","kinetics","growth","od600","substrate","conversion","rate","slower","impaired","reduced","lower","less","fewer","higher km","lower vmax","assay","measure"];
+        if (has(text, outcomes)) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Measurable 'Then'"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ 'Then' not measurable";
+            messages.push({ type: "warn", text: "❌ The 'Then' must name a measurable outcome — e.g. lower enzyme activity, higher Km, lower Vmax, or impaired bacterial growth." });
+        }
+
+        // Direction
+        if (has(text, ["lower","less","reduced","impaired","slower","higher km","lower vmax","weaker","diminished","fewer","decrease","worse"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Direction specified"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Direction unclear";
+            messages.push({ type: "warn", text: "⚠️ Specify direction — will Strain B's enzyme show lower activity? Higher Km? Slower growth? Name the direction." });
+        }
+
+        // References an assay or measurement
+        const methods = ["assay","enzyme assay","activity assay","michaelis","km","vmax","od600","optical density","growth curve","substrate assay","colorimetric","spectrophotometer","fluorometer","hplc","kinetic assay","enzyme kinetics","in vitro","biochemical assay","substrate conversion"];
+        if (has(text, methods)) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Assay or measurement referenced"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Assay/measurement missing";
+            messages.push({ type: "warn", text: "⚠️ Reference a specific assay or measurement method — e.g. an enzyme activity assay, Michaelis-Menten kinetics (Km and Vmax), or bacterial growth curves (OD600)." });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Excellent prediction! If–Then structure, Strain B as the condition, a measurable and directional enzyme or growth outcome, and a specific assay referenced." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Partially there — specify a measurable, directional outcome and name the assay you'd use." });
+        return messages;
+    },
+
+    // ── STEP 5: Variables & Controls ─────────────────────────────────────────
+    function variablesFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // IV
+        const ivTerms = ["independent","enzyme variant","structural variant","which enzyme","strain a enzyme","strain b enzyme","enzyme structure","structural difference","version of the enzyme","which strain's enzyme"];
+        if (has(text, ivTerms)) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Independent variable named"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ IV unclear";
+            messages.push({ type: "warn", text: "❌ Name your IV — which enzyme variant is being tested (Strain A's vs Strain B's fatty acid kinase)." });
+        }
+
+        // DV
+        const dvTerms = ["dependent","enzyme activity","activity","km","vmax","kinetics","growth rate","growth","od600","substrate","conversion rate","catalytic","function","efficiency","rate"];
+        if (has(text, dvTerms)) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Dependent variable named"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ DV unclear";
+            messages.push({ type: "warn", text: "❌ Name your DV — enzyme activity (substrate converted per unit time), kinetic parameters (Km, Vmax), or bacterial growth rate." });
+        }
+
+        // ≥3 controlled variables
+        const controlledTerms = ["temperature","ph","substrate concentration","buffer","reaction time","enzyme concentration","fatty acid","fatty acid concentration","salt","ion","cofactor","atp","ionic strength","incubation","time","reaction volume","assay volume"];
+        const controlsFound = controlledTerms.filter(c => text.includes(c));
+        if (controlsFound.length >= 3) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ ≥3 controlled variables"; score++;
+        } else if (controlsFound.length >= 1) {
+            chips[2].classList.add("fail"); chips[2].innerHTML = `✗ Only ${controlsFound.length} control(s) — need 3+`;
+            messages.push({ type: "warn", text: `⚠️ You listed ${controlsFound.length} controlled variable(s). Need at least 3 — consider: temperature, pH, substrate concentration, buffer composition, enzyme concentration, reaction time, fatty acid type.` });
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ No controlled variables";
+            messages.push({ type: "warn", text: "❌ List controlled variables — conditions kept identical for both enzymes so the structural variant is the only difference (e.g. temperature, pH, substrate concentration, buffer)." });
+        }
+
+        // Biochemically relevant
+        if (controlsFound.length >= 2) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Controls biochemically relevant"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Controls need more detail";
+        }
+
+        // IV and DV distinct
+        if (has(text, ivTerms) && has(text, dvTerms)) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ IV and DV distinct"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ IV/DV distinction unclear";
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Well-structured variables! Enzyme variant as IV, a specific biochemical or growth measure as DV, and biochemically relevant controlled variables." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Getting there — your variables section needs more detail, especially the controlled variables." });
+        return messages;
+    },
+
+    // ── STEP 6: Experimental Design ──────────────────────────────────────────
+    function designFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Enzyme purification described
+        if (has(text, ["purif","isolat","extract","express","recombinant","pure enzyme","purified","his-tag","affinity","column","chromatography","obtain enzyme","isolate enzyme","produce enzyme","overexpress"])) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Enzyme purification described"; score++;
+        } else if (has(text, ["enzyme","protein","strain a","strain b"]) && wordCount(text) > 25) {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Purification not described";
+            messages.push({ type: "warn", text: "❌ Describe how you will obtain pure enzyme from each strain — e.g. express the gene in E. coli with a His-tag, then purify by affinity chromatography." });
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Purification not described";
+            messages.push({ type: "warn", text: "❌ Describe how you will obtain pure enzyme from each strain — this is a critical first step in biochemical experiments." });
+        }
+
+        // Activity assay conditions
+        if (has(text, ["assay","activity assay","reaction","substrate","fatty acid","kinase assay","phosphorylation","atp","product","convert","reaction condition","assay condition","buffer","incubate","incubation"])) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Assay conditions specified"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Assay conditions missing";
+            messages.push({ type: "warn", text: "❌ Describe the enzyme activity assay — what substrate will you use, at what concentration, in what buffer, at what temperature, for how long?" });
+        }
+
+        // Kinetic measurement
+        if (has(text, ["km","vmax","michaelis","kinetic","kinetics","activity unit","specific activity","rate","turnover","substrate range","substrate concentration range","velocity","enzyme unit","nmol","µmol","fluorescence","radioactive","colorimetric","od","absorbance"])) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Kinetic measurement mentioned"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Kinetic measurement missing";
+            messages.push({ type: "warn", text: "❌ Describe your kinetic measurements — e.g. measure enzyme activity at a range of substrate concentrations to determine Km and Vmax, or use a colorimetric assay to measure substrate converted per minute." });
+        }
+
+        // Replicates
+        if (has(text, ["replicate","replication","replicates","triplicates","triplicate","n=","multiple","repeated","biological replicates","technical replicates","independent experiment","three independent"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Replicates mentioned"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Replicates missing";
+            messages.push({ type: "warn", text: "❌ Mention replicates — run each assay at least three times to ensure reliable, reproducible results." });
+        }
+
+        // Both outcomes
+        const supportsHyp = has(text, ["support","supports","consistent","lower activity","reduced activity","higher km","lower vmax","if hypothesis","would confirm","impaired activity","less active","strain b lower"]);
+        const rejectsHyp = has(text, ["reject","disprove","no difference","null","if wrong","if hypothesis is wrong","same activity","similar activity","no change","fail to","would not","equal activity"]);
+        if (supportsHyp && rejectsHyp) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Both outcomes described"; score++;
+        } else if (supportsHyp || rejectsHyp) {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Describe both outcomes";
+            messages.push({ type: "warn", text: "⚠️ Describe what results would both support AND reject your hypothesis — what would enzyme activity data look like in each case?" });
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ No result pattern described";
+            messages.push({ type: "warn", text: "❌ Describe the expected result pattern — what would the kinetics data look like if your hypothesis is correct, and what if it's wrong?" });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Rigorous experimental design! Enzyme purification, assay conditions, kinetic measurements, replicates, and both possible outcomes are all addressed." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Your design is developing — enzyme purification and kinetic measurements need the most attention." });
+        return messages;
+    },
+
+    // ── STEP 7: Theory vs. Law ───────────────────────────────────────────────
+    function theoryLawFeedback(text, chips) {
+        const messages = [];
+        let score = 0;
+
+        // Hypothesis vs theory
+        if (has(text, ["hypothesis","hypotheses"]) && has(text, ["theory","theories"])) {
+            chips[0].classList.add("pass"); chips[0].innerHTML = "✓ Hypothesis vs Theory"; score++;
+        } else {
+            chips[0].classList.add("fail"); chips[0].innerHTML = "✗ Distinguish H vs Theory";
+            messages.push({ type: "warn", text: "❌ Explicitly contrast your hypothesis with a scientific theory — how are they different in scope, scale, and evidence?" });
+        }
+
+        // Relevant theory
+        const theoryTerms = ["enzyme evolution","structure-function","enzyme structure","structure function","enzyme theory","lock and key","induced fit","active site theory","protein folding","enzyme kinetics theory","catalysis theory","evolution of enzymes","functional evolution"];
+        if (has(text, theoryTerms) || (text.includes("theory") && has(text, ["many","decades","thousands","multiple","broad","accumulated","supported","evidence","studies","integrates","enzymes","protein","structure","bioinformatics","crystallography"]))) {
+            chips[1].classList.add("pass"); chips[1].innerHTML = "✓ Relevant theory named"; score++;
+        } else {
+            chips[1].classList.add("fail"); chips[1].innerHTML = "✗ Name a relevant theory";
+            messages.push({ type: "warn", text: "❌ Name a relevant theory — e.g. the theory of enzyme structure-function relationships, or the theory of enzyme evolution, built from decades of biochemistry, X-ray crystallography, and bioinformatics." });
+        }
+
+        // Michaelis-Menten or similar kinetic law
+        const lawTerms = ["michaelis","michaelis-menten","michaelis menten","km","vmax","law of","mathematical","equation","formula","kinetic equation","rate equation","enzyme kinetics equation","monod","arrhenius","physical law","mathematical law","mathematical description"];
+        if (has(text, lawTerms) || (text.includes("law") && has(text, ["mathematical","equation","formula","quantitative","precise","kinetics","rate","constant","enzymatic"]))) {
+            chips[2].classList.add("pass"); chips[2].innerHTML = "✓ Michaelis-Menten/law named"; score++;
+        } else {
+            chips[2].classList.add("fail"); chips[2].innerHTML = "✗ Name a relevant law";
+            messages.push({ type: "warn", text: "❌ Name a relevant scientific law — the Michaelis-Menten equation is the key law here: it mathematically describes enzyme reaction rate as a function of substrate concentration. Your experiment generates data that fits within this law." });
+        }
+
+        // Scope/evidence difference
+        if (has(text, ["many experiments","many studies","accumulated","broader","scope","integrates","built from","supported by","decades","multiple","evidence","thousands","many enzymes","many organisms","across organisms","crystallography"])) {
+            chips[3].classList.add("pass"); chips[3].innerHTML = "✓ Scope/evidence explained"; score++;
+        } else {
+            chips[3].classList.add("fail"); chips[3].innerHTML = "✗ Explain scope difference";
+            messages.push({ type: "warn", text: "⚠️ Explain why your single experiment isn't yet a theory — enzyme structure-function theory was built from thousands of studies on hundreds of enzyme families across all domains of life." });
+        }
+
+        // Path toward theory
+        if (has(text, ["more evidence","further","replicated","multiple enzymes","other enzymes","future","additional","would need","over time","build toward","contribute","accumulate","long-term","many enzyme families","other bacteria","other organisms","multiple studies"])) {
+            chips[4].classList.add("pass"); chips[4].innerHTML = "✓ Path toward theory described"; score++;
+        } else {
+            chips[4].classList.add("fail"); chips[4].innerHTML = "✗ Path to theory missing";
+            messages.push({ type: "warn", text: "⚠️ Describe what it would take to build toward theory — replication across many enzyme families, organisms, and structural variants." });
+        }
+
+        if (score >= 4) return [{ type: "good", text: "✅ Excellent reflection! You've distinguished hypothesis from theory, named enzyme structure-function theory and the Michaelis-Menten law, and described the path from one experiment toward established scientific knowledge." }];
+        if (score >= 2) messages.unshift({ type: "partial", text: "🟡 Good start — make sure to name the Michaelis-Menten equation as the relevant law, and explain the scope difference between one experiment and an established theory." });
+        return messages;
+    }
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COHERENCE CHECKER
+// ─────────────────────────────────────────────────────────────────────────────
+function checkCoherence(stepIdx, currentText, allResponses) {
+    const text = currentText.toLowerCase();
+
+    if (stepIdx === 3) {
+        const rq = (allResponses[2] || "").toLowerCase();
+        if (rq.length < 10) return null;
+        const rqMentionsStructure = has(rq, ["structural","structure","shape","3d","active site","variant"]);
+        const hypMentionsStructure = has(text, ["structural","structure","shape","active site","3d","conformation","fold","alter","change"]);
+        if (rqMentionsStructure && !hypMentionsStructure) {
+            return "⚠️ Coherence check: Your research question focused on the structural difference, but your hypothesis doesn't clearly name a structural mechanism. Your hypothesis should directly answer your research question.";
+        }
+        const rqMentionsDV = has(rq, ["activity","growth","kinetics","function","rate","km","vmax"]);
+        const hypMentionsOutcome = has(text, ["activity","growth","catalytic","rate","function","kinetics","km","vmax","impair","reduc","lower"]);
+        if (rqMentionsDV && !hypMentionsOutcome) {
+            return "⚠️ Coherence check: Your research question named a specific enzyme or growth outcome, but your hypothesis doesn't address it. Make sure your hypothesis answers your own research question.";
+        }
+    }
+
+    if (stepIdx === 4) {
+        const hyp = (allResponses[3] || "").toLowerCase();
+        if (hyp.length < 10) return null;
+        const hypMentionsActive = has(hyp, ["active site","binding site","catalytic","conformation","structural"]);
+        const predMentionsOutcome = has(text, ["activity","km","vmax","growth","assay","kinetic","substrate","strain b","if","lower","reduced","impaired"]);
+        if (hypMentionsActive && !predMentionsOutcome) {
+            return "⚠️ Coherence check: Your hypothesis proposed an active site mechanism, but your prediction doesn't reflect a measurable enzyme or growth outcome. The 'Then' should name what you'd measure in a lab assay.";
+        }
+    }
+
+    if (stepIdx === 5) {
+        const rq = (allResponses[2] || "").toLowerCase();
+        if (rq.length < 10) return null;
+        const rqMentionsStructure = has(rq, ["structural","structure","shape","variant","enzyme"]);
+        const varsMentionsVariant = has(text, ["enzyme variant","structural variant","strain a","strain b","which enzyme","independent","structure"]);
+        if (rqMentionsStructure && !varsMentionsVariant) {
+            return "⚠️ Coherence check: Your research question named the enzyme structural variant as the key variable, but your variables section doesn't reflect that clearly as the IV. Make sure your IV matches what you identified in Step 3.";
+        }
+    }
+
+    return null;
 }
 
-// ── PRIOR PANEL ──
-function updatePriorPanel() {
-    const panel = document.getElementById("priorResponses");
-    const list  = document.getElementById("priorResponsesList");
-    const prior = responses.slice(0, currentStepIndex).filter(Boolean);
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+let currentStep = 0;
+let responses = Array(STEPS.length).fill("");
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER STEP
+// ─────────────────────────────────────────────────────────────────────────────
+function loadStep() {
+    const idx = currentStep;
+    const prompt = RESEARCHER.prompts[idx];
+
+    document.getElementById("stepName").textContent = STEPS[idx];
+    document.getElementById("stepCounter").textContent = `Step ${idx + 1} of ${STEPS.length}`;
+    document.getElementById("stepSubtitle").textContent = STEP_SUBTITLES[idx];
+    document.getElementById("definitionText").textContent = STEP_DEFINITIONS[idx];
+    document.getElementById("infoBtn").setAttribute("data-tip", STEP_DEFINITIONS[idx]);
+    document.getElementById("progressLabel").textContent = `Progress — Step ${idx + 1} of ${STEPS.length}`;
+    document.getElementById("progressFill").style.width = `${(idx / (STEPS.length - 1)) * 100}%`;
+    document.getElementById("contextText").textContent = RESEARCHER.contextByStep[idx];
+    document.getElementById("promptLabel").textContent = prompt.label;
+    document.getElementById("promptHelper").textContent = prompt.helper;
+    document.getElementById("responseInput").value = responses[idx] || "";
+    document.getElementById("feedbackArea").innerHTML = "";
+    document.getElementById("coherenceAlert").textContent = "";
+    document.getElementById("coherenceAlert").classList.remove("visible");
+
+    const checklistEl = document.getElementById("checklistArea");
+    checklistEl.innerHTML = "";
+    prompt.checklist.forEach(item => {
+        const chip = document.createElement("span");
+        chip.className = "check-chip";
+        chip.textContent = item;
+        checklistEl.appendChild(chip);
+    });
+
+    updatePriorPanel(idx);
+    document.getElementById("prevBtn").disabled = idx === 0;
+    document.getElementById("nextBtn").textContent = idx === STEPS.length - 1 ? "Finish & See Summary →" : "Check & Continue →";
+    document.getElementById("compareCard").classList.remove("visible");
+}
+
+function updatePriorPanel(idx) {
+    const panel = document.getElementById("priorPanel");
+    const list = document.getElementById("priorList");
+    const prior = responses.slice(0, idx).filter(Boolean);
     if (prior.length === 0) { panel.classList.remove("visible"); return; }
     panel.classList.add("visible");
     list.innerHTML = prior.map((r, i) => `
         <div class="prior-entry">
             <div class="prior-step-label">${STEPS[i]}</div>
-            <div style="font-size:0.83rem; color:var(--near-black);">${escapeHtml(r)}</div>
+            <p>${r}</p>
         </div>
     `).join("");
 }
 
-function escapeHtml(str) {
-    return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+// ─────────────────────────────────────────────────────────────────────────────
+// FEEDBACK
+// ─────────────────────────────────────────────────────────────────────────────
+function runFeedback() {
+    const text = (document.getElementById("responseInput").value || "").toLowerCase().trim();
+    const feedbackEl = document.getElementById("feedbackArea");
+    const chips = Array.from(document.getElementById("checklistArea").children);
+
+    chips.forEach((c, i) => { c.className = "check-chip"; c.textContent = RESEARCHER.prompts[currentStep].checklist[i]; });
+
+    if (!text) { feedbackEl.innerHTML = `<div class="feedback-warn">⚠️ Please write something before continuing.</div>`; return false; }
+    if (wordCount(text) < 5) { feedbackEl.innerHTML = `<div class="feedback-warn">⚠️ Your answer is very brief — try to be more specific and detailed.</div>`; return false; }
+
+    const messages = RUBRICS[currentStep](text, chips);
+
+    const coherenceMsg = checkCoherence(currentStep, text, responses);
+    const coherenceEl = document.getElementById("coherenceAlert");
+    if (coherenceMsg) { coherenceEl.textContent = coherenceMsg; coherenceEl.classList.add("visible"); }
+
+    if (messages.length === 1 && messages[0].type === "good") {
+        feedbackEl.innerHTML = `<div class="feedback-good feedback-item">${messages[0].text}</div>`;
+        return true;
+    }
+
+    feedbackEl.innerHTML = messages.map(m => {
+        const cls = m.type === "good" ? "feedback-good" : m.type === "partial" ? "feedback-partial" : "feedback-warn";
+        return `<div class="${cls} feedback-item">${m.text}</div>`;
+    }).join("");
+
+    return !messages.some(m => m.type === "warn");
 }
 
-// ── NAVIGATION ──
-function prevStep() {
-    if (currentStepIndex === 0) return;
-    saveResponse();
-    currentStepIndex--;
-    loadStep();
-}
-
+// ─────────────────────────────────────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────────────────────────────────────
 function nextStep() {
-    saveResponse();
-    const valid = giveFeedback();
-
+    responses[currentStep] = document.getElementById("responseInput").value.trim();
+    const passed = runFeedback();
     if (!document.getElementById("responseInput").value.trim()) return;
-
-    if (currentStepIndex === STEPS.length - 1) {
-        // Last step — show compare table
-        fillCompareTable();
-        document.getElementById("compareCard").classList.remove("hidden");
+    if (currentStep === STEPS.length - 1) {
+        fillCompareCard();
+        document.getElementById("compareCard").classList.add("visible");
         document.getElementById("compareCard").scrollIntoView({ behavior: "smooth", block: "start" });
         return;
     }
-
-    // Advance after brief pause so student sees feedback
-    setTimeout(() => {
-        currentStepIndex++;
-        loadStep();
-    }, 700);
+    if (passed) { setTimeout(() => { currentStep++; loadStep(); window.scrollTo({ top: 0, behavior: "smooth" }); }, 600); }
 }
 
-function saveResponse() {
-    responses[currentStepIndex] = document.getElementById("responseInput").value.trim();
+function prevStep() {
+    if (currentStep === 0) return;
+    responses[currentStep] = document.getElementById("responseInput").value.trim();
+    currentStep--;
+    loadStep();
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// ── FEEDBACK ──
-function giveFeedback() {
-    const text  = document.getElementById("responseInput").value.toLowerCase();
-    const fbDiv = document.getElementById("feedbackArea");
-
-    if (!text.trim()) {
-        fbDiv.textContent  = "⚠️ Please write something before continuing.";
-        fbDiv.className    = "feedback warn";
-        return false;
-    }
-
-    const required = RESEARCHER.prompts[currentStepIndex].requiredKeywords || [];
-    const missing  = required.filter(kw => !text.includes(kw.toLowerCase()));
-
-    if (missing.length > 0) {
-        fbDiv.textContent = `❌ Missing key concepts: ${missing.join(", ")}. Revise to strengthen your answer.`;
-        fbDiv.className   = "feedback warn";
-        return false;
-    }
-
-    fbDiv.textContent = "✅ Good! Your answer includes the required elements. You can refine, but the core is solid.";
-    fbDiv.className   = "feedback good";
-    return true;
-}
-
-// ── COMPARE TABLE ──
-function fillCompareTable() {
-    const body = document.getElementById("compareBody");
-    body.innerHTML = "";
+function fillCompareCard() {
+    const tbody = document.getElementById("compareBody");
+    tbody.innerHTML = "";
     RESEARCHER.compareRows.forEach(row => {
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td><strong>${row.level}</strong></td><td>${row.what}</td><td>${row.inModule}</td>`;
-        body.appendChild(tr);
+        tr.innerHTML = `<td>${row.level}</td><td>${row.what}</td><td>${row.inModule}</td>`;
+        tbody.appendChild(tr);
     });
 }
 
-// ── EMAIL ──
 function emailResponses() {
-    let body = `Scientific Process — ${RESEARCHER.emailLabel}\n\n`;
-    STEPS.forEach((step, idx) => {
-        body += `${step}:\n${responses[idx] || "(no response)"}\n\n`;
-    });
+    let body = `Scientific Process — ${RESEARCHER.label}\n\n`;
+    STEPS.forEach((step, i) => { body += `${step}:\n${responses[i] || "(no response)"}\n\n`; });
     body += "\n-- Sent from the UWP Biology Scientific Process tool.";
-    const mailto = `mailto:harria01@uwp.edu?subject=${encodeURIComponent("Scientific Process: " + RESEARCHER.emailLabel)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+    window.location.href = `mailto:${RESEARCHER.email}?subject=${encodeURIComponent("Scientific Process: " + RESEARCHER.label + " Responses")}&body=${encodeURIComponent(body)}`;
 }
 
-// ── HELP PANEL ──
-const helpPanel  = document.getElementById("helpPanel");
-const toggleBtn  = document.getElementById("toggleHelpBtn");
-const closeBtn   = document.getElementById("closeHelpBtn");
-
-toggleBtn.addEventListener("click", () => {
+// ─────────────────────────────────────────────────────────────────────────────
+// HELP PANEL
+// ─────────────────────────────────────────────────────────────────────────────
+const helpToggle = document.getElementById("helpToggle");
+const helpPanel = document.getElementById("helpPanel");
+const helpClose = document.getElementById("helpClose");
+helpToggle.style.display = "block";
+helpToggle.addEventListener("click", () => {
     helpPanel.classList.toggle("collapsed");
-    toggleBtn.textContent = helpPanel.classList.contains("collapsed") ? "❓ Help" : "❓ Need Help?";
+    helpToggle.textContent = helpPanel.classList.contains("collapsed") ? "❓ Need Help?" : "❓ Hide Help";
 });
-closeBtn.addEventListener("click", () => {
-    helpPanel.classList.add("collapsed");
-    toggleBtn.textContent = "❓ Help";
-});
+helpClose.addEventListener("click", () => { helpPanel.classList.add("collapsed"); helpToggle.textContent = "❓ Need Help?"; });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+loadStep();
 </script>
 </body>
 </html>
