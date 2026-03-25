@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Osmosis & Tonicity Lab</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+    :root {
+      --black: #0f0f0f;
+      --gold: #F5A800;
+      --gold-lt: #FFC94D;
+      --gold-dim: #a37000;
+      --white: #fff;
+      --gray1: #f0ede8;
+      --gray2: #ddd9d2;
+      --blue: #1a4e8c;
+      --brown: #7a3b0a;
+      --green: #1b6b2f;
+      --green-lt: #2d9e47;
+      --red: #c0392b;
+      --water: #c8e6f7;
+      --panel-bg: #181818;
+      --panel-border: #2a2a2a;
+      --step-active: #F5A800;
+      --step-done: #2d9e47;
+      --step-todo: #2a2a2a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--gray1);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════
+   HEADER
+═══════════════════════════════════════ */
+    .hdr {
+      background: var(--black);
+      border-bottom: 3px solid var(--gold);
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.4rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .hdr-left {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+    }
+
+    .hdr-badge {
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: .72rem;
+      padding: 3px 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .hdr-title {
+      color: #ccc;
+      font-size: .8rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .hdr-score {
+      color: #aaa;
+      font-size: .8rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ═══════════════════════════════════════
+   PHASE TRACKER (top nav)
+═══════════════════════════════════════ */
+    .phase-bar {
+      background: #141414;
+      border-bottom: 1px solid #222;
+      padding: .6rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .phase-label {
+      color: var(--gold);
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-right: .3rem;
+    }
+
+    .phase-step {
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      background: #1e1e1e;
+      border: 1.5px solid #333;
+      padding: .28rem .7rem;
+      cursor: pointer;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: #555;
+      transition: all .2s;
+      position: relative;
+    }
+
+    .phase-step.active {
+      background: var(--gold);
+      color: var(--black);
+      border-color: var(--gold);
+    }
+
+    .phase-step.done {
+      background: #0d2010;
+      color: var(--step-done);
+      border-color: var(--step-done);
+    }
+
+    .phase-step .ps-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    .phase-sep {
+      color: #333;
+      font-size: .9rem;
+    }
+
+    /* ═══════════════════════════════════════
+   PRE-LAB TEACHING SCREEN
+═══════════════════════════════════════ */
+    #prelabScreen {
+      display: flex;
+      min-height: calc(100vh - 97px);
+    }
+
+    .prelab-sidebar {
+      width: 260px;
+      min-width: 260px;
+      background: var(--black);
+      border-right: 1px solid #222;
+      padding: 1.2rem 0;
+      position: sticky;
+      top: 97px;
+      height: calc(100vh - 97px);
+      overflow-y: auto;
+    }
+
+    .sidebar-title {
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #555;
+      padding: 0 1.2rem .8rem;
+      border-bottom: 1px solid #1e1e1e;
+      margin-bottom: .6rem;
+    }
+
+    .sb-item {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .6rem 1.2rem;
+      cursor: pointer;
+      transition: background .15s;
+      border-left: 3px solid transparent;
+    }
+
+    .sb-item:hover {
+      background: #151515;
+    }
+
+    .sb-item.active {
+      border-left-color: var(--gold);
+      background: #151515;
+    }
+
+    .sb-item.done {
+      border-left-color: var(--step-done);
+    }
+
+    .sb-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #1e1e1e;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
+      font-weight: 700;
+      color: #555;
+      flex-shrink: 0;
+      transition: all .2s;
+    }
+
+    .sb-item.active .sb-num {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--black);
+    }
+
+    .sb-item.done .sb-num {
+      background: var(--step-done);
+      border-color: var(--step-done);
+      color: #fff;
+    }
+
+    .sb-text {
+      font-size: .8rem;
+      color: #777;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    .sb-item.active .sb-text {
+      color: #eee;
+    }
+
+    .sb-item.done .sb-text {
+      color: #4caf50;
+    }
+
+    .prelab-content {
+      flex: 1;
+      padding: 2rem 2.5rem;
+      overflow-y: auto;
+      max-width: 820px;
+    }
+
+    /* Teaching card */
+    .teach-card {
+      display: none;
+      animation: fadeSlideIn .35s ease;
+    }
+
+    .teach-card.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .step-eyebrow {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .4rem;
+    }
+
+    .step-heading {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+
+    .step-body {
+      font-size: .95rem;
+      line-height: 1.7;
+      color: #000000;
+      margin-bottom: 1.4rem;
+    }
+
+    .step-body strong {
+      color: var(--black);
+    }
+
+    /* Concept box */
+    .concept-box {
+      background: var(--black);
+      color: #eee;
+      border-left: 4px solid var(--gold);
+      padding: 1rem 1.3rem;
+      margin-bottom: 1.4rem;
+      font-size: .88rem;
+      line-height: 1.6;
+    }
+
+    .concept-box .cb-title {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .5rem;
+    }
+
+    .concept-box strong {
+      color: var(--gold-lt);
+    }
+
+    /* Draw box — ADHD pen-and-paper instruction */
+    .draw-box {
+      background: #fffbf0;
+      border: 2px dashed #d4a017;
+      padding: 1.1rem 1.3rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .draw-box .db-title {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #000000;
+      margin-bottom: .6rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .draw-box .db-steps {
+      list-style: none;
+      counter-reset: draw-counter;
+    }
+
+    .draw-box .db-steps li {
+      counter-increment: draw-counter;
+      display: flex;
+      gap: .7rem;
+      align-items: flex-start;
+      font-size: .87rem;
+      line-height: 1.5;
+      color: #000000;
+      padding: .25rem 0;
+    }
+
+    .draw-box .db-steps li::before {
+      content: counter(draw-counter);
+      background: #d4a017;
+      color: white;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      font-weight: 700;
+      min-width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Equation display */
+    .eq-display {
+      background: #f8f8f8;
+      border: 1px solid var(--gray2);
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      flex-wrap: wrap;
+    }
+
+    .eq-part {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .eq-plus {
+      color: #999;
+      font-size: 1.2rem;
+    }
+
+    .eq-eq {
+      color: #999;
+      font-size: 1.2rem;
+    }
+
+    .eq-solute {
+      color: var(--brown);
+    }
+
+    .eq-solvent {
+      color: var(--blue);
+    }
+
+    .eq-result {
+      color: var(--green);
+    }
+
+    /* Prefix table */
+    .prefix-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.4rem;
+    }
+
+    .prefix-table th {
+      background: var(--black);
+      color: var(--gold);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .55rem .8rem;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .prefix-table td {
+      padding: .6rem .8rem;
+      font-size: .88rem;
+      border-bottom: 1px solid var(--gray2);
+    }
+
+    .prefix-table tr:nth-child(even) td {
+      background: #f8f6f2;
+    }
+
+    .prefix-table .pref {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .prefix-table .hypo {
+      color: var(--blue);
+    }
+
+    .prefix-table .hyper {
+      color: var(--red);
+    }
+
+    .prefix-table .iso {
+      color: var(--green);
+    }
+
+    /* Mini beaker diagrams for teaching */
+    .mini-beakers {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.4rem;
+    }
+
+    .mini-beaker {
+      flex: 1;
+      min-width: 160px;
+      background: #fff;
+      border: 1.5px solid var(--gray2);
+      padding: .9rem;
+      text-align: center;
+    }
+
+    .mini-beaker svg {
+      width: 100%;
+      height: 120px;
+    }
+
+    .mini-b-label {
+      font-size: .78rem;
+      font-weight: 700;
+      margin-top: .5rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .mini-b-sub {
+      font-size: .72rem;
+      color: #666;
+      margin-top: .15rem;
+    }
+
+    /* Memory anchor */
+    .memory-anchor {
+      background: #fff8e1;
+      border: 2px solid #f5a800;
+      padding: .9rem 1.2rem;
+      margin-bottom: 1.4rem;
+      display: flex;
+      gap: .8rem;
+      align-items: flex-start;
+    }
+
+    .ma-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .ma-text {
+      font-size: .87rem;
+      line-height: 1.55;
+      color: #000000;
+    }
+
+    .ma-text strong {
+      color: var(--black);
+    }
+
+    /* Check-yourself quiz within pre-lab */
+    .check-quiz {
+      background: var(--black);
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .cq-title {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      margin-bottom: .8rem;
+    }
+
+    .cq-q {
+      font-size: .9rem;
+      color: #ccc;
+      margin-bottom: .6rem;
+      line-height: 1.5;
+    }
+
+    .cq-opts {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+    }
+
+    .cq-opt {
+      background: #1e1e1e;
+      border: 1.5px solid #333;
+      color: #bbb;
+      padding: .45rem .9rem;
+      font-size: .85rem;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: all .15s;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .cq-opt:hover:not(:disabled) {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .cq-opt.correct {
+      border-color: #66bb6a;
+      background: #0e2010;
+      color: #a5d6a7;
+    }
+
+    .cq-opt.wrong {
+      border-color: #ef5350;
+      background: #2e0a0a;
+      color: #ef9a9a;
+    }
+
+    .cq-opt:disabled {
+      cursor: default;
+    }
+
+    .cq-fb {
+      display: none;
+      margin-top: .6rem;
+      font-size: .82rem;
+      padding: .45rem .7rem;
+    }
+
+    .cq-fb.show {
+      display: block;
+    }
+
+    .cq-fb.ok {
+      background: #0e2010;
+      color: #a5d6a7;
+      border-left: 3px solid #66bb6a;
+    }
+
+    .cq-fb.err {
+      background: #2e0a0a;
+      color: #ef9a9a;
+      border-left: 3px solid #ef5350;
+    }
+
+    /* Nav buttons */
+    .step-nav {
+      display: flex;
+      gap: .6rem;
+      margin-top: 2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--gray2);
+    }
+
+    .btn-step {
+      padding: .55rem 1.4rem;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 2px solid transparent;
+      font-family: inherit;
+      transition: all .15s;
+    }
+
+    .btn-step.secondary {
+      background: transparent;
+      color: #666;
+      border-color: var(--gray2);
+    }
+
+    .btn-step.secondary:hover {
+      border-color: #999;
+      color: #333;
+    }
+
+    .btn-step.primary {
+      background: var(--gold);
+      color: var(--black);
+      border-color: var(--gold);
+    }
+
+    .btn-step.primary:hover {
+      background: var(--gold-lt);
+    }
+
+    .btn-step.launch {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
+      font-size: .9rem;
+      padding: .7rem 2rem;
+    }
+
+    .btn-step.launch:hover {
+      background: var(--green-lt);
+    }
+
+    /* Progress indicator inside card */
+    .card-progress {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 1.4rem;
+    }
+
+    .cp-dot {
+      height: 4px;
+      flex: 1;
+      background: var(--gray2);
+      transition: background .3s;
+    }
+
+    .cp-dot.done {
+      background: var(--step-done);
+    }
+
+    .cp-dot.active {
+      background: var(--gold);
+    }
+
+    /* ═══════════════════════════════════════
+   LAB SCREEN (original layout, upgraded)
+═══════════════════════════════════════ */
+    #labScreen {
+      display: none;
+    }
+
+    /* RUN PROGRESS */
+    .prog {
+      background: var(--black);
+      padding: .65rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      flex-wrap: wrap;
+      border-bottom: 2px solid #1e1e1e;
+    }
+
+    .prog-lbl {
+      color: var(--gold);
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .dot {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #1e1e1e;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      font-weight: 700;
+      color: #555;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .dot.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--black);
+    }
+
+    .dot.done {
+      background: var(--step-done);
+      border-color: var(--step-done);
+      color: #fff;
+    }
+
+    .hdr-score {
+      margin-left: auto;
+      color: #aaa;
+      font-size: .78rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* MAIN GRID */
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      min-height: calc(100vh - 130px);
+    }
+
+    /* LEFT: BEAKER PANEL */
+    .bpanel {
+      background: #fff;
+      padding: 1.2rem 1.4rem .8rem;
+      border-right: 1px solid var(--gray2);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .run-hdr {
+      display: flex;
+      align-items: baseline;
+      gap: .75rem;
+      margin-bottom: .7rem;
+    }
+
+    .run-badge {
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: .7rem;
+      padding: 3px 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .run-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .eq-line {
+      font-size: .78rem;
+      color: #555;
+      padding: .35rem .7rem;
+      background: #f9f9f9;
+      border-left: 3px solid var(--gold);
+      margin-bottom: .7rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .svg-wrap {
+      flex: 1;
+    }
+
+    .svg-wrap svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* RIGHT: Q&A PANEL */
+    .qpanel {
+      background: var(--black);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-height: calc(100vh - 130px);
+      position: sticky;
+      top: 0;
+    }
+
+    .qinner {
+      padding: 1.1rem 1.2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      flex: 1;
+    }
+
+    .q-intro {
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: .9rem;
+      line-height: 1.5;
+    }
+
+    .qa-sec {
+      margin-bottom: 1rem;
+      border-left: 4px solid #2d2d2d;
+      padding-left: .8rem;
+      transition: border-color .3s;
+    }
+
+    .qa-sec.active {
+      border-left-color: var(--gold);
+    }
+
+    .qa-sec.done {
+      border-left-color: var(--step-done);
+    }
+
+    .qa-lbl {
+      font-size: .63rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--gold);
+      margin-bottom: .28rem;
+    }
+
+    .qa-lbl.done {
+      color: #81c784;
+    }
+
+    .qa-q {
+      font-size: .84rem;
+      color: #ccc;
+      margin-bottom: .4rem;
+      line-height: 1.45;
+    }
+
+    .qa-row {
+      display: flex;
+      gap: .4rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    select {
+      background: #1e1e1e;
+      color: #eee;
+      border: 2px solid #444;
+      padding: .36rem .6rem;
+      font-size: .86rem;
+      font-family: inherit;
+      flex: 1;
+      min-width: 155px;
+      transition: border-color .2s;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    select.ok {
+      border-color: #66bb6a;
+      background: #0e2010;
+    }
+
+    select.err {
+      border-color: #ef5350;
+      background: #2e0a0a;
+    }
+
+    .btn-chk {
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: .38rem .8rem;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-chk:hover {
+      background: var(--gold-lt);
+    }
+
+    .fb {
+      display: none;
+      margin-top: .3rem;
+      font-size: .79rem;
+      line-height: 1.4;
+      padding: .38rem .6rem;
+      border-left: 3px solid transparent;
+    }
+
+    .fb.show {
+      display: block;
+    }
+
+    .fb.ok {
+      background: #0e2010;
+      color: #a5d6a7;
+      border-color: #66bb6a;
+    }
+
+    .fb.err {
+      background: #2e0a0a;
+      color: #ef9a9a;
+      border-color: #ef5350;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #2a2a2a;
+      margin: .75rem 0;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .28rem;
+      margin: .22rem 0 .45rem;
+    }
+
+    .chip {
+      background: #1e1e1e;
+      border: 1px solid #444;
+      color: var(--gold-lt);
+      font-size: .74rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      letter-spacing: .03em;
+    }
+
+    .nav-btns {
+      display: flex;
+      gap: .4rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .btn-nav {
+      background: #1e1e1e;
+      color: #ccc;
+      border: 2px solid #333;
+      padding: .4rem .95rem;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .15s;
+      font-family: inherit;
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .btn-nav.primary {
+      background: var(--gold);
+      color: var(--black);
+      border-color: var(--gold);
+    }
+
+    .btn-nav.primary:hover:not(:disabled) {
+      background: var(--gold-lt);
+    }
+
+    .btn-nav:disabled {
+      opacity: .3;
+      cursor: not-allowed;
+    }
+
+    .score-box {
+      background: #111;
+      border: 1px solid #222;
+      padding: .7rem .9rem;
+      margin-top: 1rem;
+    }
+
+    .score-num {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--gold);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .score-sub {
+      font-size: .68rem;
+      color: #555;
+    }
+
+    /* FINISH BANNER */
+    .finish {
+      display: none;
+      text-align: center;
+      background: var(--gold);
+      color: var(--black);
+      padding: 3rem 2rem;
+    }
+
+    .finish.show {
+      display: block;
+    }
+
+    .finish h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: .5rem;
+    }
+
+    .finish .big {
+      font-size: 3rem;
+      font-weight: 700;
+      display: block;
+      margin: .5rem 0 1rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .prelab-sidebar {
+        display: none;
+      }
+
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .qpanel {
+        max-height: none;
+        position: static;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .prelab-content {
+        padding: 1.2rem 1rem;
+      }
+
+      .step-heading {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════ -->
+  <header class="hdr">
+    <div class="hdr-left">
+      <span class="hdr-badge"> </span>
+      <span class="hdr-title">Osmosis &amp; Tonicity Lab</span>
+    </div>
+    <span class="hdr-score" id="hdrScore">Score: <strong style="color:var(--gold)">0</strong> / 42</span>
+  </header>
+
+  <!-- PHASE BAR -->
+  <div class="phase-bar">
+    <span class="phase-label">Phase:</span>
+    <div class="phase-step active" id="phaseA" onclick="showPhase('prelab')">
+      <span class="ps-num">①</span> Pre-Lab Concepts
+    </div>
+    <span class="phase-sep">›</span>
+    <div class="phase-step" id="phaseB" onclick="showPhase('lab')">
+      <span class="ps-num">②</span> Interactive Lab
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+     PRE-LAB SCREEN
+═══════════════════════════════════════════ -->
+  <div id="prelabScreen">
+
+    <!-- Sidebar nav -->
+    <div class="prelab-sidebar">
+      <div class="sidebar-title">Concepts to Master</div>
+
+      <div class="sb-item active" id="sb0" onclick="goStep(0)">
+        <div class="sb-num">1</div>
+        <div class="sb-text">The Solution Equation</div>
+      </div>
+      <div class="sb-item" id="sb1" onclick="goStep(1)">
+        <div class="sb-num">2</div>
+        <div class="sb-text">What We Monitor</div>
+      </div>
+      <div class="sb-item" id="sb2" onclick="goStep(2)">
+        <div class="sb-num">3</div>
+        <div class="sb-text">Osmolarity — Our Tool</div>
+      </div>
+      <div class="sb-item" id="sb3" onclick="goStep(3)">
+        <div class="sb-num">4</div>
+        <div class="sb-text">Hypo · Iso · Hyper</div>
+      </div>
+      <div class="sb-item" id="sb4" onclick="goStep(4)">
+        <div class="sb-num">5</div>
+        <div class="sb-text">Water Follows Solute</div>
+      </div>
+      <div class="sb-item" id="sb5" onclick="goStep(5)">
+        <div class="sb-num">6</div>
+        <div class="sb-text">Cell Outcomes</div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="prelab-content">
+
+      <!-- ═══ STEP 1 ═══ -->
+      <div class="teach-card active" id="card0">
+        <div class="card-progress">
+          <div class="cp-dot active"></div>
+          <div class="cp-dot"></div>
+          <div class="cp-dot"></div>
+          <div class="cp-dot"></div>
+          <div class="cp-dot"></div>
+          <div class="cp-dot"></div>
+        </div>
+
+        <div class="step-eyebrow">Step 1 of 6 · Foundation</div>
+        <h1 class="step-heading">The Solution Equation</h1>
+
+        <p class="step-body">
+          Every solution in biology — whether it's saltwater, your blood, or the fluid in a beaker — is made of the same
+          two things. Before we can talk about tonicity, you need to have this equation locked in your head.
+        </p>
+
+        <div class="eq-display">
+          <span class="eq-part eq-result">Solution</span>
+          <span class="eq-eq">=</span>
+          <span class="eq-part eq-solute">Solute</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-part eq-solvent">Solvent</span>
+          <span style="font-size:.75rem;color:#000000;margin-left:.5rem;">→ always adds to 100%</span>
+        </div>
+
+        <div class="concept-box">
+          <div class="cb-title">🔑 Key Definitions</div>
+          <strong>Solute</strong> — the dissolved particles. In our lab: <strong>NaCl</strong> (sodium chloride =
+          salt).<br><br>
+          <strong>Solvent</strong> — the dissolving liquid. In our lab: <strong>H₂O</strong> (water).<br><br>
+          <strong>Solution</strong> — the combined result. Always 100%: if NaCl is 5%, then H₂O must be 95%.
+        </div>
+
+        <div class="draw-box">
+          <div class="db-title">✏️ Draw Along — Your Paper, Right Now</div>
+          <ol class="db-steps">
+            <li>At the top of a blank page, write the equation: <strong>Solution = Solute + Solvent</strong></li>
+            <li>Below it write: <strong>NaCl (solute) + H₂O (solvent) = 100%</strong></li>
+            <li>Draw a simple rectangle. Label it "Beaker." — this is your solution.</li>
+            <li>Inside the beaker, write: <strong>NaCl = 5%</strong> and <strong>H₂O = 95%</strong>.</li>
+          </ol>
+        </div>
+
+        <div class="memory-anchor">
+          <div class="ma-icon">💡</div>
+          <div class="ma-text">
+            <strong>Quick test:</strong> If a solution is 10% NaCl, what percent is H₂O? — It must be
+            <strong>90%</strong>. They always sum to 100%. Keep this reflex sharp — you'll use it in every single run of
+            the lab.
+          </div>
+        </div>
+
+        <div class="check-quiz" id="quiz0">
+          <div class="cq-title">✓ Check Yourself Before Moving On</div>
+          <div class="cq-q">A solution has 8% NaCl. What percent is H₂O?</div>
+          <div class="cq-opts">
+            <button class="cq-opt" onclick="answerQuiz(0, this, false)">8%</button>
+            <button class="cq-opt" onclick="answerQuiz(0, this, true)">92%</button>
+            <button class="cq-opt" onclick="answerQuiz(0, this, false)">100%</button>
+          </div>
+          <div class="cq-fb" id="qfb0"></div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-step primary" onclick="goStep(1)">Next: What We Monitor →</button>
+        </div>
+      </div>
+
+      <!-- ═══ STEP 2 ═══ -->
+      <div class="teach-card" id="card1">
+        <div class="card-progress">
+          <div class="cp-dot done"></div>
+          <div class="cp-dot active"></div>
+          <div class="cp-dot"></div>
+          <div class="cp-dot"></div>
+          <div class="cp-dot"></div>
+          <div class="cp-dot"></div>
+        </div>
+
+        <div class="step-eyebrow">Step 2 of 6 · The Core Assessment</div>
+        <h1 class="step-heading">What Are We Actually Monitoring?</h1>
+
+        <p class="step-body">
+          To assess tonicity, we monitor the <strong>concentration of solute</strong> — specifically, how much NaCl is
+          on each side of the cell membrane. The solute concentration is what we compare. It is our measuring stick.
+        </p>
+
+        <div class="concept-box">
+          <div class="cb-title">🔬 The Core Question of Tonicity</div>
+          <strong>"How much solute (NaCl) is in the solution compared to inside the cell?"</strong><br><br>
+          We look at the NaCl percentage on the <strong>outside</strong> of the cell versus the NaCl percentage on the
+          <strong>inside</strong> of the cell. That comparison tells us everything about tonicity.
+        </div>
+
+        <p class="step-body">
+          Water movement is the <em>consequence</em> of the solute difference — it happens automatically after we
+          identify the solute concentrations. But the <strong>assessment itself starts and ends with solute</strong>.
+        </p>
+
+        <div class="draw-box">
+          <div class="db-title">✏️ Draw Along — Add to Your Beaker</div>
+          <ol class="db-steps">
+            <li>Draw a beaker.</li>
+            <li>Draw a plant cell inside the beaker.</li>
+            <li>Label the cellulose cell wall and the plasma membrane.</li>
+
+            <li class="step-heading">Outside the plant cell (inside the beaker)</li>
+
+            <li>Draw three lines and write “NaCl” to the right of the third line.</li>
+            <li>Draw three lines and write “H₂O” to the right of the third line.</li>
+            <li>Repeat the two steps above inside the plant cell.</li>
+
+            <li>Write <strong>0%</strong> on the third NaCl line outside the plant cell.</li>
+            <li>Write <strong>100%</strong> on the third H₂O line outside the plant cell.</li>
+            <li>Write <strong>10%</strong> on the third NaCl line inside the plant cell.</li>
+            <li>Write <strong>90%</strong> on the third H₂O line inside the plant cell.</li>
+
+            <li>Draw a down arrow on the second NaCl line outside the plant cell (less NaCl).</li>
+            <li>Draw an up arrow on the second NaCl line inside the plant cell.</li>
+            <li>Repeat the up/down arrows for H₂O.</li>
+
+            <li>Next to the down arrow for NaCl, write <strong>Hypo</strong>.</li>
+            <li>Next to the up arrow for NaCl, write <strong>Hyper</strong>.</li>
+
+            <li>Draw an arrow from more water to less water.</li>
+            <li>Next to the arrow, write <strong>“H₂O moves into the cell (in)”</strong>.</li>
+            <li>Next to the down arrow for H₂O, write <strong>Turgid</strong>.</li>
+          </ol>
+        </div>
+
+        <div class="memory-anchor">
+          <div class="ma-icon">⚠️</div>
+          <div class="ma-text">
+            <strong>Common mistake:</strong> Students say "we monitor water movement." We do observe water moving — but
+            what we're <em>assessing</em> is the solute concentration that caused it. Think of it this way: you read the
+            thermometer (solute), not the sweat (water).
+          </div>
+        </div>
+
+        <div class="check-quiz" id="quiz1">
+          <div class="cq-title">✓ Check Yourself</div>
+          <div class="cq-q">When assessing tonicity, the primary thing we compare is:</div>
+          <div class="cq-opts">
+            <button class="cq-opt" onclick="answerQuiz(1, this, false)">The amount of water on each side</button>
+            <button class="cq-opt" onclick="answerQuiz(1, this, true)">The concentration of solute on each side</button>
+            <button class="cq-opt" onclick="answerQuiz(1, this, false)">The size of the cell membrane</button>
+          </div>
+          <div class="cq-fb" id="qfb1"></div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-step secondary" onclick="goStep(0)">← Back</button>
+          <button class="btn-step primary" onclick="goStep(2)">Next: Our Measurement Tool →</button>
+        </div>
+      </div>
+
+      <!-- ═══ STEP 3 ═══ -->
+      <div class="teach-card" id="card2">
+        <div class="card-progress">
+          <div class="cp-dot done"></div>
+          <div class="cp-dot done"></div>
+          <div class="cp-dot active"></div>
+          <div class="cp-dot"></div>
+          <div class="cp-dot"></div>
+          <div class="cp-dot"></div>
+        </div>
+
+        <div class="step-eyebrow">Step 3 of 6 · The Measuring Tool</div>
+        <h1 class="step-heading">Osmolarity — Our Ruler</h1>
+
+        <p class="step-body">
+          We need a precise way to measure solute concentration. That tool is called <strong>osmolarity</strong>. It
+          counts the number of dissolved particles in a solution.
+        </p>
+
+        <div class="concept-box">
+          <div class="cb-title">📐 Definition</div>
+          <strong>Osmolarity</strong> = the number of osmotically active particles per liter of solution, expressed in
+          <strong>mOsm/L</strong> (milliosmoles per liter).<br><br>
+          <strong>Normal human plasma osmolarity = ~290 mOsm/L</strong><br><br>
+          This 290 mOsm/L is our reference point — the "normal" solute concentration inside a typical cell. Every
+          comparison in this lab is against this standard.
+        </div>
+
+        <div class="draw-box">
+          <div class="db-title">✏️ Draw Along</div>
+          <ol class="db-steps">
+            <li>Below your beaker drawing, write: <strong>Normal Cell = ~290 mOsm/L</strong> and circle it. This is your
+              anchor number.</li>
+            <li>Draw a horizontal number line. Mark 290 in the center. Label left side "LESS solute" and right side
+              "MORE solute."</li>
+            <li>Write "hypo zone" on the left, "iso zone" at 290, and "hyper zone" on the right. You'll fill these in
+              fully in Step 4.</li>
+          </ol>
+        </div>
+
+        <div class="memory-anchor">
+          <div class="ma-icon">🧮</div>
+          <div class="ma-text">
+            <strong>In our lab we use percentages, not mOsm/L</strong> — but the principle is identical. A 5% NaCl
+            solution has more solute particles than a 0% NaCl solution. More particles = higher osmolarity. Same logic,
+            simpler numbers.
+          </div>
+        </div>
+
+        <div class="check-quiz" id="quiz2">
+          <div class="cq-title">✓ Check Yourself</div>
+          <div class="cq-q">Osmolarity measures:</div>
+          <div class="cq-opts">
+            <button class="cq-opt" onclick="answerQuiz(2, this, false)">How fast water moves across a membrane</button>
+            <button class="cq-opt" onclick="answerQuiz(2, this, true)">The number of dissolved particles in a
+              solution</button>
+            <button class="cq-opt" onclick="answerQuiz(2, this, false)">The size of the cell membrane pores</button>
+          </div>
+          <div class="cq-fb" id="qfb2"></div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-step secondary" onclick="goStep(1)">← Back</button>
+          <button class="btn-step primary" onclick="goStep(3)">Next: Hypo · Iso · Hyper →</button>
+        </div>
+      </div>
+
+      <!-- ═══ STEP 4 ═══ -->
+      <div class="teach-card" id="card3">
+        <div class="card-progress">
+          <div class="cp-dot done"></div>
+          <div class="cp-dot done"></div>
+          <div class="cp-dot done"></div>
+          <div class="cp-dot active"></div>
+          <div class="cp-dot"></div>
+          <div class="cp-dot"></div>
+        </div>
+
+        <div class="step-eyebrow">Step 4 of 6 · The Three Categories</div>
+        <h1 class="step-heading">Hypo · Iso · Hyper</h1>
+
+        <p class="step-body">
+          These three Greek prefixes describe how much solute a solution has <em>compared to the cell</em>. The prefixes
+          are the vocabulary of tonicity — learn them as words with meaning, not just labels.
+        </p>
+
+        <table class="prefix-table">
+          <thead>
+            <tr>
+              <th>Prefix</th>
+              <th>Greek Meaning</th>
+              <th>Solute vs. Cell</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="pref hypo">Hypo-</td>
+              <td>Under / Less</td>
+              <td><strong>Less</strong> NaCl than cell</td>
+              <td>Pure water (0% NaCl) outside; 5% inside</td>
+            </tr>
+            <tr>
+              <td class="pref iso">Iso-</td>
+              <td>Equal / Same</td>
+              <td><strong>Equal</strong> NaCl to cell</td>
+              <td>5% NaCl outside; 5% NaCl inside</td>
+            </tr>
+            <tr>
+              <td class="pref hyper">Hyper-</td>
+              <td>Over / More</td>
+              <td><strong>More</strong> NaCl than cell</td>
+              <td>10% NaCl outside; 5% NaCl inside</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="draw-box">
+          <div class="db-title">✏️ Draw Along — Three Beakers Side by Side</div>
+          <ol class="db-steps">
+            <li>Draw three small beakers side by side. Inside each one draw a cell (oval).</li>
+            <li><strong>Beaker 1 (Hypotonic):</strong> Write "0% NaCl" outside the cell and "5% NaCl" inside. Label it
+              HYPO.</li>
+            <li><strong>Beaker 2 (Isotonic):</strong> Write "5% NaCl" both outside and inside. Label it ISO.</li>
+            <li><strong>Beaker 3 (Hypertonic):</strong> Write "10% NaCl" outside and "5% NaCl" inside. Label it HYPER.
+            </li>
+            <li>Under each label, write a one-word meaning: HYPO = <em>less</em>, ISO = <em>equal</em>, HYPER =
+              <em>more</em>.
+            </li>
+          </ol>
+        </div>
+
+        <div class="memory-anchor">
+          <div class="ma-icon">🏃</div>
+          <div class="ma-text">
+            <strong>Memory trick — Hyper vs. Hypo:</strong> A hyper child has TOO MUCH energy (more). A hypo-allergenic
+            product has VERY LITTLE allergen (less). Hyper = more. Hypo = less.
+          </div>
+        </div>
+
+        <div class="check-quiz" id="quiz3">
+          <div class="cq-title">✓ Check Yourself</div>
+          <div class="cq-q">A solution with MORE NaCl than the cell interior is called:</div>
+          <div class="cq-opts">
+            <button class="cq-opt" onclick="answerQuiz(3, this, false)">Hypotonic</button>
+            <button class="cq-opt" onclick="answerQuiz(3, this, false)">Isotonic</button>
+            <button class="cq-opt" onclick="answerQuiz(3, this, true)">Hypertonic</button>
+          </div>
+          <div class="cq-fb" id="qfb3"></div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-step secondary" onclick="goStep(2)">← Back</button>
+          <button class="btn-step primary" onclick="goStep(4)">Next: Water Follows Solute →</button>
+        </div>
+      </div>
+
+      <!-- ═══ STEP 5 ═══ -->
+      <div class="teach-card" id="card4">
+        <div class="card-progress">
+          <div class="cp-dot done"></div>
+          <div class="cp-dot done"></div>
+          <div class="cp-dot done"></div>
+          <div class="cp-dot done"></div>
+          <div class="cp-dot active"></div>
+          <div class="cp-dot"></div>
+        </div>
+
+        <div class="step-eyebrow">Step 5 of 6 · The Consequence</div>
+        <h1 class="step-heading">Water Follows Solute</h1>
+
+        <p class="step-body">
+          Now that you know tonicity is determined by solute concentration, here is the consequence: <strong>water
+            always moves toward the side with more solute</strong>. This movement through the membrane is called
+          <strong>osmosis</strong>.
+        </p>
+
+        <div class="concept-box">
+          <div class="cb-title">💧 The Rule of Osmosis</div>
+          Water moves from <strong>low solute → high solute</strong> (equivalently, from ↑ high H₂O% → ↓ low
+          H₂O%).<br><br>
+          <strong>Hypo</strong> outside (less NaCl outside) → water moves <strong>INTO</strong> the cell<br>
+          <strong>Iso</strong> (equal NaCl) → <strong>no net movement</strong><br>
+          <strong>Hyper</strong> outside (more NaCl outside) → water moves <strong>OUT OF</strong> the cell
+        </div>
+
+        <p class="step-body">
+          Water moves freely through the membrane — it cannot be stopped. Solute cannot cross
+          freely. So solute stays put and water does all the moving.
+        </p>
+
+        <div class="draw-box">
+          <div class="db-title">✏️ Draw Along — Add Water Arrows to Your Three Beakers</div>
+          <ol class="db-steps">
+            <li><strong>Beaker 1 (Hypo):</strong> Draw a bold arrow pointing INTO the cell. Label it "H₂O in → cell
+              swells."</li>
+            <li><strong>Beaker 2 (Iso):</strong> Draw two small equal arrows (one in, one out) or just write "No net
+              movement."</li>
+            <li><strong>Beaker 3 (Hyper):</strong> Draw a bold arrow pointing OUT OF the cell. Label it "H₂O out → cell
+              shrinks."</li>
+            <li>Box this rule at the bottom of the page: <strong>"Water chases solute across the membrane."</strong>
+            </li>
+          </ol>
+        </div>
+
+        <div class="memory-anchor">
+          <div class="ma-icon">🧂</div>
+          <div class="ma-text">
+            <strong>Real life check:</strong> Ever salt a cucumber and watch it "sweat"? The high salt outside pulls
+            water out of the cells — that's hypertonic at work. The salt concentration outside is greater than inside,
+            so water leaves. You just saw osmosis in your kitchen.
+          </div>
+        </div>
+
+        <div class="check-quiz" id="quiz4">
+          <div class="cq-title">✓ Check Yourself</div>
+          <div class="cq-q">A cell is placed in a hypotonic solution (less NaCl outside than inside). Water will move:
+          </div>
+          <div class="cq-opts">
+            <button class="cq-opt" onclick="answerQuiz(4, this, true)">Into the cell</button>
+            <button class="cq-opt" onclick="answerQuiz(4, this, false)">Out of the cell</button>
+            <button class="cq-opt" onclick="answerQuiz(4, this, false)">No movement occurs</button>
+          </div>
+          <div class="cq-fb" id="qfb4"></div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-step secondary" onclick="goStep(3)">← Back</button>
+          <button class="btn-step primary" onclick="goStep(5)">Next: Cell Outcomes →</button>
+        </div>
+      </div>
+
+      <!-- ═══ STEP 6 ═══ -->
+      <div class="teach-card" id="card5">
+        <div class="card-progress">
+          <div class="cp-dot done"></div>
+          <div class="cp-dot done"></div>
+          <div class="cp-dot done"></div>
+          <div class="cp-dot done"></div>
+          <div class="cp-dot done"></div>
+          <div class="cp-dot active"></div>
+        </div>
+
+        <div class="step-eyebrow">Step 6 of 6 · Outcomes</div>
+        <h1 class="step-heading">What Happens to the Cell?</h1>
+
+        <p class="step-body">
+          The final piece: once water moves in or out, the cell physically changes. Animal cells and plant cells respond
+          differently because plant cells have a rigid cell wall.
+        </p>
+
+        <table class="prefix-table">
+          <thead>
+            <tr>
+              <th>Solution</th>
+              <th>Animal Cell</th>
+              <th>Plant Cell</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="pref hypo">Hypotonic</span> (less NaCl outside)</td>
+              <td>Water enters → <strong>Lyse</strong> (bursts)</td>
+              <td>Water enters → <strong>Turgid</strong> (firm, wall holds)</td>
+            </tr>
+            <tr>
+              <td><span class="pref iso">Isotonic</span> (equal NaCl)</td>
+              <td>No change → <strong>Normal</strong></td>
+              <td>No change → <strong>Flaccid</strong> (limp)</td>
+            </tr>
+            <tr>
+              <td><span class="pref hyper">Hypertonic</span> (more NaCl outside)</td>
+              <td>Water leaves → <strong>Shrivel</strong> (crenation)</td>
+              <td>Water leaves → <strong>Plasmolyzed</strong> (membrane pulls away)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="draw-box">
+          <div class="db-title">✏️ Draw Along — Final Cell Outcomes</div>
+          <ol class="db-steps">
+            <li>Return to your three beakers. Under each animal cell, write the outcome word: <strong>Lyse / Normal /
+                Shrivel</strong>.</li>
+            <li>Sketch what each looks like: Lyse = exploding shape. Normal = smooth oval. Shrivel = spiky/wrinkled
+              oval.</li>
+            <li>Now draw the same three beakers again but label them as plant cells. Add a box around each oval to
+              represent the cell wall.</li>
+            <li>Write plant outcomes: <strong>Turgid / Flaccid / Plasmolyzed</strong>. For Plasmolyzed draw the membrane
+              pulled away from the wall.</li>
+            <li>Circle your entire drawing set and title it: <strong>"My Tonicity Reference Chart."</strong> Keep it
+              next to you for the lab.</li>
+          </ol>
+        </div>
+
+        <div class="memory-anchor">
+          <div class="ma-icon">🎯</div>
+          <div class="ma-text">
+            <strong>You are now ready for the lab.</strong> In the interactive section you will see all 6 of these runs
+            play out with live diagrams. Your drawing should match every scenario you encounter. If you get stuck, look
+            at your paper first — then use the diagram.
+          </div>
+        </div>
+
+        <div class="check-quiz" id="quiz5">
+          <div class="cq-title">✓ Final Check — Then Launch the Lab</div>
+          <div class="cq-q">A plant cell in a hypertonic solution will become:</div>
+          <div class="cq-opts">
+            <button class="cq-opt" onclick="answerQuiz(5, this, false)">Turgid</button>
+            <button class="cq-opt" onclick="answerQuiz(5, this, false)">Flaccid</button>
+            <button class="cq-opt" onclick="answerQuiz(5, this, true)">Plasmolyzed</button>
+          </div>
+          <div class="cq-fb" id="qfb5"></div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-step secondary" onclick="goStep(4)">← Back</button>
+          <button class="btn-step launch" onclick="launchLab()">🔬 Launch Interactive Lab →</button>
+        </div>
+      </div>
+
+    </div><!-- end prelab-content -->
+  </div><!-- end prelabScreen -->
+
+
+  <!-- ═══════════════════════════════════════════
+     LAB SCREEN
+═══════════════════════════════════════════ -->
+  <div id="labScreen">
+
+    <!-- Run progress dots -->
+    <div class="prog">
+      <span class="prog-lbl">Runs:</span>
+      <div class="dots">
+        <div class="dot active" id="dot0" onclick="goRun(0)">A1</div>
+        <div class="dot" id="dot1" onclick="goRun(1)">A2</div>
+        <div class="dot" id="dot2" onclick="goRun(2)">A3</div>
+        <div class="dot" id="dot3" onclick="goRun(3)">P1</div>
+        <div class="dot" id="dot4" onclick="goRun(4)">P2</div>
+        <div class="dot" id="dot5" onclick="goRun(5)">P3</div>
+      </div>
+      <span class="hdr-score" id="hdrScore2">Score: <strong style="color:var(--gold)">0</strong> / 42</span>
+    </div>
+
+    <div class="main" id="mainLayout">
+
+      <!-- ══ LEFT: BEAKER ══ -->
+      <div class="bpanel">
+        <div class="run-hdr">
+          <span class="run-badge" id="runBadge">Animal 1</span>
+          <span class="run-title" id="runTitle">Animal Cell · Run 1</span>
+        </div>
+        <div class="eq-line"><strong>Solution = Solute + Solvent</strong> &nbsp;|&nbsp; NaCl + H₂O = 100% always</div>
+        <div class="svg-wrap">
+          <svg viewBox="0 0 580 500" xmlns="http://www.w3.org/2000/svg" id="beakerSVG">
+            <defs>
+              <marker id="ahBlue" markerWidth="11" markerHeight="8" refX="11" refY="4" orient="auto">
+                <polygon points="0 0,11 4,0 8" fill="#1a4e8c" />
+              </marker>
+              <marker id="ahRed" markerWidth="5" markerHeight="4" refX="5" refY="2" orient="auto">
+                <polygon points="0 0,5 2,0 4" fill="#c0392b" />
+              </marker>
+              <marker id="ahRedRev" markerWidth="5" markerHeight="4" refX="0" refY="2" orient="auto-start-reverse">
+                <polygon points="0 0,5 2,0 4" fill="#c0392b" />
+              </marker>
+              <clipPath id="cellClip">
+                <ellipse id="cellClipEl" cx="290" cy="340" rx="146" ry="106" />
+              </clipPath>
+            </defs>
+
+            <rect x="28" y="28" width="524" height="444" fill="#c8e6f7" />
+            <rect id="cellWaterFill" x="142" y="448" width="296" height="0" fill="#2980b9" opacity="0.4"
+              clip-path="url(#cellClip)" />
+
+            <line x1="28" y1="18" x2="28" y2="472" stroke="#222" stroke-width="7" />
+            <line x1="552" y1="18" x2="552" y2="472" stroke="#222" stroke-width="7" />
+            <line x1="28" y1="472" x2="552" y2="472" stroke="#222" stroke-width="7" />
+            <line x1="14" y1="18" x2="75" y2="18" stroke="#222" stroke-width="5" />
+            <line x1="505" y1="18" x2="566" y2="18" stroke="#222" stroke-width="5" />
+
+            <ellipse id="svgCellWall" cx="290" cy="340" rx="157" ry="117" fill="none" stroke="#ffffff" stroke-width="18"
+              display="none" opacity="1" />
+            <ellipse id="svgCell" cx="290" cy="340" rx="148" ry="108" fill="white" stroke="#111" stroke-width="3.5" />
+
+            <g id="plasmoGroup" display="none">
+              <line id="tether1" x1="290" y1="214" x2="290" y2="255" stroke="#2e7d32" stroke-width="1.5"
+                stroke-dasharray="3,3" opacity="0.7" />
+              <line id="tether2" x1="426" y1="280" x2="360" y2="305" stroke="#2e7d32" stroke-width="1.5"
+                stroke-dasharray="3,3" opacity="0.7" />
+              <line id="tether3" x1="430" y1="390" x2="365" y2="368" stroke="#2e7d32" stroke-width="1.5"
+                stroke-dasharray="3,3" opacity="0.7" />
+              <line id="tether4" x1="290" y1="466" x2="290" y2="422" stroke="#2e7d32" stroke-width="1.5"
+                stroke-dasharray="3,3" opacity="0.7" />
+              <line id="tether5" x1="154" y1="390" x2="218" y2="368" stroke="#2e7d32" stroke-width="1.5"
+                stroke-dasharray="3,3" opacity="0.7" />
+              <line id="tether6" x1="150" y1="280" x2="218" y2="305" stroke="#2e7d32" stroke-width="1.5"
+                stroke-dasharray="3,3" opacity="0.7" />
+              <path id="plasmoMembrane" d="M 290,255 C 320,252 350,268 360,305 C 368,330 362,355 365,368
+                 C 368,382 350,415 290,422 C 230,415 212,382 218,368
+                 C 218,355 212,330 218,305 C 230,268 258,252 290,255 Z" fill="#d4edda" stroke="#2e7d32"
+                stroke-width="3.5" />
+              <circle cx="290" cy="255" r="4" fill="#2e7d32" opacity="0.6" />
+              <circle cx="360" cy="305" r="4" fill="#2e7d32" opacity="0.6" />
+              <circle cx="365" cy="368" r="4" fill="#2e7d32" opacity="0.6" />
+              <circle cx="290" cy="422" r="4" fill="#2e7d32" opacity="0.6" />
+              <circle cx="218" cy="368" r="4" fill="#2e7d32" opacity="0.6" />
+              <circle cx="218" cy="305" r="4" fill="#2e7d32" opacity="0.6" />
+            </g>
+
+            <path id="svgCellBurst" display="none" d="M 290,232 L 330,255 L 360,235 L 370,265 L 405,248 L 395,278
+                   L 435,272 L 415,298 L 438,318 L 408,328 L 438,348 L 405,352
+                   L 418,382 L 385,372 L 378,408 L 352,388 L 340,422 L 310,400
+                   L 295,432 L 275,405 L 255,428 L 248,400 L 218,415 L 225,383
+                   L 192,378 L 208,352 L 172,345 L 198,328 L 168,312 L 200,302
+                   L 178,276 L 212,280 L 202,250 L 235,262 L 242,232 L 265,252 Z" fill="rgba(200,230,247,0.6)"
+              stroke="#c0392b" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.9" />
+
+            <text x="290" y="285" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#888"
+              font-weight="700" letter-spacing="1">INSIDE CELL</text>
+
+            <text id="iH2Oa" x="206" y="320" text-anchor="end" font-family="Arial,sans-serif" font-size="26"
+              fill="#1a4e8c" font-weight="900"></text>
+            <text id="iH2O" x="212" y="320" text-anchor="start" font-family="Arial,sans-serif" font-size="23"
+              fill="#1a4e8c" font-weight="700">?% H₂O</text>
+
+            <text id="iNaCla" x="206" y="354" text-anchor="end" font-family="Arial,sans-serif" font-size="26"
+              fill="#7a3b0a" font-weight="900"></text>
+            <text id="iNaCl" x="212" y="354" text-anchor="start" font-family="Arial,sans-serif" font-size="23"
+              fill="#7a3b0a" font-weight="700">?% NaCl</text>
+            <rect id="iTonRect" x="212" y="337" width="0" height="22" rx="4" fill="#c0392b" display="none" />
+            <text id="iTonicLbl" x="216" y="353" text-anchor="start" font-family="Arial,sans-serif" font-size="13"
+              fill="white" font-weight="700" display="none"></text>
+
+            <text id="svgCellType" x="290" y="462" text-anchor="middle" font-family="Arial,sans-serif" font-size="14"
+              fill="#555" font-weight="700" font-style="italic">Animal Cell</text>
+
+            <text x="460" y="55" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#1a4e8c"
+              font-weight="700" letter-spacing="1">OUTSIDE SOLUTION</text>
+
+            <text id="oH2Oa" x="376" y="100" text-anchor="end" font-family="Arial,sans-serif" font-size="26"
+              fill="#1a4e8c" font-weight="900"></text>
+            <text id="oH2O" x="382" y="100" text-anchor="start" font-family="Arial,sans-serif" font-size="25"
+              fill="#1a4e8c" font-weight="700">?% H₂O</text>
+
+            <text id="oNaCla" x="376" y="142" text-anchor="end" font-family="Arial,sans-serif" font-size="26"
+              fill="#7a3b0a" font-weight="900"></text>
+            <text id="oNaCl" x="382" y="142" text-anchor="start" font-family="Arial,sans-serif" font-size="25"
+              fill="#7a3b0a" font-weight="700">?% NaCl</text>
+            <rect id="oTonRect" x="382" y="125" width="0" height="22" rx="4" fill="#c0392b" display="none" />
+            <text id="oTonicLbl" x="386" y="141" text-anchor="start" font-family="Arial,sans-serif" font-size="13"
+              fill="white" font-weight="700" display="none"></text>
+
+            <g id="osmosisG" display="none">
+              <line id="osmosisLine" x1="450" y1="300" x2="450" y2="300" stroke="#c0392b" stroke-width="5"
+                marker-end="url(#ahRed)" />
+              <text id="osmosisLbl" x="450" y="270" text-anchor="middle" font-family="Arial,sans-serif" font-size="14"
+                fill="#c0392b" font-weight="700"></text>
+            </g>
+
+            <g id="outBadge" display="none">
+              <rect id="outRect" x="370" y="418" width="136" height="32" rx="6" fill="#1b6b2f" />
+              <text id="outWord" x="438" y="440" text-anchor="middle" font-family="Arial,sans-serif" font-size="19"
+                fill="white" font-weight="700"></text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- ══ RIGHT: Q&A ══ -->
+      <div class="qpanel">
+        <div class="qinner">
+
+          <div class="q-intro">Answer each question — diagram updates live as you work</div>
+
+          <!-- Q1 NaCl (PRIMARY — solute-first framing) -->
+          <div class="qa-sec active" id="sec_nacl">
+            <div class="qa-lbl" id="lbl_nacl">Steps 7–8 · Compare NaCl (Solute)</div>
+            <div class="qa-q">Which side has <strong>more NaCl</strong>? (↑ = more solute)</div>
+            <div class="qa-row">
+              <select id="sel_nacl" onchange="liveUpdate()">
+                <option value="">— select —</option>
+                <option value="outside">Outside ↑</option>
+                <option value="inside">Inside ↑</option>
+                <option value="equal">Equal on both sides</option>
+              </select>
+              <button class="btn-chk" onclick="check('nacl')">✓ Check</button>
+            </div>
+            <div class="fb" id="fb_nacl"></div>
+          </div>
+
+          <!-- Q2 H2O (secondary — consequence) -->
+          <div class="qa-sec" id="sec_h2o">
+            <div class="qa-lbl" id="lbl_h2o">Steps 9–10 · Compare H₂O (Solvent)</div>
+            <div class="qa-q">Which side has <strong>more H₂O</strong>? (↑ = more water — the inverse of NaCl)</div>
+            <div class="qa-row">
+              <select id="sel_h2o" onchange="liveUpdate()">
+                <option value="">— select —</option>
+                <option value="outside">Outside ↑</option>
+                <option value="inside">Inside ↑</option>
+                <option value="equal">Equal on both sides</option>
+              </select>
+              <button class="btn-chk" onclick="check('h2o')">✓ Check</button>
+            </div>
+            <div class="fb" id="fb_h2o"></div>
+          </div>
+
+          <hr class="divider">
+
+          <!-- Q3 Direction -->
+          <div class="qa-sec" id="sec_dir">
+            <div class="qa-lbl" id="lbl_dir">Steps 11–12 · Osmosis Direction</div>
+            <div class="qa-q">Water moves toward <strong>more NaCl</strong> (higher solute). Based on your NaCl
+              comparison above, which direction does water cross the membrane?</div>
+            <div class="qa-row">
+              <select id="sel_dir" onchange="liveUpdate()">
+                <option value="">— select —</option>
+                <option value="out_to_in">Outside → Inside</option>
+                <option value="in_to_out">Inside → Outside</option>
+                <option value="no_net">No net movement (equal)</option>
+              </select>
+              <button class="btn-chk" onclick="check('dir')">✓ Check</button>
+            </div>
+            <div class="fb" id="fb_dir"></div>
+          </div>
+
+          <hr class="divider">
+
+          <!-- Q4 Tonicity cue -->
+          <div class="qa-sec" id="sec_cue">
+            <div class="qa-lbl" id="lbl_cue">Step 13 · The Tonicity Cue</div>
+            <div class="qa-q">Look at the NaCl arrows on the diagram.<br>Which arrow means <strong>hypo</strong> (less
+              NaCl) and which means <strong>hyper</strong> (more NaCl)?</div>
+            <div class="qa-row">
+              <select id="sel_cue">
+                <option value="">— select —</option>
+                <option value="down_hypo">↓ = hypo (less NaCl) · ↑ = hyper (more NaCl)</option>
+                <option value="up_hypo">↑ = hypo (less NaCl) · ↓ = hyper (more NaCl)</option>
+                <option value="equal_iso">＝ = isotonic (equal NaCl on both sides)</option>
+              </select>
+              <button class="btn-chk" onclick="check('cue')">✓ Check</button>
+            </div>
+            <div class="fb" id="fb_cue"></div>
+          </div>
+
+          <!-- Q5 Outside tonicity label -->
+          <div class="qa-sec" id="sec_tout">
+            <div class="qa-lbl" id="lbl_tout">Step 14 · Label Outside NaCl</div>
+            <div class="qa-q">Look at the <strong>outside NaCl arrow</strong>. Using your cue — place <em>hypo</em>,
+              <em>hyper</em>, or <em>isotonic</em> next to it:
+            </div>
+            <div class="qa-row">
+              <select id="sel_tout">
+                <option value="">— select —</option>
+                <option value="hypo">hypo</option>
+                <option value="hyper">hyper</option>
+                <option value="isotonic">isotonic</option>
+              </select>
+              <button class="btn-chk" onclick="check('tout')">✓ Check</button>
+            </div>
+            <div class="fb" id="fb_tout"></div>
+          </div>
+
+          <!-- Q6 Inside tonicity label -->
+          <div class="qa-sec" id="sec_tin">
+            <div class="qa-lbl" id="lbl_tin">Step 15 · Label Inside NaCl</div>
+            <div class="qa-q">Now look at the <strong>inside NaCl arrow</strong>. Place <em>hypo</em>, <em>hyper</em>,
+              or <em>isotonic</em> next to it:</div>
+            <div class="qa-row">
+              <select id="sel_tin">
+                <option value="">— select —</option>
+                <option value="hypo">hypo</option>
+                <option value="hyper">hyper</option>
+                <option value="isotonic">isotonic</option>
+              </select>
+              <button class="btn-chk" onclick="check('tin')">✓ Check</button>
+            </div>
+            <div class="fb" id="fb_tin"></div>
+          </div>
+
+          <hr class="divider">
+
+          <!-- Q7 Outcome -->
+          <div class="qa-sec" id="sec_out">
+            <div class="qa-lbl" id="lbl_out">Step 16 · Cell Outcome</div>
+            <div class="qa-q">Based on water movement, what is the cell's condition?</div>
+            <div class="chip-row" id="wordBank"></div>
+            <div class="qa-row">
+              <select id="sel_out"></select>
+              <button class="btn-chk" onclick="check('out')">✓ Check</button>
+            </div>
+            <div class="fb" id="fb_out"></div>
+          </div>
+
+          <div class="nav-btns">
+            <button class="btn-nav" id="btnPrev" onclick="goRun(currentRun-1)" disabled>← Prev</button>
+            <button class="btn-nav primary" id="btnNext" onclick="advanceRun()" disabled>Next Run →</button>
+          </div>
+
+          <div class="score-box">
+            <div class="score-num" id="scoreNum">0</div>
+            <div class="score-sub">/ 42 points &nbsp;·&nbsp; 7 questions × 6 runs</div>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- end main -->
+
+    <!-- FINISH BANNER -->
+    <div class="finish" id="finishBanner">
+      <h2>Lab Complete! 🎉</h2>
+      <span class="big" id="finalScore">—</span>
+      <p>You finished all 6 osmosis runs.</p>
+      <p style="font-size:.82rem;color:#333;margin:.4rem 0 1.5rem;">Tonicity Module</p>
+      <button onclick="resetAll()"
+        style="background:var(--black);color:var(--gold);border:none;padding:.7rem 2rem;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;font-family:inherit;">Restart
+        Lab</button>
+    </div>
+
+  </div><!-- end labScreen -->
+
+
+  <script>
+    /* ═══════════════════════════════════════
+       PRE-LAB NAVIGATION
+    ═══════════════════════════════════════ */
+    let currentStep = 0;
+    const totalSteps = 6;
+    const stepsDone = new Array(totalSteps).fill(false);
+
+    function goStep(n) {
+      // Mark current as done
+      stepsDone[currentStep] = true;
+      document.getElementById('card' + currentStep).classList.remove('active');
+      document.getElementById('sb' + currentStep).classList.remove('active');
+      document.getElementById('sb' + currentStep).classList.add('done');
+
+      currentStep = n;
+      document.getElementById('card' + n).classList.add('active');
+
+      // Update sidebar
+      for (let i = 0; i < totalSteps; i++) {
+        const sb = document.getElementById('sb' + i);
+        sb.classList.remove('active', 'done');
+        if (i === n) sb.classList.add('active');
+        else if (stepsDone[i]) sb.classList.add('done');
+      }
+
+      // Scroll to top of content
+      document.querySelector('.prelab-content').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function answerQuiz(stepNum, btn, correct) {
+      const opts = btn.parentElement.querySelectorAll('.cq-opt');
+      opts.forEach(o => { o.disabled = true; });
+      btn.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) {
+        // Highlight correct one
+        opts.forEach(o => {
+          if (o.getAttribute('onclick').includes('true')) o.classList.add('correct');
+        });
+      }
+      const fb = document.getElementById('qfb' + stepNum);
+      fb.className = 'cq-fb show ' + (correct ? 'ok' : 'err');
+      fb.textContent = correct
+        ? '✓ Correct! You\'re ready to move on.'
+        : '✗ Not quite — review the concept above, then continue.';
+    }
+
+    function showPhase(phase) {
+      if (phase === 'prelab') {
+        document.getElementById('prelabScreen').style.display = 'flex';
+        document.getElementById('labScreen').style.display = 'none';
+        document.getElementById('phaseA').classList.add('active');
+        document.getElementById('phaseB').classList.remove('active');
+      } else {
+        document.getElementById('prelabScreen').style.display = 'none';
+        document.getElementById('labScreen').style.display = 'block';
+        document.getElementById('phaseA').classList.remove('active');
+        document.getElementById('phaseB').classList.add('active');
+      }
+    }
+
+    function launchLab() {
+      // Mark step 6 done
+      stepsDone[currentStep] = true;
+      document.getElementById('sb' + currentStep).classList.remove('active');
+      document.getElementById('sb' + currentStep).classList.add('done');
+      document.getElementById('phaseA').classList.add('done');
+      showPhase('lab');
+      goRun(0);
+    }
+
+
+    /* ═══════════════════════════════════════
+       LAB DATA
+    ═══════════════════════════════════════ */
+    const RUNS = [
+      {
+        label: "Animal 1", title: "Animal Cell — Run 1", cellType: "animal",
+        outH2O: 100, outNaCl: 0, inH2O: 95, inNaCl: 5,
+        ans: { h2o: "outside", nacl: "inside", dir: "out_to_in", cue: "down_hypo", tout: "hypo", tin: "hyper", out: "lyse" },
+        words: ["lyse", "normal", "shrivel"]
+      },
+      {
+        label: "Animal 2", title: "Animal Cell — Run 2", cellType: "animal",
+        outH2O: 95, outNaCl: 5, inH2O: 100, inNaCl: 0,
+        ans: { h2o: "inside", nacl: "outside", dir: "in_to_out", cue: "down_hypo", tout: "hyper", tin: "hypo", out: "shrivel" },
+        words: ["lyse", "normal", "shrivel"]
+      },
+      {
+        label: "Animal 3", title: "Animal Cell — Run 3", cellType: "animal",
+        outH2O: 95, outNaCl: 5, inH2O: 95, inNaCl: 5,
+        ans: { h2o: "equal", nacl: "equal", dir: "no_net", cue: "equal_iso", tout: "isotonic", tin: "isotonic", out: "normal" },
+        words: ["lyse", "normal", "shrivel"]
+      },
+      {
+        label: "Plant 1", title: "Plant Cell — Run 1", cellType: "plant",
+        outH2O: 100, outNaCl: 0, inH2O: 95, inNaCl: 5,
+        ans: { h2o: "outside", nacl: "inside", dir: "out_to_in", cue: "down_hypo", tout: "hypo", tin: "hyper", out: "turgid" },
+        words: ["turgid", "flaccid", "plasmolyzed"]
+      },
+      {
+        label: "Plant 2", title: "Plant Cell — Run 2", cellType: "plant",
+        outH2O: 95, outNaCl: 5, inH2O: 95, inNaCl: 5,
+        ans: { h2o: "equal", nacl: "equal", dir: "no_net", cue: "equal_iso", tout: "isotonic", tin: "isotonic", out: "flaccid" },
+        words: ["turgid", "flaccid", "plasmolyzed"]
+      },
+      {
+        label: "Plant 3", title: "Plant Cell — Run 3", cellType: "plant",
+        outH2O: 90, outNaCl: 10, inH2O: 95, inNaCl: 5,
+        ans: { h2o: "inside", nacl: "outside", dir: "in_to_out", cue: "down_hypo", tout: "hyper", tin: "hypo", out: "plasmolyzed" },
+        words: ["turgid", "flaccid", "plasmolyzed"]
+      }
+    ];
+
+    const EXPLAIN = {
+      lyse: "Water flooded into the animal cell → it swelled and may burst.",
+      normal: "Equal concentrations → no net water movement, volume unchanged.",
+      shrivel: "Water left the animal cell → it shrank (crenation).",
+      turgid: "Water entered the plant cell → firm & turgid. Cell wall prevents bursting.",
+      flaccid: "Equal concentrations → no net movement, plant cell is limp (flaccid).",
+      plasmolyzed: "Water left the plant cell → membrane pulled from wall (plasmolysis)."
+    };
+
+    let currentRun = 0;
+    let score = 0;
+    let scored = {};
+    let confirmed = Array.from({ length: 6 }, () => ({}));
+
+    function g(id) { return document.getElementById(id); }
+
+    /* ═══════════════════════════════════════
+       LIVE UPDATE (diagram responds instantly)
+    ═══════════════════════════════════════ */
+    function liveUpdate() {
+      const r = RUNS[currentRun];
+      const h2oVal = g('sel_h2o').value;
+      const naclVal = g('sel_nacl').value;
+      const dirVal = g('sel_dir').value;
+
+      // Fill in known values
+      g('oH2O').textContent = r.outH2O + '% H₂O';
+      g('iH2O').textContent = r.inH2O + '% H₂O';
+      g('oNaCl').textContent = r.outNaCl + '% NaCl';
+      g('iNaCl').textContent = r.inNaCl + '% NaCl';
+
+      // H2O arrows
+      const oH2OArr = h2oVal === 'outside' ? '↑' : h2oVal === 'inside' ? '↓' : h2oVal === 'equal' ? '＝' : '';
+      const iH2OArr = h2oVal === 'outside' ? '↓' : h2oVal === 'inside' ? '↑' : h2oVal === 'equal' ? '＝' : '';
+      g('oH2Oa').textContent = oH2OArr;
+      g('iH2Oa').textContent = iH2OArr;
+
+      // NaCl arrows
+      const oNaClArr = naclVal === 'outside' ? '↑' : naclVal === 'inside' ? '↓' : naclVal === 'equal' ? '＝' : '';
+      const iNaClArr = naclVal === 'outside' ? '↓' : naclVal === 'inside' ? '↑' : naclVal === 'equal' ? '＝' : '';
+      g('oNaCla').textContent = oNaClArr;
+      g('iNaCla').textContent = iNaClArr;
+
+      // Osmosis arrow
+      if (dirVal && dirVal !== '') {
+        g('osmosisG').setAttribute('display', 'block');
+        if (dirVal === 'out_to_in') {
+          g('osmosisLine').setAttribute('x1', '450'); g('osmosisLine').setAttribute('y1', '185');
+          g('osmosisLine').setAttribute('x2', '450'); g('osmosisLine').setAttribute('y2', '325');
+          g('osmosisLbl').textContent = 'H₂O →';
+          g('osmosisLbl').setAttribute('y', '175');
+        } else if (dirVal === 'in_to_out') {
+          g('osmosisLine').setAttribute('x1', '450'); g('osmosisLine').setAttribute('y1', '325');
+          g('osmosisLine').setAttribute('x2', '450'); g('osmosisLine').setAttribute('y2', '185');
+          g('osmosisLbl').textContent = '← H₂O';
+          g('osmosisLbl').setAttribute('y', '175');
+        } else {
+          g('osmosisLine').setAttribute('x1', '450'); g('osmosisLine').setAttribute('y1', '255');
+          g('osmosisLine').setAttribute('x2', '450'); g('osmosisLine').setAttribute('y2', '255');
+          g('osmosisLbl').textContent = 'H₂O ＝';
+          g('osmosisLbl').setAttribute('y', '245');
+        }
+      } else {
+        g('osmosisG').setAttribute('display', 'none');
+      }
+
+      // Animate cell fill for direction
+      const fill = g('cellWaterFill');
+      if (dirVal === 'out_to_in') {
+        fill.setAttribute('height', '80'); fill.setAttribute('y', '368');
+      } else if (dirVal === 'in_to_out') {
+        fill.setAttribute('height', '0'); fill.setAttribute('y', '448');
+      } else {
+        fill.setAttribute('height', '40'); fill.setAttribute('y', '408');
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       CHECK / SCORING
+    ═══════════════════════════════════════ */
+    function check(field) {
+      const r = RUNS[currentRun];
+      const sel = g({ h2o: 'sel_h2o', nacl: 'sel_nacl', dir: 'sel_dir', cue: 'sel_cue', tout: 'sel_tout', tin: 'sel_tin', out: 'sel_out' }[field]);
+      if (!sel || !sel.value) return;
+      const ok = sel.value === r.ans[field];
+      const key = currentRun + '_' + field;
+      if (!scored[key]) { if (ok) { score++; updateScore(); } scored[key] = true; }
+      sel.className = ok ? 'ok' : 'err';
+      showFb(field, ok, mkFb(field, r, ok));
+      if (ok) { confirmed[currentRun][field] = sel.value; markDone(field); checkNext(); }
+      if (ok && (field === 'tout' || field === 'tin')) showPill(field, r);
+      if (ok && field === 'out') showOutcome(r);
+      liveUpdate();
+    }
+
+    function showPill(field, r) {
+      const isOut = field === 'tout';
+      const tRect = isOut ? g('oTonRect') : g('iTonRect');
+      const tLbl = isOut ? g('oTonicLbl') : g('iTonicLbl');
+      const val = isOut ? r.ans.tout : r.ans.tin;
+      const colors = { hypo: '#1a4e8c', hyper: '#c0392b', isotonic: '#1b6b2f' };
+      const col = colors[val] || '#555';
+      const tw = val.length * 9 + 10;
+      tRect.setAttribute('width', tw); tRect.setAttribute('fill', col);
+      tRect.setAttribute('display', 'block');
+      tLbl.textContent = val; tLbl.setAttribute('display', 'block');
+    }
+
+    function hidePill(rId, lId) {
+      g(rId).setAttribute('display', 'none'); g(rId).setAttribute('width', '0');
+      g(lId).setAttribute('display', 'none');
+    }
+
+    function showOutcome(r) {
+      const colors = {
+        lyse: '#c0392b', normal: '#1b6b2f', shrivel: '#7a3b0a',
+        turgid: '#1b6b2f', flaccid: '#7a5c00', plasmolyzed: '#6a1b9a'
+      };
+      g('outBadge').setAttribute('display', 'block');
+      g('outRect').setAttribute('fill', colors[r.ans.out] || '#555');
+      g('outWord').textContent = r.ans.out.toUpperCase();
+
+      const cellEl = g('svgCell');
+      if (r.ans.out === 'lyse') {
+        cellEl.setAttribute('display', 'none');
+        g('svgCellBurst').setAttribute('display', 'block');
+        g('plasmoGroup').setAttribute('display', 'none');
+      } else if (r.ans.out === 'shrivel') {
+        cellEl.setAttribute('rx', '110'); cellEl.setAttribute('ry', '80');
+        g('svgCellBurst').setAttribute('display', 'none');
+        g('plasmoGroup').setAttribute('display', 'none');
+      } else if (r.ans.out === 'turgid') {
+        cellEl.setAttribute('rx', '158'); cellEl.setAttribute('ry', '118');
+        g('svgCellBurst').setAttribute('display', 'none');
+        g('plasmoGroup').setAttribute('display', 'none');
+      } else if (r.ans.out === 'plasmolyzed') {
+        cellEl.setAttribute('display', 'none');
+        g('plasmoGroup').setAttribute('display', 'block');
+        g('svgCellBurst').setAttribute('display', 'none');
+      } else {
+        cellEl.setAttribute('rx', '148'); cellEl.setAttribute('ry', '108');
+        g('svgCellBurst').setAttribute('display', 'none');
+        g('plasmoGroup').setAttribute('display', 'none');
+      }
+    }
+
+    function mkFb(field, r, ok) {
+      const isEqual = r.ans.nacl === 'equal';
+      const outNaClArrow = r.ans.nacl === 'outside' ? '↑' : r.ans.nacl === 'inside' ? '↓' : '＝';
+      const inNaClArrow = r.ans.nacl === 'inside' ? '↑' : r.ans.nacl === 'outside' ? '↓' : '＝';
+      const msgs = {
+        nacl: ok ? `✓ Correct! Outside ${r.outNaCl}% NaCl vs Inside ${r.inNaCl}% NaCl — solute arrows now on diagram.`
+          : `✗ Compare: Outside ${r.outNaCl}% NaCl vs Inside ${r.inNaCl}% NaCl. Which number is larger?`,
+        h2o: ok ? `✓ Correct! Outside ${r.outH2O}% H₂O vs Inside ${r.inH2O}% — note how H₂O is the inverse of NaCl.`
+          : `✗ Remember: NaCl + H₂O = 100%. If NaCl is higher on one side, H₂O must be lower on that same side.`,
+        dir: ok ? `✓ Correct! Water moves toward higher NaCl (lower H₂O). Watch the cell ${r.ans.dir === 'out_to_in' ? 'fill with water' : 'lose water'}.`
+          : `✗ Water moves toward MORE NaCl. Look at your NaCl arrows — which side has the ↑?`,
+        cue: isEqual
+          ? (ok ? `✓ Correct! Equal NaCl on both sides (＝) = isotonic — no net water movement.`
+            : `✗ Look at the NaCl arrows — both show ＝ meaning equal on both sides. That means isotonic.`)
+          : (ok ? `✓ Correct! ↓ NaCl = hypo (less solute) · ↑ NaCl = hyper (more solute). Lock this in!`
+            : `✗ ↓ means LESS NaCl = hypo. ↑ means MORE NaCl = hyper. Look at your NaCl arrows on the diagram.`),
+        tout: ok ? `✓ Correct! Outside NaCl arrow (${outNaClArrow}) → ${r.ans.tout}. Label now on diagram.`
+          : `✗ Look at the outside NaCl arrow (${outNaClArrow}). Use your cue: ↓ = hypo · ↑ = hyper · ＝ = isotonic.`,
+        tin: ok ? `✓ Correct! Inside NaCl arrow (${inNaClArrow}) → ${r.ans.tin}. Label now on diagram.`
+          : `✗ Look at the inside NaCl arrow (${inNaClArrow}). Use your cue: ↓ = hypo · ↑ = hyper · ＝ = isotonic.`,
+        out: ok ? `✓ ${EXPLAIN[r.ans.out]}`
+          : `✗ Water moved ${r.ans.dir === 'out_to_in' ? 'INTO' : 'OUT OF'} the cell. What happens to a ${r.cellType} cell in that case?`
+      };
+      return msgs[field] || '';
+    }
+
+    function showFb(field, ok, msg) {
+      const ids = { h2o: 'fb_h2o', nacl: 'fb_nacl', dir: 'fb_dir', cue: 'fb_cue', tout: 'fb_tout', tin: 'fb_tin', out: 'fb_out' };
+      const el = g(ids[field]);
+      if (!el) return;
+      el.className = 'fb show ' + (ok ? 'ok' : 'err');
+      el.textContent = msg;
+    }
+
+    function markDone(field) {
+      const sm = { h2o: 'sec_h2o', nacl: 'sec_nacl', dir: 'sec_dir', cue: 'sec_cue', tout: 'sec_tout', tin: 'sec_tin', out: 'sec_out' };
+      const lm = { h2o: 'lbl_h2o', nacl: 'lbl_nacl', dir: 'lbl_dir', cue: 'lbl_cue', tout: 'lbl_tout', tin: 'lbl_tin', out: 'lbl_out' };
+      if (g(sm[field])) g(sm[field]).className = 'qa-sec done';
+      if (g(lm[field])) g(lm[field]).className = 'qa-lbl done';
+    }
+
+    function checkNext() {
+      const c = confirmed[currentRun];
+      const allDone = c.h2o && c.nacl && c.dir && c.cue && c.tout && c.tin && c.out;
+      g('btnNext').disabled = !allDone;
+      if (allDone) setDot(currentRun, 'done');
+    }
+
+    function updateScore() {
+      const s = '<strong style="color:var(--gold)">' + score + '</strong>';
+      g('scoreNum').textContent = score;
+      if (g('hdrScore')) g('hdrScore').innerHTML = 'Score: ' + s + ' / 42';
+      if (g('hdrScore2')) g('hdrScore2').innerHTML = 'Score: ' + s + ' / 42';
+    }
+
+    /* ═══════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════ */
+    function advanceRun() {
+      if (currentRun < 5) goRun(currentRun + 1);
+      else finishLab();
+    }
+
+    function goRun(idx) {
+      if (idx < 0 || idx > 5) return;
+      currentRun = idx;
+      const r = RUNS[idx];
+      const conf = confirmed[idx];
+
+      g('runBadge').textContent = r.label;
+      g('runTitle').textContent = r.title;
+
+      const isPlant = r.cellType === 'plant';
+      g('svgCellType').textContent = isPlant ? 'Plant Cell' : 'Animal Cell';
+      g('svgCellWall').setAttribute('display', isPlant ? 'block' : 'none');
+      const cellEl = g('svgCell');
+      cellEl.setAttribute('fill', isPlant ? '#d4edda' : 'white');
+      cellEl.setAttribute('stroke', isPlant ? '#2e7d32' : '#111');
+      cellEl.setAttribute('stroke-width', isPlant ? '4' : '3.5');
+
+      const sm = { h2o: 'sec_h2o', nacl: 'sec_nacl', dir: 'sec_dir', cue: 'sec_cue', tout: 'sec_tout', tin: 'sec_tin', out: 'sec_out' };
+      const lm = { h2o: 'lbl_h2o', nacl: 'lbl_nacl', dir: 'lbl_dir', cue: 'lbl_cue', tout: 'lbl_tout', tin: 'lbl_tin', out: 'lbl_out' };
+      const ss = { h2o: 'sel_h2o', nacl: 'sel_nacl', dir: 'sel_dir', cue: 'sel_cue', tout: 'sel_tout', tin: 'sel_tin', out: 'sel_out' };
+      const fs = { h2o: 'fb_h2o', nacl: 'fb_nacl', dir: 'fb_dir', cue: 'fb_cue', tout: 'fb_tout', tin: 'fb_tin', out: 'fb_out' };
+      const fields = ['nacl', 'h2o', 'dir', 'cue', 'tout', 'tin', 'out'];
+
+      fields.forEach((f, i) => {
+        const sec = g(sm[f]); const lbl = g(lm[f]);
+        const sel = g(ss[f]); const fb = g(fs[f]);
+        if (conf[f]) {
+          sec.className = 'qa-sec done';
+          lbl.className = 'qa-lbl done';
+          sel.value = conf[f]; sel.className = 'ok';
+          fb.className = 'fb show ok';
+          fb.textContent = mkFb(f, r, true);
+        } else {
+          sec.className = 'qa-sec' + (i === 0 ? ' active' : '');
+          lbl.className = 'qa-lbl';
+          sel.value = ''; sel.className = '';
+          fb.className = 'fb'; fb.textContent = '';
+        }
+      });
+
+      const wb = g('wordBank');
+      wb.innerHTML = '';
+      r.words.forEach(w => {
+        const chip = document.createElement('span');
+        chip.className = 'chip'; chip.textContent = w;
+        wb.appendChild(chip);
+      });
+      const outSel = g('sel_out');
+      outSel.innerHTML = '<option value="">— select —</option>';
+      r.words.forEach(w => {
+        const o = document.createElement('option');
+        o.value = w; o.textContent = w; outSel.appendChild(o);
+      });
+      if (conf.out) { outSel.value = conf.out; outSel.className = 'ok'; }
+
+      g('svgCell').setAttribute('rx', '148'); g('svgCell').setAttribute('ry', '108');
+      g('svgCell').setAttribute('display', 'block');
+      g('svgCellBurst').setAttribute('display', 'none');
+      g('plasmoGroup').setAttribute('display', 'none');
+      g('cellClipEl').setAttribute('rx', '146'); g('cellClipEl').setAttribute('ry', '106');
+      g('svgCellWall').setAttribute('rx', '157'); g('svgCellWall').setAttribute('ry', '117');
+      const fill = g('cellWaterFill');
+      fill.setAttribute('height', '0'); fill.setAttribute('y', '448');
+      fill.setAttribute('clip-path', 'url(#cellClip)'); fill.setAttribute('opacity', '0.4');
+      g('outBadge').setAttribute('display', 'none');
+      hidePill('oTonRect', 'oTonicLbl');
+      hidePill('iTonRect', 'iTonicLbl');
+
+      g('btnPrev').disabled = (idx === 0);
+      g('btnNext').disabled = !conf.out;
+
+      for (let i = 0; i < 6; i++) {
+        setDot(i, i === idx ? 'active' : (confirmed[i].out ? 'done' : ''));
+      }
+
+      liveUpdate();
+    }
+
+    function setDot(i, state) {
+      const labels = ['A1', 'A2', 'A3', 'P1', 'P2', 'P3'];
+      const d = g('dot' + i);
+      d.className = 'dot' + (state === 'active' ? ' active' : state === 'done' ? ' done' : '');
+      d.textContent = state === 'done' ? '✓' : labels[i];
+    }
+
+    function finishLab() {
+      g('mainLayout').style.display = 'none';
+      g('finishBanner').className = 'finish show';
+      g('finalScore').textContent = score + ' / 42';
+    }
+
+    function resetAll() {
+      score = 0; scored = {};
+      confirmed = Array.from({ length: 6 }, () => ({}));
+      g('mainLayout').style.display = '';
+      g('finishBanner').className = 'finish';
+      updateScore();
+      goRun(0);
+    }
+  </script>
+</body>
+
+</html>
