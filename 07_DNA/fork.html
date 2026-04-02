@@ -1,706 +1,663 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DNA Replication Fork – Label the Model | UW-Parkside Biology</title>
-  <link rel="canonical" href="https://uwpbios101-gif.github.io/101Lab/07%20DNA/replicationfork.html" />
-  <style>
-    /* ── UWP Brand Tokens ── */
-    :root {
-      --green:       #016836;
-      --green-dark:  #00502f;
-      --black:       #212721;
-      --warm-grey:   #54534A;
-      --cool-grey:   #DBD9D6;
-      --white-birch: #EFECE2;
-      --goldenrod:   #FABA31;
-      --uw-blue:     #105877;
-      --prairie:     #FF4500;
-      --spruce:      #478284;
-      --white:       #ffffff;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>UW-Parkside BioSci · DNA Replication Fork Hotspot Game</title>
+    <!-- UW-Parkside Style Guide: Colors & Web Standards (sacrosanct) -->
+    <style>
+        /* ===== UW-PARKSIDE BRAND COLORS (sacrosanct) ===== */
+        :root {
+            --uwp-ranger-red: #9b1c2c;      /* primary brand */
+            --uwp-dark-red: #7f1522;
+            --uwp-cool-gray: #5e6a71;
+            --uwp-light-gray: #f4f4f4;
+            --uwp-off-white: #fefef7;
+            --uwp-link-blue: #0066cc;
+            --uwp-success: #2c6e2f;
+            --uwp-border: #cbd2d6;
+            --uwp-font-sans: 'Open Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
 
-    /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: Georgia, 'Times New Roman', serif;
-      background: var(--white-birch);
-      color: var(--black);
-      min-height: 100vh;
-    }
+        body {
+            background: var(--uwp-light-gray);
+            font-family: var(--uwp-font-sans);
+            color: #1e2a36;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+        }
 
-    /* ── Header ── */
-    header {
-      background: var(--green);
-      color: var(--white);
-      padding: 0;
-      border-bottom: 6px solid var(--goldenrod);
-    }
-    .header-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 18px 24px 14px;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-    .uwp-wordmark {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      line-height: 1.3;
-      border-right: 2px solid rgba(255,255,255,0.4);
-      padding-right: 18px;
-      color: var(--white);
-    }
-    .uwp-wordmark span { display: block; font-size: 10px; font-weight: 400; opacity: 0.85; }
-    header h1 {
-      font-size: 1.15rem;
-      font-weight: 400;
-      letter-spacing: 0.02em;
-      color: var(--white);
-    }
+        /* main container – respects UW-P web standards (responsive, accessible) */
+        .game-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--uwp-off-white);
+            border-radius: 1rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid var(--uwp-border);
+        }
 
-    /* ── Breadcrumb ── */
-    .breadcrumb {
-      background: var(--green-dark);
-      padding: 6px 24px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 12px;
-      color: rgba(255,255,255,0.75);
-      letter-spacing: 0.04em;
-    }
-    .breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; color: var(--white); }
+        /* header branding */
+        .uwp-header {
+            background: var(--uwp-ranger-red);
+            padding: 1.25rem 2rem;
+            border-bottom: 4px solid #f9b81b;
+        }
 
-    /* ── Main Layout ── */
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 32px 24px 60px;
-    }
+        .uwp-header h1 {
+            color: white;
+            font-weight: 600;
+            font-size: 1.85rem;
+            letter-spacing: -0.3px;
+        }
 
-    /* ── Intro ── */
-    .intro {
-      background: var(--white);
-      border-left: 5px solid var(--green);
-      padding: 20px 24px;
-      margin-bottom: 28px;
-      border-radius: 0 4px 4px 0;
-    }
-    .intro h2 {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1.25rem;
-      color: var(--green-dark);
-      margin-bottom: 8px;
-    }
-    .intro p {
-      font-size: 0.97rem;
-      line-height: 1.65;
-      color: var(--warm-grey);
-    }
-    .intro strong { color: var(--black); }
+        .uwp-header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1rem;
+            margin-top: 0.35rem;
+        }
 
-    /* ── Instructions banner ── */
-    .instructions {
-      background: var(--goldenrod);
-      color: var(--black);
-      padding: 12px 20px;
-      border-radius: 4px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.88rem;
-      font-weight: 700;
-      margin-bottom: 28px;
-      letter-spacing: 0.02em;
-    }
+        /* two column layout: diagram + drag bank */
+        .fork-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 2rem;
+        }
 
-    /* ── Diagram section ── */
-    .diagram-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 28px;
-      align-items: start;
-    }
+        /* left side: SVG diagram hotspot area */
+        .diagram-area {
+            flex: 2;
+            min-width: 580px;
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid var(--uwp-border);
+            overflow-x: auto;
+        }
 
-    @media (max-width: 820px) {
-      .diagram-wrapper { grid-template-columns: 1fr; }
-    }
+        .diagram-title {
+            background: var(--uwp-cool-gray);
+            color: white;
+            padding: 0.6rem 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 1rem 1rem 0 0;
+            letter-spacing: 0.3px;
+        }
 
-    /* ── Image + hotspot container ── */
-    .image-container {
-      position: relative;
-      background: #111;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
-      cursor: crosshair;
-    }
-    .image-container img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
+        .svg-wrapper {
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            background: #fefaf5;
+        }
 
-    /* ── Hotspot pins ── */
-    .hotspot {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-      z-index: 10;
-    }
-    .hotspot-pin {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: var(--goldenrod);
-      border: 3px solid var(--black);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--black);
-      transition: transform 0.15s, background 0.15s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.45);
-    }
-    .hotspot:hover .hotspot-pin,
-    .hotspot.active .hotspot-pin {
-      background: var(--green);
-      color: var(--white);
-      border-color: var(--white);
-      transform: scale(1.25);
-    }
+        svg {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+        }
 
-    /* ── Tooltip ── */
-    .hotspot-tooltip {
-      position: absolute;
-      bottom: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--black);
-      color: var(--white);
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 12px;
-      white-space: nowrap;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.2s;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      z-index: 20;
-    }
-    .hotspot-tooltip::after {
-      content: '';
-      position: absolute;
-      top: 100%; left: 50%;
-      transform: translateX(-50%);
-      border: 6px solid transparent;
-      border-top-color: var(--black);
-    }
-    .hotspot:hover .hotspot-tooltip,
-    .hotspot.active .hotspot-tooltip { opacity: 1; }
+        /* right side: draggable terms & dropzones panel */
+        .interaction-panel {
+            flex: 1.2;
+            min-width: 280px;
+            background: #ffffff;
+            border-radius: 1rem;
+            border: 1px solid var(--uwp-border);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
 
-    /* ── Legend / Answer panel ── */
-    .legend {
-      background: var(--white);
-      border-radius: 6px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    .legend-header {
-      background: var(--green);
-      color: var(--white);
-      padding: 14px 18px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .legend-list { list-style: none; padding: 0; }
-    .legend-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--cool-grey);
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .legend-item:last-child { border-bottom: none; }
-    .legend-item:hover,
-    .legend-item.active { background: var(--white-birch); }
-    .legend-badge {
-      flex-shrink: 0;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: var(--goldenrod);
-      border: 2px solid var(--black);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--black);
-    }
-    .legend-item.active .legend-badge {
-      background: var(--green);
-      color: var(--white);
-      border-color: var(--green-dark);
-    }
-    .legend-text strong {
-      display: block;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.88rem;
-      color: var(--green-dark);
-      margin-bottom: 3px;
-    }
-    .legend-text p {
-      font-size: 0.82rem;
-      color: var(--warm-grey);
-      line-height: 1.5;
-    }
+        /* draggable word bank */
+        .drag-bank {
+            background: #faf9f5;
+            padding: 1rem;
+            border-radius: 0.8rem;
+            border-bottom: 2px solid var(--uwp-border);
+        }
 
-    /* ── Reveal toggle ── */
-    .reveal-bar {
-      margin-top: 28px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.88rem;
-      font-weight: 700;
-      padding: 10px 22px;
-      border-radius: 4px;
-      border: none;
-      cursor: pointer;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      transition: background 0.15s, color 0.15s;
-    }
-    .btn-primary {
-      background: var(--green);
-      color: var(--white);
-    }
-    .btn-primary:hover { background: var(--green-dark); }
-    .btn-secondary {
-      background: var(--cool-grey);
-      color: var(--black);
-    }
-    .btn-secondary:hover { background: var(--warm-grey); color: var(--white); }
+        .drag-bank h3, .dropzone-area h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--uwp-ranger-red);
+            border-left: 5px solid var(--uwp-ranger-red);
+            padding-left: 0.75rem;
+            margin-bottom: 1rem;
+        }
 
-    /* ── Score panel ── */
-    #score-panel {
-      display: none;
-      margin-top: 20px;
-      background: var(--uw-blue);
-      color: var(--white);
-      border-radius: 6px;
-      padding: 16px 22px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.95rem;
-    }
-    #score-panel.show { display: block; }
+        .terms-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 0.5rem;
+        }
 
-    /* ── Self-check quiz ── */
-    .quiz-section {
-      margin-top: 40px;
-      background: var(--white);
-      border-radius: 6px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      overflow: hidden;
-    }
-    .quiz-header {
-      background: var(--green-dark);
-      color: var(--white);
-      padding: 14px 20px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .quiz-body { padding: 20px; }
-    .quiz-q {
-      margin-bottom: 18px;
-    }
-    .quiz-q label {
-      display: block;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 6px;
-    }
-    .quiz-q select {
-      width: 100%;
-      max-width: 360px;
-      padding: 8px 12px;
-      border: 2px solid var(--cool-grey);
-      border-radius: 4px;
-      font-size: 0.88rem;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--black);
-      background: var(--white-birch);
-      appearance: none;
-      cursor: pointer;
-    }
-    .quiz-q select:focus { outline: 2px solid var(--green); border-color: var(--green); }
-    .quiz-feedback {
-      display: none;
-      margin-top: 6px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.82rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 3px;
-    }
-    .quiz-feedback.correct { background: #d4edda; color: #155724; display: block; }
-    .quiz-feedback.wrong   { background: #f8d7da; color: #721c24; display: block; }
+        .drag-term {
+            background: white;
+            border: 1.5px solid var(--uwp-cool-gray);
+            border-radius: 2rem;
+            padding: 0.45rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: grab;
+            transition: all 0.1s ease;
+            user-select: none;
+            color: #1e2a36;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .drag-term:active {
+            cursor: grabbing;
+        }
+        .drag-term.dragging {
+            opacity: 0.4;
+        }
+        .drag-term:hover {
+            background: #f0f2f5;
+            border-color: var(--uwp-ranger-red);
+            transform: scale(0.97);
+        }
 
-    /* ── Footer ── */
-    footer {
-      background: var(--black);
-      color: rgba(255,255,255,0.65);
-      text-align: center;
-      padding: 20px 24px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.04em;
-    }
-    footer a { color: var(--goldenrod); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-  </style>
+        /* drop zones grid */
+        .dropzone-area {
+            background: #faf9f5;
+            padding: 1rem;
+            border-radius: 0.8rem;
+            flex: 1;
+        }
+
+        .zones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.7rem;
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 0.3rem;
+        }
+
+        .drop-zone {
+            background: white;
+            border: 1px dashed var(--uwp-cool-gray);
+            border-radius: 0.6rem;
+            padding: 0.5rem 0.7rem;
+            transition: background 0.1s;
+            font-size: 0.85rem;
+        }
+        .drop-zone[data-filled="true"] {
+            background: #eef4e8;
+            border: 1px solid var(--uwp-success);
+            border-left: 5px solid var(--uwp-success);
+        }
+        .zone-label {
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            background: var(--uwp-cool-gray);
+            display: inline-block;
+            color: white;
+            padding: 0.1rem 0.5rem;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+        }
+        .zone-term {
+            font-weight: 500;
+            color: #1f3b4c;
+        }
+        .empty-message {
+            color: #8a9ba8;
+            font-style: italic;
+            font-size: 0.75rem;
+        }
+        .button-bar {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: flex-end;
+        }
+        button {
+            background: var(--uwp-ranger-red);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.1s linear;
+            font-family: inherit;
+        }
+        button.reset-btn {
+            background: var(--uwp-cool-gray);
+        }
+        button.check-btn {
+            background: var(--uwp-dark-red);
+        }
+        button:hover {
+            filter: brightness(0.92);
+            transform: translateY(-1px);
+        }
+        .feedback {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            background: #fff2e0;
+            border-radius: 0.6rem;
+            padding: 0.6rem;
+            border-left: 4px solid var(--uwp-ranger-red);
+        }
+        footer {
+            background: var(--uwp-light-gray);
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.75rem;
+            color: #4f5e66;
+            border-top: 1px solid var(--uwp-border);
+        }
+        @media (max-width: 780px) {
+            .fork-layout { flex-direction: column; padding: 1rem; }
+            .diagram-area { min-width: auto; }
+            body { padding: 1rem; }
+        }
+    </style>
 </head>
 <body>
-
-<!-- ══════════ HEADER ══════════ -->
-<header>
-  <div class="header-inner">
-    <div class="uwp-wordmark">
-      University of Wisconsin<span>Parkside</span>
+<div class="game-container">
+    <div class="uwp-header">
+        <h1>🧬 DNA Replication Fork · Hotspot Drag & Drop</h1>
+        <p>UW-Parkside Biology 101 Lab | Identify all key structures — drag term to numbered hotspot target</p>
     </div>
-    <h1>Biology &amp; Life Science — Lab Activities</h1>
-  </div>
-</header>
-<div class="breadcrumb">
-  <a href="https://uwpbios101-gif.github.io/101Lab/">101Lab</a> &rsaquo; <a href="https://uwpbios101-gif.github.io/101Lab/07%20DNA/">07 DNA</a> &rsaquo; DNA Replication Fork
+
+    <div class="fork-layout">
+        <!-- LEFT PANEL: Detailed SVG replication fork with numbered callouts (HOTSPOTS) -->
+        <div class="diagram-area">
+            <div class="diagram-title">🔬 DNA Replication Fork (numbered hotspots — drag term to matching zone)</div>
+            <div class="svg-wrapper">
+                <svg viewBox="0 0 980 540" xmlns="http://www.w3.org/2000/svg" style="background: #FFFDF7; border-radius: 12px;">
+                    <defs>
+                        <marker id="arrowHead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                            <polygon points="0 0, 8 4, 0 8" fill="#5e6a71"/>
+                        </marker>
+                        <marker id="rnaArrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                            <polygon points="0 0, 6 3, 0 6" fill="#c75146"/>
+                        </marker>
+                    </defs>
+
+                    <!-- BACKGROUND: replication fork structure (Y-shaped) -->
+                    <!-- parental strands (template) -->
+                    <path d="M 60,150 L 330,150 L 410,260" stroke="#2c5282" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path d="M 60,390 L 330,390 L 410,280" stroke="#2c5282" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <!-- newly synthesized strands -->
+                    <path d="M 410,260 L 540,260" stroke="#2b6e3b" stroke-width="3.5" stroke-dasharray="6 3" stroke-linecap="round" />
+                    <path d="M 410,280 L 590,280" stroke="#2b6e3b" stroke-width="3.5" stroke-linecap="round" />
+                    <!-- leading strand (continuous) -->
+                    <path d="M 410,280 L 720,280" stroke="#2e8b57" stroke-width="4" marker-end="url(#arrowHead)"/>
+                    <!-- lagging strand fragments (Okazaki) -->
+                    <path d="M 480,250 L 560,250" stroke="#b97326" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M 600,235 L 680,235" stroke="#b97326" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M 720,220 L 790,220" stroke="#b97326" stroke-width="3.5" stroke-linecap="round"/>
+                    <!-- RNA primers (small red segments) -->
+                    <path d="M 480,242 L 530,242" stroke="#c75146" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M 600,228 L 645,228" stroke="#c75146" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M 720,213 L 760,213" stroke="#c75146" stroke-width="3" stroke-linecap="round"/>
+
+                    <!-- helicase (complex at fork) -->
+                    <polygon points="390,240 410,220 425,240 410,275" fill="#d69e2e" stroke="#b7791f" stroke-width="1.5" opacity="0.9"/>
+                    <text x="398" y="260" font-size="9" fill="#6b4c1c" font-weight="bold">Helicase</text>
+
+                    <!-- DNA polymerase (on leading) -->
+                    <ellipse cx="540" cy="285" rx="24" ry="14" fill="#81b29a" stroke="#3b5e3b" stroke-width="1.5"/>
+                    <text x="526" y="289" font-size="8" fill="#1f3b2c" font-weight="bold">DNA pol</text>
+
+                    <!-- Primase near lagging -->
+                    <ellipse cx="560" cy="230" rx="20" ry="12" fill="#e9b35f" stroke="#b5651e" stroke-width="1.5"/>
+                    <text x="548" y="234" font-size="7.5" fill="#7b3f00">Primase</text>
+
+                    <!-- SSB proteins (small blue spheres) -->
+                    <circle cx="345" cy="195" r="8" fill="#4c9fbe" stroke="#2c6e7e" stroke-width="1"/>
+                    <circle cx="370" cy="185" r="7" fill="#4c9fbe"/>
+                    <circle cx="350" cy="310" r="7" fill="#4c9fbe"/>
+                    <circle cx="375" cy="320" r="7" fill="#4c9fbe"/>
+                    <text x="335" y="180" font-size="7" fill="#1e5f6b">SSB</text>
+
+                    <!-- Topoisomerase (ahead of fork) -->
+                    <path d="M 270,140 L 290,130 L 310,145 L 295,160 Z" fill="#8b5a2b" stroke="#5e3a1a" stroke-width="1.2"/>
+                    <text x="272" y="137" font-size="7" fill="white">Topo</text>
+
+                    <!-- 5' / 3' ends & OH group -->
+                    <text x="55" y="145" font-size="14" fill="#9b1c2c" font-weight="bold">5'</text>
+                    <text x="55" y="405" font-size="14" fill="#9b1c2c" font-weight="bold">3'</text>
+                    <text x="940" y="270" font-size="13" fill="#9b1c2c" font-weight="bold">3'</text>
+                    <text x="940" y="300" font-size="13" fill="#9b1c2c" font-weight="bold">5'</text>
+                    <!-- OH group on leading strand -->
+                    <text x="660" y="295" font-size="11" fill="#b33b2c" font-weight="bold">OH</text>
+
+                    <!-- PHOSPHATE backbone indicators -->
+                    <text x="180" y="125" font-size="9" fill="#5a626e">💠 Phosphate</text>
+                    <text x="190" y="415" font-size="9" fill="#5a626e">💠 Phosphate</text>
+
+                    <!-- template / daughter labels -->
+                    <text x="200" y="102" font-size="10" fill="#2c5282" font-style="italic">Template (parental)</text>
+                    <text x="200" y="425" font-size="10" fill="#2c5282" font-style="italic">Template strand</text>
+                    <text x="620" y="300" font-size="10" fill="#2b6e3b" font-style="italic">Daughter strand</text>
+
+                    <!-- ============ NUMBERED HOTSPOT CALLOUTS (1–16) ============ -->
+                    <!-- 1: Phosphate backbone -->
+                    <circle cx="140" cy="110" r="14" fill="#9b1c2c" stroke="white" stroke-width="2"/>
+                    <text x="140" y="115" text-anchor="middle" fill="white" font-weight="bold" font-size="12">1</text>
+                    <line x1="154" y1="110" x2="175" y2="110" stroke="#333" stroke-width="1.5"/>
+
+                    <!-- 2: 5' end (top left) -->
+                    <circle cx="45" cy="140" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="45" y="145" text-anchor="middle" fill="white" font-weight="bold">2</text>
+
+                    <!-- 3: 3' end (bottom left) -->
+                    <circle cx="45" cy="395" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="45" y="400" text-anchor="middle" fill="white">3</text>
+
+                    <!-- 4: OH group -->
+                    <circle cx="668" cy="285" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="668" y="290" text-anchor="middle" fill="white">4</text>
+
+                    <!-- 5: Template strand (point to parental) -->
+                    <circle cx="270" cy="160" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="270" y="165" text-anchor="middle" fill="white">5</text>
+
+                    <!-- 6: Daughter strand (new DNA) -->
+                    <circle cx="650" cy="300" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="650" y="305" text-anchor="middle" fill="white">6</text>
+
+                    <!-- 7: Leading strand -->
+                    <circle cx="560" cy="290" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="560" y="295" text-anchor="middle" fill="white">7</text>
+
+                    <!-- 8: Lagging strand -->
+                    <circle cx="520" cy="240" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="520" y="245" text-anchor="middle" fill="white">8</text>
+
+                    <!-- 9: Okazaki fragment -->
+                    <circle cx="700" cy="218" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="700" y="223" text-anchor="middle" fill="white">9</text>
+
+                    <!-- 10: RNA primer -->
+                    <circle cx="555" cy="233" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="555" y="238" text-anchor="middle" fill="white">10</text>
+
+                    <!-- 11: DNA polymerase -->
+                    <circle cx="540" cy="310" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="540" y="315" text-anchor="middle" fill="white">11</text>
+
+                    <!-- 12: Helicase -->
+                    <circle cx="405" cy="245" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="405" y="250" text-anchor="middle" fill="white">12</text>
+
+                    <!-- 13: Primase -->
+                    <circle cx="570" cy="215" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="570" y="220" text-anchor="middle" fill="white">13</text>
+
+                    <!-- 14: Single-strand binding protein -->
+                    <circle cx="355" cy="185" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="355" y="190" text-anchor="middle" fill="white">14</text>
+
+                    <!-- 15: Topoisomerase -->
+                    <circle cx="290" cy="135" r="14" fill="#9b1c2c" stroke="white"/>
+                    <text x="290" y="140" text-anchor="middle" fill="white">15</text>
+
+                    <!-- 16: Replication fork (Y region) -->
+                    <circle cx="415" cy="270" r="16" fill="#9b1c2c" stroke="gold" stroke-width="2.5"/>
+                    <text x="415" y="275" text-anchor="middle" fill="white" font-weight="bold">16</text>
+                </svg>
+            </div>
+            <div style="padding: 0.2rem 1rem 0.8rem 1rem; font-size:0.8rem; color:#4a5b66;">
+                💡 <strong>How to play:</strong> Drag each term from the right word bank onto the matching numbered drop zone. 
+                Each hotspot (1-16) corresponds to a specific replication fork component. Press <strong>Check</strong> to see your score.
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: Drag bank & Drop zones -->
+        <div class="interaction-panel">
+            <div class="drag-bank">
+                <h3>📦 Drag & Drop Terms</h3>
+                <div class="terms-list" id="draggableTermsContainer">
+                    <!-- terms populated via JS (ensure correct mapping) -->
+                </div>
+                <div style="font-size:0.7rem; margin-top:0.5rem; color:#6b7b85;">*Drag onto numbered target zones below</div>
+            </div>
+
+            <div class="dropzone-area">
+                <h3>🎯 Hotspot Targets (1–16)</h3>
+                <div class="zones-grid" id="dropZonesGrid"></div>
+                <div class="button-bar">
+                    <button class="reset-btn" id="resetBtn">⟳ Reset All</button>
+                    <button class="check-btn" id="checkBtn">✅ Check Answers</button>
+                </div>
+                <div id="feedbackMsg" class="feedback">
+                    ✨ Drop a term onto any numbered zone. Match all 16 to master the fork!
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        UW-Parkside Biology 101 Lab · DNA Replication Fork Interactive · Adheres to UW-P style guide colors & web standards
+    </footer>
 </div>
 
-<!-- ══════════ MAIN ══════════ -->
-<main>
-
-  <div class="intro">
-    <h2>Lab Activity: Identify the Parts of Your DNA Replication Fork Model</h2>
-    <p>
-      Yesterday in lab you built a physical model of a <strong>DNA replication fork</strong> using colored tubes and connectors.
-      Now it's time to show what you know. Hover over each numbered pin on the image to see the structure name,
-      then use the self-check quiz below to test yourself.
-    </p>
-  </div>
-
-  <div class="instructions">
-    &#9432;&nbsp; Hover or tap a numbered pin on the image to highlight its label in the legend. Use the quiz below to check your understanding.
-  </div>
-
-  <!-- ── Diagram + Legend ── -->
-  <div class="diagram-wrapper">
-
-    <!-- Image with hotspot pins -->
-    <div class="image-container" id="img-wrap">
-      <img src="fork.png"
-           alt="Student-built DNA replication fork model showing the fork junction, leading strand, lagging strand, base pairs, phosphate backbone tubes, and deoxyribose connector nodes" />
-
-      <!-- Hotspot positions are expressed as % of image width/height -->
-      <!-- 1. Replication Fork -->
-      <div class="hotspot" style="left:49%;top:52%;" data-id="1">
-        <div class="hotspot-pin">1</div>
-        <div class="hotspot-tooltip">Replication Fork</div>
-      </div>
-      <!-- 2. Leading Strand -->
-      <div class="hotspot" style="left:22%;top:78%;" data-id="2">
-        <div class="hotspot-pin">2</div>
-        <div class="hotspot-tooltip">Leading Strand</div>
-      </div>
-      <!-- 3. Lagging Strand -->
-      <div class="hotspot" style="left:74%;top:78%;" data-id="3">
-        <div class="hotspot-pin">3</div>
-        <div class="hotspot-tooltip">Lagging Strand</div>
-      </div>
-      <!-- 4. 5' End -->
-      <div class="hotspot" style="left:10%;top:95%;" data-id="4">
-        <div class="hotspot-pin">4</div>
-        <div class="hotspot-tooltip">5′ End</div>
-      </div>
-      <!-- 5. 3' End -->
-      <div class="hotspot" style="left:36%;top:95%;" data-id="5">
-        <div class="hotspot-pin">5</div>
-        <div class="hotspot-tooltip">3′ End</div>
-      </div>
-      <!-- 6. Phosphate (white tube) -->
-      <div class="hotspot" style="left:18%;top:60%;" data-id="6">
-        <div class="hotspot-pin">6</div>
-        <div class="hotspot-tooltip">Phosphate (white tube)</div>
-      </div>
-      <!-- 7. Deoxyribose (black pentagon node) -->
-      <div class="hotspot" style="left:28%;top:68%;" data-id="7">
-        <div class="hotspot-pin">7</div>
-        <div class="hotspot-tooltip">Deoxyribose (pentagon node)</div>
-      </div>
-      <!-- 8. Nitrogenous Base Pair -->
-      <div class="hotspot" style="left:49%;top:20%;" data-id="8">
-        <div class="hotspot-pin">8</div>
-        <div class="hotspot-tooltip">Nitrogenous Base Pair</div>
-      </div>
-      <!-- 9. Parental (Template) Strand -->
-      <div class="hotspot" style="left:38%;top:10%;" data-id="9">
-        <div class="hotspot-pin">9</div>
-        <div class="hotspot-tooltip">Parental / Template Strand</div>
-      </div>
-    </div><!-- /image-container -->
-
-    <!-- Legend -->
-    <div class="legend">
-      <div class="legend-header">Structure Key</div>
-      <ul class="legend-list" id="legend-list">
-
-        <li class="legend-item" data-id="1">
-          <div class="legend-badge">1</div>
-          <div class="legend-text">
-            <strong>Replication Fork</strong>
-            <p>The Y-shaped junction where the double helix is unwound and both strands serve as templates for new synthesis.</p>
-          </div>
-        </li>
-
-        <li class="legend-item" data-id="2">
-          <div class="legend-badge">2</div>
-          <div class="legend-text">
-            <strong>Leading Strand</strong>
-            <p>Synthesized continuously in the 5′→3′ direction toward the fork. New nucleotides are added without interruption.</p>
-          </div>
-        </li>
-
-        <li class="legend-item" data-id="3">
-          <div class="legend-badge">3</div>
-          <div class="legend-text">
-            <strong>Lagging Strand</strong>
-            <p>Synthesized discontinuously away from the fork in short Okazaki fragments, also 5′→3′.</p>
-          </div>
-        </li>
-
-        <li class="legend-item" data-id="4">
-          <div class="legend-badge">4</div>
-          <div class="legend-text">
-            <strong>5′ End</strong>
-            <p>The end of a DNA strand that carries a free phosphate group on the 5-carbon of deoxyribose. New strands are built from 5′→3′.</p>
-          </div>
-        </li>
-
-        <li class="legend-item" data-id="5">
-          <div class="legend-badge">5</div>
-          <div class="legend-text">
-            <strong>3′ End</strong>
-            <p>The end carrying a free hydroxyl (–OH) group on the 3-carbon. DNA polymerase adds new nucleotides here.</p>
-          </div>
-        </li>
-
-        <li class="legend-item" data-id="6">
-          <div class="legend-badge">6</div>
-          <div class="legend-text">
-            <strong>Phosphate Group (white tube)</strong>
-            <p>Negatively charged group that links nucleotides via phosphodiester bonds, forming the sugar-phosphate backbone.</p>
-          </div>
-        </li>
-
-        <li class="legend-item" data-id="7">
-          <div class="legend-badge">7</div>
-          <div class="legend-text">
-            <strong>Deoxyribose (black pentagon node)</strong>
-            <p>The 5-carbon sugar of DNA. Its 2′ position lacks an oxygen, distinguishing DNA from RNA.</p>
-          </div>
-        </li>
-
-        <li class="legend-item" data-id="8">
-          <div class="legend-badge">8</div>
-          <div class="legend-text">
-            <strong>Nitrogenous Base Pair</strong>
-            <p>Complementary bases joined by hydrogen bonds: A–T (2 bonds) and G–C (3 bonds), forming the rungs of the ladder.</p>
-          </div>
-        </li>
-
-        <li class="legend-item" data-id="9">
-          <div class="legend-badge">9</div>
-          <div class="legend-text">
-            <strong>Parental / Template Strand</strong>
-            <p>The original double helix that is unwound at the fork. Each strand acts as a template for a new complementary strand.</p>
-          </div>
-        </li>
-
-      </ul><!-- /legend-list -->
-    </div><!-- /legend -->
-
-  </div><!-- /diagram-wrapper -->
-
-  <!-- Reveal bar -->
-  <div class="reveal-bar">
-    <button class="btn btn-primary" id="btn-show-all">Show All Labels</button>
-    <button class="btn btn-secondary" id="btn-reset">Reset</button>
-  </div>
-
-  <!-- ── Self-Check Quiz ── -->
-  <div class="quiz-section">
-    <div class="quiz-header">&#10003;&nbsp; Self-Check: Match the Pin to the Structure</div>
-    <div class="quiz-body">
-      <p style="font-family:Arial,sans-serif;font-size:0.88rem;color:var(--warm-grey);margin-bottom:18px;">
-        Select the correct structure name for each numbered pin. Submit when finished.
-      </p>
-
-      <div id="quiz-form">
-        <!-- Questions injected by JS -->
-      </div>
-
-      <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;">
-        <button class="btn btn-primary" id="btn-check">Check Answers</button>
-        <button class="btn btn-secondary" id="btn-reset-quiz">Try Again</button>
-      </div>
-
-      <div id="score-panel"></div>
-    </div>
-  </div>
-
-</main>
-
-<!-- ══════════ FOOTER ══════════ -->
-<footer>
-  <p style="margin-bottom:8px;">
-    🔗 Direct link for students:
-    <a href="https://uwpbios101-gif.github.io/101Lab/07%20DNA/replicationfork.html">
-      uwpbios101-gif.github.io/101Lab/07 DNA/replicationfork.html
-    </a>
-  </p>
-  <p>
-    &copy; UW-Parkside &amp; The Board of Regents of the University of Wisconsin System &nbsp;|&nbsp;
-    900 Wood Road &bull; P.O. Box 2000 &bull; Kenosha, WI 53141-2000 &bull; P 262-595-2345 &nbsp;|&nbsp;
-    <a href="https://www.uwp.edu/privacy/">Privacy Statement</a>
-  </p>
-</footer>
-
 <script>
-  /* ── Data ── */
-  const structures = [
-    { id: 1, name: "Replication Fork" },
-    { id: 2, name: "Leading Strand" },
-    { id: 3, name: "Lagging Strand" },
-    { id: 4, name: "5′ End" },
-    { id: 5, name: "3′ End" },
-    { id: 6, name: "Phosphate Group (white tube)" },
-    { id: 7, name: "Deoxyribose (pentagon node)" },
-    { id: 8, name: "Nitrogenous Base Pair" },
-    { id: 9, name: "Parental / Template Strand" },
-  ];
+    // ----- DEFINITIONS (exact mapping: hotspot number -> correct term)
+    const CORRECT_MAP = {
+        1: "Phosphate",
+        2: "5'",
+        3: "3'",
+        4: "OH",
+        5: "Template strand",
+        6: "Daughter strand",
+        7: "Leading strand",
+        8: "Lagging strand",
+        9: "Okazaki fragment",
+        10: "RNA primer",
+        11: "DNA polymerase",
+        12: "Helicase",
+        13: "Primase",
+        14: "Single-strand binding protein",
+        15: "Topoisomerase",
+        16: "Replication fork"
+    };
 
-  /* ── Hotspot ↔ Legend sync ── */
-  function setActive(id) {
-    document.querySelectorAll('.hotspot').forEach(el => {
-      el.classList.toggle('active', el.dataset.id == id);
-    });
-    document.querySelectorAll('.legend-item').forEach(el => {
-      el.classList.toggle('active', el.dataset.id == id);
-    });
-    // Scroll legend item into view
-    const item = document.querySelector(`.legend-item[data-id="${id}"]`);
-    if (item) item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-  }
+    // All draggable terms (full list as per raw items)
+    const ALL_TERMS = [
+        "Phosphate", "5'", "3'", "OH", "Template strand", "Daughter strand",
+        "Leading strand", "Lagging strand", "Okazaki fragment", "RNA primer",
+        "DNA polymerase", "Helicase", "Primase", "Single-strand binding protein",
+        "Topoisomerase", "Replication fork"
+    ];
 
-  document.querySelectorAll('.hotspot').forEach(el => {
-    el.addEventListener('click', () => setActive(el.dataset.id));
-    el.addEventListener('mouseenter', () => setActive(el.dataset.id));
-  });
-  document.querySelectorAll('.legend-item').forEach(el => {
-    el.addEventListener('click', () => setActive(el.dataset.id));
-  });
+    // Storage for user assignments: key = zoneNumber, value = termText (or null)
+    let userAssignments = {};
+    // Track which zones are filled
+    // initialize empty
+    for (let i = 1; i <= 16; i++) {
+        userAssignments[i] = null;
+    }
 
-  /* ── Show All / Reset ── */
-  document.getElementById('btn-show-all').addEventListener('click', () => {
-    document.querySelectorAll('.hotspot').forEach(el => el.classList.add('active'));
-    document.querySelectorAll('.legend-item').forEach(el => el.classList.add('active'));
-  });
-  document.getElementById('btn-reset').addEventListener('click', () => {
-    document.querySelectorAll('.hotspot, .legend-item').forEach(el => el.classList.remove('active'));
-  });
+    // ----- Helper: render drop zones grid dynamically
+    function renderDropZones() {
+        const container = document.getElementById("dropZonesGrid");
+        if (!container) return;
+        let html = "";
+        for (let i = 1; i <= 16; i++) {
+            const assignedTerm = userAssignments[i];
+            const isFilled = assignedTerm !== null;
+            const displayTerm = assignedTerm ? assignedTerm : "⬅️ drop term here";
+            const emptyClass = !assignedTerm ? "empty-message" : "zone-term";
+            html += `
+                <div class="drop-zone" data-zone="${i}" data-filled="${isFilled}" data-term="${assignedTerm || ''}">
+                    <span class="zone-label">Hotspot ${i}</span>
+                    <span class="${emptyClass}">${displayTerm}</span>
+                </div>
+            `;
+        }
+        container.innerHTML = html;
+        // reattach drop event listeners after rendering
+        attachDropListeners();
+    }
 
-  /* ── Build Quiz ── */
-  const allNames = structures.map(s => s.name);
-  const quizForm = document.getElementById('quiz-form');
+    // drag & drop setup: make all .drag-term draggable
+    function initDraggables() {
+        const draggables = document.querySelectorAll('.drag-term');
+        draggables.forEach(el => {
+            el.setAttribute('draggable', 'true');
+            el.addEventListener('dragstart', handleDragStart);
+            el.addEventListener('dragend', handleDragEnd);
+            // for touch / accessibility we add fallback but keep consistent
+            el.style.cursor = 'grab';
+        });
+    }
 
-  // Shuffle helper
-  function shuffle(arr) {
-    return [...arr].sort(() => Math.random() - 0.5);
-  }
+    let draggedItem = null;
+    function handleDragStart(e) {
+        draggedItem = this;
+        e.dataTransfer.setData("text/plain", this.getAttribute("data-term"));
+        e.dataTransfer.effectAllowed = "copy";
+        this.classList.add("dragging");
+    }
+    function handleDragEnd(e) {
+        if(this) this.classList.remove("dragging");
+        draggedItem = null;
+    }
 
-  structures.forEach(s => {
-    const options = shuffle(allNames);
-    const div = document.createElement('div');
-    div.className = 'quiz-q';
-    div.dataset.correct = s.name;
-    div.innerHTML = `
-      <label>Pin ${s.id} is the:</label>
-      <select data-pin="${s.id}">
-        <option value="">— Select a structure —</option>
-        ${options.map(n => `<option value="${n}">${n}</option>`).join('')}
-      </select>
-      <div class="quiz-feedback" id="fb-${s.id}"></div>
-    `;
-    quizForm.appendChild(div);
-  });
+    function attachDropListeners() {
+        const dropZones = document.querySelectorAll('.drop-zone');
+        dropZones.forEach(zone => {
+            zone.removeEventListener('dragover', handleDragOver);
+            zone.removeEventListener('drop', handleDrop);
+            zone.addEventListener('dragover', handleDragOver);
+            zone.addEventListener('drop', handleDrop);
+        });
+    }
 
-  /* ── Check Answers ── */
-  document.getElementById('btn-check').addEventListener('click', () => {
-    let score = 0;
-    document.querySelectorAll('.quiz-q').forEach(q => {
-      const sel = q.querySelector('select');
-      const fb  = q.querySelector('.quiz-feedback');
-      const correct = q.dataset.correct;
-      if (!sel.value) {
-        fb.textContent = '⚠ Please make a selection.';
-        fb.className = 'quiz-feedback wrong';
-        return;
-      }
-      if (sel.value === correct) {
-        score++;
-        fb.textContent = '✓ Correct!';
-        fb.className = 'quiz-feedback correct';
-      } else {
-        fb.textContent = `✗ Not quite. The correct answer is: ${correct}`;
-        fb.className = 'quiz-feedback wrong';
-      }
-    });
-    const panel = document.getElementById('score-panel');
-    panel.innerHTML = `<strong>Your Score: ${score} / ${structures.length}</strong>${score === structures.length ? ' 🎉 Perfect! You know your replication fork.' : ' — Review the highlighted pins and try again.'}`;
-    panel.classList.add('show');
-  });
+    function handleDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "copy";
+    }
 
-  /* ── Reset Quiz ── */
-  document.getElementById('btn-reset-quiz').addEventListener('click', () => {
-    document.querySelectorAll('.quiz-q select').forEach(s => s.value = '');
-    document.querySelectorAll('.quiz-feedback').forEach(fb => {
-      fb.className = 'quiz-feedback';
-      fb.textContent = '';
-    });
-    const panel = document.getElementById('score-panel');
-    panel.innerHTML = '';
-    panel.classList.remove('show');
-  });
+    function handleDrop(e) {
+        e.preventDefault();
+        const targetZone = e.currentTarget;
+        const zoneNumber = parseInt(targetZone.getAttribute("data-zone"));
+        if (isNaN(zoneNumber)) return;
+        // get dragged term text
+        let draggedTerm = null;
+        if (draggedItem && draggedItem.getAttribute("data-term")) {
+            draggedTerm = draggedItem.getAttribute("data-term");
+        } else {
+            const plainData = e.dataTransfer.getData("text/plain");
+            if(plainData) draggedTerm = plainData;
+        }
+        if (!draggedTerm) return;
+        // assign term to this zone (overwrite if needed)
+        userAssignments[zoneNumber] = draggedTerm;
+        renderDropZones();      // re-render zones with new assignment
+        // also update visual feedback but no auto-check
+        document.getElementById("feedbackMsg").innerHTML = `📌 Hotspot ${zoneNumber} set to "${draggedTerm}". Drag another term to change.`;
+        // reset dragging style
+        if(draggedItem) draggedItem.classList.remove("dragging");
+        draggedItem = null;
+    }
+
+    // Reset all assignments
+    function resetGame() {
+        for (let i = 1; i <= 16; i++) {
+            userAssignments[i] = null;
+        }
+        renderDropZones();
+        document.getElementById("feedbackMsg").innerHTML = "🔄 Reset complete. Drag terms from the bank to each numbered hotspot.";
+    }
+
+    // Check answers: compute score & show detailed feedback
+    function checkAnswers() {
+        let score = 0;
+        let results = [];
+        for (let i = 1; i <= 16; i++) {
+            const userAns = userAssignments[i];
+            const correctAns = CORRECT_MAP[i];
+            const isCorrect = (userAns && userAns.trim() === correctAns);
+            if (isCorrect) score++;
+            results.push({
+                zone: i,
+                correct: isCorrect,
+                user: userAns || "(empty)",
+                expected: correctAns
+            });
+        }
+        // Build feedback message with UW-P style
+        let message = `🎯 Score: ${score}/16. `;
+        if (score === 16) message += "Perfect! You've mastered the replication fork! 🧬✨";
+        else message += "Review mismatches below: ";
+        // show up to 5 mismatches inline
+        const mismatches = results.filter(r => !r.correct);
+        if (mismatches.length > 0) {
+            message += `<br><strong>Mismatched hotspots:</strong> `;
+            mismatches.slice(0, 8).forEach(m => {
+                message += `[${m.zone}: ${m.user} → should be "${m.expected}"] `;
+            });
+            if(mismatches.length > 8) message += ` (+${mismatches.length-8} more)`;
+        } else if(score !==16) {
+            message += " Keep dragging terms onto correct numbered targets!";
+        }
+        document.getElementById("feedbackMsg").innerHTML = message;
+        // additional visual highlight: add temporary border on wrong zones? optional style.
+        const allZones = document.querySelectorAll('.drop-zone');
+        allZones.forEach(zone => {
+            const zoneNum = parseInt(zone.getAttribute("data-zone"));
+            const isCorrect = (userAssignments[zoneNum] && userAssignments[zoneNum] === CORRECT_MAP[zoneNum]);
+            if (userAssignments[zoneNum] !== null && !isCorrect) {
+                zone.style.border = "2px solid #c75146";
+                zone.style.backgroundColor = "#fff2ef";
+            } else if (userAssignments[zoneNum] !== null && isCorrect) {
+                zone.style.border = "2px solid #2c6e2f";
+                zone.style.backgroundColor = "#e9f5e6";
+            } else {
+                zone.style.border = "1px dashed var(--uwp-cool-gray)";
+                zone.style.backgroundColor = "white";
+            }
+        });
+    }
+
+    // Build draggable terms list (word bank)
+    function buildDraggableTerms() {
+        const container = document.getElementById("draggableTermsContainer");
+        if (!container) return;
+        container.innerHTML = "";
+        ALL_TERMS.forEach(term => {
+            const span = document.createElement("span");
+            span.className = "drag-term";
+            span.setAttribute("data-term", term);
+            span.textContent = term;
+            container.appendChild(span);
+        });
+        initDraggables();   // fresh draggable
+    }
+
+    // Initialize entire UI
+    function initGame() {
+        buildDraggableTerms();
+        renderDropZones();
+        // Attach button handlers
+        document.getElementById("resetBtn").addEventListener("click", resetGame);
+        document.getElementById("checkBtn").addEventListener("click", checkAnswers);
+        // additional feedback reset styling on reset
+    }
+
+    initGame();
 </script>
 </body>
 </html>
