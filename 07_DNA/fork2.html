@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DNA Replication Fork – Label the Model | UW-Parkside Biology</title>
+  <link rel="canonical" href="https://uwpbios101-gif.github.io/101Lab/07%20DNA/replicationfork.html" />
+  <style>
+    :root {
+      --green:       #016836;
+      --green-dark:  #00502f;
+      --black:       #212721;
+      --warm-grey:   #54534A;
+      --cool-grey:   #DBD9D6;
+      --white-birch: #EFECE2;
+      --goldenrod:   #FABA31;
+      --uw-blue:     #105877;
+      --white:       #ffffff;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: var(--white-birch);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header { background: var(--green); color: var(--white); border-bottom: 6px solid var(--goldenrod); }
+    .header-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 16px 24px 12px;
+      display: flex; align-items: center; gap: 18px;
+    }
+    .uwp-wordmark {
+      font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.3;
+      border-right: 2px solid rgba(255,255,255,0.35); padding-right: 18px;
+    }
+    .uwp-wordmark span { display: block; font-size: 10px; font-weight: 400; opacity: 0.8; }
+    header h1 { font-size: 1.1rem; font-weight: 400; }
+    .breadcrumb {
+      background: var(--green-dark); padding: 5px 24px;
+      font-family: Arial, Helvetica, sans-serif; font-size: 11px; color: rgba(255,255,255,0.7);
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--white); text-decoration: underline; }
+
+    /* Main */
+    main { max-width: 1200px; margin: 0 auto; padding: 28px 24px 60px; }
+    .intro {
+      background: var(--white); border-left: 5px solid var(--green);
+      padding: 16px 22px; margin-bottom: 18px; border-radius: 0 4px 4px 0;
+    }
+    .intro h2 { font-family: Arial, Helvetica, sans-serif; font-size: 1.15rem; color: var(--green-dark); margin-bottom: 5px; }
+    .intro p { font-size: 0.91rem; line-height: 1.6; color: var(--warm-grey); }
+    .task-bar {
+      background: var(--goldenrod); color: var(--black);
+      padding: 10px 18px; border-radius: 4px;
+      font-family: Arial, Helvetica, sans-serif; font-size: 0.87rem; font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    /* Diagram layout */
+    .diagram-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 880px) { .diagram-wrapper { grid-template-columns: 1fr; } }
+
+    /* Image + SVG */
+    .img-svg-wrap {
+      position: relative;
+      background: #111;
+      border-radius: 8px;
+      line-height: 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .img-svg-wrap img { display: block; width: 100%; height: auto; border-radius: 8px; }
+    .img-svg-wrap svg.overlay {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow: visible;
+    }
+
+    /* SVG pin styles */
+    .pin-circle { stroke: white; stroke-width: 1px; }
+    .pin-label {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 6.5px;
+      font-weight: 900;
+      fill: white;
+      dominant-baseline: central;
+      text-anchor: middle;
+      pointer-events: none;
+    }
+    .strand-line { fill: none; stroke-width: 2px; stroke-linecap: round; opacity: 0.8; }
+    .dir-arrow   { fill: none; stroke-width: 1.8px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.9; }
+
+    /* Key panel */
+    .key-panel {
+      background: var(--white); border-radius: 6px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1); overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .key-header {
+      background: var(--green); color: var(--white);
+      padding: 12px 16px; font-size: 0.87rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .key-list { list-style: none; }
+    .key-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 9px 14px; border-bottom: 1px solid var(--cool-grey);
+      font-size: 0.79rem;
+    }
+    .key-item:last-child { border-bottom: none; }
+    .key-num {
+      flex-shrink: 0; width: 21px; height: 21px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 900; color: white; margin-top: 1px;
+    }
+    .key-item strong { display: block; color: var(--black); margin-bottom: 1px; font-size: 0.81rem; }
+    .key-item p { color: var(--warm-grey); line-height: 1.38; margin: 0; }
+
+    /* Quiz */
+    .quiz-section {
+      margin-top: 32px; background: var(--white);
+      border-radius: 6px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden;
+    }
+    .quiz-header {
+      background: var(--green-dark); color: var(--white);
+      padding: 12px 20px; font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .quiz-body { padding: 18px 20px; }
+    .quiz-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(290px,1fr));
+      gap: 12px; margin-bottom: 18px;
+    }
+    .quiz-q label {
+      display: block; font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem; font-weight: 700; color: var(--black); margin-bottom: 4px;
+    }
+    .quiz-q select {
+      width: 100%; padding: 6px 10px; border: 2px solid var(--cool-grey);
+      border-radius: 4px; font-size: 0.82rem; font-family: Arial, Helvetica, sans-serif;
+      color: var(--black); background: var(--white-birch); cursor: pointer;
+    }
+    .quiz-q select:focus { outline: none; border-color: var(--green); }
+    .quiz-feedback {
+      display: none; margin-top: 4px; font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.76rem; font-weight: 700; padding: 3px 8px; border-radius: 3px;
+    }
+    .quiz-feedback.correct { background: #d4edda; color: #155724; display: block; }
+    .quiz-feedback.wrong   { background: #f8d7da; color: #721c24; display: block; }
+    .btn {
+      font-family: Arial, Helvetica, sans-serif; font-size: 0.87rem; font-weight: 700;
+      padding: 9px 20px; border-radius: 4px; border: none; cursor: pointer;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .btn-primary { background: var(--green); color: var(--white); }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-secondary { background: var(--cool-grey); color: var(--black); }
+    .btn-secondary:hover { background: var(--warm-grey); color: var(--white); }
+    #score-panel {
+      display: none; margin-top: 14px; background: var(--uw-blue); color: var(--white);
+      border-radius: 6px; padding: 12px 18px; font-family: Arial, Helvetica, sans-serif; font-size: 0.9rem;
+    }
+    #score-panel.show { display: block; }
+
+    footer {
+      background: var(--black); color: rgba(255,255,255,0.6);
+      text-align: center; padding: 18px 24px;
+      font-family: Arial, Helvetica, sans-serif; font-size: 11px; letter-spacing: 0.03em;
+    }
+    footer a { color: var(--goldenrod); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer p + p { margin-top: 5px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="uwp-wordmark">University of Wisconsin<span>Parkside</span></div>
+    <h1>Biology &amp; Life Science — DNA Replication Fork Lab</h1>
+  </div>
+</header>
+<div class="breadcrumb">
+  <a href="https://uwpbios101-gif.github.io/101Lab/">101Lab</a> &rsaquo;
+  <a href="https://uwpbios101-gif.github.io/101Lab/07%20DNA/">07 DNA</a> &rsaquo;
+  Replication Fork Label Activity
+</div>
+
+<main>
+  <div class="intro">
+    <h2>Identify the Parts of Your Replication Fork Model</h2>
+    <p>
+      Yesterday you built this model by hand. Each numbered pin on the diagram corresponds to a structure in the key on the right.
+      Study the diagram, then complete the self-check quiz without looking at the key.
+    </p>
+  </div>
+  <div class="task-bar">
+    &#9432;&nbsp; Match each numbered pin to its structure name in the key. Colored bracket lines and arrows show strand identity and synthesis direction.
+  </div>
+
+  <div class="diagram-wrapper">
+
+    <!-- Image with numbered SVG pins -->
+    <div class="img-svg-wrap">
+      <img src="fork.png"
+           alt="Student-built DNA replication fork model with 15 numbered callout pins identifying key structures." />
+
+      <svg class="overlay" viewBox="0 0 100 100" preserveAspectRatio="none"
+           xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr-g" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+            <polygon points="0,0 5,2.5 0,5" fill="#016836"/>
+          </marker>
+          <marker id="arr-o" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+            <polygon points="0,0 5,2.5 0,5" fill="#CC3800"/>
+          </marker>
+        </defs>
+
+        <!-- Strand bracket: Template LEFT (blue) -->
+        <polyline class="strand-line" stroke="#105877"
+                  points="35,5 32,5 32,49 35,49"/>
+        <!-- Strand bracket: Template RIGHT (blue) -->
+        <polyline class="strand-line" stroke="#105877"
+                  points="65,5 68,5 68,49 65,49"/>
+
+        <!-- Strand bracket: Leading LEFT daughter (green) -->
+        <polyline class="strand-line" stroke="#016836"
+                  points="10,62 6,62 6,93 10,93"/>
+        <!-- Strand bracket: Lagging RIGHT daughter (orange-red) -->
+        <polyline class="strand-line" stroke="#CC3800"
+                  points="90,62 94,62 94,93 90,93"/>
+
+        <!-- Direction arrow: Leading toward fork (upward arrow) -->
+        <line class="dir-arrow" stroke="#016836" marker-end="url(#arr-g)"
+              x1="13" y1="87" x2="22" y2="68"/>
+
+        <!-- Direction arrow: Lagging away from fork (downward arrow) -->
+        <line class="dir-arrow" stroke="#CC3800" marker-end="url(#arr-o)"
+              x1="78" y1="68" x2="87" y2="87"/>
+
+        <!-- ── PINS: circle + number only, zero text labels ── -->
+
+        <!-- 1 Replication Fork -->
+        <circle class="pin-circle" cx="49" cy="51" r="3.5" fill="#FABA31"/>
+        <text class="pin-label" x="49" y="51.3">1</text>
+
+        <!-- 2 Template Strand LEFT -->
+        <circle class="pin-circle" cx="31" cy="27" r="3.5" fill="#105877"/>
+        <text class="pin-label" x="31" y="27.3">2</text>
+
+        <!-- 3 Template Strand RIGHT -->
+        <circle class="pin-circle" cx="69" cy="27" r="3.5" fill="#105877"/>
+        <text class="pin-label" x="69" y="27.3">3</text>
+
+        <!-- 4 Leading Strand (left daughter) -->
+        <circle class="pin-circle" cx="5.5" cy="77" r="3.5" fill="#016836"/>
+        <text class="pin-label" x="5.5" y="77.3">4</text>
+
+        <!-- 5 Lagging Strand (right daughter) -->
+        <circle class="pin-circle" cx="94.5" cy="77" r="3.5" fill="#CC3800"/>
+        <text class="pin-label" x="94.5" y="77.3">5</text>
+
+        <!-- 6 PO4 left backbone upper -->
+        <circle class="pin-circle" cx="37" cy="10" r="3.5" fill="#7B2D8B"/>
+        <text class="pin-label" x="37" y="10.3">6</text>
+
+        <!-- 7 PO4 left backbone lower -->
+        <circle class="pin-circle" cx="37" cy="39" r="3.5" fill="#7B2D8B"/>
+        <text class="pin-label" x="37" y="39.3">7</text>
+
+        <!-- 8 PO4 right backbone upper -->
+        <circle class="pin-circle" cx="63" cy="10" r="3.5" fill="#7B2D8B"/>
+        <text class="pin-label" x="63" y="10.3">8</text>
+
+        <!-- 9 PO4 right backbone lower -->
+        <circle class="pin-circle" cx="63" cy="39" r="3.5" fill="#7B2D8B"/>
+        <text class="pin-label" x="63" y="39.3">9</text>
+
+        <!-- 10 3'OH left template top -->
+        <circle class="pin-circle" cx="38" cy="4" r="3.5" fill="#C0392B"/>
+        <text class="pin-label" x="38" y="4.3">10</text>
+
+        <!-- 11 3'OH right template near fork -->
+        <circle class="pin-circle" cx="62" cy="49" r="3.5" fill="#C0392B"/>
+        <text class="pin-label" x="62" y="49.3">11</text>
+
+        <!-- 12 3'OH leading strand growing end -->
+        <circle class="pin-circle" cx="26" cy="61" r="3.5" fill="#C0392B"/>
+        <text class="pin-label" x="26" y="61.3">12</text>
+
+        <!-- 13 3'OH lagging strand far end -->
+        <circle class="pin-circle" cx="88" cy="92" r="3.5" fill="#C0392B"/>
+        <text class="pin-label" x="88" y="92.3">13</text>
+
+        <!-- 14 Deoxyribose sugar node -->
+        <circle class="pin-circle" cx="40" cy="20" r="3.5" fill="#B7600A"/>
+        <text class="pin-label" x="40" y="20.3">14</text>
+
+        <!-- 15 Nitrogenous base pair -->
+        <circle class="pin-circle" cx="49" cy="29" r="3.5" fill="#27AE60"/>
+        <text class="pin-label" x="49" y="29.3">15</text>
+
+      </svg>
+    </div><!-- /img-svg-wrap -->
+
+
+    <!-- Numbered Key Panel -->
+    <div class="key-panel">
+      <div class="key-header">Structure Key</div>
+      <ul class="key-list">
+
+        <li class="key-item">
+          <div class="key-num" style="background:#FABA31;color:#212721;">1</div>
+          <div><strong>Replication Fork</strong>
+            <p>Y-junction where helicase unwinds the helix, exposing both template strands.</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#105877;">2</div>
+          <div><strong>Template Strand — Left</strong>
+            <p>Parental strand read 3′→5′; blueprint for the leading daughter strand.</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#105877;">3</div>
+          <div><strong>Template Strand — Right</strong>
+            <p>Parental strand read 3′→5′; blueprint for the lagging daughter strand.</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#016836;">4</div>
+          <div><strong>Leading Strand (daughter)</strong>
+            <p>Synthesized <em>continuously</em> 5′→3′ <strong>toward</strong> the fork. Green arrow shows direction.</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#CC3800;">5</div>
+          <div><strong>Lagging Strand (daughter)</strong>
+            <p>Synthesized <em>discontinuously</em> 5′→3′ <strong>away</strong> from the fork. Orange arrow shows direction.</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#7B2D8B;">6</div>
+          <div><strong>PO₄ — Left Backbone, Upper</strong>
+            <p>White tube. Links nucleotides via phosphodiester bonds; gives DNA its negative charge.</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#7B2D8B;">7</div>
+          <div><strong>PO₄ — Left Backbone, Lower</strong>
+            <p>Same group, closer to the fork. Four PO₄ groups total (pins 6–9).</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#7B2D8B;">8</div>
+          <div><strong>PO₄ — Right Backbone, Upper</strong>
+            <p>Right-side backbone phosphate, upper position.</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#7B2D8B;">9</div>
+          <div><strong>PO₄ — Right Backbone, Lower</strong>
+            <p>Right-side backbone phosphate, near the fork.</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#C0392B;">10</div>
+          <div><strong>3′–OH — Left Template Top</strong>
+            <p>Free hydroxyl at the 3′ terminus of the left parental strand (top of model).</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#C0392B;">11</div>
+          <div><strong>3′–OH — Right Template Near Fork</strong>
+            <p>3′ end of the right parental strand at the fork junction. Four 3′–OH groups total (pins 10–13).</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#C0392B;">12</div>
+          <div><strong>3′–OH — Leading Strand Growing End</strong>
+            <p>Active 3′–OH near the fork. DNA polymerase adds new nucleotides here continuously.</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#C0392B;">13</div>
+          <div><strong>3′–OH — Lagging Strand Far End</strong>
+            <p>3′ terminus of the lagging strand, distal from the fork (bottom of model).</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#B7600A;">14</div>
+          <div><strong>Deoxyribose Sugar</strong>
+            <p>Black pentagon connector. 5-carbon sugar; lacks 2′–OH, distinguishing DNA from RNA.</p></div>
+        </li>
+        <li class="key-item">
+          <div class="key-num" style="background:#27AE60;">15</div>
+          <div><strong>Nitrogenous Base Pair</strong>
+            <p>Colored tube bridging both backbones. A–T (2 H-bonds) or G–C (3 H-bonds).</p></div>
+        </li>
+
+      </ul>
+    </div>
+
+  </div><!-- /diagram-wrapper -->
+
+
+  <!-- Self-Check Quiz -->
+  <div class="quiz-section">
+    <div class="quiz-header">&#10003;&nbsp; Self-Check — Name Each Numbered Pin</div>
+    <div class="quiz-body">
+      <p style="font-family:Arial,sans-serif;font-size:0.83rem;color:var(--warm-grey);margin-bottom:14px;">
+        Without looking at the key, select the correct name for each pin. Click <strong>Check Answers</strong> when done.
+      </p>
+      <div class="quiz-grid" id="quiz-form"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-primary" id="btn-check">Check Answers</button>
+        <button class="btn btn-secondary" id="btn-reset-quiz">Try Again</button>
+      </div>
+      <div id="score-panel"></div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>🔗 Student link:
+    <a href="https://uwpbios101-gif.github.io/101Lab/07%20DNA/replicationfork.html">
+      uwpbios101-gif.github.io/101Lab/07 DNA/replicationfork.html
+    </a>
+  </p>
+  <p>&copy; UW-Parkside &amp; The Board of Regents of the University of Wisconsin System &nbsp;|&nbsp;
+    900 Wood Road &bull; P.O. Box 2000 &bull; Kenosha, WI 53141-2000 &bull; P 262-595-2345 &nbsp;|&nbsp;
+    <a href="https://www.uwp.edu/privacy/">Privacy Statement</a>
+  </p>
+</footer>
+
+<script>
+  const pins = [
+    { num:1,  answer:"Replication Fork" },
+    { num:2,  answer:"Template Strand — Left" },
+    { num:3,  answer:"Template Strand — Right" },
+    { num:4,  answer:"Leading Strand (daughter)" },
+    { num:5,  answer:"Lagging Strand (daughter)" },
+    { num:6,  answer:"PO₄ — Left Backbone, Upper" },
+    { num:7,  answer:"PO₄ — Left Backbone, Lower" },
+    { num:8,  answer:"PO₄ — Right Backbone, Upper" },
+    { num:9,  answer:"PO₄ — Right Backbone, Lower" },
+    { num:10, answer:"3′–OH — Left Template Top" },
+    { num:11, answer:"3′–OH — Right Template Near Fork" },
+    { num:12, answer:"3′–OH — Leading Strand Growing End" },
+    { num:13, answer:"3′–OH — Lagging Strand Far End" },
+    { num:14, answer:"Deoxyribose Sugar" },
+    { num:15, answer:"Nitrogenous Base Pair" },
+  ];
+
+  const allAnswers = pins.map(p => p.answer);
+  const shuffle = arr => [...arr].sort(() => Math.random() - 0.5);
+
+  const form = document.getElementById('quiz-form');
+  pins.forEach((p, i) => {
+    const opts = shuffle(allAnswers);
+    const div = document.createElement('div');
+    div.className = 'quiz-q';
+    div.dataset.correct = p.answer;
+    div.innerHTML = `
+      <label>Pin ${p.num}:</label>
+      <select>
+        <option value="">— choose —</option>
+        ${opts.map(a => `<option value="${a}">${a}</option>`).join('')}
+      </select>
+      <div class="quiz-feedback" id="fb-${i}"></div>`;
+    form.appendChild(div);
+  });
+
+  document.getElementById('btn-check').addEventListener('click', () => {
+    let score = 0;
+    document.querySelectorAll('.quiz-q').forEach((q, i) => {
+      const sel = q.querySelector('select');
+      const fb  = document.getElementById(`fb-${i}`);
+      if (!sel.value) {
+        fb.textContent = '⚠ Select an answer.'; fb.className = 'quiz-feedback wrong'; return;
+      }
+      if (sel.value === q.dataset.correct) {
+        score++; fb.textContent = '✓ Correct!'; fb.className = 'quiz-feedback correct';
+      } else {
+        fb.textContent = `✗ Answer: ${q.dataset.correct}`; fb.className = 'quiz-feedback wrong';
+      }
+    });
+    const panel = document.getElementById('score-panel');
+    panel.innerHTML = `<strong>Score: ${score} / ${pins.length}</strong>${score===pins.length?' — Outstanding! 🎉':' — Review the key and try again.'}`;
+    panel.classList.add('show');
+  });
+
+  document.getElementById('btn-reset-quiz').addEventListener('click', () => {
+    document.querySelectorAll('.quiz-q select').forEach(s => s.value='');
+    document.querySelectorAll('.quiz-feedback').forEach(fb => { fb.className='quiz-feedback'; fb.textContent=''; });
+    const panel = document.getElementById('score-panel');
+    panel.innerHTML=''; panel.classList.remove('show');
+  });
+</script>
+</body>
+</html>
