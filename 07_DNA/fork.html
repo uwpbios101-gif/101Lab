@@ -27,7 +27,7 @@
         body {
             background: var(--uwp-light-gray);
             font-family: var(--uwp-font-sans);
-            color: #1e2a36;
+            color: #a5c0ff;
             line-height: 1.5;
             padding: 0.75rem;
         }
@@ -68,12 +68,15 @@
 
         .fork-layout {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             gap: 1rem;
             padding: 1rem;
         }
 
         .diagram-area {
+            flex: 2;
+            min-width: 320px;
             background: #ffffff;
             border-radius: 0.75rem;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
@@ -173,15 +176,15 @@
             border-top: 1px solid var(--uwp-border);
         }
 
-        /* bottom panel */
+        /* right panel */
         .interaction-panel {
+            flex: 1;
+            min-width: 260px;
             background: #ffffff;
             border-radius: 0.75rem;
             border: 1px solid var(--uwp-border);
             display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 0;
+            flex-direction: column;
         }
 
         .drag-bank {
@@ -364,29 +367,29 @@
         </div>
 
         <div class="fork-layout">
-            <!-- TERM BANK: above image -->
-            <div class="drag-bank" style="background:#faf9f5;padding:0.5rem 1rem;border:1px solid var(--uwp-border);border-radius:0.6rem;">
-                <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
-                    <span style="font-size:0.8rem;font-weight:600;color:var(--uwp-ranger-red);white-space:nowrap;">📦 Term Bank:</span>
-                    <div class="terms-list" id="draggableTermsContainer" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:0;"></div>
+            <!-- LEFT: Term bank above image -->
+            <div style="flex:2;min-width:320px;display:flex;flex-direction:column;gap:0.6rem;">
+                <div style="background:#faf9f5;padding:0.5rem 1rem;border:1px solid var(--uwp-border);border-radius:0.6rem;">
+                    <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+                        <span style="font-size:0.8rem;font-weight:600;color:var(--uwp-ranger-red);white-space:nowrap;">📦 Term Bank:</span>
+                        <div class="terms-list" id="draggableTermsContainer" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:0;"></div>
+                    </div>
+                </div>
+                <div class="diagram-area" style="flex:none;">
+                    <div class="diagram-title">🔬 Replication Fork Model — drag terms onto numbered hotspots or drop zones on the right</div>
+                    <div class="image-hotspot-wrapper" id="imageWrapper">
+                        <!-- Photo inserted by JS with correct base64 -->
+                        <!-- Hotspot circles injected by JS -->
+                    </div>
+                    <div class="diagram-hint">
+                        💡 Circles turn <span style="color:#2980b9;font-weight:bold">blue</span> when assigned, <span style="color:#2c6e2f;font-weight:bold">green</span> when correct, <span style="color:#c0392b;font-weight:bold">red</span> when wrong.
+                    </div>
                 </div>
             </div>
 
-            <!-- IMAGE: center -->
-            <div class="diagram-area">
-                <div class="diagram-title">🔬 Replication Fork Model — drag terms onto numbered hotspots or drop zones below</div>
-                <div class="image-hotspot-wrapper" id="imageWrapper">
-                    <!-- Photo inserted by JS with correct base64 -->
-                    <!-- Hotspot circles injected by JS -->
-                </div>
-                <div class="diagram-hint">
-                    💡 Circles turn <span style="color:#2980b9;font-weight:bold">blue</span> when assigned, <span style="color:#2c6e2f;font-weight:bold">green</span> when correct, <span style="color:#c0392b;font-weight:bold">red</span> when wrong.
-                </div>
-            </div>
-
-            <!-- DROP ZONES + BUTTONS: below image -->
+            <!-- RIGHT: Drop zones + buttons -->
             <div class="interaction-panel">
-                <div class="dropzone-area" style="width:100%;">
+                <div class="dropzone-area">
                     <h3>🎯 Hotspot Targets (1–11)</h3>
                     <div class="zones-grid" id="dropZonesGrid"></div>
                     <div class="button-bar">
