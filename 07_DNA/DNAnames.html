@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DNA Names — Mitosis Metacognition Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0e14;
+    --surface: #17171f;
+    --surface2: #1f1f2e;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.18);
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.7);
+    --accent-purple: #9b7fff;
+    --accent-teal: #3dd6b5;
+    --accent-amber: #f5a623;
+    --accent-coral: #ff7a7a;
+    --accent-blue: #60a5fa;
+    --glow-purple: rgba(155,127,255,0.15);
+    --glow-teal: rgba(61,214,181,0.15);
+    --glow-amber: rgba(245,166,35,0.12);
+    --radius: 12px;
+    --radius-sm: 7px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* Accessibility Basics */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  
+  :focus-visible {
+    outline: 2px solid var(--accent-teal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  button {
+    font-family: inherit;
+    appearance: none;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 3rem 2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(155,127,255,0.12), transparent 70%);
+    pointer-events: none;
+  }
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+  .header h1 em {
+    font-style: italic;
+    color: var(--accent-purple);
+  }
+  .header .subtitle {
+    margin-top: 0.5rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 300;
+    position: relative;
+  }
+
+  /* ── ROAD MAP BAR ── */
+  .roadmap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  .rm-step {
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    min-width: 80px;
+    padding: 4px;
+    transition: opacity 0.2s;
+  }
+  .rm-step:hover { opacity: 0.85; }
+  .rm-node {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    transition: all 0.25s;
+    background: var(--surface);
+  }
+  .rm-label {
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    line-height: 1.3;
+    max-width: 70px;
+    transition: color 0.25s;
+  }
+  .rm-arrow {
+    width: 24px;
+    height: 2px;
+    background: var(--border);
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 17px;
+  }
+  .rm-step.done .rm-node { border-color: var(--accent-teal); color: var(--accent-teal); background: var(--glow-teal); }
+  .rm-step.done .rm-label { color: var(--accent-teal); }
+  .rm-step.active .rm-node { border-color: var(--accent-purple); color: var(--accent-purple); background: var(--glow-purple); box-shadow: 0 0 14px rgba(155,127,255,0.35); }
+  .rm-step.active .rm-label { color: var(--accent-purple); font-weight: 500; }
+
+  /* ── PHASE TIMELINE ── */
+  .timeline-wrap {
+    padding: 1.5rem 2rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .timeline {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .phase-pill {
+    padding: 5px 12px;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 400;
+    border: 1px solid var(--border);
+    color: rgba(255,255,255,0.75);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface);
+    white-space: nowrap;
+  }
+  .phase-pill:hover { border-color: var(--border-hover); color: var(--text); }
+  .phase-pill[aria-pressed="true"] { border-color: var(--accent-amber); color: var(--accent-amber); background: var(--glow-amber); }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── STEP VIEW ── */
+  .step-view { display: none; }
+  .step-view.visible { display: block; }
+
+  /* ── CHUNKING INTRO (Step 0) ── */
+  .chunk-intro {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .chunk-intro h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 1.4rem;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+  .chunk-intro p { color: var(--muted); font-size: 0.92rem; margin-bottom: 0.5rem; }
+  .chunk-intro p:last-child { margin-bottom: 0; }
+
+  .goal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 1.5rem 0;
+  }
+  .goal-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.2rem;
+  }
+  .goal-card .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.3rem;
+    color: var(--accent-purple);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .goal-card p { font-size: 0.85rem; color: var(--muted); }
+  .goal-card h3 { font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+
+  /* ── CONCEPT CARD ── */
+  .concept-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .concept-card:hover { border-color: var(--border-hover); }
+  .concept-card.mastered { border-color: var(--accent-teal); }
+  .concept-card.flagged { border-color: var(--accent-amber); }
+
+  .card-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    text-align: left;
+  }
+  .card-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 100px;
+    background: var(--surface2);
+    color: var(--accent-purple);
+    border: 1px solid rgba(155,127,255,0.3);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    flex: 1;
+  }
+  .card-phases {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+  .mini-pill {
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .mini-pill.interphase { border-color: rgba(96,165,250,0.4); color: var(--accent-blue); }
+  .mini-pill.mitosis { border-color: rgba(255,122,122,0.4); color: var(--accent-coral); }
+  .card-chevron {
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+    color: var(--muted);
+    transition: transform 0.25s;
+  }
+  .card-header[aria-expanded="true"] .card-chevron { transform: rotate(180deg); }
+  
+  .card-actions {
+    display: flex; gap: 8px; padding: 0 1.25rem 1rem;
+    margin-top: -4px;
+  }
+  .act-btn {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    padding: 5px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: rgba(255,255,255,0.75);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .act-btn:hover { border-color: var(--border-hover); color: var(--text); }
+  .act-btn.master[aria-pressed="true"] { background: var(--glow-teal); border-color: var(--accent-teal); color: var(--accent-teal); }
+  .act-btn.flag[aria-pressed="true"] { background: var(--glow-amber); border-color: var(--accent-amber); color: var(--accent-amber); }
+
+  .card-body {
+    display: none;
+    padding: 0 1.25rem 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .card-body.open { display: block; }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  @media (max-width: 560px) { .info-grid { grid-template-columns: 1fr; } }
+
+  .info-block .label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  .info-block .content {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  .trigger-box {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent-purple);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    font-size: 0.88rem;
+    color: var(--text);
+  }
+  .trigger-box .label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-purple);
+    margin-bottom: 4px;
+  }
+
+  .structure-box {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent-teal);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 0.75rem 1rem;
+    margin-top: 0.75rem;
+    font-size: 0.88rem;
+    color: var(--text);
+  }
+  .structure-box .label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-teal);
+    margin-bottom: 4px;
+  }
+
+  .phase-list {
+    display: flex; gap: 5px; flex-wrap: wrap; margin-top: 0.6rem;
+  }
+  .phase-tag {
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* ── QUIZ SECTION ── */
+  fieldset.quiz-q {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  legend.q-text {
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+    font-weight: 400;
+    padding: 0;
+    display: table; /* Fix for some screen reader legend rendering issues */
+  }
+  .q-context {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    font-style: italic;
+    display: block;
+  }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt {
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    cursor: pointer;
+    font-size: 0.88rem;
+    color: var(--text);
+    transition: all 0.2s;
+    text-align: left;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--accent-purple); }
+  .opt.correct { border-color: var(--accent-teal); background: var(--glow-teal); color: var(--accent-teal); }
+  .opt.wrong { border-color: var(--accent-coral); background: rgba(255,122,122,0.08); color: var(--accent-coral); }
+  
+  .feedback {
+    margin-top: 0.75rem;
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok { background: var(--glow-teal); color: var(--accent-teal); }
+  .feedback.bad { background: rgba(255,122,122,0.08); color: var(--accent-coral); }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: var(--surface2);
+    height: 6px;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-purple), var(--accent-teal));
+    border-radius: 100px;
+    transition: width 0.4s ease;
+  }
+
+  /* ── NAV BUTTONS ── */
+  .nav-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    padding: 10px 22px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: rgba(255,255,255,0.75);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { border-color: var(--border-hover); color: var(--text); }
+  .nav-btn.primary {
+    background: var(--accent-purple);
+    border-color: var(--accent-purple);
+    color: #0e0e14;
+    font-weight: 500;
+  }
+  .nav-btn.primary:hover { opacity: 0.88; }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* ── SUMMARY STEP ── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    text-align: center;
+  }
+  .stat-card .big { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--accent-purple); }
+  .stat-card .lbl { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+  .stat-card.teal .big { color: var(--accent-teal); }
+  .stat-card.amber .big { color: var(--accent-amber); }
+
+  .concept-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .concept-row:last-child { border-bottom: none; }
+  .concept-row .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--muted);
+  }
+  .concept-row.m .dot { background: var(--accent-teal); }
+  .concept-row.f .dot { background: var(--accent-amber); }
+  .concept-row .cname { font-size: 0.9rem; color: var(--text); }
+  .concept-row .ctag { margin-left: auto; font-size: 0.72rem; color: var(--muted); }
+  .concept-row.m .ctag { color: var(--accent-teal); }
+  .concept-row.f .ctag { color: var(--accent-amber); }
+
+  /* util */
+  .section-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    display: block;
+  }
+  h2.section-label { margin-top: 0; }
+  .mt1 { margin-top: 1rem; }
+  .mt2 { margin-top: 1.5rem; }
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .checklist li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 0.9rem; color: var(--muted);
+  }
+  .checklist li .ck {
+    width: 18px; height: 18px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--accent-teal);
+  }
+  .highlight { color: var(--text); }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <h1>DNA Names in <em>Mitosis</em></h1>
+  <p class="subtitle">Metacognitive learning — one chunk at a time · 7 concepts · 5 steps</p>
+</header>
+
+<nav aria-label="Learning Progress" class="roadmap" id="roadmap">
+  <button class="rm-step active" data-step="0" aria-current="step">
+    <span class="rm-node" aria-hidden="true">0</span>
+    <span class="rm-label">Orient</span>
+  </button>
+  <span class="rm-arrow" aria-hidden="true"></span>
+  <button class="rm-step" data-step="1">
+    <span class="rm-node" aria-hidden="true">1</span>
+    <span class="rm-label">The Big Picture</span>
+  </button>
+  <span class="rm-arrow" aria-hidden="true"></span>
+  <button class="rm-step" data-step="2">
+    <span class="rm-node" aria-hidden="true">2</span>
+    <span class="rm-label">Each Concept</span>
+  </button>
+  <span class="rm-arrow" aria-hidden="true"></span>
+  <button class="rm-step" data-step="3">
+    <span class="rm-node" aria-hidden="true">3</span>
+    <span class="rm-label">Phase Filter</span>
+  </button>
+  <span class="rm-arrow" aria-hidden="true"></span>
+  <button class="rm-step" data-step="4">
+    <span class="rm-node" aria-hidden="true">4</span>
+    <span class="rm-label">Quiz Yourself</span>
+  </button>
+  <span class="rm-arrow" aria-hidden="true"></span>
+  <button class="rm-step" data-step="5">
+    <span class="rm-node" aria-hidden="true">5</span>
+    <span class="rm-label">Your Map</span>
+  </button>
+</nav>
+
+<main class="main">
+
+<section class="step-view visible" id="step-0" aria-labelledby="heading-step-0">
+  <h2 id="heading-step-0" class="sr-only">Step 0: Orient</h2>
+  <div class="chunk-intro">
+    <h3 style="font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 1.4rem; margin-bottom: 0.75rem;">Before you panic — read this.</h3>
+    <p>That table isn't asking you to memorize 7 random things. It's asking one question, seven ways:</p>
+    <p style="font-size:1.05rem; color: var(--text); margin: 1rem 0; padding: 0.75rem 1rem; border-left: 3px solid var(--accent-purple); background: var(--surface2); border-radius: 0 8px 8px 0;">
+      <strong style="color:var(--accent-purple)">Core question:</strong> What do we call a DNA molecule when it's in a particular molecular state?
+    </p>
+    <p>Names aren't arbitrary. The name changes when the <em style="color:var(--accent-amber)">molecular state</em> changes. That's the whole game.</p>
+  </div>
+
+  <h3 class="section-label mt2">Your 3 metacognitive goals</h3>
+  <div class="goal-grid">
+    <div class="goal-card">
+      <span class="num" aria-hidden="true">①</span>
+      <h4 style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 4px;">Know the trigger</h4>
+      <p>What event causes each name to apply?</p>
+    </div>
+    <div class="goal-card">
+      <span class="num" aria-hidden="true">②</span>
+      <h4 style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 4px;">Know the structure</h4>
+      <p>What does the DNA physically look like at that name?</p>
+    </div>
+    <div class="goal-card">
+      <span class="num" aria-hidden="true">③</span>
+      <h4 style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 4px;">Know the phase</h4>
+      <p>When in the cell cycle does this name apply?</p>
+    </div>
+  </div>
+
+  <h3 class="section-label mt2">Your 5-step chunking process</h3>
+  <ul class="checklist" id="chunk-checklist">
+    <li><span class="ck" aria-hidden="true"></span><span><span class="highlight">Step 1 — Big Picture:</span> See all 7 names as a sequence, not a list.</span></li>
+    <li><span class="ck" aria-hidden="true"></span><span><span class="highlight">Step 2 — Concept Deep Dives:</span> Read one card at a time. Mark each as mastered or needs review.</span></li>
+    <li><span class="ck" aria-hidden="true"></span><span><span class="highlight">Step 3 — Phase Filter:</span> Pick a cell-cycle phase and see which names apply. Builds context.</span></li>
+    <li><span class="ck" aria-hidden="true"></span><span><span class="highlight">Step 4 — Quiz Yourself:</span> Targeted questions. Immediate feedback.</span></li>
+    <li><span class="ck" aria-hidden="true"></span><span><span class="highlight">Step 5 — Your Map:</span> See your mastery at a glance and know what to revisit.</span></li>
+  </ul>
+
+  <div class="nav-row">
+    <button class="nav-btn primary" id="btn-start">Let's go → Step 1</button>
+  </div>
+</section>
+
+<section class="step-view" id="step-1" aria-labelledby="heading-step-1">
+  <h2 id="heading-step-1" class="section-label">Step 1 — The Big Picture</h2>
+
+  <div class="chunk-intro">
+    <h3 style="font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 1.4rem; margin-bottom: 0.75rem;">One molecule, seven names.</h3>
+    <p>Think of it as a <em style="color:var(--accent-teal)">promotion ladder</em>. The DNA molecule gets a new title each time it puts on more "clothing" (proteins) or gets duplicated.</p>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:8px; margin: 1.5rem 0;" aria-label="Visual sequence of DNA condensation">
+    <div style="display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border);">
+      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--accent-purple); min-width:28px;" aria-hidden="true">1a</span>
+      <span style="flex:1; font-size:0.95rem; color:var(--text);">Double helix <span style="color:var(--muted)">(naked)</span></span>
+      <span style="font-size:0.75rem; color:var(--muted);">no proteins, 2 nm</span>
+    </div>
+    <div style="text-align:left; padding-left:36px; color:var(--muted); font-size:0.78rem;" aria-hidden="true">Minus (-) histones ↓</div>
+    
+    <div style="display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border);">
+      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--accent-purple); min-width:28px;" aria-hidden="true">1b</span>
+      <span style="flex:1; font-size:0.95rem; color:var(--text);">Double helix <span style="color:var(--muted)">(wrapped)</span></span>
+      <span style="font-size:0.75rem; color:var(--muted);">~147 bp on histones</span>
+    </div>
+    <div style="text-align:left; padding-left:36px; color:var(--muted); font-size:0.78rem;" aria-hidden="true">Plus (+) Histones ↓</div>
+    
+    <div style="display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border);">
+      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--accent-purple); min-width:28px;" aria-hidden="true">2</span>
+      <span style="flex:1; font-size:0.95rem; color:var(--text);">Nucleosome</span>
+      <span style="font-size:0.75rem; color:var(--muted);">"beads on a string"</span>
+    </div>
+    <div style="text-align:left; padding-left:36px; color:var(--muted); font-size:0.78rem;" aria-hidden="true">+ higher-order fiber organization ↓</div>
+    
+    <div style="display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border);">
+      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--accent-purple); min-width:28px;" aria-hidden="true">3</span>
+      <span style="flex:1; font-size:0.95rem; color:var(--text);">Chromatin</span>
+      <span style="font-size:0.75rem; color:var(--muted);">10-nm fiber, interphase</span>
+    </div>
+    <div style="text-align:left; padding-left:36px; color:var(--muted); font-size:0.78rem;" aria-hidden="true">Interphase (also as unit of inheritance) ↓</div>
+    
+    <div style="display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border);">
+      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--accent-purple); min-width:28px;" aria-hidden="true">4</span>
+      <span style="flex:1; font-size:0.95rem; color:var(--text);">Chromosome <span style="color:var(--muted)">(generic)</span></span>
+      <span style="font-size:0.75rem; color:var(--muted);">all phases</span>
+    </div>
+    <div style="text-align:left; padding-left:36px; color:var(--muted); font-size:0.78rem;" aria-hidden="true">Always applies ↓</div>
+    
+    <div style="display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border);">
+      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--accent-purple); min-width:28px;" aria-hidden="true">5</span>
+      <span style="flex:1; font-size:0.95rem; color:var(--text);">Unreplicated chromosome</span>
+      <span style="font-size:0.75rem; color:var(--muted);">1 DNA, no sister</span>
+    </div>
+    <div style="text-align:left; padding-left:36px; color:var(--muted); font-size:0.78rem;" aria-hidden="true"> Anaphase separates it - S-phase replicates it → ↓</div>
+    
+    <div style="display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border);">
+      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--accent-purple); min-width:28px;" aria-hidden="true">6</span>
+      <span style="flex:1; font-size:0.95rem; color:var(--text);">Replicated chromosome</span>
+      <span style="font-size:0.75rem; color:var(--muted);">2 DNA held by cohesin</span>
+    </div>
+    <div style="text-align:left; padding-left:36px; color:var(--muted); font-size:0.78rem;" aria-hidden="true">S-phase replicates it - Anaphase separates it ↓</div>
+    
+    <div style="display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border);">
+      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--accent-purple); min-width:28px;" aria-hidden="true">7</span>
+      <span style="flex:1; font-size:0.95rem; color:var(--text);">Sister chromatid</span>
+      <span style="font-size:0.75rem; color:var(--muted);">one of the two copies</span>
+    </div>
+  </div>
+
+  <div style="background:var(--surface2); border-radius:var(--radius-sm); padding:1rem 1.25rem; font-size:0.88rem; color:var(--muted);">
+    <span style="color:var(--accent-amber); font-weight:500;">Key insight:</span> Names 1a→3 are about <em style="color:var(--text)">protein packaging level</em>. Names 4→7 are about <em style="color:var(--text)">replication state</em>. Two separate dimensions, one table.
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn" id="btn-1-back">← Back</button>
+    <button class="nav-btn primary" id="btn-1-next">Deep dive each concept →</button>
+  </div>
+</section>
+
+<section class="step-view" id="step-2" aria-labelledby="heading-step-2">
+  <h2 id="heading-step-2" class="section-label">Step 2 — One concept at a time</h2>
+  <p style="color:var(--muted); font-size:0.88rem; margin-bottom:1.25rem;">Click a card to expand it. Mark each as mastered or flagged for review.</p>
+
+  <div id="cards-container" aria-live="polite"></div>
+
+  <div class="nav-row">
+    <button class="nav-btn" id="btn-2-back">← Back</button>
+    <button class="nav-btn primary" id="btn-2-next">Try phase filter →</button>
+  </div>
+</section>
+
+<section class="step-view" id="step-3" aria-labelledby="heading-step-3">
+  <h2 id="heading-step-3" class="section-label">Step 3 — Filter by cell-cycle phase</h2>
+  <p style="color:var(--muted); font-size:0.88rem; margin-bottom:1rem;">Pick a phase. See which DNA names apply. This is how exam questions work.</p>
+
+  <div class="timeline" role="group" aria-label="Cell cycle phases">
+    <button class="phase-pill" aria-pressed="true" data-phase="G1">G1</button>
+    <button class="phase-pill" aria-pressed="false" data-phase="S">S phase</button>
+    <button class="phase-pill" aria-pressed="false" data-phase="G2">G2</button>
+    <button class="phase-pill" aria-pressed="false" data-phase="Prophase">Prophase</button>
+    <button class="phase-pill" aria-pressed="false" data-phase="Metaphase">Metaphase</button>
+    <button class="phase-pill" aria-pressed="false" data-phase="Anaphase">Anaphase</button>
+    <button class="phase-pill" aria-pressed="false" data-phase="Telophase">Telophase</button>
+    <button class="phase-pill" aria-pressed="false" data-phase="Cytokinesis">Cytokinesis</button>
+  </div>
+
+  <div id="phase-results" style="margin-top:1.5rem; display:flex; flex-direction:column; gap:10px;" aria-live="polite"></div>
+
+  <div class="nav-row" style="margin-top:2rem;">
+    <button class="nav-btn" id="btn-3-back">← Back</button>
+    <button class="nav-btn primary" id="btn-3-next">Quiz time →</button>
+  </div>
+</section>
+
+<section class="step-view" id="step-4" aria-labelledby="heading-step-4">
+  <h2 id="heading-step-4" class="section-label">Step 4 — Test yourself</h2>
+  
+  <div class="progress-bar-wrap" role="progressbar" aria-label="Quiz progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="quiz-progress-wrapper">
+    <div class="progress-bar-fill" id="quiz-bar" style="width:0%"></div>
+    <span class="sr-only" id="quiz-progress-text">0% complete</span>
+  </div>
+
+  <div id="quiz-container"></div>
+  
+  <div class="nav-row" style="margin-top:2rem;">
+    <button class="nav-btn" id="btn-4-back">← Back</button>
+    <button class="nav-btn primary" id="btn-4-next">See my map →</button>
+  </div>
+</section>
+
+<section class="step-view" id="step-5" aria-labelledby="heading-step-5">
+  <h2 id="heading-step-5" class="section-label">Step 5 — Your mastery map</h2>
+  <div class="summary-grid" id="summary-stats"></div>
+  
+  <h3 class="section-label mt2">Concept status</h3>
+  <div id="summary-list" style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:0.25rem 1.25rem;"></div>
+
+  <div class="nav-row" style="margin-top:2rem;">
+    <button class="nav-btn" id="btn-5-cards">Back to cards</button>
+    <button class="nav-btn" id="btn-5-quiz">Redo quiz</button>
+    <button class="nav-btn primary" id="btn-5-reset">Start over</button>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const concepts = [
+  {
+    id: '1a',
+    name: 'Double helix (naked)',
+    phases: ['G1 (transcription sites)', 'S phase (at forks)', 'G2 (transcription sites)'],
+    phaseKeys: ['G1','S','G2'],
+    category: 'interphase',
+    trigger: 'When DNA is not bound to histones — transiently at replication forks and transcription bubbles, or artificially extracted.',
+    structure: 'Two antiparallel polynucleotide strands wound together; no proteins; 2 nm diameter.',
+    note: 'This state is transient in vivo. Most DNA is wrapped around histones in a living cell.'
+  },
+  {
+    id: '1b',
+    name: 'Double helix (wrapped around histones)',
+    phases: ['G1','S (except fork)','G2','Mitosis','Cytokinesis'],
+    phaseKeys: ['G1','S','G2','Prophase','Metaphase','Anaphase','Telophase','Cytokinesis'],
+    category: 'interphase',
+    trigger: 'When the double helix is spooled around histone proteins — the default state. Note: we usually call this a nucleosome, not simply "double helix."',
+    structure: 'DNA (~147 bp) wrapped ~1.7 turns around a histone octamer; still a double helix conformationally, but now part of a nucleosome.',
+    note: 'Name emphasizes that DNA remains a double helix even when wrapped.'
+  },
+  {
+    id: '2',
+    name: 'Nucleosome',
+    phases: ['G1','S (except forks)','G2','Mitosis (condensed chromosomes)','Cytokinesis'],
+    phaseKeys: ['G1','S','G2','Prophase','Metaphase','Anaphase','Telophase','Cytokinesis'],
+    category: 'interphase',
+    trigger: 'When specifically referring to the repeating unit of DNA + 8 histones (octamer). Same physical object as 1b, but emphasis shifts to the protein core rather than the DNA strand.',
+    structure: '"Beads on a string" — DNA wrapped around a histone octamer. This is the fundamental repeating unit of chromatin.',
+    note: '1b and 2 describe the same physical object from different perspectives.'
+  },
+  {
+    id: '3',
+    name: 'Chromatin',
+    phases: ['G1','S phase','G2'],
+    phaseKeys: ['G1','S','G2'],
+    category: 'interphase',
+    trigger: 'When DNA (wrapped in nucleosomes) is organized into a higher-order, non-condensed fiber..',
+    structure: '10-nm fiber (nucleosomes + linker DNA), can be euchromatin (loose, active) or heterochromatin (dense, silent).',
+    note: '"Chromatin" = interphase only. Once it condenses in mitosis, we call it a chromosome.'
+  },
+  {
+    id: '4',
+    name: 'Chromosome (generic unit)',
+    phases: ['All phases'],
+    phaseKeys: ['G1','S','G2','Prophase','Metaphase','Anaphase','Telophase','Cytokinesis'],
+    category: 'all',
+    trigger: 'When referring to a single DNA molecule (plus proteins) as a discrete unit of inheritance — regardless of condensation or replication state.',
+    structure: 'One linear DNA double helix wrapped in histones/nucleosomes. Can be unreplicated (1 DNA molecule) or replicated (2 sister chromatids).',
+    note: 'This is the most generic term. It makes no claim about condensation or replication.'
+  },
+  {
+    id: '5',
+    name: 'Unreplicated chromosome',
+    phases: ['Anaphase','Telophase','Cytokinesis','G1','Early S'],
+    phaseKeys: ['Anaphase','Telophase','Cytokinesis','G1','S'],
+    category: 'mitosis',
+    trigger: 'When a chromosome consists of one DNA molecule (not yet copied, or after sister chromatids have been pulled apart).',
+    structure: 'One double helix with histones; no sister chromatid attached.',
+    note: 'Exists again post-anaphase: after cohesin cleavage, each separated chromatid is now an unreplicated chromosome.'
+  },
+  {
+    id: '6',
+    name: 'Replicated chromosome',
+    phases: ['Late S','G2','Prophase','Metaphase (until anaphase)'],
+    phaseKeys: ['S','G2','Prophase','Metaphase'],
+    category: 'mitosis',
+    trigger: 'When a single chromosome has been copied, resulting in two identical DNA molecules held together by cohesin.',
+    structure: 'Two double helices (each with histones) attached by cohesin; still in chromatin form until prophase, then condenses.',
+    note: 'Replication ends in S phase. The two copies stay attached until anaphase cleaves cohesin.'
+  },
+  {
+    id: '7',
+    name: 'Sister chromatid',
+    phases: ['Late S','G2','Prophase','Metaphase'],
+    phaseKeys: ['S','G2','Prophase','Metaphase'],
+    category: 'mitosis',
+    trigger: 'One of the two identical copies within a replicated chromosome. Exists from completion of replication until anaphase (when cohesin is cleaved).',
+    structure: 'One of the two DNA-histone complexes (each a double helix wrapped in nucleosomes).',
+    note: 'At metaphase you have 1 replicated chromosome = 2 sister chromatids. After anaphase, each becomes an unreplicated chromosome.'
+  }
+];
+
+const phaseMap = {
+  'G1':         ['1a','1b','2','3','4','5'],
+  'S':          ['1a','1b','2','3','4','5','6','7'],
+  'G2':         ['1a','1b','2','3','4','6','7'],
+  'Prophase':   ['1b','2','4','6','7'],
+  'Metaphase':  ['1b','2','4','6','7'],
+  'Anaphase':   ['1b','2','4','5'],
+  'Telophase':  ['1b','2','4','5'],
+  'Cytokinesis':['1b','2','4','5']
+};
+
+const quizQuestions = [
+  { q: "You're looking at DNA that has just been artificially extracted from the nucleus. No proteins attached. What name applies?", opts: ['Nucleosome','Double helix (naked)','Chromatin','Sister chromatid'], answer: 1, exp: 'Without any histones, we call it the naked double helix (1a). This is transient in vivo.' },
+  { q: 'A cell is in G2. What are ALL the names that apply to its DNA?', context: 'Select the most complete correct answer.', opts: ['Only "chromosome"','Double helix (wrapped), Nucleosome, Chromatin, Chromosome, Replicated chromosome, Sister chromatid','Only chromatin and nucleosome','Double helix (naked), Nucleosome, Chromosome'], answer: 1, exp: 'In G2, DNA is wrapped (1b), organized as nucleosomes (2), in chromatin (3), called chromosomes (4), and exists as replicated chromosomes (6) with sister chromatids (7). Names 1a and 5 do NOT apply.' },
+  { q: 'What event triggers the shift from "unreplicated" to "replicated" chromosome?', opts: ['Nuclear envelope breakdown','Cohesin cleavage at anaphase','Completion of DNA replication in S phase','Condensation in prophase'], answer: 2, exp: 'Replication in S phase produces two identical copies held by cohesin → replicated chromosome. Cohesin cleavage at anaphase gives back two unreplicated chromosomes.' },
+  { q: 'In metaphase, how many sister chromatids does one replicated chromosome have?', opts: ['1','2','4','Depends on the organism'], answer: 1, exp: 'One replicated chromosome = 2 sister chromatids. They are the two identical copies joined at the centromere by cohesin.' },
+  { q: 'What is the key difference between "nucleosome" and "chromatin"?', opts: ['Nucleosome is only in mitosis','Chromatin is a single bead; nucleosome is the whole fiber','Nucleosome is the individual bead (DNA + octamer); chromatin is the higher-order fiber made of nucleosomes','They are the same thing'], answer: 2, exp: 'Nucleosome = the repeating unit (147 bp + histone octamer). Chromatin = the higher-order organization of many nucleosomes plus linker DNA into a fiber.' },
+  { q: 'At anaphase, cohesin is cleaved. What do the separated DNA molecules now become?', opts: ['Sister chromatids','Replicated chromosomes','Nucleosomes','Unreplicated chromosomes'], answer: 3, exp: 'Once the cohesin holding sister chromatids is cut, each separated copy becomes an unreplicated chromosome (concept 5). They are no longer "sisters."' },
+  { q: 'Which name applies during ALL phases of the cell cycle, no exceptions?', opts: ['Chromatin','Sister chromatid','Chromosome (generic)','Nucleosome'], answer: 2, exp: 'Chromosome (generic, concept 4) applies at every phase because it simply means "one discrete unit of inheritance" regardless of condensation or replication state.' }
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let mastered = {};
+let flagged = {};
+let quizAnswered = {};
+let currentStep = 0;
+
+// ── STEP NAVIGATION ──────────────────────────────────────────────────────
+function goStep(n) {
+  document.querySelectorAll('.step-view').forEach(el => el.classList.remove('visible'));
+  document.getElementById('step-'+n).classList.add('visible');
+  document.querySelectorAll('.rm-step').forEach(el => {
+    el.classList.remove('active','done');
+    el.removeAttribute('aria-current');
+    const s = parseInt(el.dataset.step);
+    if(s < n) el.classList.add('done');
+    if(s === n) {
+        el.classList.add('active');
+        el.setAttribute('aria-current', 'step');
+    }
+  });
+  currentStep = n;
+  if(n === 2) renderCards();
+  if(n === 3) { filterPhase(document.querySelector('.phase-pill[data-phase="G1"]'),'G1'); }
+  if(n === 4) renderQuiz();
+  if(n === 5) renderSummary();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── CARDS ─────────────────────────────────────────────────────────────────
+function renderCards() {
+  const c = document.getElementById('cards-container');
+  c.innerHTML = '';
+  concepts.forEach(con => {
+    const isMastered = mastered[con.id];
+    const isFlagged = flagged[con.id];
+    const div = document.createElement('div');
+    div.className = 'concept-card' + (isMastered?' mastered':'') + (isFlagged?' flagged':'');
+    div.id = 'card-'+con.id;
+
+    const pillsHTML = con.phaseKeys.slice(0,3).map(p =>
+      `<span class="mini-pill ${p==='G1'||p==='S'||p==='G2'?'interphase':'mitosis'}">${p}</span>`
+    ).join('') + (con.phaseKeys.length>3 ? `<span class="mini-pill">+${con.phaseKeys.length-3}</span>` : '');
+
+    div.innerHTML = `
+      <button class="card-header" id="ch-${con.id}" aria-expanded="false" aria-controls="cb-${con.id}" onclick="toggleCard('${con.id}')">
+        <span class="card-badge">${con.id}</span>
+        <span class="card-title">${con.name}</span>
+        <div class="card-phases" aria-hidden="true">${pillsHTML}</div>
+        <svg class="card-chevron" aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M4 6l4 4 4-4"/>
+        </svg>
+      </button>
+      <div class="card-actions">
+        <button class="act-btn master" aria-pressed="${isMastered ? 'true' : 'false'}" onclick="toggleMaster('${con.id}')">
+          ${isMastered ? '✓ Mastered' : 'Mark mastered'}
+        </button>
+        <button class="act-btn flag" aria-pressed="${isFlagged ? 'true' : 'false'}" onclick="toggleFlag('${con.id}')">
+          ${isFlagged ? '⚑ Flagged' : 'Flag for review'}
+        </button>
+      </div>
+      <div class="card-body" id="cb-${con.id}" role="region" aria-labelledby="ch-${con.id}">
+        <div class="trigger-box">
+          <div class="label" aria-hidden="true">Naming trigger</div>
+          <span class="sr-only">Naming trigger: </span>${con.trigger}
+        </div>
+        <div class="structure-box">
+          <div class="label" aria-hidden="true">Physical structure</div>
+          <span class="sr-only">Physical structure: </span>${con.structure}
+        </div>
+        <div class="info-grid">
+          <div class="info-block">
+            <div class="label">Phases</div>
+            <div class="phase-list">${con.phases.map(p=>`<span class="phase-tag">${p}</span>`).join('')}</div>
+          </div>
+          <div class="info-block">
+            <div class="label">Important note</div>
+            <div class="content" style="font-size:0.85rem;">${con.note}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    c.appendChild(div);
+  });
+}
+
+function toggleCard(id) {
+  const header = document.getElementById('ch-'+id);
+  const body = document.getElementById('cb-'+id);
+  const isExpanded = header.getAttribute('aria-expanded') === 'true';
+  header.setAttribute('aria-expanded', !isExpanded);
+  body.classList.toggle('open');
+}
+
+function toggleMaster(id) {
+  mastered[id] = !mastered[id];
+  if(mastered[id]) flagged[id] = false;
+  renderCards();
+  ensureCardOpen(id);
+}
+
+function toggleFlag(id) {
+  flagged[id] = !flagged[id];
+  if(flagged[id]) mastered[id] = false;
+  renderCards();
+  ensureCardOpen(id);
+}
+
+function ensureCardOpen(id) {
+  const el = document.getElementById('cb-'+id);
+  if(el && el.classList.contains('open')) {
+    setTimeout(() => { 
+        document.getElementById('ch-'+id).setAttribute('aria-expanded', 'true'); 
+        el.classList.add('open'); 
+    }, 10);
+  }
+}
+
+// ── PHASE FILTER ──────────────────────────────────────────────────────────
+function filterPhase(el, phase) {
+  document.querySelectorAll('.phase-pill').forEach(p => p.setAttribute('aria-pressed', 'false'));
+  if(el) el.setAttribute('aria-pressed', 'true');
+  
+  const ids = phaseMap[phase] || [];
+  const res = document.getElementById('phase-results');
+  res.innerHTML = '';
+
+  const all = concepts.filter(c => ids.includes(c.id));
+  const not = concepts.filter(c => !ids.includes(c.id));
+
+  if(all.length === 0) {
+    res.innerHTML = '<p style="color:var(--muted); font-size:0.9rem;">No concepts apply to this phase selection.</p>';
+    return;
+  }
+
+  const h = document.createElement('h4');
+  h.style.cssText = 'font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-teal); margin-bottom:8px; font-weight: 400;';
+  h.textContent = `During ${phase} — applies (${all.length})`;
+  res.appendChild(h);
+
+  all.forEach(con => {
+    const d = document.createElement('div');
+    d.style.cssText = 'display:flex; gap:12px; align-items:flex-start; padding:10px 14px; background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent-teal); border-radius:var(--radius-sm);';
+    d.innerHTML = `
+      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--accent-purple); min-width:28px; margin-top:1px;" aria-hidden="true">${con.id}</span>
+      <div>
+        <div style="font-size:0.95rem; color:var(--text); font-weight:500;">${con.name}</div>
+        <div style="font-size:0.8rem; color:var(--muted); margin-top:3px;">${con.trigger.substring(0,100)}${con.trigger.length>100?'…':''}</div>
+      </div>
+    `;
+    res.appendChild(d);
+  });
+
+  if(not.length > 0) {
+    const h2 = document.createElement('h4');
+    h2.style.cssText = 'font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-top:1.25rem; margin-bottom:8px; font-weight: 400;';
+    h2.textContent = `Does NOT apply during ${phase}`;
+    res.appendChild(h2);
+    not.forEach(con => {
+      const d = document.createElement('div');
+      d.style.cssText = 'display:flex; gap:12px; align-items:center; padding:8px 14px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); opacity:0.5;';
+      d.innerHTML = `
+        <span style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--muted); min-width:28px;" aria-hidden="true">${con.id}</span>
+        <span style="font-size:0.88rem; color:var(--muted); text-decoration:line-through;">${con.name}</span>
+      `;
+      res.appendChild(d);
+    });
+  }
+}
+
+// ── QUIZ ─────────────────────────────────────────────────────────────────
+function renderQuiz() {
+  const c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  const total = quizQuestions.length;
+  const answered = Object.keys(quizAnswered).length;
+  
+  const percentage = Math.round(answered/total*100);
+  document.getElementById('quiz-bar').style.width = percentage + '%';
+  document.getElementById('quiz-progress-wrapper').setAttribute('aria-valuenow', percentage);
+  document.getElementById('quiz-progress-text').textContent = percentage + '% complete';
+
+  quizQuestions.forEach((q, qi) => {
+    const isAnswered = quizAnswered[qi] !== undefined;
+    const fieldset = document.createElement('fieldset');
+    fieldset.className = 'quiz-q';
+    
+    let optsHTML = q.opts.map((opt,oi) => {
+      let cls = 'opt';
+      let ariaCurrent = '';
+      if(isAnswered) {
+        if(oi === q.answer) cls += ' correct';
+        else if(oi === quizAnswered[qi] && oi !== q.answer) {
+            cls += ' wrong';
+            ariaCurrent = 'aria-invalid="true"';
+        }
+      }
+      return `<button class="${cls}" ${isAnswered?'disabled':''} ${ariaCurrent} onclick="answerQ(${qi},${oi})">${opt}</button>`;
+    }).join('');
+
+    const isCorrect = isAnswered && quizAnswered[qi] === q.answer;
+    fieldset.innerHTML = `
+      <legend class="q-text">Q${qi+1}. ${q.q}</legend>
+      ${q.context ? `<span class="q-context">${q.context}</span>` : ''}
+      <div class="options">${optsHTML}</div>
+      <div class="feedback ${isAnswered?'show':''} ${isAnswered?(isCorrect?'ok':'bad'):''}" role="alert">
+        ${isAnswered ? (isCorrect ? '✓ Correct. ' : '✗ Not quite. ') + q.exp : ''}
+      </div>
+    `;
+    c.appendChild(fieldset);
+  });
+}
+
+function answerQ(qi, chosen) {
+  quizAnswered[qi] = chosen;
+  renderQuiz();
+}
+
+// ── SUMMARY ──────────────────────────────────────────────────────────────
+function renderSummary() {
+  const total = concepts.length;
+  const mCount = Object.values(mastered).filter(Boolean).length;
+  const fCount = Object.values(flagged).filter(Boolean).length;
+  const qCorrect = quizQuestions.filter((q,i) => quizAnswered[i] === q.answer).length;
+  const qTotal = Object.keys(quizAnswered).length;
+
+  const stats = document.getElementById('summary-stats');
+  stats.innerHTML = `
+    <div class="stat-card teal"><div class="big">${mCount}/${total}</div><div class="lbl">Concepts mastered</div></div>
+    <div class="stat-card amber"><div class="big">${fCount}</div><div class="lbl">Flagged for review</div></div>
+    <div class="stat-card"><div class="big">${qTotal > 0 ? Math.round(qCorrect/qTotal*100) : 0}%</div><div class="lbl">Quiz score (${qCorrect}/${qTotal})</div></div>
+  `;
+
+  const list = document.getElementById('summary-list');
+  list.innerHTML = '';
+  concepts.forEach(con => {
+    const isMastered = mastered[con.id];
+    const isFlagged = flagged[con.id];
+    const d = document.createElement('div');
+    d.className = 'concept-row' + (isMastered?' m':'') + (isFlagged?' f':'');
+    d.innerHTML = `
+      <div class="dot" aria-hidden="true"></div>
+      <div class="cname">${con.id} — ${con.name}</div>
+      <div class="ctag">${isMastered ? '✓ mastered' : isFlagged ? '⚑ review' : 'not marked'}</div>
+    `;
+    list.appendChild(d);
+  });
+}
+
+function resetAll() {
+  mastered = {}; flagged = {}; quizAnswered = {};
+  goStep(0);
+}
+
+// Wire up roadmap clicks
+document.querySelectorAll('.rm-step').forEach(el => {
+  el.addEventListener('click', () => goStep(parseInt(el.dataset.step)));
+});
+
+// Wire up all nav buttons
+document.getElementById('btn-start').addEventListener('click', () => goStep(1));
+document.getElementById('btn-1-back').addEventListener('click', () => goStep(0));
+document.getElementById('btn-1-next').addEventListener('click', () => goStep(2));
+document.getElementById('btn-2-back').addEventListener('click', () => goStep(1));
+document.getElementById('btn-2-next').addEventListener('click', () => goStep(3));
+document.getElementById('btn-3-back').addEventListener('click', () => goStep(2));
+document.getElementById('btn-3-next').addEventListener('click', () => goStep(4));
+document.getElementById('btn-4-back').addEventListener('click', () => goStep(3));
+document.getElementById('btn-4-next').addEventListener('click', () => goStep(5));
+document.getElementById('btn-5-cards').addEventListener('click', () => goStep(2));
+document.getElementById('btn-5-quiz').addEventListener('click', () => goStep(4));
+document.getElementById('btn-5-reset').addEventListener('click', () => resetAll());
+
+// Wire up phase pills
+document.querySelectorAll('.phase-pill').forEach(el => {
+  el.addEventListener('click', () => filterPhase(el, el.dataset.phase));
+});
+
+// Init
+goStep(0);
+</script>
+</body>
+</html>
